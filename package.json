@@ -13,7 +13,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm detox-build && npm detox-test"
+      "pre-push": "echo \"Hello World\""
     }
   },
   "dependencies": {
