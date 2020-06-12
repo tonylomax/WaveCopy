@@ -9,11 +9,12 @@
     "test": "jest",
     "lint": "eslint .",
     "detox-build": "detox build -c android & detox build -c ios",
-    "detox-test": "detox test -c android & detox test -c ios"
+    "detox-test": "detox test -c android && detox test -c ios",
+    "detox": "detox-build && detox-test"
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run detox-test"
+      "pre-push": "npm run detox"
     }
   },
   "dependencies": {
