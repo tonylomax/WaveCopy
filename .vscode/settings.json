@@ -1,0 +1,10 @@
+{
+    "editor.autoIndent": "advanced",
+    "editor.wrappingIndent": "indent",
+    "javascript.preferences.quoteStyle": "single",
+    "turboConsoleLog.quote": "'",
+    "prettier.arrowParens": "avoid",
+    "editor.formatOnSave": true,
+    "prettier.bracketSpacing": false,
+    "prettier.requireConfig": true
+}
