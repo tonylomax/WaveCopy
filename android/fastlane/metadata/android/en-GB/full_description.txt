@@ -1,0 +1,1 @@
+An app for volunteers of The Wave Project charity that allows them to view and sign up to volunteer sessions, receive updates about those sessions and share information amongst other volunteers.
