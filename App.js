@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -24,26 +24,20 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
 import firestore from '@react-native-firebase/firestore';
 
-
-
-
 const App: () => React$Node = () => {
-
   async function testing() {
-    const data = await firestore()
-      .collection('Testing')
-      .doc('1')
-      .get()
-    return data
+    const data = await firestore().collection('Testing').doc('1').get();
+    return data;
   }
 
   useEffect(() => {
     testing()
-      .then(data => console.log(data))
-      .catch(err => console.log(err))
-  }, [])
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <>
