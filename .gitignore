@@ -5,6 +5,7 @@
 # Xcode
 #
 build/
+builds/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -29,6 +30,9 @@ build/
 .gradle
 local.properties
 *.iml
+
+# iOS
+
 
 # node.js
 #
