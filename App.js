@@ -25,19 +25,21 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {useSelector, useDispatch} from 'react-redux';
 
 import firestore from '@react-native-firebase/firestore';
+import {subscribeToAllSessions} from 'projectRedux/actions/firestore';
 
 const App: () => React$Node = () => {
-  async function testing() {
-    const data = await firestore().collection('Testing').doc('1').get();
-    return data;
-  }
+  const dispatch = useDispatch();
+
+  const sessions = useSelector(
+    (state) => console.log('STATE', state),
+    //state?.authenticationReducer?.userState?.uid,
+  );
 
   useEffect(() => {
-    testing()
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
+    dispatch(subscribeToAllSessions());
   }, []);
 
   const DATA = [
