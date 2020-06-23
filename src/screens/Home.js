@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
 
-export default function Home({navigation}) {
+export default function Home({navigation, setLoggedIn}) {
   return (
     <View>
       <Text>The Wave Project</Text>
@@ -11,9 +11,9 @@ export default function Home({navigation}) {
       <Text>Password</Text>
       <TextInput testID="password" />
       <Button
-        title="Go to Details"
+        title="Log In"
         testID="submit-login-details"
-        onPress={() => navigation.navigate('Profile')}
+        onPress={() => setLoggedIn(true)}
       />
     </View>
   );
