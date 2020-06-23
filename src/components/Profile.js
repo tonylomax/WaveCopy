@@ -5,6 +5,7 @@ export default function Profile({navigation}) {
   return (
     <View>
       <Text>Profile</Text>
+      <Text testID="upcoming-sessions-title">Upcoming sessions</Text>
     </View>
   );
 }
