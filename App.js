@@ -28,18 +28,18 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 
 import firestore from '@react-native-firebase/firestore';
-import {subscribeToAllSessions} from 'projectRedux/actions/firestore';
+import {subscribeToAllSessions} from './src/redux/actions/firestore';
 
 const App: () => React$Node = () => {
   const dispatch = useDispatch();
 
   const sessions = useSelector(
-    (state) => console.log('STATE', state),
-    //state?.authenticationReducer?.userState?.uid,
+    (state) => state?.firestoreReducer?.action?.data,
   );
 
   useEffect(() => {
     dispatch(subscribeToAllSessions());
+    console.log(sessions);
   }, []);
 
   const DATA = [
@@ -64,12 +64,15 @@ const App: () => React$Node = () => {
         <TextInput testID="email" />
         <FlatList
           testID={'SessionsList'}
-          data={DATA}
+          data={sessions}
           renderItem={({item}) => (
-            <View key={item.id} style={{margin: '20%'}}>
-              <Text> {item.name} </Text>
+            <View testID={'SessionsListItem'} id={item.ID}>
+              <Text> {item.Beach} </Text>
+              <Text> {item.Description} </Text>
+              <Text> {item.Beach} </Text>
             </View>
           )}
+          keyExtractor={(item) => item.ID}
         />
       </SafeAreaView>
     </>
