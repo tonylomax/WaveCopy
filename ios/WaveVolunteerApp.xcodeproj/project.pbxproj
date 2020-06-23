@@ -20,6 +20,8 @@
 		8E4F4743A8AD4220110D3314 /* libPods-WaveVolunteerApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C1089CC6C1A83F0465FDAEE /* libPods-WaveVolunteerApp-tvOS.a */; };
 		95ACD1E02EA9B27C62E7BD78 /* libPods-WaveVolunteerApp-WaveVolunteerAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE0C2316A6925151EBCB62B3 /* libPods-WaveVolunteerApp-WaveVolunteerAppTests.a */; };
 		FFC44E415174AD0DAA406F61 /* libPods-WaveVolunteerApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28711BFB3E09AF5E6AEC03C3 /* libPods-WaveVolunteerApp.a */; };
+		603F5FB6559948BD9849ABDB /* AmaticSC-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F00BD1EBF5134C64A63BD951 /* AmaticSC-Bold.ttf */; };
+		952E973D3BF34C63858CE466 /* AmaticSC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3DEEDDC25924223BB465538 /* AmaticSC-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,8 @@
 		DE0C2316A6925151EBCB62B3 /* libPods-WaveVolunteerApp-WaveVolunteerAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WaveVolunteerApp-WaveVolunteerAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F00BD1EBF5134C64A63BD951 /* AmaticSC-Bold.ttf */ = {isa = PBXFileReference; name = "AmaticSC-Bold.ttf"; path = "../src/assets/fonts/AmaticSC-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E3DEEDDC25924223BB465538 /* AmaticSC-Regular.ttf */ = {isa = PBXFileReference; name = "AmaticSC-Regular.ttf"; path = "../src/assets/fonts/AmaticSC-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +171,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				8875214A78ED3828E6DB02A7 /* Pods */,
+				141E3D75A26F4BB38D92E100 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -198,6 +203,16 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		141E3D75A26F4BB38D92E100 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				F00BD1EBF5134C64A63BD951 /* AmaticSC-Bold.ttf */,
+				E3DEEDDC25924223BB465538 /* AmaticSC-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -350,6 +365,8 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				603F5FB6559948BD9849ABDB /* AmaticSC-Bold.ttf in Resources */,
+				952E973D3BF34C63858CE466 /* AmaticSC-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
