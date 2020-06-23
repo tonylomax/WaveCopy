@@ -1,24 +1,32 @@
 import React, {useEffect, useState} from 'react';
-
 import firestore from '@react-native-firebase/firestore';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import 'react-native-gesture-handler';
-import {
-  View,
-  Text,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  RefreshControl,
-  Alert,
-} from 'react-native';
-import profileIcon from 'WaveVolunteerApp/src/assets/images/Profile_Icon.png';
-import settingsIcon from 'WaveVolunteerApp/src/assets/images/Settings_Icon.png';
-
 import Home from './screens/Home';
 import Profile from './screens/Profile';
 import Settings from './screens/Settings';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+  TextInput,
+  FlatList,
+  Image,
+  RefreshControl,
+  Alert,
+} from 'react-native';
+
+import {
+  Header,
+  LearnMoreLinks,
+  Colors,
+  DebugInstructions,
+  ReloadInstructions,
+} from 'react-native/Libraries/NewAppScreen';
 
 const BottomTabs = createBottomTabNavigator();
 
@@ -39,16 +47,6 @@ const Navigator = () => {
 
 const App: () => React$Node = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  async function testing() {
-    const data = await firestore().collection('Testing').doc('1').get();
-    return data;
-  }
-
-  useEffect(() => {
-    testing()
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
-  }, []);
 
   return !loggedIn ? <Home setLoggedIn={setLoggedIn} /> : <Navigator />;
 };
