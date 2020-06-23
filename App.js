@@ -36,8 +36,8 @@ const App: () => React$Node = () => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <Text style={FONTS.BODY}>The Wave Project</Text>
-        <Text>...coming soon!</Text>
+        <Text style={FONTS.H1}>The Wave Project</Text>
+        <Text style={FONTS.BODY}>...coming soon!</Text>
         <Text>Email</Text>
         <TextInput testID="email" />
       </SafeAreaView>
