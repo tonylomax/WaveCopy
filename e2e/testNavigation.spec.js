@@ -10,5 +10,7 @@ describe('Example', () => {
     await element(by.id('password')).typeText(examplePassword);
     await element(by.id('submit-login-details')).tap();
     await expect(element(by.id('upcoming-sessions-title'))).toExist();
+    await element(by.id('navigate-to-settings-button')).tap();
+    await expect(element(by.id('bio'))).toExist();
   });
 });
