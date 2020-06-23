@@ -1,9 +1,9 @@
 describe('Example', () => {
+  exampleEmail = 't@t.com';
+  examplePassword = 'asfsaf221@212sf';
   beforeEach(async () => {
     await device.reloadReactNative();
   });
-  const exampleEmail = 'test@test.com';
-  const examplePassword = '!wqwr#rewrew231';
 
   it('it should be able to login, be redirected to profile page', async () => {
     await element(by.id('email')).typeText(exampleEmail);
