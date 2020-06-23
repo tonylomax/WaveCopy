@@ -42,18 +42,6 @@ const App: () => React$Node = () => {
     console.log(sessions);
   }, []);
 
-  const DATA = [
-    {id: 1, name: 'Fistral', sessionType: 'Surf Club', mentors: [0, 1, 2]},
-    {id: 2, name: 'Beach2', sessionType: 'Surf Club', mentors: [0, 1, 2]},
-    {id: 3, name: 'Beach3', sessionType: 'Surf Club', mentors: [0, 1, 2]},
-    {id: 4, name: 'Beach4', sessionType: 'Surf Club', mentors: [0, 1, 2]},
-    {id: 5, name: 'Beach5', sessionType: 'Surf Club', mentors: [0, 1, 2]},
-    {id: 6, name: 'Beach6', sessionType: 'Surf Club', mentors: [0, 1, 2]},
-    {id: 7, name: 'Beach7', sessionType: 'Surf Club', mentors: [0, 1, 2]},
-    {id: 8, name: 'Beach8', sessionType: 'Surf Club', mentors: [0, 1, 2]},
-    {id: 9, name: 'Beach39', sessionType: 'Surf Club', mentors: [0, 1, 2]},
-  ];
-
   return (
     <>
       <StatusBar barStyle="dark-content" />
