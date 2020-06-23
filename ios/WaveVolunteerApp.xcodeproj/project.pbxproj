@@ -17,6 +17,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* WaveVolunteerAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* WaveVolunteerAppTests.m */; };
+		5200D9E924A1EE1D00656AF0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5200D9E824A1EE1D00656AF0 /* GoogleService-Info.plist */; };
 		8E4F4743A8AD4220110D3314 /* libPods-WaveVolunteerApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C1089CC6C1A83F0465FDAEE /* libPods-WaveVolunteerApp-tvOS.a */; };
 		95ACD1E02EA9B27C62E7BD78 /* libPods-WaveVolunteerApp-WaveVolunteerAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE0C2316A6925151EBCB62B3 /* libPods-WaveVolunteerApp-WaveVolunteerAppTests.a */; };
 		FFC44E415174AD0DAA406F61 /* libPods-WaveVolunteerApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28711BFB3E09AF5E6AEC03C3 /* libPods-WaveVolunteerApp.a */; };
@@ -67,6 +68,7 @@
 		28711BFB3E09AF5E6AEC03C3 /* libPods-WaveVolunteerApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WaveVolunteerApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* WaveVolunteerApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WaveVolunteerApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* WaveVolunteerApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WaveVolunteerApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5200D9E824A1EE1D00656AF0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		524371C0249B8D7000F5173F /* WaveVolunteerApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = WaveVolunteerApp.entitlements; path = WaveVolunteerApp/WaveVolunteerApp.entitlements; sourceTree = "<group>"; };
 		5AF9C16E3043A3D936A97E63 /* Pods-WaveVolunteerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WaveVolunteerApp.release.xcconfig"; path = "Target Support Files/Pods-WaveVolunteerApp/Pods-WaveVolunteerApp.release.xcconfig"; sourceTree = "<group>"; };
 		65DEBDFF77F064D25B4523AB /* Pods-WaveVolunteerApp-WaveVolunteerAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WaveVolunteerApp-WaveVolunteerAppTests.debug.xcconfig"; path = "Target Support Files/Pods-WaveVolunteerApp-WaveVolunteerAppTests/Pods-WaveVolunteerApp-WaveVolunteerAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				5200D9E824A1EE1D00656AF0 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* WaveVolunteerApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* WaveVolunteerAppTests */,
@@ -407,6 +410,7 @@
 				C908DD092829415189493901 /* Lato-Regular.ttf in Resources */,
 				48F9AA6F83D045BF9F448228 /* Lato-Thin.ttf in Resources */,
 				B5C75843052248A88A350C9F /* Lato-ThinItalic.ttf in Resources */,
+				5200D9E924A1EE1D00656AF0 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
