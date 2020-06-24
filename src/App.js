@@ -35,14 +35,14 @@ const Navigator = () => {
     <NavigationContainer>
       <BottomTabs.Navigator>
         <BottomTabs.Screen
-          name="Profile"
-          component={Profile}
-          options={{tabBarTestID: 'navigate-to-profile-button'}}
-        />
-        <BottomTabs.Screen
           name="Home"
           component={Home}
           options={{tabBarTestID: 'navigate-to-home-button'}}
+        />
+        <BottomTabs.Screen
+          name="Profile"
+          component={Profile}
+          options={{tabBarTestID: 'navigate-to-profile-button'}}
         />
       </BottomTabs.Navigator>
     </NavigationContainer>
