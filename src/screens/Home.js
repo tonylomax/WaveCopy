@@ -1,10 +1,15 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, Button, Image} from 'react-native';
+import {View, Text, TextInput, Button, Image, Alert} from 'react-native';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
 import {useSafeArea} from 'react-native-safe-area-context';
+import {useSelector, useDispatch} from 'react-redux';
+import {createFirebaseAuthSubscription} from '../redux/actions/authentication';
+import {serializeError} from 'serialize-error';
 
 export default function Home({navigation, setLoggedIn}) {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -34,7 +39,15 @@ export default function Home({navigation, setLoggedIn}) {
       <Button
         title="Log In"
         testID="submit-login-details"
-        onPress={() => loginWithEmail(email, password)}
+        onPress={() =>
+          loginWithEmail(email, password, setLoggedIn).then((result) => {
+            const serializedResult = serializeError(result);
+            console.log('message', serializedResult.message);
+            if (serializedResult.code) {
+              Alert.alert(serializedResult.message);
+            } else setLoggedIn(true);
+          })
+        }
       />
     </View>
   );
