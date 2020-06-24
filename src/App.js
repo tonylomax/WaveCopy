@@ -6,7 +6,7 @@ import 'react-native-gesture-handler';
 import Home from './screens/home/Home';
 import Login from './screens/login/Login';
 import Profile from './screens/profile/Profile';
-import CreateSession from './screens/createSession/SessionDetails';
+import CreateSession from './screens/createSession/CreateSession';
 import {
   SafeAreaView,
   StyleSheet,

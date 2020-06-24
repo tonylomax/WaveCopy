@@ -3,7 +3,7 @@ import {View, Text, SafeAreaView, ScrollView, Button} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function SessionDetails() {
+export default function SessionDetails({navigation}) {
   const MAX_NUMBER_OF_VOLUNTEERS = 30;
   const [sessionType, setSessionType] = useState('surf-club');
   const [sessionDate, setSessionDate] = useState(new Date());
@@ -60,7 +60,19 @@ export default function SessionDetails() {
             <Picker.Item label={n.toString()} value={n} key={n} />
           ))}
         </Picker>
-        <Button testID="continue-to-select-service-users" title="Continue" />
+
+        <Button
+          testID="continue-to-select-service-users"
+          title="Continue"
+          onPress={() =>
+            navigation.navigate('AddServiceUsers', {
+              sessionType,
+              sessionDate,
+              location,
+              numberOfVolunteers,
+            })
+          }
+        />
       </ScrollView>
     </SafeAreaView>
   );
