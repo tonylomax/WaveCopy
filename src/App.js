@@ -3,9 +3,9 @@ import firestore from '@react-native-firebase/firestore';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import 'react-native-gesture-handler';
-import Home from './screens/Home';
-import Profile from './screens/Profile';
-import Settings from './screens/Settings';
+import Home from './screens/home/Home';
+import Login from './screens/login/Login';
+import Profile from './screens/profile/Profile';
 import {
   SafeAreaView,
   StyleSheet,
@@ -40,9 +40,9 @@ const Navigator = () => {
           options={{tabBarTestID: 'navigate-to-profile-button'}}
         />
         <BottomTabs.Screen
-          name="Settings"
-          component={Settings}
-          options={{tabBarTestID: 'navigate-to-settings-button'}}
+          name="Home"
+          component={Home}
+          options={{tabBarTestID: 'navigate-to-home-button'}}
         />
       </BottomTabs.Navigator>
     </NavigationContainer>
@@ -52,7 +52,7 @@ const Navigator = () => {
 const App: () => React$Node = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  return !loggedIn ? <Home setLoggedIn={setLoggedIn} /> : <Navigator />;
+  return !loggedIn ? <Login setLoggedIn={setLoggedIn} /> : <Navigator />;
 };
 
 export default App;

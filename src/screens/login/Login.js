@@ -12,7 +12,7 @@ export default function Home({navigation, setLoggedIn}) {
   return (
     <View>
       <Image
-        source={require('../assets/images/logos/Logo_Square_Blue_Unnamed.png')}
+        source={require('../../assets/images/logos/Logo_Square_Blue_Unnamed.png')}
       />
       <Text style={(FONTS.H1, {color: COLOURS.DEEP_BLUE})}>
         The Wave Project
