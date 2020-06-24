@@ -41,10 +41,17 @@ describe('Create a surf session', () => {
     await element(by.id('number-of-volunteers')).setColumnToValue(0, '12');
     await element(by.id('continue-to-select-service-users')).tap();
 
-    // await expect(element(by.id('currently-added-service-users'))).toExist();
+    await expect(element(by.id('currently-added-service-users'))).toExist();
 
     // Select a user
-    // Create the session
-    // Check it redirects
+    await element(by.id('joe-bloggs')).tap();
+    await element(by.id('continue-to-review-created-session-page')).tap();
+
+    // Go to review session page
+    // Check that there is a coordinator
+    // click on the edit description and write something.
+    // Confirm the session
+    // select the 'yes' to create the session
+    // Ensure you're redirected to the session page
   });
 });
