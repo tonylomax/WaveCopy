@@ -1,8 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TextInput, Button, Image} from 'react-native';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
+import {loginWithEmail} from 'utils';
+import {useSafeArea} from 'react-native-safe-area-context';
 
 export default function Home({navigation, setLoggedIn}) {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
   return (
     <View>
       <Image
@@ -13,13 +18,23 @@ export default function Home({navigation, setLoggedIn}) {
       </Text>
       <Text style>...coming soon!</Text>
       <Text>Email</Text>
-      <TextInput testID="email" />
+      <TextInput
+        autoCapitalize="none"
+        testID="email"
+        onChangeText={(inputEmail) => setEmail(inputEmail)}
+      />
       <Text>Password</Text>
-      <TextInput testID="password" />
+      <TextInput
+        autoCapitalize="none"
+        testID="password"
+        onChangeText={(inputPassword) => {
+          setPassword(inputPassword);
+        }}
+      />
       <Button
         title="Log In"
         testID="submit-login-details"
-        onPress={() => setLoggedIn(true)}
+        onPress={() => loginWithEmail(email, password)}
       />
     </View>
   );
