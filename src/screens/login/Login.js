@@ -2,11 +2,11 @@ import React from 'react';
 import {View, Text, TextInput, Button, Image} from 'react-native';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 
-export default function Home({navigation, setLoggedIn}) {
+export default function Login({navigation, setLoggedIn}) {
   return (
     <View>
       <Image
-        source={require('../assets/images/Logo_Square_Blue_Unnamed.png')}
+        source={require('../../assets/images/Logo_Square_Blue_Unnamed.png')}
       />
       <Text style={(FONTS.H1, {color: COLOURS.DEEP_BLUE})}>
         The Wave Project
