@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, TextInput, Button, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {subscribeToAllSessions} from '../redux/actions/firestore';
+import {subscribeToAllSessions} from '../../redux/actions/firestore';
 import {
   ConfirmButton,
   AddButton,
@@ -33,7 +33,7 @@ export default function Profile({navigation}) {
 
   return (
     <View>
-      <Text>Profile</Text>
+      <Text>Home</Text>
       <Text testID="upcoming-sessions-title">Upcoming sessions</Text>
       <ConfirmButton
         testID="modalButton"
