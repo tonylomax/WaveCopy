@@ -34,7 +34,11 @@ const Navigator = () => {
   return (
     <NavigationContainer>
       <BottomTabs.Navigator>
-        <BottomTabs.Screen name="Home" component={Home} />
+        <BottomTabs.Screen
+          name="Home"
+          component={Home}
+          options={{tabBarTestID: 'navigate-to-home-button'}}
+        />
         <BottomTabs.Screen
           name="Profile"
           component={Profile}
