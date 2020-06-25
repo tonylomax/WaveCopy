@@ -1,3 +1,6 @@
+*.hprof
+*.aab
+
 # OSX
 #
 .DS_Store

@@ -3,7 +3,13 @@ import {View, Text, Button} from 'react-native';
 const EXAMPLE_LIST_OF_USERS = ['john1', 'john2', 'john3', 'joe-bloggs'];
 
 export default function AddServiceUsers({route, navigation}) {
-  const {sessionType, sessionDate, location, numberOfVolunteers} = route.params;
+  const {
+    sessionType,
+    sessionDate,
+    sessionTime,
+    location,
+    numberOfVolunteers,
+  } = route.params;
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   return (
@@ -31,6 +37,7 @@ export default function AddServiceUsers({route, navigation}) {
           navigation.navigate('AddServiceUsers', {
             sessionType,
             sessionDate,
+            sessionTime,
             location,
             numberOfVolunteers,
             selectedUsers,

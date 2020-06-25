@@ -13,19 +13,29 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 export default function SessionDetails({navigation}) {
   const MAX_NUMBER_OF_VOLUNTEERS = 30;
   const [sessionType, setSessionType] = useState('surf-club');
-  const [sessionDate, setSessionDate] = useState(new Date());
   const [location, setLocation] = useState('cornwall-fistrall');
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(1);
-  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const [sessionDate, setSessionDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
+  const [sessionTime, setSessionTime] = useState(new Date());
+  const [showTimePicker, setShowTimePicker] = useState(Platform.OS === 'ios');
+
   // creates an array from [1... max]
   const mapCreator = Array.from(
     Array(MAX_NUMBER_OF_VOLUNTEERS),
     (_, i) => i + 1,
   );
 
-  const onChange = (event, selectedDate) => {
-    const date = selectedDate;
-    setSessionDate(date);
+  const onChangeDate = (event, selectedDate) => {
+    const currentDate = selectedDate || sessionDate;
+    setShowDatePicker(Platform.OS === 'ios');
+    setSessionDate(currentDate);
+  };
+  const onChangeTime = (event, selectedTime) => {
+    const currentTime = selectedTime || sessionTime;
+    setShowTimePicker(Platform.OS === 'ios');
+    setSessionTime(currentTime);
   };
 
   return (
@@ -41,14 +51,44 @@ export default function SessionDetails({navigation}) {
           <Picker.Item label="Surf therapy" value="surf-therapy" />
         </Picker>
         <Text>Date</Text>
+        <View>
+          {Platform.OS === 'android' && (
+            <Button
+              onPress={() => setShowDatePicker((current) => !current)}
+              title="Show date picker!"
+            />
+          )}
+        </View>
+
         {showDatePicker && (
           <DateTimePicker
             testID="date-of-session"
             value={sessionDate}
-            mode={'date'}
-            // is24Hour={true}
-            display="spinner"
-            onChange={onChange}
+            mode="date"
+            is24Hour={true}
+            display="default"
+            onChange={onChangeDate}
+            minimumDate={new Date()}
+          />
+        )}
+        <View>
+          <Text>Time</Text>
+          {Platform.OS === 'android' && (
+            <Button
+              onPress={() => setShowTimePicker((current) => !current)}
+              title="Show time picker!"
+            />
+          )}
+        </View>
+
+        {showTimePicker && (
+          <DateTimePicker
+            testID="time-of-session"
+            value={sessionTime}
+            mode="time"
+            is24Hour={true}
+            display="default"
+            onChange={onChangeTime}
           />
         )}
 
@@ -75,14 +115,16 @@ export default function SessionDetails({navigation}) {
         <Button
           testID="continue-to-select-service-users"
           title="Continue"
-          onPress={() =>
+          onPress={() => {
+            console.log(sessionTime);
             navigation.navigate('AddServiceUsers', {
               sessionType,
               sessionDate,
+              sessionTime,
               location,
               numberOfVolunteers,
-            })
-          }
+            });
+          }}
         />
       </ScrollView>
     </SafeAreaView>

@@ -6,6 +6,7 @@ export default function ConfirmSession({route, navigation}) {
   const {
     sessionType,
     sessionDate,
+    sessionTime,
     location,
     numberOfVolunteers,
     selectedUsers,
@@ -13,7 +14,14 @@ export default function ConfirmSession({route, navigation}) {
 
   return (
     <View>
-      <Text>Confirm session</Text>
+      <Text>Edit page</Text>
+      <Button title="confirm-changes" />
+      <Text>
+        {sessionType} - {location}
+      </Text>
+      <Text>Coordinator</Text>
+
+      <Text testID="coordinator-name">Test coordinator</Text>
     </View>
   );
 }

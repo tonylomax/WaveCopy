@@ -26,13 +26,18 @@ describe('Create a surf session', () => {
         '2023-02-06',
         'yyyy-MM-dd',
       );
+      // Set time
+      await element(by.id('time-of-session')).setDatePickerDate(
+        '2033-02-06T00:08:00-08:00',
+        "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
+      );
+      await element(by.id('session-details-scroll-view')).scrollTo('bottom');
       // Only available on ios
       await element(by.id('location-of-session')).setColumnToValue(
         0,
         'Cornwall - Fistral',
       );
       // Only available on ios
-      await element(by.id('session-details-scroll-view')).scrollTo('bottom');
       await element(by.id('number-of-volunteers')).setColumnToValue(0, '12');
       await element(by.id('continue-to-select-service-users')).tap();
 
@@ -41,6 +46,8 @@ describe('Create a surf session', () => {
       // Select a user
       await element(by.id('joe-bloggs')).tap();
       await element(by.id('continue-to-review-created-session-page')).tap();
+
+      await expect(element(by.id('coordinator-name'))).toExist();
     } else {
       // =======================ANDROID============================
       await element(by.id('email')).typeText(exampleEmail);
