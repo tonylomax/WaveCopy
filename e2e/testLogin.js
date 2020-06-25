@@ -11,7 +11,7 @@ describe('Example', () => {
     await element(by.id('submit-login-details')).tap();
     await waitFor(element(by.id('upcoming-sessions-title')))
       .toExist()
-      .withTimeout(2000);
+      .withTimeout(10000);
     await element(by.id('navigate-to-profile-button')).tap();
     await expect(element(by.id('firestoreName'))).toExist();
     await element(by.id('signOutButton')).tap();

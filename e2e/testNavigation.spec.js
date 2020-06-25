@@ -9,11 +9,9 @@ describe('Example', () => {
     await element(by.id('email')).typeText(exampleEmail);
     await element(by.id('password')).typeText(examplePassword);
     await element(by.id('submit-login-details')).tap();
-
     await waitFor(element(by.id('upcoming-sessions-title')))
       .toExist()
       .withTimeout(4000);
-
     await element(by.id('navigate-to-profile-button')).tap();
     await waitFor(element(by.id('bio')))
       .toExist()

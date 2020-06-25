@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest ",
     "lint": "eslint .",
     "detox-build": "detox build -c android & detox build -c ios",
     "detox-test": "detox test -c android && detox test -c ios",
