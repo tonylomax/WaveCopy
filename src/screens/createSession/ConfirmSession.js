@@ -2,6 +2,7 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
 import AccordianMenu from '../../components/AccordianMenu';
+import {ConfirmButton, ChoicePopup} from '../../components';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
@@ -9,6 +10,7 @@ moment.locale('en-gb');
 moment().format('en-gb');
 
 export default function ConfirmSession({route, navigation}) {
+  const [visible, setVisible] = useState(false);
   const {
     sessionType,
     sessionDate,
@@ -20,7 +22,18 @@ export default function ConfirmSession({route, navigation}) {
 
   return (
     <View>
-      <Button title="confirm-changes" testID="confirm-session-details" />
+      <ConfirmButton
+        testID="confirm-session-details"
+        title="Confirm"
+        onPress={() => setVisible((visible) => !visible)}></ConfirmButton>
+      <ChoicePopup
+        testID="choicePopup"
+        visible={visible}
+        setVisible={setVisible}
+        yesAction={() => {
+          console.log('creating a session');
+          navigation.navigate('SessionDetails');
+        }}></ChoicePopup>
       <Moment testID="time-of-session" element={Text} format="HH:MM">
         {sessionTime}
       </Moment>

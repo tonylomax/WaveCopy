@@ -11,8 +11,10 @@
     "detox-build": "detox build -c android & detox build -c ios",
     "detox-test": "detox test -c android && detox test -c ios",
     "detox": " npm run detox-build && npm run detox-test",
-    "detox1": "detox build -c ios && detox test -c ios ",
-    "detox2": "detox test -c ios "
+    "detoxi1": "detox build -c ios && detox test -c ios ",
+    "detoxi2": "detox test -c ios ",
+    "detoxa1": "detox build -c android && detox test -c android ",
+    "detoxa2": "detox test -c android "
   },
   "husky": {
     "hooks": {

@@ -48,7 +48,6 @@ describe('Create a surf session', () => {
       await element(by.id('continue-to-review-created-session-page')).tap();
 
       await expect(element(by.id('coordinator-name'))).toExist();
-      await expect(element(by.id('confirm-session-details'))).toExist();
 
       await waitFor(element(by.id('mentors-accordian')))
         .toExist()
@@ -61,8 +60,10 @@ describe('Create a surf session', () => {
         .withTimeout(1000);
 
       await element(by.id('description-of-session')).typeText(
-        'surf therapy session at Fistral Beach working with 12 young people aged between 8-16',
+        'surfing at Fistral beach',
       );
+      await element(by.id('confirm-session-details')).tap();
+      await element(by.id('yesButtonChoicePopup')).tap();
       // await expect(element(by.id('date-of-session'))).toHaveValue(
       //   '2033-02-06T00:08:00-08:00',
       // );
