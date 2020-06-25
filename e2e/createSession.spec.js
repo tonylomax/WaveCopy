@@ -88,13 +88,23 @@ describe('Create a surf session', () => {
       // Select a user
       await element(by.id('joe-bloggs')).tap();
       await element(by.id('continue-to-review-created-session-page')).tap();
-    }
+      await expect(element(by.id('coordinator-name'))).toExist();
 
-    // Go to review session page
-    // Check that there is a coordinator
-    // click on the edit description and write something.
-    // Confirm the session
-    // select the 'yes' to create the session
-    // Ensure you're redirected to the session page
+      await waitFor(element(by.id('mentors-accordian')))
+        .toExist()
+        .withTimeout(1000);
+      await waitFor(element(by.id('attendees-accordian')))
+        .toExist()
+        .withTimeout(1000);
+      await waitFor(element(by.id('location-accordian')))
+        .toExist()
+        .withTimeout(1000);
+
+      await element(by.id('description-of-session')).typeText(
+        'surfing at Fistral beach',
+      );
+      await element(by.id('confirm-session-details')).tap();
+      await element(by.id('yesButtonChoicePopup')).tap();
+    }
   });
 });
