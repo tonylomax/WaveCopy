@@ -1,3 +1,4 @@
 import loginWithEmail from './loginWithEmail';
+import signOut from './signOut';
 
-export {loginWithEmail};
+export {loginWithEmail, signOut};

@@ -6,6 +6,10 @@ import 'react-native-gesture-handler';
 import Home from './screens/home/Home';
 import Login from './screens/login/Login';
 import Profile from './screens/profile/Profile';
+import {createFirebaseAuthSubscription} from './redux/index';
+import {useDispatch, useSelector} from 'react-redux';
+import {isEmpty} from 'lodash';
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -50,9 +54,28 @@ const Navigator = () => {
 };
 
 const App: () => React$Node = () => {
+  const dispatch = useDispatch();
   const [loggedIn, setLoggedIn] = useState(false);
 
-  return !loggedIn ? <Login setLoggedIn={setLoggedIn} /> : <Navigator />;
+  const currentAuthenticatedUser = useSelector(
+    (state) => state.authenticationReducer.userState,
+  );
+
+  useEffect(() => {
+    const unsubscribeFromFirebaseAuth = dispatch(
+      createFirebaseAuthSubscription(),
+    );
+
+    return () => {
+      unsubscribeFromFirebaseAuth();
+    };
+  }, []);
+
+  return isEmpty(currentAuthenticatedUser) ? (
+    <Login setLoggedIn={setLoggedIn} />
+  ) : (
+    <Navigator />
+  );
 };
 
 export default App;

@@ -1,3 +1,3 @@
-import {loginWithEmail} from './auth/index';
+import {loginWithEmail, signOut} from './auth/index';
 
-export {loginWithEmail};
+export {loginWithEmail, signOut};

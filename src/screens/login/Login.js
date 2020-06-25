@@ -4,7 +4,7 @@ import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
 import {useSafeArea} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
-import {createFirebaseAuthSubscription} from '../redux/actions/authentication';
+import {createFirebaseAuthSubscription} from 'APP_REDUX';
 import {serializeError} from 'serialize-error';
 
 export default function Home({navigation, setLoggedIn}) {
@@ -12,11 +12,6 @@ export default function Home({navigation, setLoggedIn}) {
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    console.log('visible', visible);
-  }, [visible]);
 
   return (
     <View>
