@@ -39,15 +39,16 @@ export default function Home({navigation, setLoggedIn}) {
       <Button
         title="Log In"
         testID="submit-login-details"
-        onPress={() =>
+        onPress={() => {
+          console.log('LOGIN BUTTON PRESED');
           loginWithEmail(email, password, setLoggedIn).then((result) => {
             const serializedResult = serializeError(result);
             console.log('message', serializedResult.message);
             if (serializedResult.code) {
               Alert.alert(serializedResult.message);
             } else setLoggedIn(true);
-          })
-        }
+          });
+        }}
       />
     </View>
   );

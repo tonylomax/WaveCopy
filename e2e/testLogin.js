@@ -5,18 +5,16 @@ describe('Example', () => {
     await device.reloadReactNative();
   });
 
-  it('it should be able to login, be redirected to home page and able to navigate to profile page', async () => {
+  it('it should be able to login, be redirected to home page, navigate to profile page and log out back to the login page', async () => {
     await element(by.id('email')).typeText(exampleEmail);
     await element(by.id('password')).typeText(examplePassword);
     await element(by.id('submit-login-details')).tap();
-
     await waitFor(element(by.id('upcoming-sessions-title')))
       .toExist()
-      .withTimeout(4000);
-
+      .withTimeout(2000);
     await element(by.id('navigate-to-profile-button')).tap();
-    await waitFor(element(by.id('bio')))
-      .toExist()
-      .withTimeout(10000);
+    await expect(element(by.id('firestoreName'))).toExist();
+    await element(by.id('signOutButton')).tap();
+    await expect(element(by.id('email'))).toExist();
   });
 });

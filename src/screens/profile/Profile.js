@@ -10,12 +10,13 @@ export default function Profile({navigation}) {
     <SafeAreaView>
       <View>
         <ConfirmButton
+          testID="signOutButton"
           onPress={() => {
             signOut();
           }}
           title="signout"></ConfirmButton>
-        <Text testID="bio'">PROFILE</Text>
-        <Text>Name: {userData.Name} </Text>
+        <Text testID="bio">PROFILE</Text>
+        <Text testID="firestoreName">Name: {userData.Name} </Text>
       </View>
     </SafeAreaView>
   );

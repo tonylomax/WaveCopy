@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TextInput, Button, FlatList} from 'react-native';
+import {View, Text, SafeAreaView, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {subscribeToAllSessions} from '../../redux/actions/firestore';
+import {subscribeToAllSessions} from '../../redux/index';
 import {
   ConfirmButton,
   AddButton,
@@ -22,39 +22,38 @@ export default function Profile({navigation}) {
   }, [visible]);
 
   const dispatch = useDispatch();
-  const sessions = useSelector(
-    (state) => state?.firestoreReducer?.action?.data,
-  );
+  const sessions = useSelector((state) => state.firestoreReducer.sessionData);
 
   useEffect(() => {
     dispatch(subscribeToAllSessions());
-    console.log(sessions);
   }, []);
 
   return (
-    <View>
-      <Text>Home</Text>
-      <Text testID="upcoming-sessions-title">Upcoming sessions</Text>
-      <ConfirmButton
-        testID="modalButton"
-        title="Modal"
-        onPress={() => setVisible((visible) => !visible)}></ConfirmButton>
-      <ChoicePopup
-        testID="choicePopup"
-        visible={visible}
-        setVisible={setVisible}></ChoicePopup>
-      <FlatList
-        testID={'SessionsList'}
-        data={sessions}
-        renderItem={({item}) => (
-          <View testID={'SessionsListItem'} id={item.ID}>
-            <Text> {item.Beach} </Text>
-            <Text> {item.Description} </Text>
-            <Text> {item.Beach} </Text>
-          </View>
-        )}
-        keyExtractor={(item) => item.ID}
-      />
-    </View>
+    <SafeAreaView>
+      <View>
+        <Text>Home</Text>
+        <Text testID="upcoming-sessions-title">Upcoming sessions</Text>
+        <ConfirmButton
+          testID="modalButton"
+          title="Modal"
+          onPress={() => setVisible((visible) => !visible)}></ConfirmButton>
+        <ChoicePopup
+          testID="choicePopup"
+          visible={visible}
+          setVisible={setVisible}></ChoicePopup>
+        <FlatList
+          testID="SessionsList"
+          data={sessions}
+          renderItem={({item}) => (
+            <View testID={'SessionsListItem'} id={item.ID}>
+              <Text> {item.Beach} </Text>
+              <Text> {item.Description} </Text>
+              <Text> {item.Beach} </Text>
+            </View>
+          )}
+          keyExtractor={(item) => item.ID}
+        />
+      </View>
+    </SafeAreaView>
   );
 }

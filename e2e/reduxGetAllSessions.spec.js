@@ -1,6 +1,6 @@
 describe('Check that Redux can subscribe to changing data in Firestore', () => {
   exampleEmail = 't@t.com';
-  examplePassword = 'asfsaf221@212sf';
+  examplePassword = 'asdasd';
   beforeEach(async () => {
     await device.reloadReactNative();
   });
@@ -8,10 +8,15 @@ describe('Check that Redux can subscribe to changing data in Firestore', () => {
     await element(by.id('email')).typeText(exampleEmail);
     await element(by.id('password')).typeText(examplePassword);
     await element(by.id('submit-login-details')).tap();
-    await expect(element(by.id('SessionsList'))).toExist();
-    // await expect(element(by.id('SessionsListItem'))).toExist();
-    await waitFor(element(by.id('SessionsListItem')))
+
+    // await element(by.id('SessionList')).toExist();
+    // await element(by.id('SessionsListItem')).toExist();
+
+    await waitFor(element(by.id('SessionsList')))
       .toBeVisible()
-      .withTimeout(2000);
+      .withTimeout(10000);
+    // await waitFor(element(by.id('SessionsListItem')))
+    //   .toExist()
+    //   .withTimeout(4000);
   });
 });
