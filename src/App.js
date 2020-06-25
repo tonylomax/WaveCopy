@@ -6,7 +6,10 @@ import 'react-native-gesture-handler';
 import Home from './screens/home/Home';
 import Login from './screens/login/Login';
 import Profile from './screens/profile/Profile';
-import {createFirebaseAuthSubscription} from './redux/index';
+import {
+  createFirebaseAuthSubscription,
+  subscribeToFirestoreUserData,
+} from './redux/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
 
@@ -70,6 +73,17 @@ const App: () => React$Node = () => {
       unsubscribeFromFirebaseAuth();
     };
   }, []);
+
+  useEffect(() => {
+    console.log('currentAuthenticatedUser is ', currentAuthenticatedUser);
+
+    if (!isEmpty(currentAuthenticatedUser)) {
+      const unsubscribeFromFirestoreUserData = dispatch(
+        subscribeToFirestoreUserData(currentAuthenticatedUser.uid),
+      );
+      // return () => unsubscribeFromFirestoreUserData();
+    }
+  }, [currentAuthenticatedUser]);
 
   return isEmpty(currentAuthenticatedUser) ? (
     <Login setLoggedIn={setLoggedIn} />

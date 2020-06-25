@@ -1,4 +1,4 @@
 import {createFirebaseAuthSubscription} from './authentication';
-import firestore from './firestore';
+import {subscribeToFirestoreUserData} from './firestore';
 
-export {createFirebaseAuthSubscription};
+export {createFirebaseAuthSubscription, subscribeToFirestoreUserData};

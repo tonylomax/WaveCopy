@@ -4,7 +4,6 @@ import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
 import {useSafeArea} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
-import {createFirebaseAuthSubscription} from 'APP_REDUX';
 import {serializeError} from 'serialize-error';
 
 export default function Home({navigation, setLoggedIn}) {

@@ -30,3 +30,21 @@ export function subscribeToAllSessions() {
     return sessions;
   };
 }
+
+export function subscribeToFirestoreUserData(currentUserUID) {
+  console.log('INSIDE subscribeToFirestoreUserData ACTION ');
+  return async (dispatch) => {
+    const userDataSubscription = firestore()
+      .collection('Users')
+      .doc(currentUserUID)
+      .onSnapshot((userData) => {
+        const updatedUserData = userData?.data();
+        console.log('updatedUserData ', updatedUserData);
+        dispatch({
+          type: ACTIONS.SET_CURRENT_FIRESTORE_USER_DATA,
+          data: updatedUserData,
+        });
+      });
+    return userDataSubscription;
+  };
+}

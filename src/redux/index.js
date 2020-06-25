@@ -1,3 +1,6 @@
-import {createFirebaseAuthSubscription} from './actions/index';
+import {
+  createFirebaseAuthSubscription,
+  subscribeToFirestoreUserData,
+} from './actions/index';
 
-export {createFirebaseAuthSubscription};
+export {createFirebaseAuthSubscription, subscribeToFirestoreUserData};
