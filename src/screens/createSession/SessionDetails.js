@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, SafeAreaView, ScrollView, Button} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Button,
+  Platform,
+} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -9,6 +16,7 @@ export default function SessionDetails({navigation}) {
   const [sessionDate, setSessionDate] = useState(new Date());
   const [location, setLocation] = useState('cornwall-fistrall');
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(1);
+  const [showDatePicker, setShowDatePicker] = useState(false);
   // creates an array from [1... max]
   const mapCreator = Array.from(
     Array(MAX_NUMBER_OF_VOLUNTEERS),
@@ -33,14 +41,17 @@ export default function SessionDetails({navigation}) {
           <Picker.Item label="Surf therapy" value="surf-therapy" />
         </Picker>
         <Text>Date</Text>
-        <DateTimePicker
-          testID="date-of-session"
-          value={sessionDate}
-          mode={'date'}
-          // is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />
+        {showDatePicker && (
+          <DateTimePicker
+            testID="date-of-session"
+            value={sessionDate}
+            mode={'date'}
+            // is24Hour={true}
+            display="spinner"
+            onChange={onChange}
+          />
+        )}
+
         <Text>Location</Text>
         <Picker
           testID="location-of-session"

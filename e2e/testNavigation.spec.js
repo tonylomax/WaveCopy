@@ -1,6 +1,7 @@
 describe('Test the navigation of the app', () => {
   exampleEmail = 't@t.com';
   examplePassword = 'asfsaf221@212sf';
+
   beforeEach(async () => {
     await device.reloadReactNative();
   });
