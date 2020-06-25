@@ -15,7 +15,7 @@ export default function ConfirmSession({route, navigation}) {
   return (
     <View>
       <Text>Edit page</Text>
-      <Button title="confirm-changes" />
+      <Button title="confirm-changes" testID="confirm-session-details" />
       <Text>
         {sessionType} - {location}
       </Text>
