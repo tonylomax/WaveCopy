@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, Button, Image, Alert} from 'react-native';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
@@ -12,15 +12,21 @@ export default function Home({navigation, setLoggedIn}) {
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    console.log('visible', visible);
+  }, [visible]);
 
   return (
     <View>
       <Image
-        source={require('../assets/images/Logo_Square_Blue_Unnamed.png')}
+        source={require('../../assets/images/logos/Logo_Square_Blue_Unnamed.png')}
       />
       <Text style={(FONTS.H1, {color: COLOURS.DEEP_BLUE})}>
         The Wave Project
       </Text>
+
       <Text style>...coming soon!</Text>
       <Text>Email</Text>
       <TextInput
