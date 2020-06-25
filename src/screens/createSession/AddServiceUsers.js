@@ -34,7 +34,7 @@ export default function AddServiceUsers({route, navigation}) {
         testID="continue-to-review-created-session-page"
         title="Continue"
         onPress={() =>
-          navigation.navigate('AddServiceUsers', {
+          navigation.navigate('ConfirmSession', {
             sessionType,
             sessionDate,
             sessionTime,
