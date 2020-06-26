@@ -16,6 +16,6 @@ export default async function loginWithEmail(email, password) {
         console.log('That email address is invalid!');
         return error;
       }
-      console.error(error);
+      return error;
     });
 }

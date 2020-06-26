@@ -2,6 +2,8 @@ describe('Example', () => {
   exampleEmail = 't@t.com';
   examplePassword = 'asdasd';
   beforeEach(async () => {
+    await device.terminateApp();
+    await device.launchApp();
     await device.reloadReactNative();
   });
 
@@ -12,6 +14,8 @@ describe('Example', () => {
     await waitFor(element(by.id('upcoming-sessions-title')))
       .toExist()
       .withTimeout(10000);
+    await expect(element(by.id('navigate-to-profile-button'))).toExist();
+
     await element(by.id('navigate-to-profile-button')).tap();
     await expect(element(by.id('firestoreName'))).toExist();
     await element(by.id('signOutButton')).tap();

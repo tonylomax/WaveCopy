@@ -1,5 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, Button, Image, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Image,
+  Alert,
+  SafeAreaView,
+} from 'react-native';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
 import {useSafeArea} from 'react-native-safe-area-context';
@@ -13,43 +21,45 @@ export default function Home({navigation, setLoggedIn}) {
   const [password, setPassword] = useState();
 
   return (
-    <View>
-      <Image
-        source={require('../../assets/images/logos/Logo_Square_Blue_Unnamed.png')}
-      />
-      <Text style={(FONTS.H1, {color: COLOURS.DEEP_BLUE})}>
-        The Wave Project
-      </Text>
+    <SafeAreaView>
+      <View>
+        <Image
+          source={require('../../assets/images/logos/Logo_Square_Blue_Unnamed.png')}
+        />
+        <Text style={(FONTS.H1, {color: COLOURS.DEEP_BLUE})}>
+          The Wave Project
+        </Text>
 
-      <Text style>...coming soon!</Text>
-      <Text>Email</Text>
-      <TextInput
-        autoCapitalize="none"
-        testID="email"
-        onChangeText={(inputEmail) => setEmail(inputEmail)}
-      />
-      <Text>Password</Text>
-      <TextInput
-        autoCapitalize="none"
-        testID="password"
-        onChangeText={(inputPassword) => {
-          setPassword(inputPassword);
-        }}
-      />
-      <Button
-        title="Log In"
-        testID="submit-login-details"
-        onPress={() => {
-          console.log('LOGIN BUTTON PRESED');
-          loginWithEmail(email, password, setLoggedIn).then((result) => {
-            const serializedResult = serializeError(result);
-            console.log('message', serializedResult.message);
-            if (serializedResult.code) {
-              Alert.alert(serializedResult.message);
-            } else setLoggedIn(true);
-          });
-        }}
-      />
-    </View>
+        <Text style>...coming soon!</Text>
+        <Text>Email</Text>
+        <TextInput
+          autoCapitalize="none"
+          testID="email"
+          onChangeText={(inputEmail) => setEmail(inputEmail)}
+        />
+        <Text>Password</Text>
+        <TextInput
+          autoCapitalize="none"
+          testID="password"
+          onChangeText={(inputPassword) => {
+            setPassword(inputPassword);
+          }}
+        />
+        <Button
+          title="Log In"
+          testID="submit-login-details"
+          onPress={() => {
+            console.log('LOGIN BUTTON PRESED');
+            loginWithEmail(email, password, setLoggedIn).then((result) => {
+              const serializedResult = serializeError(result);
+              console.log('message', serializedResult.message);
+              if (serializedResult.code) {
+                Alert.alert(serializedResult.message);
+              } else setLoggedIn(true);
+            });
+          }}
+        />
+      </View>
+    </SafeAreaView>
   );
 }

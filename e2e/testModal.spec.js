@@ -2,6 +2,8 @@ describe('Example', () => {
   exampleEmail = 't@t.com';
   examplePassword = 'asdasd';
   beforeEach(async () => {
+    await device.terminateApp();
+    await device.launchApp();
     await device.reloadReactNative();
   });
 
@@ -15,5 +17,8 @@ describe('Example', () => {
     await element(by.id('modalButton')).tap();
     await element(by.id('yesButtonChoicePopup')).tap();
     await expect(element(by.id('choicePopup'))).toBeNotVisible();
+    await element(by.id('navigate-to-profile-button')).tap();
+    await element(by.id('signOutButton')).tap();
+    await expect(element(by.id('email'))).toExist();
   });
 });

@@ -61,7 +61,7 @@
         "build": "xcodebuild -workspace ios/WaveVolunteerApp.xcworkspace -scheme WaveVolunteerApp -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
         "type": "ios.simulator",
         "device": {
-          "type": "iPhone 11 Pro"
+          "type": "iPhone 11"
         }
       },
       "android.emu.debug": {
