@@ -1,6 +1,9 @@
 describe('Create a surf session', () => {
   exampleEmail = 't@t.com';
   examplePassword = 'asdasd';
+  function timeout(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
   beforeEach(async () => {
     await device.terminateApp();
     await device.launchApp();
@@ -18,6 +21,7 @@ describe('Create a surf session', () => {
         .toExist()
         .withTimeout(5000);
 
+      await timeout(5000);
       await element(by.id('navigate-to-create-session')).tap();
       await expect(element(by.id('create-session-title'))).toExist();
       await expect(element(by.id('type-of-session'))).toExist();
