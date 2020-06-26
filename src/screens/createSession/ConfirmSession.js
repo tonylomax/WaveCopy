@@ -1,5 +1,5 @@
 // TO DO - merge this with session/EditSession.js
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
 import AccordianMenu from '../../components/AccordianMenu';
 import {ConfirmButton, ChoicePopup} from '../../components';
@@ -19,6 +19,36 @@ export default function ConfirmSession({route, navigation}) {
     numberOfVolunteers,
     selectedUsers,
   } = route.params;
+
+  const generateDateTimeArray = () => {
+    console.log({sessionDate});
+    const day = moment(sessionDate).date();
+    console.log(day);
+    const month = moment(sessionDate).month();
+    console.log(month);
+    const year = moment(sessionDate).year();
+    console.log(year);
+    console.log({sessionTime});
+    const hour = moment(sessionTime).hour();
+    console.log(hour);
+    const minutes = moment(sessionTime).minute();
+    console.log(minutes);
+
+    const startDateTime = moment()
+      .year(year)
+      .month(month)
+      .date(day)
+      .hour(hour)
+      .minute(minutes)
+      .seconds(0)
+      .millisecond(0);
+
+    console.log(startDateTime);
+  };
+
+  useEffect(() => {
+    generateDateTimeArray();
+  }, []);
 
   return (
     <View>
