@@ -4,7 +4,8 @@ import {View, Text, TextInput, Button, FlatList} from 'react-native';
 export default function Profile({navigation}) {
   return (
     <View>
-      <Text testID="bio'">Profile</Text>
+      <Text>Profile</Text>
+      <Text testID="bio">Bio</Text>
     </View>
   );
 }

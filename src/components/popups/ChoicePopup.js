@@ -2,7 +2,13 @@ import React from 'react';
 import {Alert, Modal, StyleSheet, Text, View} from 'react-native';
 import {ConfirmButton} from 'components';
 
-export default function ChoicePopup({visible, setVisible, testID}) {
+export default function ChoicePopup({
+  visible,
+  setVisible,
+  testID,
+  yesAction,
+  noAction,
+}) {
   return (
     <View testID={testID} style={styles.centeredView}>
       <Modal
@@ -18,10 +24,15 @@ export default function ChoicePopup({visible, setVisible, testID}) {
             <ConfirmButton
               testID="yesButtonChoicePopup"
               title="Yes"
-              onPress={() => setVisible(false)}></ConfirmButton>
+              onPress={() => {
+                if (yesAction) yesAction();
+                setVisible(false);
+              }}></ConfirmButton>
             <ConfirmButton
               title="No"
-              onPress={() => setVisible(false)}></ConfirmButton>
+              onPress={() => {
+                setVisible(false);
+              }}></ConfirmButton>
           </View>
         </View>
       </Modal>

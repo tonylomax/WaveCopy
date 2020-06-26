@@ -11,7 +11,10 @@
     "detox-build": "detox build -c android & detox build -c ios",
     "detox-test": "detox test -c android && detox test -c ios",
     "detox": " npm run detox-build && npm run detox-test",
-    "detox1": "detox build -c ios && detox test -c ios "
+    "detoxi1": "detox build -c ios && detox test -c ios ",
+    "detoxi2": "detox test -c ios ",
+    "detoxa1": "detox build -c android && detox test -c android ",
+    "detoxa2": "detox test -c android "
   },
   "husky": {
     "hooks": {
@@ -19,13 +22,17 @@
     }
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^2.4.2",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/picker": "^1.6.5",
     "@react-native-firebase/app": "^7.2.1",
     "@react-native-firebase/firestore": "^7.1.7",
     "@react-navigation/bottom-tabs": "^5.5.2",
     "@react-navigation/native": "^5.5.1",
     "@react-navigation/stack": "^5.5.1",
+    "moment": "^2.27.0",
     "react": "16.11.0",
+    "react-moment": "^0.9.7",
     "react-native": "0.62.2",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-loading-spinner-overlay": "^1.1.0",

@@ -6,6 +6,7 @@ import 'react-native-gesture-handler';
 import Home from './screens/home/Home';
 import Login from './screens/login/Login';
 import Profile from './screens/profile/Profile';
+import CreateSession from './screens/createSession/CreateSession';
 import {
   SafeAreaView,
   StyleSheet,
@@ -38,6 +39,11 @@ const Navigator = () => {
           name="Home"
           component={Home}
           options={{tabBarTestID: 'navigate-to-home-button'}}
+        />
+        <BottomTabs.Screen
+          name="Create Session"
+          component={CreateSession}
+          options={{tabBarTestID: 'navigate-to-create-session'}}
         />
         <BottomTabs.Screen
           name="Profile"
