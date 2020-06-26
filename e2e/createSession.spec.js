@@ -13,6 +13,7 @@ describe('Create a surf session', () => {
       await element(by.id('email')).typeText(exampleEmail);
       await element(by.id('password')).typeText(examplePassword);
       await element(by.id('submit-login-details')).tap();
+      await expect(element(by.id('navigate-to-create-session'))).toExist();
       await element(by.id('navigate-to-create-session')).tap();
       await expect(element(by.id('create-session-title'))).toExist();
       await expect(element(by.id('type-of-session'))).toExist();
@@ -84,6 +85,7 @@ describe('Create a surf session', () => {
       await element(by.id('email')).typeText(exampleEmail);
       await element(by.id('password')).typeText(examplePassword);
       await element(by.id('submit-login-details')).tap();
+      await expect(element(by.id('navigate-to-create-session'))).toExist();
       await element(by.id('navigate-to-create-session')).tap();
       await expect(element(by.id('create-session-title'))).toExist();
       await expect(element(by.id('type-of-session'))).toExist();
