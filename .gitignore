@@ -3,6 +3,8 @@
 
 # OSX
 #
+*.hprof
+*.aab
 .DS_Store
 
 # Xcode

@@ -8,6 +8,13 @@ import Login from './screens/login/Login';
 import Profile from './screens/profile/Profile';
 import CreateSession from './screens/createSession/CreateSession';
 import {
+  createFirebaseAuthSubscription,
+  subscribeToFirestoreUserData,
+} from './redux/index';
+import {useDispatch, useSelector} from 'react-redux';
+import {isEmpty} from 'lodash';
+
+import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
@@ -56,9 +63,39 @@ const Navigator = () => {
 };
 
 const App: () => React$Node = () => {
+  const dispatch = useDispatch();
   const [loggedIn, setLoggedIn] = useState(false);
 
-  return !loggedIn ? <Login setLoggedIn={setLoggedIn} /> : <Navigator />;
+  const currentAuthenticatedUser = useSelector(
+    (state) => state.authenticationReducer.userState,
+  );
+
+  useEffect(() => {
+    const unsubscribeFromFirebaseAuth = dispatch(
+      createFirebaseAuthSubscription(),
+    );
+
+    return () => {
+      unsubscribeFromFirebaseAuth();
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log('currentAuthenticatedUser is ', currentAuthenticatedUser);
+
+    if (!isEmpty(currentAuthenticatedUser)) {
+      const unsubscribeFromFirestoreUserData = dispatch(
+        subscribeToFirestoreUserData(currentAuthenticatedUser.uid),
+      );
+      // return () => unsubscribeFromFirestoreUserData();
+    }
+  }, [currentAuthenticatedUser]);
+
+  return isEmpty(currentAuthenticatedUser) ? (
+    <Login setLoggedIn={setLoggedIn} />
+  ) : (
+    <Navigator />
+  );
 };
 
 export default App;

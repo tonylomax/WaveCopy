@@ -1,7 +1,12 @@
 describe('Create a surf session', () => {
   exampleEmail = 't@t.com';
-  examplePassword = 'asfsaf221@212sf';
+  examplePassword = 'asdasd';
+  function timeout(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
   beforeEach(async () => {
+    await device.terminateApp();
+    await device.launchApp();
     await device.reloadReactNative();
   });
 
@@ -11,6 +16,12 @@ describe('Create a surf session', () => {
       await element(by.id('email')).typeText(exampleEmail);
       await element(by.id('password')).typeText(examplePassword);
       await element(by.id('submit-login-details')).tap();
+
+      await timeout(5000);
+      waitFor(element(by.id('navigate-to-create-session')))
+        .toExist()
+        .withTimeout(5000);
+
       await element(by.id('navigate-to-create-session')).tap();
       await expect(element(by.id('create-session-title'))).toExist();
       await expect(element(by.id('type-of-session'))).toExist();
@@ -70,12 +81,25 @@ describe('Create a surf session', () => {
       // await expect(element(by.id('session-title'))).toHaveValue(
       //   'Surf therapy - Cornwall - Fistral',
       // );
+      await element(by.id('navigate-to-profile-button')).tap();
+      await waitFor(element(by.id('bio')))
+        .toExist()
+        .withTimeout(10000);
+
+      await element(by.id('signOutButton')).tap();
+      await expect(element(by.id('email'))).toExist();
     } else {
       // =======================ANDROID============================
       await element(by.id('email')).typeText(exampleEmail);
       await element(by.id('password')).typeText(examplePassword);
       await element(by.id('submit-login-details')).tap();
+      await timeout(5000);
+      waitFor(element(by.id('navigate-to-create-session')))
+        .toExist()
+        .withTimeout(5000);
+
       await element(by.id('navigate-to-create-session')).tap();
+
       await expect(element(by.id('create-session-title'))).toExist();
       await expect(element(by.id('type-of-session'))).toExist();
 
@@ -105,6 +129,13 @@ describe('Create a surf session', () => {
       );
       await element(by.id('confirm-session-details')).tap();
       await element(by.id('yesButtonChoicePopup')).tap();
+      await element(by.id('navigate-to-profile-button')).tap();
+      await waitFor(element(by.id('bio')))
+        .toExist()
+        .withTimeout(10000);
+
+      await element(by.id('signOutButton')).tap();
+      await expect(element(by.id('email'))).toExist();
     }
   });
 });

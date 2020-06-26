@@ -1,0 +1,21 @@
+emulator: autoconfig: -skin pixel_2
+emulator: autoconfig: -skindir /Users/tonylomax/Library/Android/sdk/skins/
+emulator: autoconfig: -kernel /Users/tonylomax/Library/Android/sdk/system-images/android-29/google_apis_playstore/x86//kernel-ranchu-64
+emulator: Target arch = 'x86'
+emulator: Auto-config: -qemu -cpu qemu32
+emulator: Auto-detect: Kernel image requires new device naming scheme.
+emulator: Auto-detect: Kernel does not support YAFFS2 partitions.
+emulator: autoconfig: -ramdisk /Users/tonylomax/Library/Android/sdk/system-images/android-29/google_apis_playstore/x86//ramdisk.img
+emulator: Using initial system image: /Users/tonylomax/Library/Android/sdk/system-images/android-29/google_apis_playstore/x86//system.img
+emulator: Using initial vendor image: /Users/tonylomax/Library/Android/sdk/system-images/android-29/google_apis_playstore/x86//vendor.img
+emulator: autoconfig: -data /Users/tonylomax/.android/avd/Pixel_2_API_29.avd/userdata-qemu.img
+emulator: autoconfig: -initdata /Users/tonylomax/.android/avd/Pixel_2_API_29.avd/userdata.img
+emulator: autoconfig: -cache /Users/tonylomax/.android/avd/Pixel_2_API_29.avd/cache.img
+emulator: autoconfig: -sdcard /Users/tonylomax/.android/avd/Pixel_2_API_29.avd/sdcard.img
+emulator: Increasing RAM size to 2048MB
+emulator: VM heap size 256MB is below hardware specified minimum of 512MB,setting it to that value
+emulator: System image is read only
+emulator: Found 2 DNS servers: 194.168.4.100 194.168.8.100
+emulator: ERROR: Running multiple emulators with the same AVD is an experimental feature.
+Please use -read-only flag to enable this feature.
+
