@@ -9,6 +9,8 @@ import {Provider} from 'react-redux';
 import store from './src/redux/store';
 import React from 'react';
 
+console.disableYellowBox = true;
+
 const AppWithReduxProvider = () => (
   <Provider store={store}>
     <App />
