@@ -1,4 +1,7 @@
-export const initialState = {};
+export const initialState = {
+  sessionData: {},
+  userData: {},
+};
 import {ACTIONS} from '../../constants/actions';
 
 export default (state = initialState, action) => {
@@ -9,8 +12,17 @@ export default (state = initialState, action) => {
         '[Reducer - fireStoreReducer] SUBSCRIBE TO SESSIONS',
         action.data,
       );
+      const sessionData = action.data;
 
-      return {...state, action};
+      return {...state, sessionData};
+
+    case ACTIONS.SET_CURRENT_FIRESTORE_USER_DATA:
+      console.log(
+        '[Reducer - fireStoreReducer]SET_CURRENT_FIRESTORE_USER_DATA',
+        action,
+      );
+      const userData = action.data;
+      return {...state, userData};
 
     default:
       return state;
