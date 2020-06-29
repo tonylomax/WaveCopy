@@ -3,16 +3,17 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
 import AccordianMenu from '../../components/AccordianMenu';
 import {ConfirmButton, ChoicePopup} from '../../components';
-import generateDateTimeArray from '../../utils/time/repetitionDatesArray';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 
+import {NavigationActions} from 'react-navigation';
+import {CommonActions} from '@react-navigation/native';
+
 export default function ConfirmSession({route, navigation}) {
   const [visible, setVisible] = useState(false);
-  const [startDateTime, setStartDateTime] = useState();
   const {
     sessionType,
     location,
@@ -33,17 +34,13 @@ export default function ConfirmSession({route, navigation}) {
         setVisible={setVisible}
         yesAction={() => {
           console.log('creating a session');
-          navigation.navigate('SessionDetails');
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{name: 'Home'}],
+            }),
+          );
         }}></ChoicePopup>
-      {/* <Moment testID="time-of-session" element={Text} format="HH:MM">
-        {sessionTime}
-      </Moment>
-      {sessionDate && (
-        <Moment testID="date-of-session" element={Text} format="Do MMMM YYYY">
-          {sessionDate}
-        </Moment>
-      )} */}
-
       {dateTimeArray &&
         dateTimeArray.map((dateTimeOfSession) => (
           <Moment element={Text} format="Do MMMM YYYY HH:mm">

@@ -6,7 +6,7 @@ moment().format('en-gb');
 // The goal of this function is to take two datetimes:
 // 1 - Session Date - correct date but incorrect time
 // 2 - Session time - correct time but incorrect date
-// And combine them to be one correct date time
+// And combine them to be one correct datetime
 export default (sessionDate, sessionTime) => {
   // Get the constituent parts from each datetime
   const day = moment(sessionDate).date();
