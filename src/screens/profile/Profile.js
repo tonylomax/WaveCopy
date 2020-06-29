@@ -15,7 +15,8 @@ import {TextInput} from 'react-native-gesture-handler';
 import {updateBio, getDownloadURI} from 'utils';
 import {Edit_Icon} from 'assets';
 import ImagePicker from 'react-native-image-picker';
-import {uploadFile} from 'utils';
+import {uploadFile, monitorFileUpload} from 'utils';
+import ProgressBar from 'react-native-progress/Bar';
 
 export default function Profile({navigation}) {
   const userData = useSelector((state) => state.firestoreReducer.userData);
@@ -34,6 +35,7 @@ export default function Profile({navigation}) {
     noData: true,
   });
   const [uploadImg, setUploadImg] = useState();
+  const [uploadProgress, setuploadProgress] = useState(0);
 
   const getFileLocalPath = (response) => {
     const {path, uri} = response;
@@ -61,7 +63,6 @@ export default function Profile({navigation}) {
         setUploadImg({uri: response.uri});
         setLocalFilePath(getFileLocalPath(response));
         const fileSize = response.fileSize;
-
         //To-Do: determine max image file size we'll allow
         // if (fileSize > 10000) {
         //   Alert.alert(
@@ -70,7 +71,6 @@ export default function Profile({navigation}) {
         // } else
 
         //display the image and if they click yes then start the upload
-
         setImageConfirmPopup(true);
       }
     });
@@ -83,14 +83,10 @@ export default function Profile({navigation}) {
           visible={imageConfirmPopup}
           setVisible={setImageConfirmPopup}
           imgSource={uploadImg?.uri}
-          localFilePath={localFilePath}
-          UID={UID}
-          // yesAction={() => {
-          //   // return await uploadFile(localFilePath, UID);
-
-          //   uploadFile(localFilePath, UID);
-          // }}
-        ></ImageConfirmPopup>
+          yesAction={() => {
+            const task = uploadFile(localFilePath, UID);
+            monitorFileUpload(task, setuploadProgress);
+          }}></ImageConfirmPopup>
         <ConfirmButton
           testID="signOutButton"
           onPress={() => {
@@ -138,6 +134,7 @@ export default function Profile({navigation}) {
             imagePicker();
           }}
         />
+        <ProgressBar progress={uploadProgress} width={200} />
       </View>
     </SafeAreaView>
   );
