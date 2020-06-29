@@ -1,1 +1,1 @@
-export {Edit_Icon} from './images/icons/index';
+export const Edit_Icon = require('./images/icons/Edit_Icon.png');

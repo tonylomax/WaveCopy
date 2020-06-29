@@ -1,3 +1,4 @@
 import {loginWithEmail, signOut} from './auth/index';
-import {updateBio} from './firestore/index';
-export {loginWithEmail, signOut, updateBio};
+import {updateBio} from './firebaseFirestore/index';
+import {getDownloadURI} from './firebaseStorage/index';
+export {loginWithEmail, signOut, updateBio, getDownloadURI};
