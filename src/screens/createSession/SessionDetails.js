@@ -12,9 +12,11 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function SessionDetails({navigation}) {
   const MAX_NUMBER_OF_VOLUNTEERS = 30;
+  const MAX_NUMBER_OF_REPETITIONS = 10;
   const [sessionType, setSessionType] = useState('surf-club');
   const [location, setLocation] = useState('cornwall-fistrall');
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(1);
+  const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
 
   const [sessionDate, setSessionDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
@@ -22,10 +24,7 @@ export default function SessionDetails({navigation}) {
   const [showTimePicker, setShowTimePicker] = useState(Platform.OS === 'ios');
 
   // creates an array from [1... max]
-  const mapCreator = Array.from(
-    Array(MAX_NUMBER_OF_VOLUNTEERS),
-    (_, i) => i + 1,
-  );
+  const mapCreator = (max, min) => Array.from(Array(max), (_, i) => i + min);
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || sessionDate;
@@ -107,7 +106,18 @@ export default function SessionDetails({navigation}) {
           onValueChange={(itemValue, itemIndex) =>
             setNumberOfVolunteers(itemValue)
           }>
-          {mapCreator.map((n) => (
+          {mapCreator(MAX_NUMBER_OF_VOLUNTEERS, 1).map((n) => (
+            <Picker.Item label={n.toString()} value={n} key={n} />
+          ))}
+        </Picker>
+        <Text>Number of repetitions</Text>
+        <Picker
+          testID="number-of-repetitions"
+          selectedValue={numberOfRepetitions}
+          onValueChange={(itemValue, itemIndex) =>
+            setNumberOfRepetitions(itemValue)
+          }>
+          {mapCreator(MAX_NUMBER_OF_REPETITIONS, 0).map((n) => (
             <Picker.Item label={n.toString()} value={n} key={n} />
           ))}
         </Picker>
@@ -123,6 +133,7 @@ export default function SessionDetails({navigation}) {
               sessionTime,
               location,
               numberOfVolunteers,
+              numberOfRepetitions,
             });
           }}
         />

@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
 import AccordianMenu from '../../components/AccordianMenu';
 import {ConfirmButton, ChoicePopup} from '../../components';
+import generateDateTimeArray from '../../utils/time/repetitionDatesArray';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
@@ -11,6 +12,7 @@ moment().format('en-gb');
 
 export default function ConfirmSession({route, navigation}) {
   const [visible, setVisible] = useState(false);
+  const [startDateTime, setStartDateTime] = useState();
   const {
     sessionType,
     sessionDate,
@@ -18,36 +20,17 @@ export default function ConfirmSession({route, navigation}) {
     location,
     numberOfVolunteers,
     selectedUsers,
+    numberOfRepetitions,
   } = route.params;
 
-  const generateDateTimeArray = () => {
-    console.log({sessionDate});
-    const day = moment(sessionDate).date();
-    console.log(day);
-    const month = moment(sessionDate).month();
-    console.log(month);
-    const year = moment(sessionDate).year();
-    console.log(year);
-    console.log({sessionTime});
-    const hour = moment(sessionTime).hour();
-    console.log(hour);
-    const minutes = moment(sessionTime).minute();
-    console.log(minutes);
-
-    const startDateTime = moment()
-      .year(year)
-      .month(month)
-      .date(day)
-      .hour(hour)
-      .minute(minutes)
-      .seconds(0)
-      .millisecond(0);
-
-    console.log(startDateTime);
-  };
-
   useEffect(() => {
-    generateDateTimeArray();
+    const dateTime = generateDateTimeArray(
+      sessionDate,
+      sessionTime,
+      numberOfRepetitions,
+    );
+    console.log({dateTime});
+    // setStartDateTime(dateTime);
   }, []);
 
   return (
@@ -64,13 +47,18 @@ export default function ConfirmSession({route, navigation}) {
           console.log('creating a session');
           navigation.navigate('SessionDetails');
         }}></ChoicePopup>
-      <Moment testID="time-of-session" element={Text} format="HH:MM">
+      {/* <Moment testID="time-of-session" element={Text} format="HH:MM">
         {sessionTime}
       </Moment>
-      <Moment testID="date-of-session" element={Text} format="Do MMMM YYYY">
-        {sessionDate}
+      {sessionDate && (
+        <Moment testID="date-of-session" element={Text} format="Do MMMM YYYY">
+          {sessionDate}
+        </Moment>
+      )} */}
+
+      <Moment element={Text} format="Do MMMM YYYY HH:mm">
+        {startDateTime}
       </Moment>
-      {/* <Text testID="date-of-session">{sessionDate}</Text> */}
       <Text>
         {sessionType} - {location}
       </Text>

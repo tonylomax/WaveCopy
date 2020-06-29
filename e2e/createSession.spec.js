@@ -5,8 +5,8 @@ describe('Create a surf session', () => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   beforeEach(async () => {
-    await device.terminateApp();
-    await device.launchApp();
+    // await device.terminateApp();
+    // await device.launchApp();
     await device.reloadReactNative();
   });
 
@@ -50,6 +50,7 @@ describe('Create a surf session', () => {
       );
       // Only available on ios
       await element(by.id('number-of-volunteers')).setColumnToValue(0, '12');
+      await element(by.id('number-of-repetitions')).setColumnToValue(0, '6');
       await element(by.id('continue-to-select-service-users')).tap();
 
       await expect(element(by.id('currently-added-service-users'))).toExist();

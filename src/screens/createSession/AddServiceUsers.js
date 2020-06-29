@@ -9,6 +9,7 @@ export default function AddServiceUsers({route, navigation}) {
     sessionTime,
     location,
     numberOfVolunteers,
+    numberOfRepetitions,
   } = route.params;
   const [selectedUsers, setSelectedUsers] = useState([]);
 
@@ -41,6 +42,7 @@ export default function AddServiceUsers({route, navigation}) {
             location,
             numberOfVolunteers,
             selectedUsers,
+            numberOfRepetitions,
           })
         }
       />
