@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  ScrollView,
 } from 'react-native';
-import {ConfirmButton} from 'components';
+import {ConfirmButton, ImageConfirmPopup} from 'components';
 import {signOut} from 'utils';
 import {useSelector, useDispatch} from 'react-redux';
 import {TextInput} from 'react-native-gesture-handler';
@@ -22,6 +23,8 @@ export default function Profile({navigation}) {
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
   const [profileURL, setProfileURL] = useState();
   const [edit, setEdit] = useState(false);
+  const [imageConfirmPopup, setImageConfirmPopup] = useState(false);
+  const [localFilePath, setLocalFilePath] = useState();
   const [options, setOptions] = useState({
     title: 'Select Avatar',
     storageOptions: {
@@ -37,10 +40,6 @@ export default function Profile({navigation}) {
     return Platform.OS === 'android' ? path : uri;
   };
 
-  // useEffect(() => {
-  //   console.log('userData', UID);
-  // }, [userData]);
-
   useEffect(() => {
     getDownloadURI(UID).then((url) => {
       setProfileURL(url);
@@ -51,23 +50,44 @@ export default function Profile({navigation}) {
     console.log('uploadImg', uploadImg);
   }, [uploadImg]);
 
-  // const uploadFile = async (localFilePath) => {
-  //   return new Promise((resolve, reject) => {
-  //     storage()
-  //       .ref(`/ProfilePics/${UID}.JPG`)
-  //       .putFile(localFilePath)
-  //       .then((result) => {
-  //         resolve(result);
-  //       })
-  //       .catch((err) => {
-  //         reject(err);
-  //       });
-  //   });
-  // };
+  const imagePicker = () => {
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        setUploadImg({uri: response.uri});
+        // const localFilePath = getFileLocalPath(response);
+        setLocalFilePath(getFileLocalPath(response));
+        const fileSize = response.fileSize;
+
+        //To-Do: determine max image file size we'll allow
+        // if (fileSize > 10000) {
+        //   Alert.alert(
+        //     'Image is too big, please select a lower quality image',
+        //   );
+        // } else
+
+        //display the image and if they click yes then start the upload
+
+        setImageConfirmPopup(true);
+      }
+    });
+  };
 
   return (
     <SafeAreaView>
       <View>
+        <ImageConfirmPopup
+          visible={imageConfirmPopup}
+          setVisible={setImageConfirmPopup}
+          imgSource={uploadImg?.uri}
+          yesAction={() => {
+            console.log('YES ACTION');
+            uploadFile(localFilePath, UID);
+          }}></ImageConfirmPopup>
         <ConfirmButton
           testID="signOutButton"
           onPress={() => {
@@ -75,7 +95,7 @@ export default function Profile({navigation}) {
           }}
           title="signout"></ConfirmButton>
         <Image
-          style={{height: '50%', width: '50%'}}
+          style={{height: '10%', width: '10%'}}
           source={{
             uri: profileURL,
           }}></Image>
@@ -111,29 +131,8 @@ export default function Profile({navigation}) {
 
         <ConfirmButton
           title="Upload image"
-          onPress={async () => {
-            ImagePicker.showImagePicker(options, (response) => {
-              console.log('Response = ', response);
-              if (response.didCancel) {
-                console.log('User cancelled image picker');
-              } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-              } else {
-                setUploadImg({uri: response.uri});
-                const localFilePath = getFileLocalPath(response);
-                const fileSize = response.fileSize;
-
-                //To-Do: determine max image file size we'll allow
-                // if (fileSize > 10000) {
-                //   Alert.alert(
-                //     'Image is too big, please select a lower quality image',
-                //   );
-                // } else
-                uploadFile(localFilePath, UID).then((result) =>
-                  console.log(result),
-                );
-              }
-            });
+          onPress={() => {
+            imagePicker();
           }}
         />
       </View>
