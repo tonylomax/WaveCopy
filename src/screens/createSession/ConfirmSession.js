@@ -8,12 +8,13 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
-
-import {NavigationActions} from 'react-navigation';
 import {CommonActions} from '@react-navigation/native';
+import createSessionInFirestore from '../../utils/createSessionInFirestore';
+import {useSelector} from 'react-redux';
 
 export default function ConfirmSession({route, navigation}) {
   const [visible, setVisible] = useState(false);
+  const [descriptionOfSession, setDescriptionOfSession] = useState('');
   const {
     sessionType,
     location,
@@ -21,7 +22,7 @@ export default function ConfirmSession({route, navigation}) {
     selectedUsers,
     dateTimeArray,
   } = route.params;
-
+  const userData = useSelector((state) => state.firestoreReducer.userData);
   return (
     <View>
       <ConfirmButton
@@ -34,12 +35,25 @@ export default function ConfirmSession({route, navigation}) {
         setVisible={setVisible}
         yesAction={() => {
           console.log('creating a session');
-          navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{name: 'Home'}],
-            }),
-          );
+          createSessionInFirestore({
+            sessionType,
+            location,
+            numberOfVolunteers,
+            selectedUsers,
+            dateTimeArray,
+            descriptionOfSession,
+            coordinator: userData.uid,
+          })
+            .then(() => {
+              console.log('session created');
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{name: 'Home'}],
+                }),
+              );
+            })
+            .catch((err) => console.log(err));
         }}></ChoicePopup>
       {dateTimeArray &&
         dateTimeArray.map((dateTimeOfSession) => (
@@ -55,7 +69,11 @@ export default function ConfirmSession({route, navigation}) {
 
       <Text testID="coordinator-name">Test coordinator</Text>
       <Text>Description of session</Text>
-      <TextInput testID="description-of-session" />
+      <TextInput
+        testID="description-of-session"
+        defaultValue={descriptionOfSession}
+        onChangeText={(text) => setDescriptionOfSession(text)}
+      />
       <AccordianMenu testID="mentors-accordian" />
       <AccordianMenu testID="attendees-accordian" />
       <AccordianMenu testID="location-accordian" />
