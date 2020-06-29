@@ -59,7 +59,6 @@ export default function Profile({navigation}) {
         console.log('ImagePicker Error: ', response.error);
       } else {
         setUploadImg({uri: response.uri});
-        // const localFilePath = getFileLocalPath(response);
         setLocalFilePath(getFileLocalPath(response));
         const fileSize = response.fileSize;
 
@@ -84,10 +83,14 @@ export default function Profile({navigation}) {
           visible={imageConfirmPopup}
           setVisible={setImageConfirmPopup}
           imgSource={uploadImg?.uri}
-          yesAction={() => {
-            console.log('YES ACTION');
-            uploadFile(localFilePath, UID);
-          }}></ImageConfirmPopup>
+          localFilePath={localFilePath}
+          UID={UID}
+          // yesAction={() => {
+          //   // return await uploadFile(localFilePath, UID);
+
+          //   uploadFile(localFilePath, UID);
+          // }}
+        ></ImageConfirmPopup>
         <ConfirmButton
           testID="signOutButton"
           onPress={() => {
@@ -99,18 +102,18 @@ export default function Profile({navigation}) {
           source={{
             uri: profileURL,
           }}></Image>
-        <TouchableOpacity>
-          {edit ? (
-            <TextInput
-              onChangeText={(updatedBio) => {
-                setBio(updatedBio);
-              }}
-              autoFocus={true}
-              defaultValue={userData.Bio}></TextInput>
-          ) : (
-            <Text testID="bio">Bio: {bio}</Text>
-          )}
-        </TouchableOpacity>
+
+        {edit ? (
+          <TextInput
+            onChangeText={(updatedBio) => {
+              setBio(updatedBio);
+            }}
+            autoFocus={true}
+            defaultValue={userData.Bio}></TextInput>
+        ) : (
+          <Text testID="bio">Bio: {bio}</Text>
+        )}
+
         <TouchableOpacity
           onPress={() => {
             setEdit((edit) => !edit);

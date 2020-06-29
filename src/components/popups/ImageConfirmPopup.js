@@ -1,13 +1,34 @@
 import React from 'react';
 import {Alert, Modal, StyleSheet, Text, Image, View} from 'react-native';
 import {ConfirmButton} from 'components';
+import {uploadFile} from 'utils';
 
 export default function ImageConfirmPopup({
   visible,
   setVisible,
   imgSource,
   yesAction,
+  localFilePath,
+  UID,
 }) {
+  const monitorFileUpload = (uploadTask) => {
+    uploadTask.on('state_changed', (snapshot) => {
+      switch (snapshot.state) {
+        case 'running':
+          console.log('UPLOAD IS RUNNING');
+          break;
+        case 'success':
+          console.log('UPLOAD IS SUCCESSFUL');
+          // snapshot.ref.getDownloadURL().then((downloadURL) => {
+          //   setImageURI({uri: downloadURL});
+          // });
+          break;
+        default:
+          break;
+      }
+    });
+  };
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -28,7 +49,16 @@ export default function ImageConfirmPopup({
             <ConfirmButton
               title="Yes"
               onPress={() => {
-                if (yesAction) yesAction();
+                const task = uploadFile(localFilePath, UID);
+                console.log('task ', task);
+                monitorFileUpload(task);
+                // if (yesAction) {
+                //   //  console.log('yesAction',  yesAction());
+                //   // const uploadTask = yesAction();
+                //   console.log('yesaciton', yesAction);
+                //   monitorFileUpload(yesAction);
+                // }
+
                 setVisible(false);
               }}></ConfirmButton>
             <ConfirmButton
