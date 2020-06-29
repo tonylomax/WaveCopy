@@ -1,2 +1,3 @@
 import getDownloadURI from './getDownloadURI';
-export {getDownloadURI};
+import uploadFile from './uploadFile';
+export {getDownloadURI, uploadFile};
