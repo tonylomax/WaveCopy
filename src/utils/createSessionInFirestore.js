@@ -17,12 +17,12 @@ const createSessionInFirestore = ({
         .add({
           Attendees: selectedUsers,
           MaxMentors: numberOfVolunteers,
-          Beach: location,
+          Beach: location.name,
           Type: sessionType,
           Description: descriptionOfSession,
           DateTime: sessionDate.format(),
-          CoordinatorID: coordinator,
-          // Region
+          CoordinatorID: coordinator, // TODO - update with user Id from redux in ConfirmSession.js
+          Region: location.region,
           // Surf lead ID
         })
         .then((session) => {

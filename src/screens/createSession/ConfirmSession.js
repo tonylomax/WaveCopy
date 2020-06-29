@@ -35,6 +35,7 @@ export default function ConfirmSession({route, navigation}) {
         setVisible={setVisible}
         yesAction={() => {
           console.log('creating a session');
+          console.log(userData);
           createSessionInFirestore({
             sessionType,
             location,
@@ -42,7 +43,7 @@ export default function ConfirmSession({route, navigation}) {
             selectedUsers,
             dateTimeArray,
             descriptionOfSession,
-            coordinator: userData.uid,
+            coordinator: userData.Name,
           })
             .then(() => {
               console.log('session created');
@@ -63,7 +64,7 @@ export default function ConfirmSession({route, navigation}) {
         ))}
 
       <Text>
-        {sessionType} - {location}
+        {sessionType} - {location.name}
       </Text>
       <Text>Coordinator</Text>
 

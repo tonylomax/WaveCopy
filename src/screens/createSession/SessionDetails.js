@@ -6,6 +6,7 @@ import {
   ScrollView,
   Button,
   Platform,
+  Alert,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -18,9 +19,22 @@ import {
   MAX_NUMBER_OF_REPETITIONS,
 } from '../../constants/sessionChoices.js';
 
+const EXAMPLE_LOCATIONS = [
+  {
+    name: 'Fistral Beach',
+    area: 'West Cornwall',
+    region: 'South West',
+  },
+  {
+    name: 'Brighton Beach',
+    area: 'Brighton',
+    region: 'South East',
+  },
+];
+
 export default function SessionDetails({navigation}) {
   const [sessionType, setSessionType] = useState('surf-club');
-  const [location, setLocation] = useState('cornwall-fistrall');
+  const [location, setLocation] = useState();
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(1);
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
   const [sessionDate, setSessionDate] = useState(new Date());
@@ -96,10 +110,18 @@ export default function SessionDetails({navigation}) {
         <Text>Location</Text>
         <Picker
           testID="location-of-session"
-          selectedValue={location}
-          onValueChange={(itemValue, itemIndex) => setLocation(itemValue)}>
-          <Picker.Item label="Devon North" value="devon-north" />
-          <Picker.Item label="Cornwall - Fistral" value="cornwall-fistral" />
+          selectedValue={location?.name}
+          onValueChange={(itemValue, itemIndex) => {
+            const ValueToAdd = EXAMPLE_LOCATIONS[itemIndex];
+            setLocation(ValueToAdd);
+          }}>
+          {EXAMPLE_LOCATIONS.map((beach) => (
+            <Picker.Item
+              label={beach.name}
+              value={beach.name}
+              id={beach.name}
+            />
+          ))}
         </Picker>
         <Text>Amount of volunteers needed</Text>
         <Picker
@@ -134,18 +156,21 @@ export default function SessionDetails({navigation}) {
           testID="continue-to-select-service-users"
           title="Continue"
           onPress={() => {
-            console.log(sessionTime);
-            const dateTimeArray = generateDateTimeArray(
-              sessionDate,
-              sessionTime,
-              numberOfRepetitions,
-            );
-            navigation.navigate('AddServiceUsers', {
-              sessionType,
-              location,
-              numberOfVolunteers,
-              dateTimeArray,
-            });
+            if (!location || location === '0') {
+              Alert.alert('please select a location');
+            } else {
+              const dateTimeArray = generateDateTimeArray(
+                sessionDate,
+                sessionTime,
+                numberOfRepetitions,
+              );
+              navigation.navigate('AddServiceUsers', {
+                sessionType,
+                location,
+                numberOfVolunteers,
+                dateTimeArray,
+              });
+            }
           }}
         />
       </ScrollView>
