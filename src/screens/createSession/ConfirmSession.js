@@ -15,23 +15,11 @@ export default function ConfirmSession({route, navigation}) {
   const [startDateTime, setStartDateTime] = useState();
   const {
     sessionType,
-    sessionDate,
-    sessionTime,
     location,
     numberOfVolunteers,
     selectedUsers,
-    numberOfRepetitions,
+    dateTimeArray,
   } = route.params;
-
-  useEffect(() => {
-    const dateTime = generateDateTimeArray(
-      sessionDate,
-      sessionTime,
-      numberOfRepetitions,
-    );
-    console.log({dateTime});
-    // setStartDateTime(dateTime);
-  }, []);
 
   return (
     <View>
@@ -56,9 +44,13 @@ export default function ConfirmSession({route, navigation}) {
         </Moment>
       )} */}
 
-      <Moment element={Text} format="Do MMMM YYYY HH:mm">
-        {startDateTime}
-      </Moment>
+      {dateTimeArray &&
+        dateTimeArray.map((dateTimeOfSession) => (
+          <Moment element={Text} format="Do MMMM YYYY HH:mm">
+            {dateTimeOfSession}
+          </Moment>
+        ))}
+
       <Text>
         {sessionType} - {location}
       </Text>

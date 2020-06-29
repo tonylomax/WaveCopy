@@ -9,22 +9,24 @@ import {
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import generateDateTimeArray from '../../utils/time/repetitionDatesArray';
+import generateNumberedArray from '../../utils/generateNumberedArray';
+import {
+  MIN_NUMBER_OF_VOLUNTEERS,
+  MAX_NUMBER_OF_VOLUNTEERS,
+  MIN_NUMBER_OF_REPETITIONS,
+  MAX_NUMBER_OF_REPETITIONS,
+} from '../../constants/sessionChoices.js';
 
 export default function SessionDetails({navigation}) {
-  const MAX_NUMBER_OF_VOLUNTEERS = 30;
-  const MAX_NUMBER_OF_REPETITIONS = 10;
   const [sessionType, setSessionType] = useState('surf-club');
   const [location, setLocation] = useState('cornwall-fistrall');
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(1);
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
-
   const [sessionDate, setSessionDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
   const [sessionTime, setSessionTime] = useState(new Date());
   const [showTimePicker, setShowTimePicker] = useState(Platform.OS === 'ios');
-
-  // creates an array from [1... max]
-  const mapCreator = (max, min) => Array.from(Array(max), (_, i) => i + min);
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || sessionDate;
@@ -106,7 +108,10 @@ export default function SessionDetails({navigation}) {
           onValueChange={(itemValue, itemIndex) =>
             setNumberOfVolunteers(itemValue)
           }>
-          {mapCreator(MAX_NUMBER_OF_VOLUNTEERS, 1).map((n) => (
+          {generateNumberedArray(
+            MIN_NUMBER_OF_VOLUNTEERS,
+            MAX_NUMBER_OF_VOLUNTEERS,
+          ).map((n) => (
             <Picker.Item label={n.toString()} value={n} key={n} />
           ))}
         </Picker>
@@ -117,7 +122,10 @@ export default function SessionDetails({navigation}) {
           onValueChange={(itemValue, itemIndex) =>
             setNumberOfRepetitions(itemValue)
           }>
-          {mapCreator(MAX_NUMBER_OF_REPETITIONS, 0).map((n) => (
+          {generateNumberedArray(
+            MIN_NUMBER_OF_REPETITIONS,
+            MAX_NUMBER_OF_REPETITIONS,
+          ).map((n) => (
             <Picker.Item label={n.toString()} value={n} key={n} />
           ))}
         </Picker>
@@ -127,13 +135,16 @@ export default function SessionDetails({navigation}) {
           title="Continue"
           onPress={() => {
             console.log(sessionTime);
-            navigation.navigate('AddServiceUsers', {
-              sessionType,
+            const dateTimeArray = generateDateTimeArray(
               sessionDate,
               sessionTime,
+              numberOfRepetitions,
+            );
+            navigation.navigate('AddServiceUsers', {
+              sessionType,
               location,
               numberOfVolunteers,
-              numberOfRepetitions,
+              dateTimeArray,
             });
           }}
         />

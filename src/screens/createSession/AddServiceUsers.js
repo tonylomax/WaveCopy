@@ -5,11 +5,9 @@ const EXAMPLE_LIST_OF_USERS = ['john1', 'john2', 'john3', 'joe-bloggs'];
 export default function AddServiceUsers({route, navigation}) {
   const {
     sessionType,
-    sessionDate,
-    sessionTime,
     location,
     numberOfVolunteers,
-    numberOfRepetitions,
+    dateTimeArray,
   } = route.params;
   const [selectedUsers, setSelectedUsers] = useState([]);
 
@@ -37,12 +35,10 @@ export default function AddServiceUsers({route, navigation}) {
         onPress={() =>
           navigation.navigate('ConfirmSession', {
             sessionType,
-            sessionDate,
-            sessionTime,
             location,
             numberOfVolunteers,
             selectedUsers,
-            numberOfRepetitions,
+            dateTimeArray,
           })
         }
       />

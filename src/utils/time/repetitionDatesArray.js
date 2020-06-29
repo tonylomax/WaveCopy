@@ -2,40 +2,20 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
+import combineDateAndTime from './combineDateAndTime';
 
+// The goal of this function is to generate the combined time
 export default (sessionDate, sessionTime, numberOfRepetitions) => {
-  console.log({sessionDate});
-  const day = moment(sessionDate).date();
-  console.log({day});
-  const month = moment(sessionDate).month();
-  console.log({month});
-  const year = moment(sessionDate).year();
-  console.log({year});
-  console.log({sessionTime});
-  const hour = moment(sessionTime).hour();
-  console.log({hour});
-  const minutes = moment(sessionTime).minute();
-  console.log({minutes});
-  console.log({numberOfRepetitions});
+  // Get combined datetime
+  const startDateTime = combineDateAndTime(sessionDate, sessionTime);
 
-  const startDateTime = moment()
-    .year(year)
-    .month(month)
-    .date(day)
-    .hour(hour)
-    .minute(minutes)
-    .seconds(0)
-    .millisecond(0);
-
-  console.log({startDateTime});
-
+  // Initialise the array with start datetime
   const arrayOfTimes = [startDateTime];
+  // Loop through the array depending on the number of repetitions
+  // If reps are 0 then just return the start datetime
   for (let i = 0; i < numberOfRepetitions; i++) {
     const Repetition = moment(startDateTime).add('days', 7 * (i + 1));
-    console.log(Repetition);
     arrayOfTimes.push(Repetition);
   }
-  console.log(arrayOfTimes);
-
   return arrayOfTimes;
 };
