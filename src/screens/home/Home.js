@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {subscribeToAllSessions} from '../../redux/index';
+import {subscribeToAllSessions, getAllBeaches} from '../../redux/';
 import {
   ConfirmButton,
   AddButton,
@@ -23,9 +23,13 @@ export default function Profile({navigation}) {
 
   const dispatch = useDispatch();
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
+  const beaches = useSelector((state) => state.firestoreReducer.beaches);
 
   useEffect(() => {
     dispatch(subscribeToAllSessions());
+    if (!beaches) {
+      dispatch(getAllBeaches());
+    }
   }, []);
 
   return (

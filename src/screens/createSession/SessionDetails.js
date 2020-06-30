@@ -8,6 +8,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import generateDateTimeArray from '../../utils/time/repetitionDatesArray';
@@ -18,23 +19,23 @@ import {
   MIN_NUMBER_OF_REPETITIONS,
   MAX_NUMBER_OF_REPETITIONS,
 } from '../../constants/sessionChoices.js';
-
-const EXAMPLE_LOCATIONS = [
-  {
-    name: 'Fistral Beach',
-    area: 'West Cornwall',
-    region: 'South West',
-  },
-  {
-    name: 'Brighton Beach',
-    area: 'Brighton',
-    region: 'South East',
-  },
-];
+// const EXAMPLE_LOCATIONS = [
+//   {
+//     name: 'Fistral Beach',
+//     area: 'West Cornwall',
+//     region: 'South West',
+//   },
+//   {
+//     name: 'Brighton Beach',
+//     area: 'Brighton',
+//     region: 'South East',
+//   },
+// ];
 
 export default function SessionDetails({navigation}) {
+  const beaches = useSelector((state) => state.firestoreReducer.beaches);
   const [sessionType, setSessionType] = useState('surf-club');
-  const [location, setLocation] = useState(EXAMPLE_LOCATIONS[0]);
+  const [location, setLocation] = useState(beaches[0]);
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(1);
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
   const [sessionDate, setSessionDate] = useState(new Date());
@@ -110,16 +111,16 @@ export default function SessionDetails({navigation}) {
         <Text>Location</Text>
         <Picker
           testID="location-of-session"
-          selectedValue={location?.name}
+          selectedValue={location?.Name}
           onValueChange={(itemValue, itemIndex) => {
-            const ValueToAdd = EXAMPLE_LOCATIONS[itemIndex];
+            const ValueToAdd = beaches[itemIndex];
             setLocation(ValueToAdd);
           }}>
-          {EXAMPLE_LOCATIONS.map((beach) => (
+          {beaches.map((beach) => (
             <Picker.Item
-              label={beach.name}
-              value={beach.name}
-              id={beach.name}
+              label={beach.Name}
+              value={beach.Name}
+              id={beach.Name}
             />
           ))}
         </Picker>
