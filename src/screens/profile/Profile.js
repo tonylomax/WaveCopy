@@ -65,7 +65,6 @@ export default function Profile({navigation}) {
         //     'Image is too big, please select a lower quality image',
         //   );
         // } else
-
         //display the image and if they click yes then start the upload
         setImageConfirmPopup(true);
       }

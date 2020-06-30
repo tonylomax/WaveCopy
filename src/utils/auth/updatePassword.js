@@ -14,7 +14,10 @@ export default changePassword = async (
     const userAuthenticated = await user
       .reauthenticateWithCredential(credential)
       .catch((err) => {
-        reject({type: 'Authentication Error', err});
+        reject({
+          type: 'Authentication Error - Current password is probably wrong',
+          err,
+        });
       });
     if (userAuthenticated) {
       console.log('Re-Authenticated');
@@ -25,7 +28,11 @@ export default changePassword = async (
           resolve('password updated');
         })
         .catch((err) => {
-          reject({type: 'Update password error', err});
+          reject({
+            type:
+              'Update Password Error - This could be a network or server error',
+            err,
+          });
         });
     }
   });
