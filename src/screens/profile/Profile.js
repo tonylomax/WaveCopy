@@ -16,7 +16,7 @@ import ProgressBar from 'react-native-progress/Bar';
 
 export default function Profile({navigation}) {
   const userData = useSelector((state) => state.firestoreReducer.userData);
-  const [bio, setBio] = useState(userData.Bio);
+  const [bio, setBio] = useState(userData?.Bio);
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
   const [profileURL, setProfileURL] = useState();
   const [edit, setEdit] = useState(false);
@@ -100,7 +100,7 @@ export default function Profile({navigation}) {
               setBio(updatedBio);
             }}
             autoFocus={true}
-            defaultValue={userData.Bio}></TextInput>
+            defaultValue={userData?.Bio}></TextInput>
         ) : (
           <Text testID="bio">Bio: {bio}</Text>
         )}
@@ -123,7 +123,7 @@ export default function Profile({navigation}) {
             updateOwnBio(bio, UID);
           }}
           title="Done"></ConfirmButton>
-        <Text testID="firestoreName">Name: {userData.Name} </Text>
+        <Text testID="firestoreName">Name: {userData?.Name} </Text>
 
         <ConfirmButton
           testID="uploadNewProfilePic"
