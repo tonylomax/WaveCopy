@@ -43,7 +43,7 @@ export default function Profile({navigation}) {
       setProfileURL(url);
     });
   }, []);
-
+  // Could be imported as a component
   const imagePicker = () => {
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);

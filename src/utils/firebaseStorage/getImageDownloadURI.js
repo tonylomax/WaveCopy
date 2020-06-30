@@ -1,15 +1,13 @@
 import storage from '@react-native-firebase/storage';
 
 export default getImageDownloadURI = async (UID) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const ref = storage().ref(`/ProfilePics/${UID}.JPG`);
-    const downloadURL = ref.getDownloadURL();
-    return downloadURL
-      .then((downloadURL) => {
-        resolve(downloadURL);
-      })
-      .catch((err) => {
-        reject(err);
-      });
+    try {
+      const downloadURL = await ref.getDownloadURL();
+      resolve(downloadURL);
+    } catch (err) {
+      reject(err);
+    }
   });
 };
