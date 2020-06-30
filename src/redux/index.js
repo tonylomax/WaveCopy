@@ -2,10 +2,12 @@ import {
   createFirebaseAuthSubscription,
   subscribeToFirestoreUserData,
   subscribeToAllSessions,
-} from './actions/index';
+  getAllBeaches,
+} from './actions/';
 
 export {
   createFirebaseAuthSubscription,
   subscribeToFirestoreUserData,
   subscribeToAllSessions,
+  getAllBeaches,
 };

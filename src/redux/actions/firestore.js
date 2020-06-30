@@ -48,3 +48,17 @@ export function subscribeToFirestoreUserData(currentUserUID) {
     return userDataSubscription;
   };
 }
+
+export function getAllBeaches() {
+  console.log('INSIDE getAllBeaches ACTION ');
+  return async (dispatch) => {
+    const beaches = [];
+    const snapshot = await firestore().collection('Beaches').get();
+    snapshot.docs.map((doc) => beaches.push(doc.data()));
+    console.log('beaches retrieved, ', beaches);
+    dispatch({
+      type: ACTIONS.GET_ALL_BEACHES,
+      data: beaches,
+    });
+  };
+}

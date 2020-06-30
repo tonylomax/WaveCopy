@@ -23,7 +23,10 @@ export default (state = initialState, action) => {
       );
       const userData = action.data;
       return {...state, userData};
-
+    case ACTIONS.GET_ALL_BEACHES:
+      console.log('[Reducer - fireStoreReducer] GET_ALL_BEACHES', action);
+      const beaches = action.data;
+      return {...state, beaches};
     default:
       return state;
   }

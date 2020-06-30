@@ -6,26 +6,42 @@ import {
   ScrollView,
   Button,
   Platform,
+  Alert,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import generateDateTimeArray from '../../utils/time/repetitionDatesArray';
+import generateNumberedArray from '../../utils/generateNumberedArray';
+import {
+  MIN_NUMBER_OF_VOLUNTEERS,
+  MAX_NUMBER_OF_VOLUNTEERS,
+  MIN_NUMBER_OF_REPETITIONS,
+  MAX_NUMBER_OF_REPETITIONS,
+} from '../../constants/sessionChoices.js';
+// const EXAMPLE_LOCATIONS = [
+//   {
+//     name: 'Fistral Beach',
+//     area: 'West Cornwall',
+//     region: 'South West',
+//   },
+//   {
+//     name: 'Brighton Beach',
+//     area: 'Brighton',
+//     region: 'South East',
+//   },
+// ];
 
 export default function SessionDetails({navigation}) {
-  const MAX_NUMBER_OF_VOLUNTEERS = 30;
+  const beaches = useSelector((state) => state.firestoreReducer.beaches);
   const [sessionType, setSessionType] = useState('surf-club');
-  const [location, setLocation] = useState('cornwall-fistrall');
+  const [location, setLocation] = useState(beaches[0]);
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(1);
-
+  const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
   const [sessionDate, setSessionDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
   const [sessionTime, setSessionTime] = useState(new Date());
   const [showTimePicker, setShowTimePicker] = useState(Platform.OS === 'ios');
-
-  // creates an array from [1... max]
-  const mapCreator = Array.from(
-    Array(MAX_NUMBER_OF_VOLUNTEERS),
-    (_, i) => i + 1,
-  );
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || sessionDate;
@@ -95,10 +111,18 @@ export default function SessionDetails({navigation}) {
         <Text>Location</Text>
         <Picker
           testID="location-of-session"
-          selectedValue={location}
-          onValueChange={(itemValue, itemIndex) => setLocation(itemValue)}>
-          <Picker.Item label="Devon North" value="devon-north" />
-          <Picker.Item label="Cornwall - Fistral" value="cornwall-fistral" />
+          selectedValue={location?.Name}
+          onValueChange={(itemValue, itemIndex) => {
+            const ValueToAdd = beaches[itemIndex];
+            setLocation(ValueToAdd);
+          }}>
+          {beaches.map((beach) => (
+            <Picker.Item
+              label={beach.Name}
+              value={beach.Name}
+              id={beach.Name}
+            />
+          ))}
         </Picker>
         <Text>Amount of volunteers needed</Text>
         <Picker
@@ -107,7 +131,24 @@ export default function SessionDetails({navigation}) {
           onValueChange={(itemValue, itemIndex) =>
             setNumberOfVolunteers(itemValue)
           }>
-          {mapCreator.map((n) => (
+          {generateNumberedArray(
+            MIN_NUMBER_OF_VOLUNTEERS,
+            MAX_NUMBER_OF_VOLUNTEERS,
+          ).map((n) => (
+            <Picker.Item label={n.toString()} value={n} key={n} />
+          ))}
+        </Picker>
+        <Text>Number of repetitions</Text>
+        <Picker
+          testID="number-of-repetitions"
+          selectedValue={numberOfRepetitions}
+          onValueChange={(itemValue, itemIndex) =>
+            setNumberOfRepetitions(itemValue)
+          }>
+          {generateNumberedArray(
+            MIN_NUMBER_OF_REPETITIONS,
+            MAX_NUMBER_OF_REPETITIONS,
+          ).map((n) => (
             <Picker.Item label={n.toString()} value={n} key={n} />
           ))}
         </Picker>
@@ -116,14 +157,20 @@ export default function SessionDetails({navigation}) {
           testID="continue-to-select-service-users"
           title="Continue"
           onPress={() => {
-            console.log(sessionTime);
-            navigation.navigate('AddServiceUsers', {
-              sessionType,
+            // if (!location || location === '0') {
+            // } else {
+            const dateTimeArray = generateDateTimeArray(
               sessionDate,
               sessionTime,
+              numberOfRepetitions,
+            );
+            navigation.navigate('AddServiceUsers', {
+              sessionType,
               location,
               numberOfVolunteers,
+              dateTimeArray,
             });
+            // }
           }}
         />
       </ScrollView>
