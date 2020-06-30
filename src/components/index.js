@@ -9,6 +9,8 @@ import {PersonCardSession} from './cards/index';
 import {ChoicePopup, ConfirmPopup, ImageConfirmPopup} from './popups/index';
 import RegisterTabs from './RegisterTabs';
 import LoadingScreen from './LoadingScreen';
+import ResetPassword from './ResetPassword';
+
 export {
   ConfirmButton,
   AddButton,
@@ -21,4 +23,5 @@ export {
   ChoicePopup,
   ConfirmPopup,
   ImageConfirmPopup,
+  ResetPassword,
 };
