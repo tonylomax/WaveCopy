@@ -21,4 +21,5 @@ export {
   LoadingScreen,
   ChoicePopup,
   ConfirmPopup,
+  ImageConfirmPopup,
 };

@@ -1,8 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Alert, Modal, StyleSheet, Text, Image, View} from 'react-native';
 import {ConfirmButton} from 'components';
+import {uploadProgress} from 'utils';
 
-export default function ChoicePopup({visible, setVisible}) {
+export default function ImageConfirmPopup({
+  visible,
+  setVisible,
+  imgSource,
+  yesAction,
+}) {
+  const [upload, setUpload] = useState({
+    loading: false,
+    progress: 0,
+  });
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -12,13 +23,27 @@ export default function ChoicePopup({visible, setVisible}) {
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
         }}>
-        <Image></Image>
+        <Image
+          style={{height: '25%', width: '25%'}}
+          source={{uri: imgSource}}></Image>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Confirm Image</Text>
+            <Text style={styles.modalText}>
+              Are you sure you want to change your profile image?
+            </Text>
             <ConfirmButton
-              title="Okay"
-              onPress={() => setVisible(false)}></ConfirmButton>
+              title="Yes"
+              onPress={() => {
+                if (yesAction) {
+                  yesAction();
+                }
+                setVisible(false);
+              }}></ConfirmButton>
+            <ConfirmButton
+              title="No"
+              onPress={() => {
+                setVisible(false);
+              }}></ConfirmButton>
           </View>
         </View>
       </Modal>
