@@ -13,6 +13,7 @@ import {
   LoadingScreen,
   ChoicePopup,
 } from 'components';
+import {TouchableHighlight} from 'react-native-gesture-handler';
 
 export default function Profile({navigation}) {
   const [visible, setVisible] = useState(false);
@@ -49,11 +50,21 @@ export default function Profile({navigation}) {
           testID="SessionsList"
           data={sessions}
           renderItem={({item}) => (
-            <View testID={'SessionsListItem'} id={item.ID}>
-              <Text> {item.Beach} </Text>
-              <Text> {item.Description} </Text>
-              <Text> {item.Beach} </Text>
-            </View>
+            <TouchableHighlight
+              onPress={() => {
+                navigation.navigate('Session', {item});
+              }}
+              style={{
+                borderColor: 'black',
+                borderWidth: 2,
+                marginBottom: '2%',
+              }}>
+              <View testID={'SessionsListItem'} id={item.ID}>
+                <Text> {item.Beach} </Text>
+                <Text> {item.Description} </Text>
+                <Text> {item.Beach} </Text>
+              </View>
+            </TouchableHighlight>
           )}
           keyExtractor={(item) => item.ID}
         />

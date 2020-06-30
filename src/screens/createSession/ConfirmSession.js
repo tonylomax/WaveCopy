@@ -1,7 +1,7 @@
 // TO DO - merge this with session/EditSession.js
 import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
-import AccordianMenu from '../../components/AccordianMenu';
+import AccordionMenu from '../../components/AccordionMenu';
 import {ConfirmButton, ChoicePopup} from '../../components';
 import Moment from 'react-moment';
 import moment from 'moment';
@@ -75,9 +75,9 @@ export default function ConfirmSession({route, navigation}) {
         defaultValue={descriptionOfSession}
         onChangeText={(text) => setDescriptionOfSession(text)}
       />
-      <AccordianMenu testID="mentors-accordian" />
-      <AccordianMenu testID="attendees-accordian" />
-      <AccordianMenu testID="location-accordian" />
+      <AccordionMenu testID="mentors-accordian" />
+      <AccordionMenu testID="attendees-accordian" />
+      <AccordionMenu testID="location-accordian" />
     </View>
   );
 }
