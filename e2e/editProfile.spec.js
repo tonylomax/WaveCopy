@@ -1,5 +1,5 @@
 describe('Example', () => {
-  exampleEmail = 't@t.com';
+  exampleEmail = 'j@j.com';
   examplePassword = 'asdasd';
   updateBioText = 'New bio information created by Detox test';
 

@@ -1,5 +1,5 @@
 describe('Example', () => {
-  exampleEmail = 't@t.com';
+  exampleEmail = 'j@j.com';
   examplePassword = 'asdasd';
   beforeEach(async () => {
     await device.terminateApp();
