@@ -15,7 +15,7 @@ export default function AddServiceUsers({route, navigation}) {
   } = route.params;
   const [selectedUsers, setSelectedUsers] = useState([]);
   React.useEffect(() => {
-    console.log({location});
+    console.log('location', {location});
   });
 
   return (
