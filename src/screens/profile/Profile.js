@@ -86,6 +86,8 @@ export default function Profile({navigation}) {
           }}
           title="signout"></ConfirmButton>
         <Image
+          title="Profle Pic"
+          testID="profilePic"
           style={{height: '10%', width: '10%'}}
           source={{
             uri: profileURL,
@@ -93,6 +95,7 @@ export default function Profile({navigation}) {
 
         {edit ? (
           <TextInput
+            testID="editBio"
             onChangeText={(updatedBio) => {
               setBio(updatedBio);
             }}
@@ -103,6 +106,7 @@ export default function Profile({navigation}) {
         )}
 
         <TouchableOpacity
+          testID="editBioButton"
           onPress={() => {
             setEdit((edit) => !edit);
           }}
@@ -113,6 +117,7 @@ export default function Profile({navigation}) {
         </TouchableOpacity>
 
         <ConfirmButton
+          testID="confirmBioUpdate"
           onPress={() => {
             setEdit(false);
             updateOwnBio(bio, UID);
@@ -121,6 +126,7 @@ export default function Profile({navigation}) {
         <Text testID="firestoreName">Name: {userData.Name} </Text>
 
         <ConfirmButton
+          testID="uploadNewProfilePic"
           title="Upload image"
           onPress={() => {
             imagePicker();
