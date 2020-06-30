@@ -46,17 +46,17 @@ describe('Create a surf session', () => {
       // Only available on ios
       await element(by.id('location-of-session')).setColumnToValue(
         0,
-        'Cornwall - Fistral',
+        'Fistral Beach',
       );
       // Only available on ios
       await element(by.id('number-of-volunteers')).setColumnToValue(0, '12');
-      await element(by.id('number-of-repetitions')).setColumnToValue(0, '6');
+      await element(by.id('number-of-repetitions')).setColumnToValue(0, '1');
       await element(by.id('continue-to-select-service-users')).tap();
 
       await expect(element(by.id('currently-added-service-users'))).toExist();
 
       // Select a user
-      await element(by.id('joe-bloggs')).tap();
+      // await element(by.id('service-user-1')).tap();
       await element(by.id('continue-to-review-created-session-page')).tap();
 
       await expect(element(by.id('coordinator-name'))).toExist();
@@ -76,12 +76,7 @@ describe('Create a surf session', () => {
       );
       await element(by.id('confirm-session-details')).tap();
       await element(by.id('yesButtonChoicePopup')).tap();
-      // await expect(element(by.id('date-of-session'))).toHaveValue(
-      //   '2033-02-06T00:08:00-08:00',
-      // );
-      // await expect(element(by.id('session-title'))).toHaveValue(
-      //   'Surf therapy - Cornwall - Fistral',
-      // );
+
       await element(by.id('navigate-to-profile-button')).tap();
       await waitFor(element(by.id('bio')))
         .toExist()
@@ -110,8 +105,8 @@ describe('Create a surf session', () => {
 
       await expect(element(by.id('currently-added-service-users'))).toExist();
 
-      // Select a user
-      await element(by.id('joe-bloggs')).tap();
+      // Select a user - removed because search is coming in
+      // await element(by.id('service-user-1')).tap();
       await element(by.id('continue-to-review-created-session-page')).tap();
       await expect(element(by.id('coordinator-name'))).toExist();
 

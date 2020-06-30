@@ -34,7 +34,7 @@ const EXAMPLE_LOCATIONS = [
 
 export default function SessionDetails({navigation}) {
   const [sessionType, setSessionType] = useState('surf-club');
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState(EXAMPLE_LOCATIONS[0]);
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(1);
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
   const [sessionDate, setSessionDate] = useState(new Date());
@@ -156,21 +156,20 @@ export default function SessionDetails({navigation}) {
           testID="continue-to-select-service-users"
           title="Continue"
           onPress={() => {
-            if (!location || location === '0') {
-              Alert.alert('please select a location');
-            } else {
-              const dateTimeArray = generateDateTimeArray(
-                sessionDate,
-                sessionTime,
-                numberOfRepetitions,
-              );
-              navigation.navigate('AddServiceUsers', {
-                sessionType,
-                location,
-                numberOfVolunteers,
-                dateTimeArray,
-              });
-            }
+            // if (!location || location === '0') {
+            // } else {
+            const dateTimeArray = generateDateTimeArray(
+              sessionDate,
+              sessionTime,
+              numberOfRepetitions,
+            );
+            navigation.navigate('AddServiceUsers', {
+              sessionType,
+              location,
+              numberOfVolunteers,
+              dateTimeArray,
+            });
+            // }
           }}
         />
       </ScrollView>
