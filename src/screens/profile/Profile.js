@@ -13,11 +13,15 @@ import {
   signOut,
 } from 'utils';
 import ProgressBar from 'react-native-progress/Bar';
+import {ResetPassword} from 'components';
 
 export default function Profile({navigation}) {
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const [bio, setBio] = useState(userData.Bio);
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
+  const currentAuthenticatedUser = useSelector(
+    (state) => state.authenticationReducer.userState,
+  );
   const [profileURL, setProfileURL] = useState();
   const [edit, setEdit] = useState(false);
   const [imageConfirmPopup, setImageConfirmPopup] = useState(false);
@@ -61,7 +65,6 @@ export default function Profile({navigation}) {
         //     'Image is too big, please select a lower quality image',
         //   );
         // } else
-
         //display the image and if they click yes then start the upload
         setImageConfirmPopup(true);
       }
@@ -133,6 +136,9 @@ export default function Profile({navigation}) {
           }}
         />
         <ProgressBar progress={uploadProgress} width={200} />
+
+        <ResetPassword
+          authenticatedUser={currentAuthenticatedUser}></ResetPassword>
       </View>
     </SafeAreaView>
   );
