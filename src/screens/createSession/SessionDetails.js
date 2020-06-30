@@ -121,6 +121,7 @@ export default function SessionDetails({navigation}) {
               label={beach.Name}
               value={beach.Name}
               id={beach.Name}
+              key={beach.Name}
             />
           ))}
         </Picker>

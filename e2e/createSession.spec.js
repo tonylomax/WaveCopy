@@ -1,5 +1,5 @@
 describe('Create a surf session', () => {
-  exampleEmail = 't@t.com';
+  exampleEmail = 'j@j.com';
   examplePassword = 'asdasd';
   function timeout(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
