@@ -1,2 +1,2 @@
-import updateBio from './updateBio';
-export {updateBio};
+import updateOwnBio from './updateOwnBio';
+export {updateOwnBio};

@@ -1,21 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-  Alert,
-  ScrollView,
-} from 'react-native';
+import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
 import {ConfirmButton, ImageConfirmPopup} from 'components';
-import {signOut} from 'utils';
 import {useSelector, useDispatch} from 'react-redux';
 import {TextInput} from 'react-native-gesture-handler';
-import {updateBio, getDownloadURI} from 'utils';
 import {Edit_Icon} from 'assets';
 import ImagePicker from 'react-native-image-picker';
-import {uploadFile, monitorFileUpload} from 'utils';
+import {
+  uploadFile,
+  monitorFileUpload,
+  updateOwnBio,
+  getImageDownloadURI,
+  signOut,
+} from 'utils';
 import ProgressBar from 'react-native-progress/Bar';
 
 export default function Profile({navigation}) {
@@ -27,7 +23,7 @@ export default function Profile({navigation}) {
   const [imageConfirmPopup, setImageConfirmPopup] = useState(false);
   const [localFilePath, setLocalFilePath] = useState();
   const [options, setOptions] = useState({
-    title: 'Select Avatar',
+    title: 'Select Profile Pic',
     storageOptions: {
       skipBackup: true,
       path: 'images',
@@ -43,14 +39,10 @@ export default function Profile({navigation}) {
   };
 
   useEffect(() => {
-    getDownloadURI(UID).then((url) => {
+    getImageDownloadURI(UID).then((url) => {
       setProfileURL(url);
     });
   }, []);
-
-  useEffect(() => {
-    console.log('uploadImg', uploadImg);
-  }, [uploadImg]);
 
   const imagePicker = () => {
     ImagePicker.showImagePicker(options, (response) => {
@@ -123,7 +115,7 @@ export default function Profile({navigation}) {
         <ConfirmButton
           onPress={() => {
             setEdit(false);
-            updateBio(bio, UID);
+            updateOwnBio(bio, UID);
           }}
           title="Done"></ConfirmButton>
         <Text testID="firestoreName">Name: {userData.Name} </Text>

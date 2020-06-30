@@ -1,7 +1,7 @@
 import {loginWithEmail, signOut} from './auth/index';
-import {updateBio} from './firebaseFirestore/index';
+import {updateOwnBio} from './firebaseFirestore/index';
 import {
-  getDownloadURI,
+  getImageDownloadURI,
   uploadFile,
   monitorFileUpload,
   uploadProgress,
@@ -9,8 +9,8 @@ import {
 export {
   loginWithEmail,
   signOut,
-  updateBio,
-  getDownloadURI,
+  updateOwnBio,
+  getImageDownloadURI,
   uploadFile,
   monitorFileUpload,
   uploadProgress,

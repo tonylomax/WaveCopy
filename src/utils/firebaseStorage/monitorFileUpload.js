@@ -9,13 +9,10 @@ export default monitorFileUpload = (uploadTask, setuploadProgress) => {
     switch (snapshot.state) {
       case 'running':
         console.log('UPLOAD IS RUNNING');
-        setuploadProgress(progress);
+        setuploadProgress(progress / 100);
         break;
       case 'success':
         console.log('UPLOAD IS SUCCESSFUL');
-        // snapshot.ref.getDownloadURL().then((downloadURL) => {
-        //   setImageURI({uri: downloadURL});
-        // });
         break;
       default:
         break;

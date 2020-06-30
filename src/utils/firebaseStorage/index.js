@@ -1,5 +1,5 @@
-import getDownloadURI from './getDownloadURI';
+import getImageDownloadURI from './getImageDownloadURI';
 import uploadFile from './uploadFile';
 import monitorFileUpload from './monitorFileUpload';
 import uploadProgress from './uploadProgress';
-export {getDownloadURI, uploadFile, monitorFileUpload, uploadProgress};
+export {getImageDownloadURI, uploadFile, monitorFileUpload, uploadProgress};
