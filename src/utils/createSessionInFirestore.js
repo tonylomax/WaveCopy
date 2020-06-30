@@ -18,7 +18,7 @@ const createSessionInFirestore = ({
         .add({
           Attendees: selectedUsers,
           MaxMentors: numberOfVolunteers,
-          Beach: location.name,
+          Beach: location.Name,
           Type: sessionType,
           Description: descriptionOfSession,
           DateTime: sessionDate.format(),

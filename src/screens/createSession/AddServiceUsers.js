@@ -15,7 +15,7 @@ export default function AddServiceUsers({route, navigation}) {
   } = route.params;
   const [selectedUsers, setSelectedUsers] = useState([]);
   React.useEffect(() => {
-    console.log({location});
+    console.log('location', {location});
   });
 
   return (
@@ -23,6 +23,7 @@ export default function AddServiceUsers({route, navigation}) {
       <Text>Search</Text>
       {EXAMPLE_LIST_OF_USERS.map((serviceUser) => (
         <Text
+          key={`not-added-${serviceUser.name}`}
           testID={serviceUser.name}
           onPress={() =>
             setSelectedUsers((currentlySelected) =>
@@ -34,7 +35,9 @@ export default function AddServiceUsers({route, navigation}) {
       ))}
       <Text testID="currently-added-service-users">Currently Added</Text>
       {selectedUsers.map((serviceUser) => (
-        <Text>{serviceUser.name}</Text>
+        <Text key={`currently-added-${serviceUser.name}`}>
+          {serviceUser.name}
+        </Text>
       ))}
       <Button
         testID="continue-to-review-created-session-page"

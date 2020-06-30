@@ -14,7 +14,7 @@ export default (sessionDate, sessionTime, numberOfRepetitions) => {
   // Loop through the array depending on the number of repetitions
   // If reps are 0 then just return the start datetime
   for (let i = 0; i < numberOfRepetitions; i++) {
-    const Repetition = moment(startDateTime).add('days', 7 * (i + 1));
+    const Repetition = moment(startDateTime).add(7 * (i + 1), 'days');
     arrayOfTimes.push(Repetition);
   }
   return arrayOfTimes;
