@@ -1,5 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import {ACTIONS} from '../../constants/actions';
+import {returnSessionAttendees} from 'utils';
 
 export function subscribeToAllSessions() {
   console.log('Inside session data action');
@@ -8,14 +9,18 @@ export function subscribeToAllSessions() {
       .collection('Sessions')
       .onSnapshot(
         (sessionData) => {
-          console.log('sessionData ', sessionData.docs);
+          // console.log('sessionData ', sessionData.docs);
           const sessionsData = sessionData.docs.map((session) => {
             return {
               ID: session?._ref?._documentPath?._parts[1],
               Beach: session?._data?.Beach,
-              Date: session?._data?.Date,
+              DateTime: session?._data?.DateTime,
               Time: session?._data?.Time,
               Description: session?._data?.Description,
+              Attendees: session?._data?.Attendees,
+              CoordinatorID: session?._data?.CoordinatorID,
+              MaxMentors: session?._data?.MaxMentors,
+              Type: session?._data?.Type,
             };
           });
           dispatch({
@@ -59,6 +64,18 @@ export function getAllBeaches() {
     dispatch({
       type: ACTIONS.GET_ALL_BEACHES,
       data: beaches,
+    });
+  };
+}
+
+export function getAllSessionAttendees(attendeesArray) {
+  console.log('INSIDE getAllSessionAttendees ACTION ');
+  return async (dispatch) => {
+    const SESSION_USERS = await returnSessionAttendees(attendeesArray);
+    console.log('SESSIONS_USERS', SESSION_USERS[1]);
+    dispatch({
+      type: ACTIONS.GET_SESSIONS_ATTENDEES,
+      data: SESSION_USERS,
     });
   };
 }

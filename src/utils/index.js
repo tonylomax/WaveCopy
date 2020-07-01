@@ -4,7 +4,7 @@ import {
   updatePassword,
   validatePassword,
 } from './auth/index';
-import {updateOwnBio} from './firebaseFirestore/index';
+import {updateOwnBio, returnSessionAttendees} from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
   uploadFile,
@@ -21,4 +21,5 @@ export {
   uploadProgress,
   updatePassword,
   validatePassword,
+  returnSessionAttendees,
 };

@@ -3,33 +3,19 @@ import firestore from '@react-native-firebase/firestore';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-
 import 'react-native-gesture-handler';
 import Home from './screens/home/Home';
 import Login from './screens/login/Login';
 import Profile from './screens/profile/Profile';
 import CreateSession from './screens/createSession/CreateSession';
 import Session from './screens/session/Session';
+import Register from './screens/session/Register';
 import {
   createFirebaseAuthSubscription,
   subscribeToFirestoreUserData,
 } from './redux/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
-
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  TextInput,
-  FlatList,
-  Image,
-  RefreshControl,
-  Alert,
-} from 'react-native';
 
 import {
   Header,
@@ -68,6 +54,7 @@ const HomeNavigator = () => (
   <HomeStack.Navigator>
     <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
     <HomeStack.Screen name="Session" component={Session}></HomeStack.Screen>
+    <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
   </HomeStack.Navigator>
 );
 

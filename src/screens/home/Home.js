@@ -33,6 +33,10 @@ export default function Profile({navigation}) {
     }
   }, []);
 
+  useEffect(() => {
+    console.log('sessions', sessions);
+  }, [sessions]);
+
   return (
     <SafeAreaView>
       <View>
@@ -60,9 +64,10 @@ export default function Profile({navigation}) {
                 marginBottom: '2%',
               }}>
               <View testID={'SessionsListItem'} id={item.ID}>
+                <Text> {item.Type} </Text>
                 <Text> {item.Beach} </Text>
-                <Text> {item.Description} </Text>
-                <Text> {item.Beach} </Text>
+                <Text> {item.DateTime} </Text>
+                <Text> Volunteers: 0/{item.MaxMentors} </Text>
               </View>
             </TouchableHighlight>
           )}

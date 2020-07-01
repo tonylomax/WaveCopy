@@ -3,6 +3,7 @@ import {
   subscribeToFirestoreUserData,
   subscribeToAllSessions,
   getAllBeaches,
+  getAllSessionAttendees,
 } from './firestore';
 
 export {
@@ -10,4 +11,5 @@ export {
   subscribeToFirestoreUserData,
   subscribeToAllSessions,
   getAllBeaches,
+  getAllSessionAttendees,
 };

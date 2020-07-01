@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import AccordianMenu from '../../components/AccordianMenu';
+import AccordionMenu from '../../components/AccordionMenu';
 import {ConfirmButton, ChoicePopup} from '../../components';
 import Moment from 'react-moment';
 import moment from 'moment';
@@ -86,17 +86,17 @@ export default function ConfirmSession({route, navigation}) {
           defaultValue={descriptionOfSession}
           onChangeText={(text) => setDescriptionOfSession(text)}
         />
-        <AccordianMenu
+        <AccordionMenu
           testID="mentors-accordian"
           title={`Mentors (0/${numberOfVolunteers})`}
         />
-        <AccordianMenu
+        <AccordionMenu
           testID="attendees-accordian"
           type="attendees"
           title={`Attendees (${selectedUsers.length})`}
           data={selectedUsers}
         />
-        <AccordianMenu
+        <AccordionMenu
           testID="location-accordian"
           type="location"
           title="Location"
