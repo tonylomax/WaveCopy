@@ -36,73 +36,76 @@ export default function ConfirmSession({route, navigation}) {
 
   return (
     <SafeAreaView>
-      <ScrollView testID="session-details-scroll-view">
-        <Image source={CoverImage} />
-        <ConfirmButton
-          testID="confirm-session-details"
-          title="Confirm"
-          onPress={() => setVisible((visible) => !visible)}></ConfirmButton>
-        <ChoicePopup
-          testID="choicePopup"
-          visible={visible}
-          setVisible={setVisible}
-          yesAction={() => {
-            console.log('creating a session');
-            console.log(userData);
-            createSessionInFirestore({
-              sessionType,
-              location,
-              numberOfVolunteers,
-              selectedUsers,
-              dateTimeArray,
-              descriptionOfSession,
-              coordinator: userData?.Name || '',
+      {/* <ScrollView testID="session-details-scroll-view"> */}
+      <Image source={CoverImage} />
+      <ConfirmButton
+        testID="confirm-session-details"
+        title="Confirm"
+        onPress={() => setVisible((visible) => !visible)}></ConfirmButton>
+      <ChoicePopup
+        testID="choicePopup"
+        visible={visible}
+        setVisible={setVisible}
+        yesAction={() => {
+          console.log('creating a session');
+          console.log(userData);
+          createSessionInFirestore({
+            sessionType,
+            location,
+            numberOfVolunteers,
+            selectedUsers,
+            dateTimeArray,
+            descriptionOfSession,
+            coordinator: userData?.Name || '',
+          })
+            .then(() => {
+              console.log('session created');
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{name: 'Home'}],
+                }),
+              );
             })
-              .then(() => {
-                console.log('session created');
-                navigation.dispatch(
-                  CommonActions.reset({
-                    index: 0,
-                    routes: [{name: 'Home'}],
-                  }),
-                );
-              })
-              .catch((err) => console.log(err));
-          }}></ChoicePopup>
-        {dateTimeArray &&
-          dateTimeArray.map((dateTimeOfSession) => (
-            <Moment element={Text} format="Do MMMM YYYY HH:mm">
-              {dateTimeOfSession}
-            </Moment>
-          ))}
-        <Text>
-          {sessionType} - {location.name}
-        </Text>
-        <Text>Coordinator</Text>
-        <Text testID="coordinator-name">{userData?.Name}</Text>
-        <Text>Description of session</Text>
-        <TextInput
-          testID="description-of-session"
-          defaultValue={descriptionOfSession}
-          onChangeText={(text) => setDescriptionOfSession(text)}
-        />
-        <AccordianMenu
-          testID="mentors-accordian"
-          title={`Mentors (0/${numberOfVolunteers})`}
-        />
-        <AccordianMenu
-          testID="attendees-accordian"
-          type="attendees"
-          title={`Attendees (${selectedUsers.length})`}
-          data={selectedUsers}
-        />
-        <AccordianMenu
-          testID="location-accordian"
-          type="location"
-          title="Location"
-          data={location}
-        />
-      </ScrollView>
+            .catch((err) => console.log(err));
+        }}></ChoicePopup>
+      {dateTimeArray &&
+        dateTimeArray.map((dateTimeOfSession, i) => (
+          <Moment
+            element={Text}
+            format="Do MMMM YYYY HH:mm"
+            key={`date-of-session-${i}`}>
+            {dateTimeOfSession}
+          </Moment>
+        ))}
+      <Text>
+        {sessionType} - {location.name}
+      </Text>
+      <Text>Coordinator</Text>
+      <Text testID="coordinator-name">{userData?.Name}</Text>
+      <Text>Description of session</Text>
+      <TextInput
+        testID="description-of-session"
+        defaultValue={descriptionOfSession}
+        onChangeText={(text) => setDescriptionOfSession(text)}
+      />
+      <AccordianMenu
+        testID="mentors-accordian"
+        title={`Mentors (0/${numberOfVolunteers})`}
+      />
+      <AccordianMenu
+        testID="attendees-accordian"
+        type="attendees"
+        title={`Attendees (${selectedUsers.length})`}
+        data={selectedUsers}
+      />
+      <AccordianMenu
+        testID="location-accordian"
+        type="location"
+        title="Location"
+        data={location}
+      />
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }
