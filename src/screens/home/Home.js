@@ -20,9 +20,11 @@ export default function Profile({navigation}) {
     }
   }, []);
 
-  // useEffect(() => {
-  //   console.log('sessions', sessions);
-  // }, [sessions]);
+  useEffect(() => {
+    // sessions.map((session) => {
+    //   console.log('SESSION MENTORS', session?.Mentors[0]);
+    // });
+  }, [sessions]);
 
   return (
     <SafeAreaView>
@@ -54,7 +56,9 @@ export default function Profile({navigation}) {
                 <Text> {item?.Type} </Text>
                 <Text> {item?.Beach} </Text>
                 <Text> {item?.DateTime} </Text>
-                <Text> Volunteers: 0/{item?.MaxMentors} </Text>
+                <Text>
+                  Volunteers: {item?.Mentors.length}/{item?.MaxMentors}
+                </Text>
               </View>
             </TouchableHighlight>
           )}
@@ -64,3 +68,4 @@ export default function Profile({navigation}) {
     </SafeAreaView>
   );
 }
+// [{"Attended": false, "id": "ltf40oqYJyQrLvIs4EoqOXzMeX"}]

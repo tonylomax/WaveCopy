@@ -26,7 +26,7 @@ export default function Register({navigation, route}) {
   }, []);
   return (
     <View>
-      <Text>Register</Text>
+      <Text>Attendee Register</Text>
       <Text>
         {sessionData?.Type} - {sessionData?.Beach}
       </Text>

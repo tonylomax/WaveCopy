@@ -9,8 +9,9 @@ export function subscribeToAllSessions() {
       .collection('Sessions')
       .onSnapshot(
         (sessionData) => {
-          // console.log('sessionData', sessionData);
           const sessionsData = sessionData.docs.map((session) => {
+            console.log('session?._data?.Mentors ', session?._data?.Mentors);
+
             return {
               ID: session?._ref?._documentPath?._parts[1],
               Beach: session?._data?.Beach,
@@ -21,6 +22,7 @@ export function subscribeToAllSessions() {
               CoordinatorID: session?._data?.CoordinatorID,
               MaxMentors: session?._data?.MaxMentors,
               Type: session?._data?.Type,
+              Mentors: session?._data?.Mentors,
             };
           });
           dispatch({
