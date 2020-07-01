@@ -60,25 +60,32 @@ export default function AddServiceUsers({route, navigation}) {
           data={searchResults}
           renderItem={({item}) => {
             console.log(item);
-            return <Text>{item?.name} </Text>;
+            return (
+              <View>
+                <Text key={`text-not-added-${item.id}`} testID={item.name}>
+                  {item?.name}
+                </Text>
+                <Button
+                  key={`button-not-added-${item.id}`}
+                  title="Add user"
+                  onPress={() => {
+                    console.log('clicked selected user');
+                    setSelectedUsers((currentlySelected) =>
+                      currentlySelected.concat(item),
+                    );
+                    setLoading(false);
+                    setTyping(false);
+                    setSearchTerm('');
+                    setSearchResults([]);
+                  }}
+                />
+              </View>
+            );
           }}
           keyExtractor={(item) => item?.id}
         />
       )}
 
-      {EXAMPLE_LIST_OF_USERS.map((serviceUser) => (
-        <Text
-          key={`not-added-${serviceUser.name}`}
-          testID={serviceUser.name}
-          onPress={() => {
-            console.log('clicked selected user');
-            setSelectedUsers((currentlySelected) =>
-              currentlySelected.concat(serviceUser),
-            );
-          }}>
-          {serviceUser.name}
-        </Text>
-      ))}
       <Text testID="currently-added-service-users">Currently Added</Text>
       {selectedUsers.map((serviceUser) => (
         <View>
