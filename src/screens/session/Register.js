@@ -39,10 +39,11 @@ export default function Register({navigation, route}) {
         })[0].Attended;
         return (
           <TouchableOpacity
+            testID={`personToRegisterButton${attendee.id}`}
             onPress={() => {
               markAttendance(ID, attendee.id, sessionData);
             }}>
-            <Text>
+            <Text testID={`personToRegister${attendee.id}`}>
               {attendee.data.firstName} {attendee.data.lastName}{' '}
               {hasPersonAttended.toString()}
             </Text>

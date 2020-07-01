@@ -1,4 +1,4 @@
-describe('Example', () => {
+describe('Edit profile', () => {
   exampleEmail = 'j@j.com';
   examplePassword = 'asdasd';
   updateBioText = 'New bio information created by Detox test';

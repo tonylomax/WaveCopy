@@ -46,6 +46,7 @@ export default function Session({navigation, route}) {
       <AccordionMenu type="location" title="Location"></AccordionMenu>
       <ConfirmButton
         title="Register"
+        testID="registerButton"
         onPress={() => {
           navigation.navigate('Register', {
             sessionData,

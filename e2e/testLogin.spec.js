@@ -1,4 +1,4 @@
-describe('Example', () => {
+describe('Test login functionality', () => {
   exampleEmail = 'j@j.com';
   examplePassword = 'asdasd';
   beforeEach(async () => {
