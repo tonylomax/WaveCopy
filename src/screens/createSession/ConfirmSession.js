@@ -32,6 +32,8 @@ export default function ConfirmSession({route, navigation}) {
     dateTimeArray,
   } = route.params;
   const userData = useSelector((state) => state.firestoreReducer.userData);
+  const uid = useSelector((state) => state.authenticationReducer.userState.uid);
+
   const CoverImage = getCoverImage(location);
 
   return (
@@ -57,6 +59,7 @@ export default function ConfirmSession({route, navigation}) {
             dateTimeArray,
             descriptionOfSession,
             coordinator: userData?.Name || '',
+            uid,
           })
             .then(() => {
               console.log('session created');
