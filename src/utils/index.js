@@ -4,7 +4,11 @@ import {
   updatePassword,
   validatePassword,
 } from './auth/index';
-import {updateOwnBio, returnSessionAttendees} from './firebaseFirestore/index';
+import {
+  updateOwnBio,
+  returnSessionAttendees,
+  markAttendance,
+} from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
   uploadFile,
@@ -22,4 +26,5 @@ export {
   updatePassword,
   validatePassword,
   returnSessionAttendees,
+  markAttendance,
 };

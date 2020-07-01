@@ -1,3 +1,4 @@
 import updateOwnBio from './updateOwnBio';
 import returnSessionAttendees from './returnSessionAttendees';
-export {updateOwnBio, returnSessionAttendees};
+import markAttendance from './markAttendance';
+export {updateOwnBio, returnSessionAttendees, markAttendance};
