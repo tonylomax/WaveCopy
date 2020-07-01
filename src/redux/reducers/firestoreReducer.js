@@ -1,6 +1,7 @@
 export const initialState = {
   sessionData: {},
   userData: {},
+  selectedSessionAttendees: {},
 };
 import {ACTIONS} from '../../constants/actions';
 
@@ -27,6 +28,15 @@ export default (state = initialState, action) => {
       console.log('[Reducer - fireStoreReducer] GET_ALL_BEACHES', action);
       const beaches = action.data;
       return {...state, beaches};
+
+    case ACTIONS.GET_SESSION_ATTENDEES:
+      console.log(
+        '[Reducer - fireStoreReducer] GET_SESSIONS_ATTENDEES',
+        action.data,
+      );
+      const selectedSessionAttendees = action.data;
+      return {...state, selectedSessionAttendees};
+
     default:
       return state;
   }

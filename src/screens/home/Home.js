@@ -2,25 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {subscribeToAllSessions, getAllBeaches} from '../../redux/';
-import {
-  ConfirmButton,
-  AddButton,
-  EditButton,
-  CallPerson,
-  CloseButton,
-  PersonCardSession,
-  RegisterTabs,
-  LoadingScreen,
-  ChoicePopup,
-} from 'components';
+import {ConfirmButton, ChoicePopup} from 'components';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 
 export default function Profile({navigation}) {
   const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    console.log('visible', visible);
-  }, [visible]);
+  // useEffect(() => {
+  //   console.log('visible', visible);
+  // }, [visible]);
 
   const dispatch = useDispatch();
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
@@ -33,9 +23,9 @@ export default function Profile({navigation}) {
     }
   }, []);
 
-  useEffect(() => {
-    console.log('sessions', sessions);
-  }, [sessions]);
+  // useEffect(() => {
+  //   console.log('sessions', sessions);
+  // }, [sessions]);
 
   return (
     <SafeAreaView>
@@ -64,10 +54,10 @@ export default function Profile({navigation}) {
                 marginBottom: '2%',
               }}>
               <View testID={'SessionsListItem'} id={item.ID}>
-                <Text> {item.Type} </Text>
-                <Text> {item.Beach} </Text>
-                <Text> {item.DateTime} </Text>
-                <Text> Volunteers: 0/{item.MaxMentors} </Text>
+                <Text> {item?.Type} </Text>
+                <Text> {item?.Beach} </Text>
+                <Text> {item?.DateTime} </Text>
+                <Text> Volunteers: 0/{item?.MaxMentors} </Text>
               </View>
             </TouchableHighlight>
           )}

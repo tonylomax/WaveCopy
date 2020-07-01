@@ -9,7 +9,7 @@ export function subscribeToAllSessions() {
       .collection('Sessions')
       .onSnapshot(
         (sessionData) => {
-          // console.log('sessionData ', sessionData.docs);
+          console.log('sessionData', sessionData);
           const sessionsData = sessionData.docs.map((session) => {
             return {
               ID: session?._ref?._documentPath?._parts[1],
@@ -17,7 +17,7 @@ export function subscribeToAllSessions() {
               DateTime: session?._data?.DateTime,
               Time: session?._data?.Time,
               Description: session?._data?.Description,
-              Attendees: session?._data?.Attendees,
+              AttendeesIDandAttendance: session?._data?.Attendees,
               CoordinatorID: session?._data?.CoordinatorID,
               MaxMentors: session?._data?.MaxMentors,
               Type: session?._data?.Type,
@@ -44,7 +44,6 @@ export function subscribeToFirestoreUserData(currentUserUID) {
       .doc(currentUserUID)
       .onSnapshot((userData) => {
         const updatedUserData = userData?.data();
-        console.log('updatedUserData ', updatedUserData);
         dispatch({
           type: ACTIONS.SET_CURRENT_FIRESTORE_USER_DATA,
           data: updatedUserData,
@@ -60,7 +59,6 @@ export function getAllBeaches() {
     const beaches = [];
     const snapshot = await firestore().collection('Beaches').get();
     snapshot.docs.map((doc) => beaches.push(doc.data()));
-    console.log('beaches retrieved, ', beaches);
     dispatch({
       type: ACTIONS.GET_ALL_BEACHES,
       data: beaches,
@@ -72,10 +70,17 @@ export function getAllSessionAttendees(attendeesArray) {
   console.log('INSIDE getAllSessionAttendees ACTION ');
   return async (dispatch) => {
     const SESSION_USERS = await returnSessionAttendees(attendeesArray);
-    console.log('SESSIONS_USERS', SESSION_USERS[1]);
+    console.log('SESSION_USERS', SESSION_USERS);
+
+    const SESSION_USERS_FILTERED = SESSION_USERS.map((user) => {
+      const data = user?._data;
+      const id = user?._ref?._documentPath?._parts[1];
+      return {id, data};
+    });
+
     dispatch({
-      type: ACTIONS.GET_SESSIONS_ATTENDEES,
-      data: SESSION_USERS,
+      type: ACTIONS.GET_SESSION_ATTENDEES,
+      data: SESSION_USERS_FILTERED,
     });
   };
 }

@@ -17,12 +17,15 @@ export default function Session({navigation, route}) {
     Type,
     CoordinatorID,
     MaxMentors,
-    Attendees,
+    AttendeesIDandAttendance,
   } = route.params.item;
-  console.log('route.params', route.params.item);
+
+  const selectedSessionAttendeesData = useSelector(
+    (state) => state.firestoreReducer.selectedSessionAttendees,
+  );
 
   useEffect(() => {
-    dispatch(getAllSessionAttendees(Attendees));
+    dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
   }, []);
 
   return (
@@ -39,7 +42,7 @@ export default function Session({navigation, route}) {
       <AccordionMenu title={`Mentors (0/${MaxMentors})`}></AccordionMenu>
       <AccordionMenu
         type="attendees"
-        title={`Attendees (0/${Attendees.length})`}></AccordionMenu>
+        title={`Attendees (0/${AttendeesIDandAttendance.length})`}></AccordionMenu>
       <AccordionMenu type="location" title="Location"></AccordionMenu>
       <ConfirmButton
         title="Register"
@@ -48,7 +51,8 @@ export default function Session({navigation, route}) {
             Type,
             Beach,
             DateTime,
-            Attendees,
+            selectedSessionAttendeesData,
+            AttendeesIDandAttendance,
           });
         }}>
         Register

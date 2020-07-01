@@ -49,7 +49,6 @@ export default function Home({navigation, setLoggedIn}) {
           title="Log In"
           testID="submit-login-details"
           onPress={() => {
-            console.log('LOGIN BUTTON PRESED');
             loginWithEmail(email, password, setLoggedIn).then((result) => {
               const serializedResult = serializeError(result);
               console.log('message', serializedResult.message);

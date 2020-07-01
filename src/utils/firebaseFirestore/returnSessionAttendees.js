@@ -9,6 +9,7 @@ export default returnSessionAttendees = async (attendeesArray) => {
             .collection('ServiceUsers')
             .doc(user.id)
             .get();
+
           return userPromise;
         }),
       );

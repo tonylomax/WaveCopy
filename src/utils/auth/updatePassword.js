@@ -20,7 +20,6 @@ export default changePassword = async (
         });
       });
     if (userAuthenticated) {
-      console.log('Re-Authenticated');
       user
         .updatePassword(newPassword)
         .then(() => {

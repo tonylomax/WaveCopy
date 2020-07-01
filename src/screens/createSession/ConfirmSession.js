@@ -48,7 +48,7 @@ export default function ConfirmSession({route, navigation}) {
           setVisible={setVisible}
           yesAction={() => {
             console.log('creating a session');
-            console.log(userData);
+            // console.log(userData);
             createSessionInFirestore({
               sessionType,
               location,
