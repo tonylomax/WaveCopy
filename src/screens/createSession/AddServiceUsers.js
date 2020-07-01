@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, TextInput} from 'react-native';
 const EXAMPLE_LIST_OF_USERS = [
   {name: 'john1', id: 1},
   {name: 'john2', id: 2},
@@ -21,23 +21,36 @@ export default function AddServiceUsers({route, navigation}) {
   return (
     <View>
       <Text>Search</Text>
+      <TextInput />
       {EXAMPLE_LIST_OF_USERS.map((serviceUser) => (
         <Text
           key={`not-added-${serviceUser.name}`}
           testID={serviceUser.name}
-          onPress={() =>
+          onPress={() => {
+            console.log('clicked selected user');
             setSelectedUsers((currentlySelected) =>
               currentlySelected.concat(serviceUser),
-            )
-          }>
+            );
+          }}>
           {serviceUser.name}
         </Text>
       ))}
       <Text testID="currently-added-service-users">Currently Added</Text>
       {selectedUsers.map((serviceUser) => (
-        <Text key={`currently-added-${serviceUser.name}`}>
-          {serviceUser.name}
-        </Text>
+        <View>
+          <Text key={`currently-added-${serviceUser.name}`}>
+            {serviceUser.name}
+          </Text>
+          <Button
+            title="Remove"
+            onPress={() => {
+              const updatedSelectedUsers = selectedUsers.filter(
+                (selectedUser) => selectedUser.id !== serviceUser.id,
+              );
+              setSelectedUsers(updatedSelectedUsers);
+            }}
+          />
+        </View>
       ))}
       <Button
         testID="continue-to-review-created-session-page"

@@ -11,6 +11,7 @@ const createSessionInFirestore = ({
   coordinator,
 }) => {
   return new Promise((resolve, reject) => {
+    console.log(location);
     const {uid} = auth().currentUser;
     dateTimeArray.map((sessionDate, i) => {
       firestore()
@@ -18,7 +19,7 @@ const createSessionInFirestore = ({
         .add({
           Attendees: selectedUsers,
           MaxMentors: numberOfVolunteers,
-          Beach: location.name,
+          Beach: location.Name,
           Type: sessionType,
           Description: descriptionOfSession,
           DateTime: sessionDate.format(),
