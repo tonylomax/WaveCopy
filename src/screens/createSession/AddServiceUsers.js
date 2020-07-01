@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, Button, TextInput} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Button, TextInput, FlatList} from 'react-native';
 const EXAMPLE_LIST_OF_USERS = [
   {name: 'john1', id: 1},
   {name: 'john2', id: 2},
@@ -14,14 +14,58 @@ export default function AddServiceUsers({route, navigation}) {
     dateTimeArray,
   } = route.params;
   const [selectedUsers, setSelectedUsers] = useState([]);
-  React.useEffect(() => {
-    console.log({location});
-  });
+  const [searchTerm, setSearchTerm] = useState('');
+  const [typing, setTyping] = useState(false);
+  const [typingTimeout, setTypingTimeout] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+    if (!typing && searchTerm.length > 0) {
+      setLoading(true);
+    }
+  }, [typing]);
+
+  const onTypeLetter = (text) => {
+    setSearchTerm(text);
+    if (!typing) setTyping(true);
+    if (loading) setLoading(false);
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+    const newTimeout = setTimeout(() => {
+      console.log('searching for ', text);
+      setLoading(true);
+      // Set generic search results
+      setSearchResults([
+        {name: 'john2', id: 2},
+        {name: 'john3', id: 3},
+      ]);
+      // Get the query responses
+    }, 4000);
+    setTypingTimeout(newTimeout);
+  };
 
   return (
     <View>
       <Text>Search</Text>
-      <TextInput />
+      <TextInput
+        onChangeText={(text) => onTypeLetter(text)}
+        value={searchTerm}
+        h
+      />
+      {loading && <Text>Loading...</Text>}
+      {searchResults.length > 0 && (
+        <FlatList
+          data={searchResults}
+          renderItem={({item}) => {
+            console.log(item);
+            return <Text>{item?.name} </Text>;
+          }}
+          keyExtractor={(item) => item?.id}
+        />
+      )}
+
       {EXAMPLE_LIST_OF_USERS.map((serviceUser) => (
         <Text
           key={`not-added-${serviceUser.name}`}
