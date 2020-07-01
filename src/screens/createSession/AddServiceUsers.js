@@ -5,6 +5,7 @@ const EXAMPLE_LIST_OF_USERS = [
   {name: 'john2', id: 2},
   {name: 'john3', id: 3},
 ];
+const SEARCH_DELAY = 2000;
 
 export default function AddServiceUsers({route, navigation}) {
   const {
@@ -27,6 +28,7 @@ export default function AddServiceUsers({route, navigation}) {
   }, [typing]);
 
   const onTypeLetter = (text) => {
+    setSearchResults([]);
     setSearchTerm(text);
     if (!typing) setTyping(true);
     if (loading) setLoading(false);
@@ -42,7 +44,7 @@ export default function AddServiceUsers({route, navigation}) {
         {name: 'john3', id: 3},
       ]);
       // Get the query responses
-    }, 4000);
+    }, SEARCH_DELAY);
     setTypingTimeout(newTimeout);
   };
 
@@ -59,7 +61,6 @@ export default function AddServiceUsers({route, navigation}) {
         <FlatList
           data={searchResults}
           renderItem={({item}) => {
-            console.log(item);
             return (
               <View>
                 <Text key={`text-not-added-${item.id}`} testID={item.name}>
@@ -70,9 +71,15 @@ export default function AddServiceUsers({route, navigation}) {
                   title="Add user"
                   onPress={() => {
                     console.log('clicked selected user');
-                    setSelectedUsers((currentlySelected) =>
-                      currentlySelected.concat(item),
+                    // Add the user if they have not already been selected
+                    const found = selectedUsers.some(
+                      (user) => user.id === item.id,
                     );
+                    if (!found) {
+                      setSelectedUsers((currentlySelected) =>
+                        currentlySelected.concat(item),
+                      );
+                    }
                     setLoading(false);
                     setTyping(false);
                     setSearchTerm('');
