@@ -1,2 +1,3 @@
 import updateOwnBio from './updateOwnBio';
-export {updateOwnBio};
+import searchFirestoreServiceUsers from './searchFirestoreServiceUsers';
+export {updateOwnBio, searchFirestoreServiceUsers};

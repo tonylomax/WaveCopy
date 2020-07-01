@@ -57,6 +57,26 @@ export default function SessionDetails({navigation}) {
   return (
     <SafeAreaView>
       <ScrollView testID="session-details-scroll-view">
+        <Button
+          testID="continue-to-select-service-users"
+          title="Continue"
+          onPress={() => {
+            // if (!location || location === '0') {
+            // } else {
+            const dateTimeArray = generateDateTimeArray(
+              sessionDate,
+              sessionTime,
+              numberOfRepetitions,
+            );
+            navigation.navigate('AddServiceUsers', {
+              sessionType,
+              location,
+              numberOfVolunteers,
+              dateTimeArray,
+            });
+            // }
+          }}
+        />
         <Text testID="create-session-title">Create a session</Text>
         <Text>Session</Text>
         <Picker
@@ -153,26 +173,6 @@ export default function SessionDetails({navigation}) {
             <Picker.Item label={n.toString()} value={n} key={n} />
           ))}
         </Picker>
-        <Button
-          testID="continue-to-select-service-users"
-          title="Continue"
-          onPress={() => {
-            // if (!location || location === '0') {
-            // } else {
-            const dateTimeArray = generateDateTimeArray(
-              sessionDate,
-              sessionTime,
-              numberOfRepetitions,
-            );
-            navigation.navigate('AddServiceUsers', {
-              sessionType,
-              location,
-              numberOfVolunteers,
-              dateTimeArray,
-            });
-            // }
-          }}
-        />
       </ScrollView>
     </SafeAreaView>
   );

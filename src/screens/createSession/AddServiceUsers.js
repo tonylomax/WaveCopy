@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button, TextInput, FlatList} from 'react-native';
+import {searchFirestoreServiceUsers} from '../../utils';
 const EXAMPLE_LIST_OF_USERS = [
   {name: 'john1', id: 1},
   {name: 'john2', id: 2},
@@ -35,17 +36,22 @@ export default function AddServiceUsers({route, navigation}) {
     if (typingTimeout) {
       clearTimeout(typingTimeout);
     }
-    const newTimeout = setTimeout(() => {
-      console.log('searching for ', text);
-      setLoading(true);
-      // Set generic search results
-      setSearchResults([
-        {name: 'john2', id: 2},
-        {name: 'john3', id: 3},
-      ]);
-      // Get the query responses
-    }, SEARCH_DELAY);
-    setTypingTimeout(newTimeout);
+    if (text.length > 0) {
+      const newTimeout = setTimeout(() => {
+        console.log('searching for ', text);
+        setLoading(true);
+        // Set generic search results
+        setSearchResults([
+          {name: 'john2', id: 2},
+          {name: 'john3', id: 3},
+        ]);
+        // Get the query responses
+        searchFirestoreServiceUsers(text).then((realSearchResults) =>
+          console.log(realSearchResults),
+        );
+      }, SEARCH_DELAY);
+      setTypingTimeout(newTimeout);
+    }
   };
 
   return (
