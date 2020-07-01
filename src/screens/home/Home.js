@@ -6,15 +6,12 @@ import {ConfirmButton, ChoicePopup} from 'components';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 
 export default function Profile({navigation}) {
-  const [visible, setVisible] = useState(false);
-
-  // useEffect(() => {
-  //   console.log('visible', visible);
-  // }, [visible]);
-
   const dispatch = useDispatch();
+  //REDUX STATE
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
+  //LOCAL STATE
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     dispatch(subscribeToAllSessions());

@@ -9,7 +9,7 @@ export function subscribeToAllSessions() {
       .collection('Sessions')
       .onSnapshot(
         (sessionData) => {
-          console.log('sessionData', sessionData);
+          // console.log('sessionData', sessionData);
           const sessionsData = sessionData.docs.map((session) => {
             return {
               ID: session?._ref?._documentPath?._parts[1],
@@ -33,6 +33,28 @@ export function subscribeToAllSessions() {
         },
       );
     return sessions;
+  };
+}
+
+export function subscribeToSession(sessionID) {
+  console.log('INSIDE subscribeToSession ACTION ');
+  return async (dispatch) => {
+    const sessionSubscription = firestore()
+      .collection('Sessions')
+      .doc(sessionID)
+      .onSnapshot(
+        (singleSessionData) => {
+          // console.log('singleSessionData', singleSessionData);
+          dispatch({
+            type: ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION,
+            data: singleSessionData,
+          });
+        },
+        (error) => {
+          console.error(error);
+        },
+      );
+    return sessionSubscription;
   };
 }
 

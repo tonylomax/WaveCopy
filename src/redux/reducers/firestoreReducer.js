@@ -2,6 +2,7 @@ export const initialState = {
   sessionData: {},
   userData: {},
   selectedSessionAttendees: {},
+  singleSession: {},
 };
 import {ACTIONS} from '../../constants/actions';
 
@@ -16,6 +17,15 @@ export default (state = initialState, action) => {
       const sessionData = action.data;
 
       return {...state, sessionData};
+
+    case ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION:
+      console.log(
+        '[Reducer - fireStoreReducer] SUBSCRIBE_TO_SINGLE_SESSION',
+        action.data._data,
+      );
+      const singleSession = action.data._data;
+
+      return {...state, singleSession};
 
     case ACTIONS.SET_CURRENT_FIRESTORE_USER_DATA:
       console.log(

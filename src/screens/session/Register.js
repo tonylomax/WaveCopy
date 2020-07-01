@@ -2,31 +2,39 @@ import React, {useEffect} from 'react';
 import {View, Text} from 'react-native';
 import Moment from 'react-moment';
 import {RegisterTabs} from 'components';
+import {useSelector, useDispatch} from 'react-redux';
+import {subscribeToSession} from '../../redux/';
 
 export default function Register({navigation, route}) {
-  const {
-    Type,
-    Beach,
-    DateTime,
-    selectedSessionAttendeesData,
-    AttendeesIDandAttendance,
-  } = route.params;
+  const dispatch = useDispatch();
+  const {ID} = route.params;
+  const sessionData = useSelector(
+    (state) => state.firestoreReducer.singleSession,
+  );
+
+  const selectedSessionAttendeesData = useSelector(
+    (state) => state.firestoreReducer.selectedSessionAttendees,
+  );
 
   useEffect(() => {
+    dispatch(subscribeToSession(ID));
+  }, []);
+
+  useEffect(() => {
+    console.log('sessionData', sessionData);
     console.log('selectedSessionAttendeesData', selectedSessionAttendeesData);
-    console.log('Attendees', AttendeesIDandAttendance);
   }, []);
   return (
     <View>
       <Text>Register</Text>
       <Text>
-        {Type} - {Beach}
+        {sessionData?.Type} - {sessionData?.Beach}
       </Text>
       <Moment element={Text} format="DD.MM.YY">
-        {DateTime}
+        {sessionData?.DateTime}
       </Moment>
       {selectedSessionAttendeesData.map((attendee) => {
-        const attendanceArray = AttendeesIDandAttendance.filter((person) => {
+        const attendanceArray = sessionData.Attendees.filter((person) => {
           return person.id === attendee.id;
         });
         return (

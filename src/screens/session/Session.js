@@ -4,55 +4,58 @@ import {AccordionMenu, ConfirmButton} from 'components';
 import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
 import Moment from 'react-moment';
-import {getAllSessionAttendees} from '../../redux/';
+import {getAllSessionAttendees, subscribeToSession} from '../../redux/';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
-  const {
-    Beach,
-    DateTime,
-    Description,
-    ID,
-    Time,
-    Type,
-    CoordinatorID,
-    MaxMentors,
-    AttendeesIDandAttendance,
-  } = route.params.item;
+  const {ID, AttendeesIDandAttendance} = route.params.item;
 
   const selectedSessionAttendeesData = useSelector(
     (state) => state.firestoreReducer.selectedSessionAttendees,
   );
 
+  const sessionData = useSelector(
+    (state) => state.firestoreReducer.singleSession,
+  );
+
   useEffect(() => {
     dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
+    dispatch(subscribeToSession(ID));
   }, []);
+
+  useEffect(() => {
+    console.log('sessionData in Session.js', sessionData);
+  }, [sessionData]);
 
   return (
     <View>
       <Image style={{height: '15%', width: '15%'}} source={Edit_Icon}></Image>
       <Moment element={Text} format="DD.MM.YY">
-        {DateTime}
+        {sessionData?.DateTime}
       </Moment>
       <Text>
-        {Type}-{Beach}
+        {sessionData?.Type}-{sessionData?.Beach}
       </Text>
-      <Text>Coordinator: {CoordinatorID}</Text>
-      <Text>{Description}</Text>
-      <AccordionMenu title={`Mentors (0/${MaxMentors})`}></AccordionMenu>
+      <Text>Coordinator: {sessionData?.CoordinatorID}</Text>
+      <Text>{sessionData?.Description}</Text>
       <AccordionMenu
-        type="attendees"
-        title={`Attendees (0/${AttendeesIDandAttendance.length})`}></AccordionMenu>
+        title={`Mentors (0/${sessionData?.MaxMentors})`}></AccordionMenu>
+      {/* <AccordionMenu
+            type="attendees"
+            title={`Attendees (0/${sessionData?.Attendees.length})`}></AccordionMenu> */}
       <AccordionMenu type="location" title="Location"></AccordionMenu>
       <ConfirmButton
         title="Register"
         onPress={() => {
           navigation.navigate('Register', {
-            Type,
-            Beach,
-            DateTime,
+            sessionData,
             selectedSessionAttendeesData,
-            AttendeesIDandAttendance,
+            ID,
+            // Type,
+            // Beach,
+            // DateTime,
+            // selectedSessionAttendeesData,
+            // AttendeesIDandAttendance,
           });
         }}>
         Register

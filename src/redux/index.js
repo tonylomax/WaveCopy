@@ -4,6 +4,7 @@ import {
   subscribeToAllSessions,
   getAllBeaches,
   getAllSessionAttendees,
+  subscribeToSession,
 } from './actions';
 
 export {
@@ -12,4 +13,5 @@ export {
   subscribeToAllSessions,
   getAllBeaches,
   getAllSessionAttendees,
+  subscribeToSession,
 };
