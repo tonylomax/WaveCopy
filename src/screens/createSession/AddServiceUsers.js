@@ -46,10 +46,11 @@ export default function AddServiceUsers({route, navigation}) {
           {name: 'john3', id: 3},
         ]);
         // Get the query responses
-        searchFirestoreServiceUsers(text).then((realSearchResults) =>
-          console.log(realSearchResults),
-        );
-      }, SEARCH_DELAY);
+        searchFirestoreServiceUsers(text).then((realSearchResults) => {
+          setLoading(false);
+          setSearchResults(realSearchResults.hits);
+        });
+      }, 1000);
       setTypingTimeout(newTimeout);
     }
   };
@@ -70,7 +71,7 @@ export default function AddServiceUsers({route, navigation}) {
             return (
               <View>
                 <Text key={`text-not-added-${item.id}`} testID={item.name}>
-                  {item?.name}
+                  {item?.firstName} {item?.lastName}
                 </Text>
                 <Button
                   key={`button-not-added-${item.id}`}
