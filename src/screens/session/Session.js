@@ -73,9 +73,12 @@ export default function Session({navigation, route}) {
           </Text>
           <Text>Coordinator: {sessionData?.CoordinatorID}</Text>
           <Text>{sessionData?.Description}</Text>
-
-          <AccordionMenu
-            type="attendees"
+          {/* DATA TO BE ADDED INTO ACCORDION. */}
+          <Text>{selectedSessionMentorsData[0]?.data?.firstName}</Text>
+          <Text>{selectedSessionAttendeesData[0]?.data?.firstName}</Text>
+          <Text>{beach?.Name}</Text>
+          {/* <AccordionMenu
+            type="mentors"
             data={selectedSessionMentorsData}
             title={`Mentors ${sessionData?.Mentors?.length}/${sessionData?.MaxMentors}`}></AccordionMenu>
           <AccordionMenu
@@ -85,7 +88,7 @@ export default function Session({navigation, route}) {
           <AccordionMenu
             data={beach}
             type="location"
-            title="Location"></AccordionMenu>
+            title="Location"></AccordionMenu> */}
           <ConfirmButton
             title="Register"
             testID="registerButton"

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {subscribeToAllSessions} from '../../redux/';
+import {subscribeToAllSessions, getAllBeaches} from '../../redux/';
 import {ConfirmButton, ChoicePopup} from 'components';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 
@@ -9,16 +9,18 @@ export default function Profile({navigation}) {
   const dispatch = useDispatch();
   //REDUX STATE
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
+
   //LOCAL STATE
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     dispatch(subscribeToAllSessions());
+    dispatch(getAllBeaches());
   }, []);
 
-  useEffect(() => {
-    console.log('SESSION', sessions);
-  }, [sessions]);
+  // useEffect(() => {
+  //   console.log('SESSION', sessions);
+  // }, [sessions]);
 
   return (
     <SafeAreaView>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import generateDateTimeArray from '../../utils/time/repetitionDatesArray';
@@ -53,6 +53,10 @@ export default function SessionDetails({navigation}) {
     setShowTimePicker(Platform.OS === 'ios');
     setSessionTime(currentTime);
   };
+
+  useEffect(() => {
+    console.log('beaches in sessiondetails', beaches);
+  }, [beaches]);
 
   return (
     <SafeAreaView>
@@ -116,12 +120,12 @@ export default function SessionDetails({navigation}) {
             const ValueToAdd = beaches[itemIndex];
             setLocation(ValueToAdd);
           }}>
-          {beaches.map((beach) => (
+          {beaches?.map((beach) => (
             <Picker.Item
-              label={beach.Name}
-              value={beach.Name}
-              id={beach.Name}
-              key={beach.Name}
+              label={beach?.Name}
+              value={beach?.Name}
+              id={beach?.Name}
+              key={beach?.Name}
             />
           ))}
         </Picker>

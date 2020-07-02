@@ -5,6 +5,7 @@ export const initialState = {
   singleSession: {},
   selectedSessionMentors: {},
   singleBeach: {},
+  beaches: {},
 };
 import {ACTIONS} from '../../constants/actions';
 
@@ -31,9 +32,14 @@ export default (state = initialState, action) => {
       return {...state, userData};
 
     case ACTIONS.GET_SINGLE_BEACH:
-      console.log('[Reducer - fireStoreReducer] GET_SINGLE_BEACH', action);
+      console.log('[Reducer - fireStoreReducer] GET_SINGLE_BEACH');
       const singleBeach = action.data;
       return {...state, singleBeach};
+
+    case ACTIONS.GET_ALL_BEACHES:
+      console.log('[Reducer - fireStoreReducer] GET_ALL_BEACHES');
+      const beaches = action.data;
+      return {...state, beaches};
 
     case ACTIONS.GET_SESSION_ATTENDEES:
       console.log('[Reducer - fireStoreReducer] GET_SESSIONS_ATTENDEES');

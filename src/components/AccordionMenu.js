@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 
 export default function AccordionMenu({testID, title, data, type}) {
-  console.log('data in accordion', data);
+  // console.log('data in accordion', data);
   switch (type) {
     case 'attendees':
       return (
@@ -15,6 +15,7 @@ export default function AccordionMenu({testID, title, data, type}) {
           ))}
         </View>
       );
+
     case 'location':
       return (
         <View>

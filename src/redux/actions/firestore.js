@@ -79,7 +79,7 @@ export function subscribeToFirestoreUserData(currentUserUID) {
 }
 
 export function subscribeToBeach(beachID) {
-  console.log('INSIDE getAllBeaches ACTION ', beachID);
+  console.log('INSIDE getAllBeaches ACTION ');
   return async (dispatch) => {
     const beachSubscription = firestore()
       .collection('Beaches')
@@ -93,6 +93,21 @@ export function subscribeToBeach(beachID) {
         });
       });
     return beachSubscription;
+  };
+}
+
+
+export function getAllBeaches() {
+  console.log('INSIDE getAllBeaches ACTION ');
+  return async (dispatch) => {
+    const beaches = [];
+    const snapshot = await firestore().collection('Beaches').get();
+    snapshot.docs.map((doc) => beaches.push(doc.data()));
+    console.log('beaches retrieved, ', beaches);
+    dispatch({
+      type: ACTIONS.GET_ALL_BEACHES,
+      data: beaches,
+    });
   };
 }
 
@@ -119,7 +134,7 @@ export function getAllSessionAttendees(attendeesArray) {
 }
 
 export function getAllSessionMentors(mentorsArray) {
-  console.log('INSIDE getAllSessionMentors ACTION ', mentorsArray);
+  console.log('INSIDE getAllSessionMentors ACTION ');
   return async (dispatch) => {
     const SESSION_MENTORS = await returnSessionAttendees(
       mentorsArray,
