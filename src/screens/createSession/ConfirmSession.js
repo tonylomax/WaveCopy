@@ -17,7 +17,7 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 import {CommonActions} from '@react-navigation/native';
-import createSessionInFirestore from '../../utils/createSessionInFirestore';
+import {createSessionInFirestore} from '../../utils';
 import {useSelector} from 'react-redux';
 import getCoverImage from '../../utils/getCoverImage';
 
