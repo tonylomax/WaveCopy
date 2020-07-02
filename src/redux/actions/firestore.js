@@ -7,7 +7,7 @@ export function subscribeToAllSessions() {
   console.log('Inside session data action');
   return async (dispatch) => {
     const sessions = firestore()
-      .collection('Sessions')
+      .collection(COLLECTIONS.SESSIONS)
       .onSnapshot(
         (sessionData) => {
           const sessionsData = sessionData.docs.map((session) => {
@@ -43,7 +43,7 @@ export function subscribeToSession(sessionID) {
   console.log('INSIDE subscribeToSession ACTION ');
   return async (dispatch) => {
     const sessionSubscription = firestore()
-      .collection('Sessions')
+      .collection(COLLECTIONS.SESSIONS)
       .doc(sessionID)
       .onSnapshot(
         (singleSessionData) => {
@@ -65,7 +65,7 @@ export function subscribeToFirestoreUserData(currentUserUID) {
   console.log('INSIDE subscribeToFirestoreUserData ACTION ');
   return async (dispatch) => {
     const userDataSubscription = firestore()
-      .collection('Users')
+      .collection(COLLECTIONS.USERS)
       .doc(currentUserUID)
       .onSnapshot((userData) => {
         const updatedUserData = userData?.data();
@@ -82,11 +82,11 @@ export function subscribeToBeach(beachID) {
   console.log('INSIDE getAllBeaches ACTION ');
   return async (dispatch) => {
     const beachSubscription = firestore()
-      .collection('Beaches')
+      .collection(COLLECTIONS.BEACHES)
       .doc(beachID)
       .onSnapshot((beach) => {
         const singleBeach = beach?.data();
-        console.log('singleBeach', singleBeach);
+        // console.log('singleBeach', singleBeach);
         dispatch({
           type: ACTIONS.GET_SINGLE_BEACH,
           data: singleBeach,
@@ -96,12 +96,11 @@ export function subscribeToBeach(beachID) {
   };
 }
 
-
 export function getAllBeaches() {
   console.log('INSIDE getAllBeaches ACTION ');
   return async (dispatch) => {
     const beaches = [];
-    const snapshot = await firestore().collection('Beaches').get();
+    const snapshot = await firestore().collection(COLLECTIONS.BEACHES).get();
     snapshot.docs.map((doc) => beaches.push(doc.data()));
     console.log('beaches retrieved, ', beaches);
     dispatch({

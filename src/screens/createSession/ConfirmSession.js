@@ -9,17 +9,15 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import AccordionMenu from '../../components/AccordionMenu';
-import {ConfirmButton, ChoicePopup} from '../../components';
+import {ConfirmButton, ChoicePopup, AccordionMenu} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 import {CommonActions} from '@react-navigation/native';
-import createSessionInFirestore from '../../utils/createSessionInFirestore';
+import {createSessionInFirestore, getCoverImage} from 'utils';
 import {useSelector} from 'react-redux';
-import getCoverImage from '../../utils/getCoverImage';
 
 export default function ConfirmSession({route, navigation}) {
   const [visible, setVisible] = useState(false);

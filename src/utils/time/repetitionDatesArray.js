@@ -5,7 +5,11 @@ moment().format('en-gb');
 import combineDateAndTime from './combineDateAndTime';
 
 // The goal of this function is to generate the combined time
-export default (sessionDate, sessionTime, numberOfRepetitions) => {
+export default generateDateTimeArray = (
+  sessionDate,
+  sessionTime,
+  numberOfRepetitions,
+) => {
   // Get combined datetime
   const startDateTime = combineDateAndTime(sessionDate, sessionTime);
 

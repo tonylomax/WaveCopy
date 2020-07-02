@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
-import {useSafeArea} from 'react-native-safe-area-context';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {serializeError} from 'serialize-error';
 
 export default function Home({navigation, setLoggedIn}) {

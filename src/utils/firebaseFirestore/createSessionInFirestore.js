@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
-const createSessionInFirestore = ({
+export default createSessionInFirestore = ({
   sessionType,
   location,
   numberOfVolunteers,
@@ -44,4 +44,3 @@ const createSessionInFirestore = ({
     });
   });
 };
-export default createSessionInFirestore;

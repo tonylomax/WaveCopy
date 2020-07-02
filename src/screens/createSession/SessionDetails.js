@@ -11,8 +11,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import generateDateTimeArray from '../../utils/time/repetitionDatesArray';
-import generateNumberedArray from '../../utils/generateNumberedArray';
+import {generateDateTimeArray, generateNumberedArray} from 'utils';
 import {
   MIN_NUMBER_OF_VOLUNTEERS,
   MAX_NUMBER_OF_VOLUNTEERS,

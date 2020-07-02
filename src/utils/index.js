@@ -8,6 +8,7 @@ import {
   updateOwnBio,
   returnSessionAttendees,
   markAttendance,
+  createSessionInFirestore,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -15,6 +16,9 @@ import {
   monitorFileUpload,
   uploadProgress,
 } from './firebaseStorage/index';
+import {generateDateTimeArray} from './time/repetitionDatesArray';
+import {getCoverImage} from './getCoverImage';
+import {generateNumberedArray} from './generateNumberedArray';
 export {
   loginWithEmail,
   signOut,
@@ -27,4 +31,8 @@ export {
   validatePassword,
   returnSessionAttendees,
   markAttendance,
+  createSessionInFirestore,
+  getCoverImage,
+  generateDateTimeArray,
+  generateNumberedArray,
 };

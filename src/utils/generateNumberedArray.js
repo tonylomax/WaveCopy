@@ -1,4 +1,4 @@
-export default (min, max) => {
+export default generateNumberedArray = (min, max) => {
   const arr = [];
   for (let i = min; i <= max; i++) {
     arr.push(i);
