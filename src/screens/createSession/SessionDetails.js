@@ -6,7 +6,6 @@ import {
   ScrollView,
   Button,
   Platform,
-  Alert,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {Picker} from '@react-native-community/picker';
@@ -19,18 +18,6 @@ import {
   MIN_NUMBER_OF_REPETITIONS,
   MAX_NUMBER_OF_REPETITIONS,
 } from '../../constants/sessionChoices.js';
-// const EXAMPLE_LOCATIONS = [
-//   {
-//     name: 'Fistral Beach',
-//     area: 'West Cornwall',
-//     region: 'South West',
-//   },
-//   {
-//     name: 'Brighton Beach',
-//     area: 'Brighton',
-//     region: 'South East',
-//   },
-// ];
 
 export default function SessionDetails({navigation}) {
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
@@ -57,26 +44,6 @@ export default function SessionDetails({navigation}) {
   return (
     <SafeAreaView>
       <ScrollView testID="session-details-scroll-view">
-        <Button
-          testID="continue-to-select-service-users"
-          title="Continue"
-          onPress={() => {
-            // if (!location || location === '0') {
-            // } else {
-            const dateTimeArray = generateDateTimeArray(
-              sessionDate,
-              sessionTime,
-              numberOfRepetitions,
-            );
-            navigation.navigate('AddServiceUsers', {
-              sessionType,
-              location,
-              numberOfVolunteers,
-              dateTimeArray,
-            });
-            // }
-          }}
-        />
         <Text testID="create-session-title">Create a session</Text>
         <Text>Session</Text>
         <Picker
@@ -173,6 +140,23 @@ export default function SessionDetails({navigation}) {
             <Picker.Item label={n.toString()} value={n} key={n} />
           ))}
         </Picker>
+        <Button
+          testID="continue-to-select-service-users"
+          title="Continue"
+          onPress={() => {
+            const dateTimeArray = generateDateTimeArray(
+              sessionDate,
+              sessionTime,
+              numberOfRepetitions,
+            );
+            navigation.navigate('AddServiceUsers', {
+              sessionType,
+              location,
+              numberOfVolunteers,
+              dateTimeArray,
+            });
+          }}
+        />
       </ScrollView>
     </SafeAreaView>
   );

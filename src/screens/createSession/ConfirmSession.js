@@ -38,8 +38,7 @@ export default function ConfirmSession({route, navigation}) {
 
   return (
     <SafeAreaView>
-      {/* <ScrollView testID="session-details-scroll-view"> */}
-      <Image source={CoverImage} />
+      <Image style={{alignSelf: 'center', height: 150}} source={CoverImage} />
       <ConfirmButton
         testID="confirm-session-details"
         title="Confirm"
@@ -108,7 +107,6 @@ export default function ConfirmSession({route, navigation}) {
         title="Location"
         data={location}
       />
-      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }

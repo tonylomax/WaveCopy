@@ -12,8 +12,6 @@ const createSessionInFirestore = ({
   uid,
 }) => {
   return new Promise((resolve, reject) => {
-    console.log(location);
-    console.log('about to run through attendees');
     const updatedAttendees = [];
     selectedUsers.map((user) => {
       updatedAttendees.push({
@@ -34,7 +32,7 @@ const createSessionInFirestore = ({
           Type: sessionType,
           Description: descriptionOfSession,
           DateTime: sessionDate.format(),
-          CoordinatorID: uid, // TODO - update with user Id from redux in ConfirmSession.js
+          CoordinatorID: uid,
           CoordinatorName: coordinator,
           Region: location.region,
           // Surf lead ID
