@@ -1,12 +1,15 @@
 import firestore from '@react-native-firebase/firestore';
 
-export default returnSessionAttendees = async (attendeesArray) => {
+export default returnSessionAttendees = async (personArray, collection) => {
+  console.log('returnSessionAttendees', personArray, collection);
+
   return new Promise(async (resolve, reject) => {
     try {
       let resolvedUsers = await Promise.all(
-        attendeesArray.map(async (user) => {
+        personArray.map(async (user) => {
+          console.log('user', user.id);
           const userPromise = await firestore()
-            .collection('ServiceUsers')
+            .collection(collection)
             .doc(user.id)
             .get();
 

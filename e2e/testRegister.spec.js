@@ -1,6 +1,6 @@
 describe('Test register', () => {
-  exampleEmail = 'j@j.com';
-  examplePassword = 'asdasd';
+  exampleEmail = 't@t.com';
+  examplePassword = 'Asdasd6';
   beforeEach(async () => {
     await device.terminateApp();
     await device.launchApp();
@@ -36,13 +36,31 @@ describe('Test register', () => {
         .toHaveText('Charlotte Viqueria true')
         .withTimeout(10000)
     ) {
-      attended = true;
-    } else attended = false;
+      serviceUsersAttended = true;
+    } else serviceUsersAttended = false;
 
     await element(by.id('personToRegisterButton129520710')).tap();
 
     await waitFor(element(by.id('personToRegister129520710')))
-      .toHaveText(`Charlotte Viqueria ${attended}`)
+      .toHaveText(`Charlotte Viqueria ${serviceUsersAttended}`)
+      .withTimeout(10000);
+
+    if (
+      await waitFor(
+        element(by.id('personToRegisterltf40oqYJyQrLvIs4EoqOXzMeXM2')),
+      )
+        .toHaveText('Tony Lomax true')
+        .withTimeout(10000)
+    ) {
+      mentorAttended = true;
+    } else mentorAttended = false;
+
+    await element(by.id('personToRegisterltf40oqYJyQrLvIs4EoqOXzMeXM2')).tap();
+
+    await waitFor(
+      element(by.id('personToRegisterltf40oqYJyQrLvIs4EoqOXzMeXM2')),
+    )
+      .toHaveText(`Tony Lomax ${mentorAttended}`)
       .withTimeout(10000);
 
     await element(by.id('navigate-to-profile-button')).tap();

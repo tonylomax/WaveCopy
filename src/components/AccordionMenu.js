@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 
 export default function AccordionMenu({testID, title, data, type}) {
+  console.log('data in accordion', data);
   switch (type) {
     case 'attendees':
       return (
@@ -9,7 +10,7 @@ export default function AccordionMenu({testID, title, data, type}) {
           <Text testID={testID}>{title}</Text>
           {data?.map((user, i) => (
             <Text>
-              {i + 1}) {user.name}
+              {i + 1}) {user.data.firstName} {user.data.lastName}
             </Text>
           ))}
         </View>

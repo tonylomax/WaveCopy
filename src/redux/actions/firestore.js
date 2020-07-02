@@ -1,5 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import {ACTIONS} from '../../constants/actions';
+import {COLLECTIONS} from '../../constants/collections';
 import {returnSessionAttendees} from 'utils';
 
 export function subscribeToAllSessions() {
@@ -10,7 +11,7 @@ export function subscribeToAllSessions() {
       .onSnapshot(
         (sessionData) => {
           const sessionsData = sessionData.docs.map((session) => {
-            console.log('session?._data?.Mentors ', session?._data?.Mentors);
+            // console.log('session?._data?.Mentors ', session?._data?.Mentors);
 
             return {
               ID: session?._ref?._documentPath?._parts[1],
@@ -77,24 +78,32 @@ export function subscribeToFirestoreUserData(currentUserUID) {
   };
 }
 
-export function getAllBeaches() {
-  console.log('INSIDE getAllBeaches ACTION ');
+export function subscribeToBeach(beachID) {
+  console.log('INSIDE getAllBeaches ACTION ', beachID);
   return async (dispatch) => {
-    const beaches = [];
-    const snapshot = await firestore().collection('Beaches').get();
-    snapshot.docs.map((doc) => beaches.push(doc.data()));
-    dispatch({
-      type: ACTIONS.GET_ALL_BEACHES,
-      data: beaches,
-    });
+    const beachSubscription = firestore()
+      .collection('Beaches')
+      .doc(beachID)
+      .onSnapshot((beach) => {
+        const singleBeach = beach?.data();
+        console.log('singleBeach', singleBeach);
+        dispatch({
+          type: ACTIONS.GET_SINGLE_BEACH,
+          data: singleBeach,
+        });
+      });
+    return beachSubscription;
   };
 }
 
 export function getAllSessionAttendees(attendeesArray) {
   console.log('INSIDE getAllSessionAttendees ACTION ');
   return async (dispatch) => {
-    const SESSION_USERS = await returnSessionAttendees(attendeesArray);
-    console.log('SESSION_USERS', SESSION_USERS);
+    const SESSION_USERS = await returnSessionAttendees(
+      attendeesArray,
+      COLLECTIONS.SERVICE_USERS,
+    );
+    // console.log('SESSION_USERS', SESSION_USERS);
 
     const SESSION_USERS_FILTERED = SESSION_USERS.map((user) => {
       const data = user?._data;
@@ -105,6 +114,28 @@ export function getAllSessionAttendees(attendeesArray) {
     dispatch({
       type: ACTIONS.GET_SESSION_ATTENDEES,
       data: SESSION_USERS_FILTERED,
+    });
+  };
+}
+
+export function getAllSessionMentors(mentorsArray) {
+  console.log('INSIDE getAllSessionMentors ACTION ', mentorsArray);
+  return async (dispatch) => {
+    const SESSION_MENTORS = await returnSessionAttendees(
+      mentorsArray,
+      COLLECTIONS.USERS,
+    );
+    // console.log('SESSION_MENTORS', SESSION_MENTORS);
+
+    const SESSION_MENTORS_FILTERED = SESSION_MENTORS.map((mentor) => {
+      const data = mentor?._data;
+      const id = mentor?._ref?._documentPath?._parts[1];
+      return {id, data};
+    });
+
+    dispatch({
+      type: ACTIONS.GET_SESSION_MENTORS,
+      data: SESSION_MENTORS_FILTERED,
     });
   };
 }

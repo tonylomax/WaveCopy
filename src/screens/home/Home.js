@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {subscribeToAllSessions, getAllBeaches} from '../../redux/';
+import {subscribeToAllSessions} from '../../redux/';
 import {ConfirmButton, ChoicePopup} from 'components';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 
@@ -9,21 +9,15 @@ export default function Profile({navigation}) {
   const dispatch = useDispatch();
   //REDUX STATE
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
-  const beaches = useSelector((state) => state.firestoreReducer.beaches);
   //LOCAL STATE
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     dispatch(subscribeToAllSessions());
-    if (!beaches) {
-      dispatch(getAllBeaches());
-    }
   }, []);
 
   useEffect(() => {
-    // sessions.map((session) => {
-    //   console.log('SESSION MENTORS', session?.Mentors[0]);
-    // });
+    console.log('SESSION', sessions);
   }, [sessions]);
 
   return (
@@ -57,7 +51,7 @@ export default function Profile({navigation}) {
                 <Text> {item?.Beach} </Text>
                 <Text> {item?.DateTime} </Text>
                 <Text>
-                  Volunteers: {item?.Mentors.length}/{item?.MaxMentors}
+                  Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
                 </Text>
               </View>
             </TouchableHighlight>
@@ -68,4 +62,3 @@ export default function Profile({navigation}) {
     </SafeAreaView>
   );
 }
-// [{"Attended": false, "id": "ltf40oqYJyQrLvIs4EoqOXzMeX"}]

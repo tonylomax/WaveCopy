@@ -2,16 +2,18 @@ import {createFirebaseAuthSubscription} from './authentication';
 import {
   subscribeToFirestoreUserData,
   subscribeToAllSessions,
-  getAllBeaches,
   getAllSessionAttendees,
   subscribeToSession,
+  getAllSessionMentors,
+  subscribeToBeach,
 } from './firestore';
 
 export {
   createFirebaseAuthSubscription,
   subscribeToFirestoreUserData,
   subscribeToAllSessions,
-  getAllBeaches,
   getAllSessionAttendees,
   subscribeToSession,
+  getAllSessionMentors,
+  subscribeToBeach,
 };

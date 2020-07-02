@@ -77,7 +77,10 @@ const App: () => React$Node = () => {
   }, []);
 
   useEffect(() => {
-    console.log('currentAuthenticatedUser is ', currentAuthenticatedUser);
+    console.log(
+      'currentAuthenticatedUser is ',
+      currentAuthenticatedUser?.email,
+    );
 
     if (!isEmpty(currentAuthenticatedUser)) {
       const unsubscribeFromFirestoreUserData = dispatch(
