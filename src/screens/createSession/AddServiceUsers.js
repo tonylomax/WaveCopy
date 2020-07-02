@@ -40,11 +40,6 @@ export default function AddServiceUsers({route, navigation}) {
       const newTimeout = setTimeout(() => {
         console.log('searching for ', text);
         setLoading(true);
-        // Set generic search results
-        setSearchResults([
-          {name: 'john2', id: 2},
-          {name: 'john3', id: 3},
-        ]);
         // Get the query responses
         searchFirestoreServiceUsers(text).then((realSearchResults) => {
           setLoading(false);
@@ -79,9 +74,11 @@ export default function AddServiceUsers({route, navigation}) {
                   onPress={() => {
                     console.log('clicked selected user');
                     // Add the user if they have not already been selected
-                    const found = selectedUsers.some(
-                      (user) => user.id === item.id,
-                    );
+                    const found = selectedUsers.some((user) => {
+                      console.log({user});
+                      console.log({item});
+                      return user.objectID === item.objectID;
+                    });
                     if (!found) {
                       setSelectedUsers((currentlySelected) =>
                         currentlySelected.concat(item),
@@ -104,7 +101,7 @@ export default function AddServiceUsers({route, navigation}) {
       {selectedUsers.map((serviceUser) => (
         <View>
           <Text key={`currently-added-${serviceUser.name}`}>
-            {serviceUser.name}
+            {serviceUser?.firstName} {serviceUser?.lastName}
           </Text>
           <Button
             title="Remove"

@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
+// import auth from '@react-native-firebase/auth';
 
 const createSessionInFirestore = ({
   sessionType,
@@ -9,10 +9,11 @@ const createSessionInFirestore = ({
   dateTimeArray,
   descriptionOfSession,
   coordinator,
+  uid
 }) => {
   return new Promise((resolve, reject) => {
     console.log(location);
-    const {uid} = auth().currentUser;
+    // const {uid} = auth().currentUser;
     dateTimeArray.map((sessionDate, i) => {
       firestore()
         .collection('Sessions')
