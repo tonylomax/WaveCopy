@@ -9,16 +9,26 @@ const createSessionInFirestore = ({
   dateTimeArray,
   descriptionOfSession,
   coordinator,
-  uid
+  uid,
 }) => {
   return new Promise((resolve, reject) => {
     console.log(location);
-    // const {uid} = auth().currentUser;
+    console.log('about to run through attendees');
+    const updatedAttendees = [];
+    selectedUsers.map((user) => {
+      updatedAttendees.push({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        id: user.objectID,
+      });
+    });
+    console.log(updatedAttendees);
+
     dateTimeArray.map((sessionDate, i) => {
       firestore()
         .collection('Sessions')
         .add({
-          Attendees: selectedUsers,
+          Attendees: updatedAttendees,
           MaxMentors: numberOfVolunteers,
           Beach: location.Name,
           Type: sessionType,

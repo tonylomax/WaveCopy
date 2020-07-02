@@ -9,7 +9,7 @@ export default function AccordianMenu({testID, title, data, type}) {
           <Text testID={testID}>{title}</Text>
           {data?.map((user, i) => (
             <Text>
-              {i + 1}) {user.name}
+              {i + 1}) {user?.firstName} {user?.lastName}
             </Text>
           ))}
         </View>
