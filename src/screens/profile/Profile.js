@@ -3,7 +3,7 @@ import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
 import {ConfirmButton, ImageConfirmPopup} from 'components';
 import {useSelector, useDispatch} from 'react-redux';
 import {TextInput} from 'react-native-gesture-handler';
-import {Edit_Icon} from 'assets';
+import {Edit_Icon, BrightonBeach} from 'assets';
 import ImagePicker from 'react-native-image-picker';
 import {
   uploadFile,
@@ -83,6 +83,11 @@ export default function Profile({navigation}) {
   return (
     <SafeAreaView>
       <View>
+        <Image
+          style={{alignSelf: 'center', height: 150}}
+          source={BrightonBeach}
+        />
+
         <ImageConfirmPopup
           visible={imageConfirmPopup}
           setVisible={setImageConfirmPopup}
