@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
+// import auth from '@react-native-firebase/auth';
 
 const createSessionInFirestore = ({
   sessionType,
@@ -9,20 +9,30 @@ const createSessionInFirestore = ({
   dateTimeArray,
   descriptionOfSession,
   coordinator,
+  uid,
 }) => {
   return new Promise((resolve, reject) => {
-    const {uid} = auth().currentUser;
+    const updatedAttendees = [];
+    selectedUsers.map((user) => {
+      updatedAttendees.push({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        id: user.objectID,
+      });
+    });
+    console.log(updatedAttendees);
+
     dateTimeArray.map((sessionDate, i) => {
       firestore()
         .collection('Sessions')
         .add({
-          Attendees: selectedUsers,
+          Attendees: updatedAttendees,
           MaxMentors: numberOfVolunteers,
           Beach: location.Name,
           Type: sessionType,
           Description: descriptionOfSession,
           DateTime: sessionDate.format(),
-          CoordinatorID: uid, // TODO - update with user Id from redux in ConfirmSession.js
+          CoordinatorID: uid,
           CoordinatorName: coordinator,
           Region: location.region,
           // Surf lead ID

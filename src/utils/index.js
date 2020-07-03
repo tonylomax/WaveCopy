@@ -4,7 +4,11 @@ import {
   updatePassword,
   validatePassword,
 } from './auth/index';
-import {updateOwnBio} from './firebaseFirestore/index';
+import {
+  updateOwnBio,
+  searchFirestoreServiceUsers,
+  createSessionInFirestore,
+} from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
   uploadFile,
@@ -12,6 +16,8 @@ import {
   uploadProgress,
 } from './firebaseStorage/index';
 export {
+  createSessionInFirestore,
+  searchFirestoreServiceUsers,
   loginWithEmail,
   signOut,
   updateOwnBio,
