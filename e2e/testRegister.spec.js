@@ -2,9 +2,9 @@ describe('Test register', () => {
   exampleEmail = 't@t.com';
   examplePassword = 'Asdasd6';
   beforeEach(async () => {
-    await device.terminateApp();
-    await device.launchApp();
-    await device.reloadReactNative();
+    // await device.terminateApp();
+    // await device.launchApp();
+    // await device.reloadReactNative();
   });
 
   it('it should be able to log in, select a specific session, navigate to the register for that session and mark a user as "in attendance" and see that change rendered on the screen', async () => {

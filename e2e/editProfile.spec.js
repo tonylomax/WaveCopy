@@ -4,9 +4,9 @@ describe('Edit profile', () => {
   updateBioText = 'New bio information created by Detox test';
 
   beforeEach(async () => {
-    await device.terminateApp();
-    await device.launchApp();
-    await device.reloadReactNative();
+    // await device.terminateApp();
+    // await device.launchApp();
+    // await device.reloadReactNative();
   });
 
   it('it should be able to login, navigate to the profile screen and update profile elements', async () => {

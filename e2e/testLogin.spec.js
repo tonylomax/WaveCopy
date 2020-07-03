@@ -2,9 +2,9 @@ describe('Test login functionality', () => {
   exampleEmail = 'j@j.com';
   examplePassword = 'asdasd';
   beforeEach(async () => {
-    await device.terminateApp();
-    await device.launchApp();
-    await device.reloadReactNative();
+    // await device.terminateApp();
+    // await device.launchApp();
+    // await device.reloadReactNative();
   });
 
   it('it should be able to login, be redirected to home page, navigate to profile page and log out back to the login page', async () => {

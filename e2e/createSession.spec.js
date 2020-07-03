@@ -7,7 +7,7 @@ describe('Create a surf session', () => {
   beforeEach(async () => {
     // await device.terminateApp();
     // await device.launchApp();
-    await device.reloadReactNative();
+    // await device.reloadReactNative();
   });
 
   it('It should be able to navigate to create session page, fill in the form, select attendees and create a session', async () => {
