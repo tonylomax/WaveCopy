@@ -16,9 +16,9 @@ import {
   monitorFileUpload,
   uploadProgress,
 } from './firebaseStorage/index';
-import {generateDateTimeArray} from './time/repetitionDatesArray';
-import {getCoverImage} from './getCoverImage';
-import {generateNumberedArray} from './generateNumberedArray';
+import generateDateTimeArray from './time/repetitionDatesArray';
+import getCoverImage from './getCoverImage';
+import generateNumberedArray from './generateNumberedArray';
 export {
   loginWithEmail,
   signOut,
