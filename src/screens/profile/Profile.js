@@ -31,6 +31,10 @@ export default function Profile({navigation}) {
   const [editBio, setEditBio] = useState(false);
   const [imageConfirmPopup, setImageConfirmPopup] = useState(false);
   const [localFilePath, setLocalFilePath] = useState();
+  const [
+    newProfilePicUploadComplete,
+    setNewProfilePicUploadComplete,
+  ] = useState(false);
   const [options, setOptions] = useState({
     title: 'Select Profile Pic',
     storageOptions: {
@@ -51,7 +55,7 @@ export default function Profile({navigation}) {
     getImageDownloadURI(UID).then((url) => {
       setProfileURL(url);
     });
-  }, []);
+  }, [newProfilePicUploadComplete]);
   // Could be imported as a component
   const imagePicker = () => {
     ImagePicker.showImagePicker(options, (response) => {
@@ -85,7 +89,12 @@ export default function Profile({navigation}) {
           imgSource={uploadImg?.uri}
           yesAction={() => {
             const task = uploadFile(localFilePath, UID);
-            monitorFileUpload(task, setuploadProgress);
+            monitorFileUpload(
+              task,
+              setuploadProgress,
+              newProfilePicUploadComplete,
+              setNewProfilePicUploadComplete,
+            );
           }}></ImageConfirmPopup>
         <ConfirmButton
           testID="signOutButton"
