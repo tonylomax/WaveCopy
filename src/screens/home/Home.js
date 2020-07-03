@@ -15,8 +15,14 @@ export default function Profile({navigation}) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    dispatch(subscribeToAllSessions());
+    const unsubscribeFromSessions = dispatch(subscribeToAllSessions());
     dispatch(getAllBeaches());
+    return () => {
+      console.log('unsubscribing from sessions');
+      // unsubscribeFromSessions();
+      // When this is called at the moment the error
+      // is that unsubscribe is an unresolved promise
+    };
   }, []);
 
   useEffect(() => {

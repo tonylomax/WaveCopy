@@ -6,7 +6,7 @@ import {returnSessionAttendees} from 'utils';
 export function subscribeToAllSessions() {
   console.log('Inside session data action');
   return async (dispatch) => {
-    const sessions = firestore()
+    return firestore()
       .collection(COLLECTIONS.SESSIONS)
       .onSnapshot(
         (sessionData) => {
