@@ -67,7 +67,7 @@ export default function Register({navigation, route}) {
       </RegisterTabs>
 
       <RegisterTabs registerTitle="Mentors">
-        {selectedSessionMentorsData.map((mentor) => {
+        {selectedSessionMentorsData?.map((mentor) => {
           const hasPersonAttended = sessionData.Mentors.filter((person) => {
             return person.id === mentor.id;
           })[0].Attended;
