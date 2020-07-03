@@ -14,6 +14,11 @@ import {
 } from 'utils';
 import ProgressBar from 'react-native-progress/Bar';
 import {ResetPassword} from 'components';
+import Moment from 'react-moment';
+import moment from 'moment';
+import 'moment/src/locale/en-gb';
+moment.locale('en-gb');
+moment().format('en-gb');
 
 export default function Profile({navigation}) {
   const userData = useSelector((state) => state.firestoreReducer.userData);
@@ -23,7 +28,7 @@ export default function Profile({navigation}) {
     (state) => state.authenticationReducer.userState,
   );
   const [profileURL, setProfileURL] = useState();
-  const [edit, setEdit] = useState(false);
+  const [editBio, setEditBio] = useState(false);
   const [imageConfirmPopup, setImageConfirmPopup] = useState(false);
   const [localFilePath, setLocalFilePath] = useState();
   const [options, setOptions] = useState({
@@ -96,7 +101,7 @@ export default function Profile({navigation}) {
             uri: profileURL,
           }}></Image>
 
-        {edit ? (
+        {editBio ? (
           <TextInput
             testID="editBio"
             onChangeText={(updatedBio) => {
@@ -111,7 +116,7 @@ export default function Profile({navigation}) {
         <TouchableOpacity
           testID="editBioButton"
           onPress={() => {
-            setEdit((edit) => !edit);
+            setEditBio((editBio) => !editBio);
           }}
           style={{height: '15%', width: '15%'}}>
           <Image
@@ -119,13 +124,26 @@ export default function Profile({navigation}) {
             source={Edit_Icon}></Image>
         </TouchableOpacity>
 
+        <Text> Training</Text>
+        {userData.Training.map((indvidualTraining, index) => (
+          <>
+            <Text>{indvidualTraining?.Name} </Text>
+            <Text>
+              Completed:{' '}
+              <Moment element={Text} format="MMMM YYYY" key={index}>
+                {indvidualTraining}
+              </Moment>
+            </Text>
+          </>
+        ))}
+
         <ConfirmButton
           testID="confirmBioUpdate"
           onPress={() => {
-            setEdit(false);
+            setEditBio(false);
             updateOwnBio(bio, UID);
           }}
-          title="Done"></ConfirmButton>
+          title="Confirm Bio Update"></ConfirmButton>
         <Text testID="firestoreName">Name: {userData?.Name} </Text>
 
         <ConfirmButton
