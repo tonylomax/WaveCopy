@@ -10,6 +10,7 @@ import {ChoicePopup, ConfirmPopup, ImageConfirmPopup} from './popups/index';
 import RegisterTabs from './RegisterTabs';
 import LoadingScreen from './LoadingScreen';
 import ResetPassword from './ResetPassword';
+import AccordionMenu from './AccordionMenu';
 
 export {
   ConfirmButton,
@@ -24,4 +25,5 @@ export {
   ConfirmPopup,
   ImageConfirmPopup,
   ResetPassword,
+  AccordionMenu,
 };

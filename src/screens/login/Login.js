@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
-import {useSafeArea} from 'react-native-safe-area-context';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {serializeError} from 'serialize-error';
 
 export default function Home({navigation, setLoggedIn}) {
@@ -49,7 +48,6 @@ export default function Home({navigation, setLoggedIn}) {
           title="Log In"
           testID="submit-login-details"
           onPress={() => {
-            console.log('LOGIN BUTTON PRESED');
             loginWithEmail(email, password, setLoggedIn).then((result) => {
               const serializedResult = serializeError(result);
               console.log('message', serializedResult.message);

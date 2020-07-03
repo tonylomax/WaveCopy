@@ -8,7 +8,7 @@ export default changePassword = async (
   return new Promise(async (resolve, reject) => {
     const user = auth().currentUser;
     const credential = auth.EmailAuthProvider.credential(
-      currentUser.email,
+      currentUser?.email,
       currentPassword,
     );
     const userAuthenticated = await user
@@ -20,7 +20,6 @@ export default changePassword = async (
         });
       });
     if (userAuthenticated) {
-      console.log('Re-Authenticated');
       user
         .updatePassword(newPassword)
         .then(() => {

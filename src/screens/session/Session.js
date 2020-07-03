@@ -1,10 +1,102 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Image} from 'react-native';
+import {AccordionMenu, ConfirmButton} from 'components';
+import {Edit_Icon} from 'assets';
+import {useSelector, useDispatch} from 'react-redux';
+import Moment from 'react-moment';
+import {
+  getAllSessionAttendees,
+  subscribeToSession,
+  getAllSessionMentors,
+} from '../../redux/';
+import {LoadingScreen} from 'components';
 
-export default function Session() {
+export default function Session({navigation, route}) {
+  const dispatch = useDispatch();
+  const {ID, AttendeesIDandAttendance, Mentors} = route.params.item;
+  const {selectedBeach} = route.params;
+
+  //REDUX STATE
+  const sessionData = useSelector(
+    (state) => state.firestoreReducer.singleSession,
+  );
+
+  const selectedSessionAttendeesData = useSelector(
+    (state) => state.firestoreReducer.selectedSessionAttendees,
+  );
+
+  const selectedSessionMentorsData = useSelector(
+    (state) => state.firestoreReducer.selectedSessionMentors,
+  );
+
+  //LOCAL STATE
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
+    dispatch(subscribeToSession(ID));
+    dispatch(getAllSessionMentors(Mentors));
+  }, []);
+
+  useEffect(() => {
+    if (
+      sessionData &&
+      selectedSessionAttendeesData &&
+      selectedSessionMentorsData
+    ) {
+      setLoading(false);
+    }
+  }, [sessionData, selectedSessionAttendeesData, selectedSessionMentorsData]);
+
+  // useEffect(() => {
+  //   console.log('selectedBeach in sesssion', selectedBeach);
+  // }, [selectedBeach]);
+
   return (
     <View>
-      <Text>Session</Text>
+      {loading ? (
+        <LoadingScreen visible={true}></LoadingScreen>
+      ) : (
+        <>
+          <Image
+            style={{height: '15%', width: '15%'}}
+            source={Edit_Icon}></Image>
+          <Moment element={Text} format="DD.MM.YY">
+            {sessionData?.DateTime}
+          </Moment>
+          <Text>
+            {sessionData?.Type}-{sessionData?.Beach}
+          </Text>
+          <Text>Coordinator: {sessionData?.CoordinatorID}</Text>
+          <Text>{sessionData?.Description}</Text>
+          {/* DATA TO BE ADDED INTO ACCORDION. */}
+          <Text>{selectedSessionMentorsData[0]?.data?.firstName}</Text>
+          <Text>{selectedSessionAttendeesData[0]?.data?.firstName}</Text>
+          <Text>{selectedBeach?.data?.Name}</Text>
+          {/* <AccordionMenu
+            type="mentors"
+            data={selectedSessionMentorsData}
+            title={`Mentors ${sessionData?.Mentors?.length}/${sessionData?.MaxMentors}`}></AccordionMenu>
+          <AccordionMenu
+            type="attendees"
+            data={selectedSessionAttendeesData}
+            title={`Attendees  ${sessionData?.Attendees?.length}`}></AccordionMenu>
+          <AccordionMenu
+            data={beach}
+            type="location"
+            title="Location"></AccordionMenu> */}
+          <ConfirmButton
+            title="Register"
+            testID="registerButton"
+            onPress={() => {
+              navigation.navigate('Register', {
+                ID,
+              });
+            }}>
+            Register
+          </ConfirmButton>
+        </>
+      )}
     </View>
   );
 }

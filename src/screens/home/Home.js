@@ -2,35 +2,34 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {subscribeToAllSessions, getAllBeaches} from '../../redux/';
-import {
-  ConfirmButton,
-  AddButton,
-  EditButton,
-  CallPerson,
-  CloseButton,
-  PersonCardSession,
-  RegisterTabs,
-  LoadingScreen,
-  ChoicePopup,
-} from 'components';
+import {ConfirmButton, ChoicePopup} from 'components';
+import {TouchableHighlight} from 'react-native-gesture-handler';
 
 export default function Profile({navigation}) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    console.log('visible', visible);
-  }, [visible]);
-
   const dispatch = useDispatch();
+  //REDUX STATE
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
 
+  //LOCAL STATE
+  const [visible, setVisible] = useState(false);
+
   useEffect(() => {
-    dispatch(subscribeToAllSessions());
-    if (!beaches) {
-      dispatch(getAllBeaches());
-    }
+    const unsubscribeFromSessions = dispatch(subscribeToAllSessions());
+    dispatch(getAllBeaches());
+    return () => {
+      console.log('unsubscribing from sessions');
+      // unsubscribeFromSessions();
+      // When this is called at the moment the error
+      // is that unsubscribe is an unresolved promise
+    };
   }, []);
+
+  useEffect(() => {
+    console.log('BEACHES  ', beaches);
+  }, [beaches]);
+
+  getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
 
   return (
     <SafeAreaView>
@@ -49,11 +48,25 @@ export default function Profile({navigation}) {
           testID="SessionsList"
           data={sessions}
           renderItem={({item}) => (
-            <View testID={'SessionsListItem'} id={item.ID}>
-              <Text> {item.Beach} </Text>
-              <Text> {item.Description} </Text>
-              <Text> {item.Beach} </Text>
-            </View>
+            <TouchableHighlight
+              onPress={() => {
+                const selectedBeach = getBeach(item.ID)[0];
+                navigation.navigate('Session', {item, selectedBeach});
+              }}
+              style={{
+                borderColor: 'black',
+                borderWidth: 2,
+                marginBottom: '2%',
+              }}>
+              <View testID={`SessionsListItem${item.ID}`} id={item.ID}>
+                <Text> {item?.Type} </Text>
+                <Text> {item?.Beach} </Text>
+                <Text> {item?.DateTime} </Text>
+                <Text>
+                  Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
+                </Text>
+              </View>
+            </TouchableHighlight>
           )}
           keyExtractor={(item) => item.ID}
         />

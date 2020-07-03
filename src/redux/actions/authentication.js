@@ -6,7 +6,7 @@ export function createFirebaseAuthSubscription() {
   console.log('[Action] createFirebaseAuthSubscription');
   return (dispatch) => {
     return auth().onAuthStateChanged((user) => {
-      console.log('AUTH STATE CHANGED', user);
+      console.log('AUTH STATE CHANGED', user?.email);
       if (user) {
         // Login
         dispatch({type: ACTIONS.SET_CURRENT_AUTHENTICATED_USER, data: user});

@@ -1,7 +1,7 @@
 import {FistralBeach} from '../assets/';
 import {BrightonBeach} from '../assets/';
 
-export default (location) => {
+export default getCoverImage = (location) => {
   switch (location.CoverImage) {
     case 'BrightonBeach':
       return BrightonBeach;

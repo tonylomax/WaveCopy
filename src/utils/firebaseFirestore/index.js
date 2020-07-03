@@ -1,4 +1,13 @@
 import updateOwnBio from './updateOwnBio';
-import searchFirestoreServiceUsers from './searchFirestoreServiceUsers';
+import returnSessionAttendees from './returnSessionAttendees';
+import markAttendance from './markAttendance';
 import createSessionInFirestore from './createSessionInFirestore';
-export {updateOwnBio, searchFirestoreServiceUsers, createSessionInFirestore};
+import searchFirestoreServiceUsers from './searchFirestoreServiceUsers';
+
+export {
+  updateOwnBio,
+  searchFirestoreServiceUsers,
+  returnSessionAttendees,
+  markAttendance,
+  createSessionInFirestore,
+};

@@ -1,6 +1,11 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 
-export default function RegisterTabs({title}) {
-  return <Text> I'll be some kind of tabs at some point </Text>;
+export default function RegisterTabs({children, registerTitle}) {
+  return (
+    <View>
+      <Text> {registerTitle} </Text>
+      {children}
+    </View>
+  );
 }

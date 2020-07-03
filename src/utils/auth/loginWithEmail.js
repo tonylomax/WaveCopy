@@ -4,7 +4,7 @@ export default async function loginWithEmail(email, password) {
   return await auth()
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
-      console.log('USER SIGNED IN', user);
+      console.log('USER SIGNED IN', user?.user?.email);
       return user;
     })
     .catch((error) => {

@@ -9,17 +9,15 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import AccordianMenu from '../../components/AccordianMenu';
-import {ConfirmButton, ChoicePopup} from '../../components';
+import {ConfirmButton, ChoicePopup, AccordionMenu} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 import {CommonActions} from '@react-navigation/native';
-import {createSessionInFirestore} from '../../utils';
+import {createSessionInFirestore, getCoverImage} from 'utils';
 import {useSelector} from 'react-redux';
-import getCoverImage from '../../utils/getCoverImage';
 
 export default function ConfirmSession({route, navigation}) {
   const [visible, setVisible] = useState(false);
@@ -91,17 +89,17 @@ export default function ConfirmSession({route, navigation}) {
         defaultValue={descriptionOfSession}
         onChangeText={(text) => setDescriptionOfSession(text)}
       />
-      <AccordianMenu
+      <AccordionMenu
         testID="mentors-accordian"
         title={`Mentors (0/${numberOfVolunteers})`}
       />
-      <AccordianMenu
+      <AccordionMenu
         testID="attendees-accordian"
         type="attendees"
         title={`Attendees (${selectedUsers.length})`}
         data={selectedUsers}
       />
-      <AccordianMenu
+      <AccordionMenu
         testID="location-accordian"
         type="location"
         title="Location"
