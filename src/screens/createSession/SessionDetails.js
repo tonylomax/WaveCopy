@@ -101,7 +101,7 @@ export default function SessionDetails({navigation}) {
         <Text>Location</Text>
         <Picker
           testID="location-of-session"
-          selectedValue={location?.Name}
+          selectedValue={location?.data?.Name}
           onValueChange={(itemValue, itemIndex) => {
             const ValueToAdd = beaches[itemIndex];
             setLocation(ValueToAdd);

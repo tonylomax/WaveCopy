@@ -32,7 +32,7 @@ export default function ConfirmSession({route, navigation}) {
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
 
-  const CoverImage = getCoverImage(location);
+  const CoverImage = getCoverImage(location.data);
 
   return (
     <SafeAreaView>
