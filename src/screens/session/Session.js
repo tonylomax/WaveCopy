@@ -8,13 +8,13 @@ import {
   getAllSessionAttendees,
   subscribeToSession,
   getAllSessionMentors,
-  subscribeToBeach,
 } from '../../redux/';
 import {LoadingScreen} from 'components';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
   const {ID, AttendeesIDandAttendance, Mentors} = route.params.item;
+  const {selectedBeach} = route.params;
 
   //REDUX STATE
   const sessionData = useSelector(
@@ -28,8 +28,6 @@ export default function Session({navigation, route}) {
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionMentors,
   );
-
-  const beach = useSelector((state) => state.firestoreReducer.singleBeach);
 
   //LOCAL STATE
   const [loading, setLoading] = useState(true);
@@ -46,14 +44,13 @@ export default function Session({navigation, route}) {
       selectedSessionAttendeesData &&
       selectedSessionMentorsData
     ) {
-      dispatch(subscribeToBeach(sessionData.BeachID));
       setLoading(false);
     }
   }, [sessionData, selectedSessionAttendeesData, selectedSessionMentorsData]);
 
-  useEffect(() => {
-    console.log('beach in sesssion', beach);
-  }, [beach]);
+  // useEffect(() => {
+  //   console.log('selectedBeach in sesssion', selectedBeach);
+  // }, [selectedBeach]);
 
   return (
     <View>
@@ -64,7 +61,6 @@ export default function Session({navigation, route}) {
           <Image
             style={{height: '15%', width: '15%'}}
             source={Edit_Icon}></Image>
-          <Text>{beach?.Name}</Text>
           <Moment element={Text} format="DD.MM.YY">
             {sessionData?.DateTime}
           </Moment>
@@ -76,7 +72,7 @@ export default function Session({navigation, route}) {
           {/* DATA TO BE ADDED INTO ACCORDION. */}
           <Text>{selectedSessionMentorsData[0]?.data?.firstName}</Text>
           <Text>{selectedSessionAttendeesData[0]?.data?.firstName}</Text>
-          <Text>{beach?.Name}</Text>
+          <Text>{selectedBeach?.data?.Name}</Text>
           {/* <AccordionMenu
             type="mentors"
             data={selectedSessionMentorsData}

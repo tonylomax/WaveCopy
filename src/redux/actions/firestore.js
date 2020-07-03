@@ -99,9 +99,14 @@ export function subscribeToBeach(beachID) {
 export function getAllBeaches() {
   console.log('INSIDE getAllBeaches ACTION ');
   return async (dispatch) => {
-    const beaches = [];
+    // const beaches = [];
     const snapshot = await firestore().collection(COLLECTIONS.BEACHES).get();
-    snapshot.docs.map((doc) => beaches.push(doc.data()));
+    const beaches = snapshot.docs.map((doc) => {
+      return {
+        data: doc.data(),
+        id: doc._ref?._documentPath?._parts[1],
+      };
+    });
     console.log('beaches retrieved, ', beaches);
     dispatch({
       type: ACTIONS.GET_ALL_BEACHES,

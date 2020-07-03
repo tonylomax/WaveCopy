@@ -121,10 +121,10 @@ export default function SessionDetails({navigation}) {
           }}>
           {beaches?.map((beach) => (
             <Picker.Item
-              label={beach?.Name}
-              value={beach?.Name}
-              id={beach?.Name}
-              key={beach?.Name}
+              label={beach?.data?.Name}
+              value={beach?.data?.Name}
+              id={beach?.data?.Name}
+              key={beach?.data?.Name}
             />
           ))}
         </Picker>

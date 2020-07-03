@@ -9,6 +9,7 @@ export default function Profile({navigation}) {
   const dispatch = useDispatch();
   //REDUX STATE
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
+  const beaches = useSelector((state) => state.firestoreReducer.beaches);
 
   //LOCAL STATE
   const [visible, setVisible] = useState(false);
@@ -18,9 +19,11 @@ export default function Profile({navigation}) {
     dispatch(getAllBeaches());
   }, []);
 
-  // useEffect(() => {
-  //   console.log('SESSION', sessions);
-  // }, [sessions]);
+  useEffect(() => {
+    console.log('BEACHES  ', beaches);
+  }, [beaches]);
+
+  getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
 
   return (
     <SafeAreaView>
@@ -41,7 +44,8 @@ export default function Profile({navigation}) {
           renderItem={({item}) => (
             <TouchableHighlight
               onPress={() => {
-                navigation.navigate('Session', {item});
+                const selectedBeach = getBeach(item.ID)[0];
+                navigation.navigate('Session', {item, selectedBeach});
               }}
               style={{
                 borderColor: 'black',
