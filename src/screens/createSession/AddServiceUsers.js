@@ -56,7 +56,6 @@ export default function AddServiceUsers({route, navigation}) {
       <TextInput
         onChangeText={(text) => onTypeLetter(text)}
         value={searchTerm}
-        h
       />
       {loading && <Text>Loading...</Text>}
       {searchResults.length > 0 && (
