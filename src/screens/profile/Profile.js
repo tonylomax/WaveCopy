@@ -3,7 +3,7 @@ import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
 import {ConfirmButton, ImageConfirmPopup} from 'components';
 import {useSelector, useDispatch} from 'react-redux';
 import {TextInput} from 'react-native-gesture-handler';
-import {Edit_Icon} from 'assets';
+import {Edit_Icon, BrightonBeach} from 'assets';
 import ImagePicker from 'react-native-image-picker';
 import {
   uploadFile,
@@ -14,6 +14,11 @@ import {
 } from 'utils';
 import ProgressBar from 'react-native-progress/Bar';
 import {ResetPassword} from 'components';
+import Moment from 'react-moment';
+import moment from 'moment';
+import 'moment/src/locale/en-gb';
+moment.locale('en-gb');
+moment().format('en-gb');
 
 export default function Profile({navigation}) {
   const userData = useSelector((state) => state.firestoreReducer.userData);
@@ -23,9 +28,13 @@ export default function Profile({navigation}) {
     (state) => state.authenticationReducer.userState,
   );
   const [profileURL, setProfileURL] = useState();
-  const [edit, setEdit] = useState(false);
+  const [editBio, setEditBio] = useState(false);
   const [imageConfirmPopup, setImageConfirmPopup] = useState(false);
   const [localFilePath, setLocalFilePath] = useState();
+  const [
+    newProfilePicUploadComplete,
+    setNewProfilePicUploadComplete,
+  ] = useState(false);
   const [options, setOptions] = useState({
     title: 'Select Profile Pic',
     storageOptions: {
@@ -46,7 +55,7 @@ export default function Profile({navigation}) {
     getImageDownloadURI(UID).then((url) => {
       setProfileURL(url);
     });
-  }, []);
+  }, [newProfilePicUploadComplete]);
   // Could be imported as a component
   const imagePicker = () => {
     ImagePicker.showImagePicker(options, (response) => {
@@ -74,13 +83,23 @@ export default function Profile({navigation}) {
   return (
     <SafeAreaView>
       <View>
+        <Image
+          style={{alignSelf: 'center', height: 150}}
+          source={BrightonBeach}
+        />
+
         <ImageConfirmPopup
           visible={imageConfirmPopup}
           setVisible={setImageConfirmPopup}
           imgSource={uploadImg?.uri}
           yesAction={() => {
             const task = uploadFile(localFilePath, UID);
-            monitorFileUpload(task, setuploadProgress);
+            monitorFileUpload(
+              task,
+              setuploadProgress,
+              newProfilePicUploadComplete,
+              setNewProfilePicUploadComplete,
+            );
           }}></ImageConfirmPopup>
         <ConfirmButton
           testID="signOutButton"
@@ -96,7 +115,7 @@ export default function Profile({navigation}) {
             uri: profileURL,
           }}></Image>
 
-        {edit ? (
+        {editBio ? (
           <TextInput
             testID="editBio"
             onChangeText={(updatedBio) => {
@@ -111,7 +130,7 @@ export default function Profile({navigation}) {
         <TouchableOpacity
           testID="editBioButton"
           onPress={() => {
-            setEdit((edit) => !edit);
+            setEditBio((editBio) => !editBio);
           }}
           style={{height: '15%', width: '15%'}}>
           <Image
@@ -119,13 +138,26 @@ export default function Profile({navigation}) {
             source={Edit_Icon}></Image>
         </TouchableOpacity>
 
+        <Text> Training</Text>
+        {userData?.Training?.map((indvidualTraining, index) => (
+          <>
+            <Text>{indvidualTraining?.Name} </Text>
+            <Text>
+              Completed:{' '}
+              <Moment element={Text} format="MMMM YYYY" key={index}>
+                {indvidualTraining}
+              </Moment>
+            </Text>
+          </>
+        ))}
+
         <ConfirmButton
           testID="confirmBioUpdate"
           onPress={() => {
-            setEdit(false);
+            setEditBio(false);
             updateOwnBio(bio, UID);
           }}
-          title="Done"></ConfirmButton>
+          title="Confirm Bio Update"></ConfirmButton>
         <Text testID="firestoreName">Name: {userData?.Name} </Text>
 
         <ConfirmButton

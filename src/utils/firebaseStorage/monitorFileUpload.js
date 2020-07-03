@@ -1,6 +1,11 @@
 import {uploadProgress} from 'utils';
 
-export default monitorFileUpload = (uploadTask, setuploadProgress) => {
+export default monitorFileUpload = (
+  uploadTask,
+  setuploadProgress,
+  newProfilePicUploadComplete,
+  setNewProfilePicUploadComplete,
+) => {
   uploadTask.on('state_changed', (snapshot) => {
     const progress = uploadProgress(
       snapshot.bytesTransferred / snapshot.totalBytes,
@@ -13,6 +18,9 @@ export default monitorFileUpload = (uploadTask, setuploadProgress) => {
         break;
       case 'success':
         console.log('UPLOAD IS SUCCESSFUL');
+        setNewProfilePicUploadComplete(
+          (newProfilePicUploadComplete) => !newProfilePicUploadComplete,
+        );
         break;
       default:
         break;
