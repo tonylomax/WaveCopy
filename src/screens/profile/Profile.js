@@ -139,7 +139,7 @@ export default function Profile({navigation}) {
         </TouchableOpacity>
 
         <Text> Training</Text>
-        {userData.Training.map((indvidualTraining, index) => (
+        {userData?.Training?.map((indvidualTraining, index) => (
           <>
             <Text>{indvidualTraining?.Name} </Text>
             <Text>
