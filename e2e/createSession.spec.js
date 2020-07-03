@@ -75,6 +75,9 @@ describe('Create a surf session', () => {
         'surfing at Fistral beach',
       );
       await element(by.id('confirm-session-details')).tap();
+      await waitFor(element(by.id('yesButtonChoicePopup')))
+        .toExist()
+        .withTimeout(2000);
       await element(by.id('yesButtonChoicePopup')).tap();
 
       await element(by.id('navigate-to-profile-button')).tap();

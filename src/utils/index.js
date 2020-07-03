@@ -8,6 +8,7 @@ import {
   updateOwnBio,
   returnSessionAttendees,
   markAttendance,
+  searchFirestoreServiceUsers,
   createSessionInFirestore,
 } from './firebaseFirestore/index';
 import {
@@ -20,6 +21,8 @@ import generateDateTimeArray from './time/repetitionDatesArray';
 import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
 export {
+  createSessionInFirestore,
+  searchFirestoreServiceUsers,
   loginWithEmail,
   signOut,
   updateOwnBio,
@@ -31,7 +34,6 @@ export {
   validatePassword,
   returnSessionAttendees,
   markAttendance,
-  createSessionInFirestore,
   getCoverImage,
   generateDateTimeArray,
   generateNumberedArray,
