@@ -1,37 +1,56 @@
-import React from 'react';
-import {Text, View} from 'react-native';
-
-export default function AccordionMenu({testID, title, data, type}) {
-  // console.log('data in accordion', data);
-  switch (type) {
-    case 'attendees':
-      return (
-        <View>
-          <Text testID={testID}>{title}</Text>
-          {data?.map((user, i) => (
-            <Text>
-              {i + 1}) {user?.firstName} {user?.lastName}
-            </Text>
-          ))}
-        </View>
-      );
-
-    case 'location':
-      return (
-        <View>
-          <Text testID={testID}>{title}</Text>
-          <Text>Map</Text>
-          <Text>{data?.Address?.FirstLine}</Text>
-          <Text>{data?.Address?.SecondLine}</Text>
-          <Text>{data?.Address?.Postcode}</Text>
-          <Text>Parking</Text>
-          <Text>{data?.Parking}</Text>
-          <Text>Toilets</Text>
-          <Text>{data?.Toilets}</Text>
-        </View>
-      );
-    default:
-      return <Text testID={testID}>{title}</Text>;
-      break;
-  }
+import React, {useEffect} from 'react';
+import {Text} from 'react-native';
+import {List} from 'react-native-paper';
+export default function AccordionMenu({
+  testID,
+  location,
+  selectedUsers,
+  numberOfVolunteers,
+}) {
+  useEffect(() => {
+    console.log({selectedUsers});
+    console.log(location);
+    console.log({numberOfVolunteers});
+  }, []);
+  return (
+    <List.AccordionGroup>
+      <List.Accordion
+        testId="mentors-accordian"
+        title={`Mentors (0/${numberOfVolunteers})`}
+        id="1"></List.Accordion>
+      <List.Accordion title={`Attendees (${selectedUsers.length})`} id="2">
+        {selectedUsers?.map((user, i) => (
+          <List.Item
+            testId="attendees-accordian"
+            id={`attendee-${i + 1}`}
+            title={`${i + 1}) ${user?.data?.firstName} ${user?.data?.lastName}`}
+          />
+        ))}
+      </List.Accordion>
+      <List.Accordion title="Location" id="3" testId="location-accordian">
+        <List.Item
+          title="Address"
+          description={() => (
+            <>
+              <Text>{location?.data?.Address?.SecondLine}</Text>
+              <Text>{location?.data?.Address?.FirstLine}</Text>
+              <Text>{location?.data?.Address?.PostCode}</Text>
+            </>
+          )}
+        />
+        <List.Item
+          title="Parking"
+          description={() => <Text>{location?.data?.Parking}</Text>}
+        />
+        <List.Item
+          title="Toilets"
+          description={() => <Text>{location?.data?.Toilets}</Text>}
+        />
+        <List.Item
+          title="Map"
+          description={() => <Text>Coming soon...</Text>}
+        />
+      </List.Accordion>
+    </List.AccordionGroup>
+  );
 }

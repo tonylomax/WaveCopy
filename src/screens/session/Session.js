@@ -48,10 +48,6 @@ export default function Session({navigation, route}) {
     }
   }, [sessionData, selectedSessionAttendeesData, selectedSessionMentorsData]);
 
-  // useEffect(() => {
-  //   console.log('selectedBeach in sesssion', selectedBeach);
-  // }, [selectedBeach]);
-
   return (
     <View>
       {loading ? (
@@ -73,18 +69,15 @@ export default function Session({navigation, route}) {
           <Text>{selectedSessionMentorsData[0]?.data?.firstName}</Text>
           <Text>{selectedSessionAttendeesData[0]?.data?.firstName}</Text>
           <Text>{selectedBeach?.data?.Name}</Text>
-          {/* <AccordionMenu
-            type="mentors"
-            data={selectedSessionMentorsData}
-            title={`Mentors ${sessionData?.Mentors?.length}/${sessionData?.MaxMentors}`}></AccordionMenu>
-          <AccordionMenu
-            type="attendees"
-            data={selectedSessionAttendeesData}
-            title={`Attendees  ${sessionData?.Attendees?.length}`}></AccordionMenu>
-          <AccordionMenu
-            data={beach}
-            type="location"
-            title="Location"></AccordionMenu> */}
+          {selectedSessionAttendeesData &&
+            selectedBeach &&
+            sessionData.MaxMentors && (
+              <AccordionMenu
+                selectedUsers={selectedSessionAttendeesData}
+                location={selectedBeach}
+                numberOfMentors={sessionData}
+              />
+            )}
           <ConfirmButton
             title="Register"
             testID="registerButton"
