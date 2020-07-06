@@ -1,7 +1,7 @@
 describe('Edit profile', () => {
   exampleEmail = 'j@j.com';
   examplePassword = 'asdasd';
-  updateBioText = 'New bio information created by Detox test';
+  updateBioText = 'New bio information created by Detox test\n';
 
   beforeEach(async () => {
     // await device.terminateApp();
