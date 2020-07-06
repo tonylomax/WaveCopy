@@ -23,14 +23,13 @@ export function subscribeToSession(singleSessionData) {
     });
 }
 
-export function subscribeToFirestoreUserData(currentUserUID) {
+export function subscribeToFirestoreUserData(updatedUserData) {
   console.log('INSIDE subscribeToFirestoreUserData ACTION ');
   return async (dispatch) => {
     dispatch({
       type: ACTIONS.SET_CURRENT_FIRESTORE_USER_DATA,
       data: updatedUserData,
     });
-    return userDataSubscription;
   };
 }
 

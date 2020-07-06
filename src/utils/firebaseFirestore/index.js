@@ -5,6 +5,7 @@ import createSessionInFirestore from './createSessionInFirestore';
 import searchFirestoreServiceUsers from './searchFirestoreServiceUsers';
 import subscribeToSessionChanges from './subscribeToSessionChanges';
 import subscribeToSessions from './subscribeToSessions';
+import subscribeToFirestoreUsers from './subscribeToFirestoreUsers';
 
 export {
   updateOwnBio,
@@ -14,4 +15,5 @@ export {
   createSessionInFirestore,
   subscribeToSessionChanges,
   subscribeToSessions,
+  subscribeToFirestoreUsers,
 };

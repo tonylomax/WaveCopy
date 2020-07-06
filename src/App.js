@@ -10,6 +10,7 @@ import Profile from './screens/profile/Profile';
 import CreateSession from './screens/createSession/CreateSession';
 import Session from './screens/session/Session';
 import Register from './screens/session/Register';
+import {subscribeToFirestoreUsers} from 'utils';
 import {
   createFirebaseAuthSubscription,
   subscribeToFirestoreUserData,
@@ -83,10 +84,10 @@ const App: () => React$Node = () => {
     );
 
     if (!isEmpty(currentAuthenticatedUser)) {
-      const unsubscribeFromFirestoreUserData = dispatch(
-        subscribeToFirestoreUserData(currentAuthenticatedUser.uid),
+      const unsubscribeFromFirestoreUserData = subscribeToFirestoreUsers(
+        currentAuthenticatedUser.uid,
       );
-      // return () => unsubscribeFromFirestoreUserData();
+      return () => unsubscribeFromFirestoreUserData();
     }
   }, [currentAuthenticatedUser]);
 
