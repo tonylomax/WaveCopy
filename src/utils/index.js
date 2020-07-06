@@ -10,6 +10,7 @@ import {
   markAttendance,
   searchFirestoreServiceUsers,
   createSessionInFirestore,
+  subscribeToSessionChanges,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -23,6 +24,7 @@ import generateNumberedArray from './generateNumberedArray';
 export {
   createSessionInFirestore,
   searchFirestoreServiceUsers,
+  subscribeToSessionChanges,
   loginWithEmail,
   signOut,
   updateOwnBio,

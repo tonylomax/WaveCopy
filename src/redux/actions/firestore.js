@@ -39,7 +39,17 @@ export function subscribeToAllSessions() {
   };
 }
 
-export function subscribeToSession(sessionID) {
+export function subscribeToSession(singleSessionData) {
+  console.log('subscription came in subscribeToSession action ');
+  console.log({singleSessionData});
+  return (dispatch) =>
+    dispatch({
+      type: ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION,
+      data: singleSessionData,
+    });
+}
+
+export function subscribeToSession0(sessionID) {
   console.log('INSIDE subscribeToSession ACTION ');
   return async (dispatch) => {
     const sessionSubscription = firestore()

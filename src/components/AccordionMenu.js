@@ -14,27 +14,29 @@ export default function AccordionMenu({
         testId="mentors-accordian"
         title={`Mentors (${mentors?.length}/${numberOfMentors})`}
         id="1">
-        {mentors?.map((mentor, i) => (
-          <List.Item
-            id={`mentor-${i + 1}`}
-            title={`${i + 1}) ${mentor?.data?.firstName} ${
-              mentor?.data?.lastName
-            }`}
-          />
-        ))}
+        {mentors.length > 0 &&
+          mentors?.map((mentor, i) => (
+            <List.Item
+              id={`mentor-${i + 1}`}
+              title={`${i + 1}) ${mentor?.data?.firstName} ${
+                mentor?.data?.lastName
+              }`}
+            />
+          ))}
       </List.Accordion>
       <List.Accordion title={`Attendees (${selectedUsers.length})`} id="2">
-        {selectedUsers?.map((user, i) => (
-          <List.Item
-            testId="attendees-accordian"
-            id={`attendee-${i + 1}`}
-            title={
-              user.data
-                ? `${i + 1}) ${user?.data?.firstName} ${user?.data?.lastName}`
-                : `${i + 1}) ${user?.firstName} ${user?.lastName}`
-            }
-          />
-        ))}
+        {selectedUsers.length > 0 &&
+          selectedUsers?.map((user, i) => (
+            <List.Item
+              testId="attendees-accordian"
+              id={`attendee-${i + 1}`}
+              title={
+                user.data
+                  ? `${i + 1}) ${user?.data?.firstName} ${user?.data?.lastName}`
+                  : `${i + 1}) ${user?.firstName} ${user?.lastName}`
+              }
+            />
+          ))}
       </List.Accordion>
       <List.Accordion title="Location" id="3" testId="location-accordian">
         <List.Item

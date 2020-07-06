@@ -3,6 +3,7 @@ import returnSessionAttendees from './returnSessionAttendees';
 import markAttendance from './markAttendance';
 import createSessionInFirestore from './createSessionInFirestore';
 import searchFirestoreServiceUsers from './searchFirestoreServiceUsers';
+import subscribeToSessionChanges from './subscribeToSessionChanges';
 
 export {
   updateOwnBio,
@@ -10,4 +11,5 @@ export {
   returnSessionAttendees,
   markAttendance,
   createSessionInFirestore,
+  subscribeToSessionChanges,
 };
