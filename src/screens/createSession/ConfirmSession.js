@@ -18,6 +18,7 @@ moment().format('en-gb');
 import {CommonActions} from '@react-navigation/native';
 import {createSessionInFirestore, getCoverImage} from 'utils';
 import {useSelector} from 'react-redux';
+import {List} from 'react-native-paper';
 
 export default function ConfirmSession({route, navigation}) {
   const [visible, setVisible] = useState(false);
@@ -33,6 +34,9 @@ export default function ConfirmSession({route, navigation}) {
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
 
   const CoverImage = getCoverImage(location.data);
+  useEffect(() => {
+    console.log(location);
+  }, []);
 
   return (
     <SafeAreaView>
@@ -89,22 +93,50 @@ export default function ConfirmSession({route, navigation}) {
         defaultValue={descriptionOfSession}
         onChangeText={(text) => setDescriptionOfSession(text)}
       />
-      <AccordionMenu
-        testID="mentors-accordian"
-        title={`Mentors (0/${numberOfVolunteers})`}
-      />
-      <AccordionMenu
-        testID="attendees-accordian"
-        type="attendees"
-        title={`Attendees (${selectedUsers.length})`}
-        data={selectedUsers}
-      />
-      <AccordionMenu
-        testID="location-accordian"
-        type="location"
-        title="Location"
-        data={location}
-      />
+
+      <List.AccordionGroup>
+        <List.Accordion
+          title={`Mentors (0/${numberOfVolunteers})`}
+          id="1"></List.Accordion>
+        <List.Accordion title={`Attendees (${selectedUsers.length})`} id="2">
+          {selectedUsers?.map((user, i) => (
+            <List.Item
+              id={`attendee-${i + 1}`}
+              title={`${i + 1}) ${user?.firstName} ${user?.lastName}`}
+            />
+          ))}
+        </List.Accordion>
+        <List.Accordion title="Location" id="3">
+          <List.Item
+            title="Address"
+            description={() => (
+              <>
+                <Text>{location?.data?.Address?.SecondLine}</Text>
+                <Text>{location?.data?.Address?.FirstLine}</Text>
+                <Text>{location?.data?.Address?.PostCode}</Text>
+              </>
+            )}
+          />
+
+          <List.Item
+            title="Parking"
+            description={() => <Text>{location?.data?.Parking}</Text>}
+          />
+          <List.Item
+            title="Toilets"
+            description={() => <Text>{location?.data?.Toilets}</Text>}
+          />
+          <List.Item
+            title="Map"
+            description={() => (
+              <Image
+                style={{alignSelf: 'center', height: 75}}
+                source={CoverImage}
+              />
+            )}
+          />
+        </List.Accordion>
+      </List.AccordionGroup>
     </SafeAreaView>
   );
 }
