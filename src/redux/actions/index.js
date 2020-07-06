@@ -7,6 +7,7 @@ import {
   getAllSessionMentors,
   subscribeToBeach,
   getAllBeaches,
+  subscribeToRoleSpecificSessions,
 } from './firestore';
 
 export {
@@ -18,4 +19,5 @@ export {
   getAllSessionMentors,
   subscribeToBeach,
   getAllBeaches,
+  subscribeToRoleSpecificSessions,
 };

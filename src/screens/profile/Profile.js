@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
 import {ConfirmButton, ImageConfirmPopup} from 'components';
 import {useSelector, useDispatch} from 'react-redux';
@@ -52,10 +52,15 @@ export default function Profile({navigation}) {
   };
 
   useEffect(() => {
+    console.log('USER DATA IN PROFILE', userData);
+  }, [userData]);
+
+  useEffect(() => {
     getImageDownloadURI(UID).then((url) => {
       setProfileURL(url);
     });
   }, [newProfilePicUploadComplete]);
+
   // Could be imported as a component
   const imagePicker = () => {
     ImagePicker.showImagePicker(options, (response) => {

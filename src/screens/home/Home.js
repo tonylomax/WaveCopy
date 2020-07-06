@@ -1,33 +1,63 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {subscribeToAllSessions, getAllBeaches} from '../../redux/';
+import {
+  subscribeToAllSessions,
+  getAllBeaches,
+  subscribeToRoleSpecificSessions,
+} from '../../redux/';
 import {ConfirmButton, ChoicePopup} from 'components';
 import {TouchableHighlight} from 'react-native-gesture-handler';
+import {isEmpty} from 'lodash';
 
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
   //REDUX STATE
+
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
+
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
+  const roleSessions = useSelector(
+    (state) => state.firestoreReducer.roleSpecificSessionData,
+  );
+  const userData = useSelector((state) => state.firestoreReducer.userData);
 
   //LOCAL STATE
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const unsubscribeFromSessions = dispatch(subscribeToAllSessions());
-    dispatch(getAllBeaches());
-    return () => {
-      console.log('unsubscribing from sessions');
-      // unsubscribeFromSessions();
-      // When this is called at the moment the error
-      // is that unsubscribe is an unresolved promise
-    };
-  }, []);
+    console.log('userData in home', userData);
+    let unsubscribeFromSessions;
+    let unsubscribeFromSubscribeToRoleSpecificSessions;
+    if (!isEmpty(userData)) {
+      if (userData?.Roles.includes('NationalAdmin')) {
+        console.log(userData?.firstName, 'IS NationalAdmin');
+        unsubscribeFromSessions = dispatch(subscribeToAllSessions());
+      } else {
+        console.log(userData?.firstName, 'IS NOT NationalAdmin');
+        unsubscribeFromSubscribeToRoleSpecificSessions = dispatch(
+          subscribeToRoleSpecificSessions(userData.Region),
+        );
+      }
+      dispatch(getAllBeaches());
+      return () => {
+        console.log('unsubscribing from sessions');
+        Promise.resolve(unsubscribeFromSessions);
+        Promise.resolve(unsubscribeFromSubscribeToRoleSpecificSessions);
+        // unsubscribeFromSessions();
+        // When this is called at the moment the error
+        // is that unsubscribe is an unresolved promise
+      };
+    }
+  }, [userData]);
 
   useEffect(() => {
-    console.log('BEACHES  ', beaches);
-  }, [beaches]);
+    console.log('roleSessions', roleSessions);
+  }, [roleSessions]);
+
+  useEffect(() => {
+    console.log('sessions', sessions);
+  }, [sessions]);
 
   getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
 
@@ -44,9 +74,12 @@ export default function Profile({navigation}) {
           testID="choicePopup"
           visible={visible}
           setVisible={setVisible}></ChoicePopup>
+
         <FlatList
           testID="SessionsList"
-          data={sessions}
+          data={
+            userData?.Roles?.includes('NationalAdmin') ? sessions : roleSessions
+          }
           renderItem={({item}) => (
             <TouchableHighlight
               onPress={() => {
@@ -68,8 +101,7 @@ export default function Profile({navigation}) {
               </View>
             </TouchableHighlight>
           )}
-          keyExtractor={(item) => item.ID}
-        />
+          keyExtractor={(item) => item.ID}></FlatList>
       </View>
     </SafeAreaView>
   );

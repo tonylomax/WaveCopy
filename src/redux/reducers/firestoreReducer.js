@@ -1,5 +1,6 @@
 export const initialState = {
   sessionData: {},
+  roleSpecificSessionData: {},
   userData: {},
   selectedSessionAttendees: {},
   singleSession: {},
@@ -17,6 +18,11 @@ export default (state = initialState, action) => {
       const sessionData = action.data;
 
       return {...state, sessionData};
+
+    case ACTIONS.SUBSCRIBE_TO_ROLE_SESSIONS:
+      console.log('[Reducer - fireStoreReducer] SUBSCRIBE TO ROLE SESSIONS');
+      const roleSpecificSessionData = action.data;
+      return {...state, roleSpecificSessionData};
 
     case ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION:
       console.log('[Reducer - fireStoreReducer] SUBSCRIBE_TO_SINGLE_SESSION');

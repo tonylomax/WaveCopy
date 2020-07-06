@@ -39,6 +39,43 @@ export function subscribeToAllSessions() {
   };
 }
 
+export function subscribeToRoleSpecificSessions(userRegion) {
+  console.log('Inside subscribeToRoleSpecificSessions action', userRegion);
+  return async (dispatch) => {
+    return firestore()
+      .collection(COLLECTIONS.SESSIONS)
+      .where('Region', '==', userRegion)
+      .onSnapshot(
+        (sessionData) => {
+          const sessionsData = sessionData.docs.map((session) => {
+            console.log('subscribeToRoleSpecificSessions sessions', session);
+
+            return {
+              ID: session?._ref?._documentPath?._parts[1],
+              Beach: session?._data?.Beach,
+              DateTime: session?._data?.DateTime,
+              Time: session?._data?.Time,
+              Description: session?._data?.Description,
+              AttendeesIDandAttendance: session?._data?.Attendees,
+              CoordinatorID: session?._data?.CoordinatorID,
+              MaxMentors: session?._data?.MaxMentors,
+              Type: session?._data?.Type,
+              Mentors: session?._data?.Mentors,
+            };
+          });
+          dispatch({
+            type: ACTIONS.SUBSCRIBE_TO_ROLE_SESSIONS,
+            data: sessionsData,
+          });
+        },
+        (error) => {
+          console.error(error);
+        },
+      );
+    return sessions;
+  };
+}
+
 export function subscribeToSession(sessionID) {
   console.log('INSIDE subscribeToSession ACTION ');
   return async (dispatch) => {
@@ -62,13 +99,14 @@ export function subscribeToSession(sessionID) {
 }
 
 export function subscribeToFirestoreUserData(currentUserUID) {
-  console.log('INSIDE subscribeToFirestoreUserData ACTION ');
+  console.log('INSIDE subscribeToFirestoreUserData ACTION ', currentUserUID);
   return async (dispatch) => {
     const userDataSubscription = firestore()
       .collection(COLLECTIONS.USERS)
       .doc(currentUserUID)
       .onSnapshot((userData) => {
         const updatedUserData = userData?.data();
+        console.log('updatedUserData', updatedUserData);
         dispatch({
           type: ACTIONS.SET_CURRENT_FIRESTORE_USER_DATA,
           data: updatedUserData,

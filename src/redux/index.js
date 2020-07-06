@@ -7,6 +7,7 @@ import {
   getAllSessionMentors,
   subscribeToBeach,
   getAllBeaches,
+  subscribeToRoleSpecificSessions,
 } from './actions';
 
 export {
@@ -18,4 +19,5 @@ export {
   getAllSessionMentors,
   subscribeToBeach,
   getAllBeaches,
+  subscribeToRoleSpecificSessions,
 };
