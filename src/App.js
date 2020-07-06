@@ -10,7 +10,7 @@ import Profile from './screens/profile/Profile';
 import CreateSession from './screens/createSession/CreateSession';
 import Session from './screens/session/Session';
 import Register from './screens/session/Register';
-import {subscribeToFirestoreUsers} from 'utils';
+import {subscribeToFirestoreUsers, createAuthSubscription} from 'utils';
 import {
   createFirebaseAuthSubscription,
   subscribeToFirestoreUserData,
@@ -68,10 +68,7 @@ const App: () => React$Node = () => {
   );
 
   useEffect(() => {
-    const unsubscribeFromFirebaseAuth = dispatch(
-      createFirebaseAuthSubscription(),
-    );
-
+    const unsubscribeFromFirebaseAuth = createAuthSubscription();
     return () => {
       unsubscribeFromFirebaseAuth();
     };

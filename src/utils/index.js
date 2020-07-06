@@ -3,6 +3,7 @@ import {
   signOut,
   updatePassword,
   validatePassword,
+  createAuthSubscription,
 } from './auth/index';
 import {
   updateOwnBio,
@@ -24,6 +25,7 @@ import generateDateTimeArray from './time/repetitionDatesArray';
 import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
 export {
+  createAuthSubscription,
   createSessionInFirestore,
   searchFirestoreServiceUsers,
   subscribeToSessions,
