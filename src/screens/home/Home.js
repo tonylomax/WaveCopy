@@ -1,10 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {subscribeToAllSessions, getAllBeaches} from '../../redux/';
+import {
+  subscribeToAllSessions,
+  getAllBeaches,
+  getAllSessionAttendees,
+  subscribeToSession,
+  getAllSessionMentors,
+} from '../../redux/';
 import {ConfirmButton, ChoicePopup} from 'components';
 import {TouchableHighlight} from 'react-native-gesture-handler';
-
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
   //REDUX STATE
@@ -25,11 +30,7 @@ export default function Profile({navigation}) {
     };
   }, []);
 
-  useEffect(() => {
-    console.log('BEACHES  ', beaches);
-  }, [beaches]);
-
-  getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
+  const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
 
   return (
     <SafeAreaView>
@@ -51,6 +52,7 @@ export default function Profile({navigation}) {
             <TouchableHighlight
               onPress={() => {
                 const selectedBeach = getBeach(item.ID)[0];
+
                 navigation.navigate('Session', {item, selectedBeach});
               }}
               style={{

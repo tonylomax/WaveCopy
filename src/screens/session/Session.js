@@ -13,7 +13,7 @@ import {LoadingScreen} from 'components';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
-  const {ID, AttendeesIDandAttendance, Mentors} = route.params.item;
+  const {ID, AttendeesIDandAttendance, Mentors, MaxMentors} = route.params.item;
   const {selectedBeach} = route.params;
 
   //REDUX STATE
@@ -36,6 +36,7 @@ export default function Session({navigation, route}) {
     dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
     dispatch(subscribeToSession(ID));
     dispatch(getAllSessionMentors(Mentors));
+    console.log('max mentors is ', MaxMentors);
   }, []);
 
   useEffect(() => {
@@ -71,11 +72,13 @@ export default function Session({navigation, route}) {
           <Text>{selectedBeach?.data?.Name}</Text>
           {selectedSessionAttendeesData &&
             selectedBeach &&
-            sessionData.MaxMentors && (
+            MaxMentors > 0 &&
+            selectedSessionMentorsData && (
               <AccordionMenu
                 selectedUsers={selectedSessionAttendeesData}
+                numberOfMentors={MaxMentors}
                 location={selectedBeach}
-                numberOfMentors={sessionData}
+                mentors={selectedSessionMentorsData}
               />
             )}
           <ConfirmButton

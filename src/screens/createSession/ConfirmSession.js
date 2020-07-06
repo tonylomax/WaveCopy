@@ -95,7 +95,8 @@ export default function ConfirmSession({route, navigation}) {
       <AccordionMenu
         location={location}
         selectedUsers={selectedUsers}
-        numberOfVolunteers={numberOfVolunteers}
+        numberOfMentors={numberOfVolunteers}
+        mentors={[]}
       />
     </SafeAreaView>
   );
