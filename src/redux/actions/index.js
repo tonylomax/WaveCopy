@@ -1,7 +1,7 @@
-import {createFirebaseAuthSubscription} from './authentication';
+import {setCurrentAuthenticatedUser} from './authentication';
 import {
   subscribeToFirestoreUserData,
-  subscribeToAllSessions,
+  updateSessions,
   getAllSessionAttendees,
   subscribeToSession,
   getAllSessionMentors,
@@ -10,9 +10,9 @@ import {
 } from './firestore';
 
 export {
-  createFirebaseAuthSubscription,
+  setCurrentAuthenticatedUser,
   subscribeToFirestoreUserData,
-  subscribeToAllSessions,
+  updateSessions,
   getAllSessionAttendees,
   subscribeToSession,
   getAllSessionMentors,

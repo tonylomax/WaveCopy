@@ -11,11 +11,7 @@ import CreateSession from './screens/createSession/CreateSession';
 import Session from './screens/session/Session';
 import Register from './screens/session/Register';
 import {subscribeToFirestoreUsers, createAuthSubscription} from 'utils';
-import {
-  createFirebaseAuthSubscription,
-  subscribeToFirestoreUserData,
-} from './redux/index';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
 
 import {
@@ -60,7 +56,6 @@ const HomeNavigator = () => (
 );
 
 const App: () => React$Node = () => {
-  const dispatch = useDispatch();
   const [loggedIn, setLoggedIn] = useState(false);
 
   const currentAuthenticatedUser = useSelector(

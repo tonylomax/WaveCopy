@@ -3,7 +3,7 @@ import {ACTIONS} from '../../constants/actions';
 import {COLLECTIONS} from '../../constants/collections';
 import {returnSessionAttendees} from 'utils';
 
-export function subscribeToAllSessions(sessionsData) {
+export function updateSessions(sessionsData) {
   console.log('Inside session data action');
   return async (dispatch) => {
     dispatch({
@@ -33,21 +33,12 @@ export function subscribeToFirestoreUserData(updatedUserData) {
   };
 }
 
-export function subscribeToBeach(beachID) {
-  console.log('INSIDE getAllBeaches ACTION ');
+export function subscribeToBeach(singleBeach) {
   return async (dispatch) => {
-    const beachSubscription = firestore()
-      .collection(COLLECTIONS.BEACHES)
-      .doc(beachID)
-      .onSnapshot((beach) => {
-        const singleBeach = beach?.data();
-        // console.log('singleBeach', singleBeach);
-        dispatch({
-          type: ACTIONS.GET_SINGLE_BEACH,
-          data: singleBeach,
-        });
-      });
-    return beachSubscription;
+    dispatch({
+      type: ACTIONS.GET_SINGLE_BEACH,
+      data: singleBeach,
+    });
   };
 }
 

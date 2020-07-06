@@ -14,6 +14,7 @@ import {
   subscribeToSessionChanges,
   subscribeToSessions,
   subscribeToFirestoreUsers,
+  subscribeToSpecificBeach,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -29,6 +30,7 @@ export {
   createSessionInFirestore,
   searchFirestoreServiceUsers,
   subscribeToSessions,
+  subscribeToSpecificBeach,
   subscribeToSessionChanges,
   subscribeToFirestoreUsers,
   loginWithEmail,

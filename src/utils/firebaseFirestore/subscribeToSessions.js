@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import {COLLECTIONS} from '../../constants/collections';
 import store from '../../redux/store';
-import {subscribeToAllSessions} from '../../redux/';
+import {updateSessions} from '../../redux/';
 
 export default (sessionID) => {
   return firestore()
@@ -23,7 +23,7 @@ export default (sessionID) => {
             Mentors: session?._data?.Mentors,
           };
         });
-        store.dispatch(subscribeToAllSessions(sessionsData));
+        store.dispatch(updateSessions(sessionsData));
       },
       (error) => {
         console.error(error);

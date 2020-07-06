@@ -1,9 +1,7 @@
-import auth from '@react-native-firebase/auth';
-
 import {ACTIONS} from '../../constants/actions';
 
-export function createFirebaseAuthSubscription(user) {
-  console.log('[Action] createFirebaseAuthSubscription');
+export function setCurrentAuthenticatedUser(user) {
+  console.log('[Action] setCurrentAuthenticatedUser');
   return (dispatch) => {
     if (user) {
       // Login
