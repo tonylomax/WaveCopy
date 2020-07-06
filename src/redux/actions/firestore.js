@@ -7,7 +7,7 @@ export function updateSessions(sessionsData) {
   console.log('Inside updateSessions data action');
   return async (dispatch) => {
     dispatch({
-      type: ACTIONS.SUBSCRIBE_TO_SESSIONS,
+      type: ACTIONS.UPDATE_SESSIONS,
       data: sessionsData,
     });
   };
@@ -18,7 +18,7 @@ export function updateCurrentSession(singleSessionData) {
   console.log({singleSessionData});
   return (dispatch) =>
     dispatch({
-      type: ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION,
+      type: ACTIONS.UPDATE_CURRENT_SESSION,
       data: singleSessionData,
     });
 }
@@ -33,7 +33,7 @@ export function updateFirestoreUserData(updatedUserData) {
   };
 }
 
-export function subscribeToBeach(singleBeach) {
+export function updateBeach(singleBeach) {
   return async (dispatch) => {
     dispatch({
       type: ACTIONS.GET_SINGLE_BEACH,
