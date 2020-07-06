@@ -4,6 +4,7 @@ import markAttendance from './markAttendance';
 import createSessionInFirestore from './createSessionInFirestore';
 import searchFirestoreServiceUsers from './searchFirestoreServiceUsers';
 import subscribeToSessionChanges from './subscribeToSessionChanges';
+import subscribeToSessions from './subscribeToSessions';
 
 export {
   updateOwnBio,
@@ -12,4 +13,5 @@ export {
   markAttendance,
   createSessionInFirestore,
   subscribeToSessionChanges,
+  subscribeToSessions,
 };

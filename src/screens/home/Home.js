@@ -1,15 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {
-  subscribeToAllSessions,
-  getAllBeaches,
-  getAllSessionAttendees,
-  subscribeToSession,
-  getAllSessionMentors,
-} from '../../redux/';
+import {getAllBeaches} from '../../redux/';
 import {ConfirmButton, ChoicePopup} from 'components';
 import {TouchableHighlight} from 'react-native-gesture-handler';
+import {subscribeToSessions} from 'utils';
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
   //REDUX STATE
@@ -20,10 +15,11 @@ export default function Profile({navigation}) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const unsubscribeFromSessions = dispatch(subscribeToAllSessions());
+    const unsubscribeFromSessions = subscribeToSessions();
     dispatch(getAllBeaches());
     return () => {
       console.log('unsubscribing from sessions');
+      unsubscribeFromSessions();
       // unsubscribeFromSessions();
       // When this is called at the moment the error
       // is that unsubscribe is an unresolved promise

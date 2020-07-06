@@ -3,39 +3,13 @@ import {ACTIONS} from '../../constants/actions';
 import {COLLECTIONS} from '../../constants/collections';
 import {returnSessionAttendees} from 'utils';
 
-export function subscribeToAllSessions() {
+export function subscribeToAllSessions(sessionsData) {
   console.log('Inside session data action');
   return async (dispatch) => {
-    return firestore()
-      .collection(COLLECTIONS.SESSIONS)
-      .onSnapshot(
-        (sessionData) => {
-          const sessionsData = sessionData.docs.map((session) => {
-            // console.log('session?._data?.Mentors ', session?._data?.Mentors);
-
-            return {
-              ID: session?._ref?._documentPath?._parts[1],
-              Beach: session?._data?.Beach,
-              DateTime: session?._data?.DateTime,
-              Time: session?._data?.Time,
-              Description: session?._data?.Description,
-              AttendeesIDandAttendance: session?._data?.Attendees,
-              CoordinatorID: session?._data?.CoordinatorID,
-              MaxMentors: session?._data?.MaxMentors,
-              Type: session?._data?.Type,
-              Mentors: session?._data?.Mentors,
-            };
-          });
-          dispatch({
-            type: ACTIONS.SUBSCRIBE_TO_SESSIONS,
-            data: sessionsData,
-          });
-        },
-        (error) => {
-          console.error(error);
-        },
-      );
-    return sessions;
+    dispatch({
+      type: ACTIONS.SUBSCRIBE_TO_SESSIONS,
+      data: sessionsData,
+    });
   };
 }
 
@@ -49,41 +23,13 @@ export function subscribeToSession(singleSessionData) {
     });
 }
 
-export function subscribeToSession0(sessionID) {
-  console.log('INSIDE subscribeToSession ACTION ');
-  return async (dispatch) => {
-    const sessionSubscription = firestore()
-      .collection(COLLECTIONS.SESSIONS)
-      .doc(sessionID)
-      .onSnapshot(
-        (singleSessionData) => {
-          // console.log('singleSessionData', singleSessionData);
-          dispatch({
-            type: ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION,
-            data: singleSessionData,
-          });
-        },
-        (error) => {
-          console.error(error);
-        },
-      );
-    return sessionSubscription;
-  };
-}
-
 export function subscribeToFirestoreUserData(currentUserUID) {
   console.log('INSIDE subscribeToFirestoreUserData ACTION ');
   return async (dispatch) => {
-    const userDataSubscription = firestore()
-      .collection(COLLECTIONS.USERS)
-      .doc(currentUserUID)
-      .onSnapshot((userData) => {
-        const updatedUserData = userData?.data();
-        dispatch({
-          type: ACTIONS.SET_CURRENT_FIRESTORE_USER_DATA,
-          data: updatedUserData,
-        });
-      });
+    dispatch({
+      type: ACTIONS.SET_CURRENT_FIRESTORE_USER_DATA,
+      data: updatedUserData,
+    });
     return userDataSubscription;
   };
 }

@@ -10,7 +10,7 @@ import {
   getAllSessionMentors,
 } from '../../redux/';
 import {LoadingScreen} from 'components';
-import {subscribeToSessionChanges} from '../../utils';
+import {subscribeToSessionChanges} from 'utils';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
@@ -34,8 +34,9 @@ export default function Session({navigation, route}) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
-
+    if (AttendeesIDandAttendance.length > 0) {
+      dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
+    }
     dispatch(getAllSessionMentors(Mentors));
     console.log('max mentors is ', MaxMentors);
     const unsubscribe = subscribeToSessionChanges(ID);

@@ -11,6 +11,7 @@ import {
   searchFirestoreServiceUsers,
   createSessionInFirestore,
   subscribeToSessionChanges,
+  subscribeToSessions,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -24,6 +25,7 @@ import generateNumberedArray from './generateNumberedArray';
 export {
   createSessionInFirestore,
   searchFirestoreServiceUsers,
+  subscribeToSessions,
   subscribeToSessionChanges,
   loginWithEmail,
   signOut,
