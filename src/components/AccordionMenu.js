@@ -8,6 +8,9 @@ export default function AccordionMenu({
   numberOfMentors,
   mentors,
 }) {
+  React.useEffect(() => {
+    console.log(mentors);
+  }, []);
   return (
     <List.AccordionGroup>
       <List.Accordion

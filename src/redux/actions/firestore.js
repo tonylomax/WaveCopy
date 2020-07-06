@@ -85,6 +85,7 @@ export function getAllSessionAttendees(attendeesArray) {
 
 export function getAllSessionMentors(mentorsArray) {
   console.log('INSIDE getAllSessionMentors ACTION ');
+  console.log({mentorsArray});
   return async (dispatch) => {
     const SESSION_MENTORS = await returnSessionAttendees(
       mentorsArray,

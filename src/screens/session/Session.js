@@ -85,7 +85,7 @@ export default function Session({navigation, route}) {
                 selectedUsers={selectedSessionAttendeesData}
                 numberOfMentors={MaxMentors}
                 location={selectedBeach}
-                mentors={selectedSessionMentorsData}
+                mentors={Mentors}
               />
             )}
           <ConfirmButton

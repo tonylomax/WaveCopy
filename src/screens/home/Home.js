@@ -48,7 +48,7 @@ export default function Profile({navigation}) {
             <TouchableHighlight
               onPress={() => {
                 const selectedBeach = getBeach(item.ID)[0];
-
+                console.log({item});
                 navigation.navigate('Session', {item, selectedBeach});
               }}
               style={{
