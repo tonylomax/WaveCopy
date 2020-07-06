@@ -1,21 +1,21 @@
 import {setCurrentAuthenticatedUser} from './authentication';
 import {
-  subscribeToFirestoreUserData,
+  updateFirestoreUserData,
   updateSessions,
   getAllSessionAttendees,
-  subscribeToSession,
+  updateCurrentSession,
   getAllSessionMentors,
-  subscribeToBeach,
+  updateBeach,
   getAllBeaches,
 } from './firestore';
 
 export {
   setCurrentAuthenticatedUser,
-  subscribeToFirestoreUserData,
+  updateFirestoreUserData,
   updateSessions,
   getAllSessionAttendees,
-  subscribeToSession,
+  updateCurrentSession,
   getAllSessionMentors,
-  subscribeToBeach,
+  updateBeach,
   getAllBeaches,
 };

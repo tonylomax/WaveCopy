@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import {COLLECTIONS} from '../../constants/collections';
 import store from '../../redux/store';
-import {subscribeToSession} from '../../redux/';
+import {updateCurrentSession} from '../../redux/';
 
 export default (sessionID) => {
   console.log('creating a subscription');
@@ -14,7 +14,7 @@ export default (sessionID) => {
           'inside on snapshot, received some data',
           singleSessionData,
         );
-        store.dispatch(subscribeToSession(singleSessionData));
+        store.dispatch(updateCurrentSession(singleSessionData));
       },
       (error) => {
         console.error(error);

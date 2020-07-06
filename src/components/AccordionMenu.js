@@ -12,9 +12,9 @@ export default function AccordionMenu({
     <List.AccordionGroup>
       <List.Accordion
         testId="mentors-accordian"
-        title={`Mentors (${mentors?.length}/${numberOfMentors})`}
+        title={`Mentors (${mentors?.length || 0}/${numberOfMentors})`}
         id="1">
-        {mentors.length > 0 &&
+        {mentors?.length > 0 &&
           mentors?.map((mentor, i) => (
             <List.Item
               id={`mentor-${i + 1}`}

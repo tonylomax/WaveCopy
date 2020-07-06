@@ -1,21 +1,21 @@
 import {
   setCurrentAuthenticatedUser,
-  subscribeToFirestoreUserData,
+  updateFirestoreUserData,
   updateSessions,
   getAllSessionAttendees,
-  subscribeToSession,
+  updateCurrentSession,
   getAllSessionMentors,
-  subscribeToBeach,
+  updateBeach,
   getAllBeaches,
 } from './actions';
 
 export {
   setCurrentAuthenticatedUser,
-  subscribeToFirestoreUserData,
+  updateFirestoreUserData,
   updateSessions,
   getAllSessionAttendees,
-  subscribeToSession,
+  updateCurrentSession,
   getAllSessionMentors,
-  subscribeToBeach,
+  updateBeach,
   getAllBeaches,
 };

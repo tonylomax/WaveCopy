@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import {COLLECTIONS} from '../../constants/collections';
 import store from '../../redux/store';
-import {subscribeToFirestoreUserData} from '../../redux/';
+import {updateFirestoreUserData} from '../../redux/';
 
 export default (currentUserUID) => {
   return firestore()
@@ -9,6 +9,6 @@ export default (currentUserUID) => {
     .doc(currentUserUID)
     .onSnapshot((userData) => {
       const updatedUserData = userData?.data();
-      store.dispatch(subscribeToFirestoreUserData(updatedUserData));
+      store.dispatch(updateFirestoreUserData(updatedUserData));
     });
 };

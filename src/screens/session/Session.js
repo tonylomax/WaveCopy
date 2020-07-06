@@ -6,7 +6,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Moment from 'react-moment';
 import {
   getAllSessionAttendees,
-  subscribeToSession,
+  updateCurrentSession,
   getAllSessionMentors,
 } from '../../redux/';
 import {LoadingScreen} from 'components';

@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import {COLLECTIONS} from '../../constants/collections';
 import store from '../../redux/store';
-import {subscribeToBeach} from '../../redux/';
+import {updateBeach} from '../../redux/';
 
 export default (beachID) => {
   console.log('INSIDE getAllBeaches ACTION ');
@@ -10,6 +10,6 @@ export default (beachID) => {
     .doc(beachID)
     .onSnapshot((beach) => {
       const singleBeach = beach?.data();
-      store.dispatch(subscribeToBeach(beach));
+      store.dispatch(updateBeach(singleBeach));
     });
 };

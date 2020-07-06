@@ -4,7 +4,7 @@ import {COLLECTIONS} from '../../constants/collections';
 import {returnSessionAttendees} from 'utils';
 
 export function updateSessions(sessionsData) {
-  console.log('Inside session data action');
+  console.log('Inside updateSessions data action');
   return async (dispatch) => {
     dispatch({
       type: ACTIONS.SUBSCRIBE_TO_SESSIONS,
@@ -13,7 +13,7 @@ export function updateSessions(sessionsData) {
   };
 }
 
-export function subscribeToSession(singleSessionData) {
+export function updateCurrentSession(singleSessionData) {
   console.log('subscription came in subscribeToSession action ');
   console.log({singleSessionData});
   return (dispatch) =>
@@ -23,7 +23,7 @@ export function subscribeToSession(singleSessionData) {
     });
 }
 
-export function subscribeToFirestoreUserData(updatedUserData) {
+export function updateFirestoreUserData(updatedUserData) {
   console.log('INSIDE subscribeToFirestoreUserData ACTION ');
   return async (dispatch) => {
     dispatch({
