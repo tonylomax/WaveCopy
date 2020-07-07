@@ -139,6 +139,14 @@ export function getAllSessionAttendees(attendeesArray) {
     });
   };
 }
+export function clearSelectedSessionAttendees() {
+  return async (dispatch) => {
+    dispatch({
+      type: ACTIONS.GET_SESSION_ATTENDEES,
+      data: [],
+    });
+  };
+}
 
 export function getAllSessionMentors(mentorsArray) {
   console.log('INSIDE getAllSessionMentors ACTION ');
@@ -159,6 +167,15 @@ export function getAllSessionMentors(mentorsArray) {
     dispatch({
       type: ACTIONS.GET_SESSION_MENTORS,
       data: SESSION_MENTORS_FILTERED,
+    });
+  };
+}
+
+export function clearSelectedSessionMentors() {
+  return async (dispatch) => {
+    dispatch({
+      type: ACTIONS.GET_SESSION_MENTORS,
+      data: [],
     });
   };
 }

@@ -1,7 +1,6 @@
 import {setCurrentAuthenticatedUser} from './authentication';
 import {
   updateSessions,
-  updateRoleSpecificSessions,
   subscribeToSession,
   subscribeToFirestoreUserData,
   updateCurrentSession,
@@ -10,12 +9,15 @@ import {
   getAllBeaches,
   getAllSessionAttendees,
   getAllSessionMentors,
+  clearSelectedSessionMentors,
+  clearSelectedSessionAttendees,
+  updateRoleSpecificSessions,
 } from './firestore';
 
 export {
+  clearSelectedSessionMentors,
   setCurrentAuthenticatedUser,
   updateSessions,
-  updateRoleSpecificSessions,
   subscribeToSession,
   subscribeToFirestoreUserData,
   updateCurrentSession,
@@ -24,4 +26,6 @@ export {
   getAllBeaches,
   getAllSessionAttendees,
   getAllSessionMentors,
+  clearSelectedSessionAttendees,
+  updateRoleSpecificSessions,
 };

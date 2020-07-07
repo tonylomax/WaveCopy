@@ -8,6 +8,8 @@ import {
   getAllSessionAttendees,
   updateCurrentSession,
   getAllSessionMentors,
+  clearSelectedSessionMentors,
+  clearSelectedSessionAttendees,
 } from '../../redux/';
 import {LoadingScreen} from 'components';
 import {subscribeToSessionChanges} from 'utils';
@@ -35,7 +37,11 @@ export default function Session({navigation, route}) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (AttendeesIDandAttendance.length > 0) {
+    if (
+      AttendeesIDandAttendance !== undefined &&
+      AttendeesIDandAttendance.length > 0
+    ) {
+      console.log({AttendeesIDandAttendance});
       dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
     }
     dispatch(getAllSessionMentors(Mentors));
@@ -43,6 +49,8 @@ export default function Session({navigation, route}) {
     const unsubscribe = subscribeToSessionChanges(ID);
     return () => {
       console.log('unsubscribing');
+      dispatch(clearSelectedSessionMentors());
+      dispatch(clearSelectedSessionAttendees());
       unsubscribe();
     };
   }, []);

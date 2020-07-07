@@ -2,9 +2,9 @@ export const initialState = {
   sessionData: {},
   roleSpecificSessionData: {},
   userData: {},
-  selectedSessionAttendees: {},
+  selectedSessionAttendees: [],
   singleSession: {},
-  selectedSessionMentors: {},
+  selectedSessionMentors: [],
   singleBeach: {},
   beaches: {},
 };

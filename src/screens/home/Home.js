@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, SafeAreaView, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {
-  subscribeToAllSessions,
-  getAllBeaches,
-  updateRoleSpecificSessions,
-} from '../../redux/';
+import {getAllBeaches} from '../../redux/';
 import {ConfirmButton, ChoicePopup} from 'components';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import {isEmpty} from 'lodash';
@@ -40,6 +36,7 @@ export default function Profile({navigation}) {
         unsubscribeFromSessions = subscribeToSessions();
       } else {
         console.log(userData?.firstName, 'IS NOT NationalAdmin');
+        console.log('calling updateRoleSpecificSessions');
         unsubscribeFromRoleSessions = subscribeToRoleSpecificSessionChanges(
           userData.Region,
         );

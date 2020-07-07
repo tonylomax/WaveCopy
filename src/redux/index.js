@@ -7,8 +7,9 @@ import {
   getAllSessionMentors,
   updateBeach,
   getAllBeaches,
-  subscribeToRoleSpecificSessions,
   updateRoleSpecificSessions,
+  clearSelectedSessionMentors,
+  clearSelectedSessionAttendees,
 } from './actions';
 
 export {
@@ -20,6 +21,7 @@ export {
   getAllSessionMentors,
   updateBeach,
   getAllBeaches,
-  subscribeToRoleSpecificSessions,
   updateRoleSpecificSessions,
+  clearSelectedSessionMentors,
+  clearSelectedSessionAttendees,
 };
