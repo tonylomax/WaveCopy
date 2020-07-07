@@ -31,6 +31,7 @@ export default createSessionInFirestore = ({
         .add({
           Attendees: updatedAttendees,
           MaxMentors: numberOfVolunteers,
+          Mentors: [],
           Beach: location.Name,
           Type: sessionType,
           Description: descriptionOfSession,
