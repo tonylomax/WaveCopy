@@ -1,21 +1,21 @@
-import {createFirebaseAuthSubscription} from './authentication';
+import {setCurrentAuthenticatedUser} from './authentication';
 import {
-  subscribeToFirestoreUserData,
-  subscribeToAllSessions,
+  updateFirestoreUserData,
+  updateSessions,
   getAllSessionAttendees,
-  subscribeToSession,
+  updateCurrentSession,
   getAllSessionMentors,
-  subscribeToBeach,
+  updateBeach,
   getAllBeaches,
 } from './firestore';
 
 export {
-  createFirebaseAuthSubscription,
-  subscribeToFirestoreUserData,
-  subscribeToAllSessions,
+  setCurrentAuthenticatedUser,
+  updateFirestoreUserData,
+  updateSessions,
   getAllSessionAttendees,
-  subscribeToSession,
+  updateCurrentSession,
   getAllSessionMentors,
-  subscribeToBeach,
+  updateBeach,
   getAllBeaches,
 };

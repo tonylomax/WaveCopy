@@ -1,21 +1,21 @@
 import {
-  createFirebaseAuthSubscription,
-  subscribeToFirestoreUserData,
-  subscribeToAllSessions,
+  setCurrentAuthenticatedUser,
+  updateFirestoreUserData,
+  updateSessions,
   getAllSessionAttendees,
-  subscribeToSession,
+  updateCurrentSession,
   getAllSessionMentors,
-  subscribeToBeach,
+  updateBeach,
   getAllBeaches,
 } from './actions';
 
 export {
-  createFirebaseAuthSubscription,
-  subscribeToFirestoreUserData,
-  subscribeToAllSessions,
+  setCurrentAuthenticatedUser,
+  updateFirestoreUserData,
+  updateSessions,
   getAllSessionAttendees,
-  subscribeToSession,
+  updateCurrentSession,
   getAllSessionMentors,
-  subscribeToBeach,
+  updateBeach,
   getAllBeaches,
 };

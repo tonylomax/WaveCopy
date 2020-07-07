@@ -12,14 +12,14 @@ import {ACTIONS} from '../../constants/actions';
 export default (state = initialState, action) => {
   console.log('[REDUCER], firestorereducer');
   switch (action.type) {
-    case ACTIONS.SUBSCRIBE_TO_SESSIONS:
-      console.log('[Reducer - fireStoreReducer] SUBSCRIBE TO SESSIONS');
+    case ACTIONS.UPDATE_SESSIONS:
+      console.log('[Reducer - fireStoreReducer] UPDATE_SESSIONS');
       const sessionData = action.data;
 
       return {...state, sessionData};
 
-    case ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION:
-      console.log('[Reducer - fireStoreReducer] SUBSCRIBE_TO_SINGLE_SESSION');
+    case ACTIONS.UPDATE_CURRENT_SESSION:
+      console.log('[Reducer - fireStoreReducer] UPDATE_CURRENT_SESSION');
       const singleSession = action.data._data;
 
       return {...state, singleSession};

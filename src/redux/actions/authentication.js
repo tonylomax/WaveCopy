@@ -1,19 +1,14 @@
-import auth from '@react-native-firebase/auth';
-
 import {ACTIONS} from '../../constants/actions';
 
-export function createFirebaseAuthSubscription() {
-  console.log('[Action] createFirebaseAuthSubscription');
+export function setCurrentAuthenticatedUser(user) {
+  console.log('[Action] setCurrentAuthenticatedUser');
   return (dispatch) => {
-    return auth().onAuthStateChanged((user) => {
-      console.log('AUTH STATE CHANGED', user?.email);
-      if (user) {
-        // Login
-        dispatch({type: ACTIONS.SET_CURRENT_AUTHENTICATED_USER, data: user});
-      } else {
-        // Signout
-        dispatch({type: ACTIONS.SET_CURRENT_AUTHENTICATED_USER, data: {}});
-      }
-    });
+    if (user) {
+      // Login
+      dispatch({type: ACTIONS.SET_CURRENT_AUTHENTICATED_USER, data: user});
+    } else {
+      // Signout
+      dispatch({type: ACTIONS.SET_CURRENT_AUTHENTICATED_USER, data: {}});
+    }
   };
 }

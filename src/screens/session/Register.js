@@ -2,14 +2,11 @@ import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Moment from 'react-moment';
 import {RegisterTabs} from 'components';
-import {useSelector, useDispatch} from 'react-redux';
-import {subscribeToSession} from '../../redux/';
-import {markAttendance} from 'utils';
+import {useSelector} from 'react-redux';
+import {markAttendance, subscribeToSessionChanges} from 'utils';
 import {USER_GROUP} from '../../constants/userGroups';
 
 export default function Register({navigation, route}) {
-  const dispatch = useDispatch();
-
   //REDUX STATE
   const sessionData = useSelector(
     (state) => state.firestoreReducer.singleSession,
@@ -29,7 +26,11 @@ export default function Register({navigation, route}) {
   const {ID} = route.params;
 
   useEffect(() => {
-    dispatch(subscribeToSession(ID));
+    const unsubscribe = subscribeToSessionChanges(ID);
+    return () => {
+      console.log(`unsubscribing from session ${ID} changes`);
+      unsubscribe();
+    };
   }, []);
 
   return (
@@ -43,9 +44,9 @@ export default function Register({navigation, route}) {
       </Moment>
       <RegisterTabs registerTitle="Attendees">
         {selectedSessionAttendeesData.map((attendee) => {
-          const hasPersonAttended = sessionData.Attendees.filter((person) => {
-            return person.id === attendee.id;
-          })[0].Attended;
+          const hasPersonAttended = sessionData?.Attendees?.filter((person) => {
+            return person?.id === attendee?.id;
+          })[0]?.Attended;
           return (
             <TouchableOpacity
               testID={`personToRegisterButton${attendee.id}`}
@@ -58,8 +59,8 @@ export default function Register({navigation, route}) {
                 );
               }}>
               <Text testID={`personToRegister${attendee.id}`}>
-                {attendee.data.firstName} {attendee.data.lastName}{' '}
-                {hasPersonAttended.toString()}
+                {attendee?.firstName} {attendee?.lastName}{' '}
+                {hasPersonAttended?.toString()}
               </Text>
             </TouchableOpacity>
           );
@@ -68,7 +69,7 @@ export default function Register({navigation, route}) {
 
       <RegisterTabs registerTitle="Mentors">
         {selectedSessionMentorsData?.map((mentor) => {
-          const hasPersonAttended = sessionData.Mentors.filter((person) => {
+          const hasPersonAttended = sessionData?.Mentors?.filter((person) => {
             return person.id === mentor.id;
           })[0].Attended;
           return (
@@ -78,8 +79,8 @@ export default function Register({navigation, route}) {
                 markAttendance(ID, mentor.id, sessionData, USER_GROUP.MENTORS);
               }}>
               <Text testID={`personToRegister${mentor.id}`}>
-                {mentor.data.firstName} {mentor.data.lastName}{' '}
-                {hasPersonAttended.toString()}
+                {mentor?.firstName} {mentor?.lastName}{' '}
+                {hasPersonAttended?.toString()}
               </Text>
             </TouchableOpacity>
           );
