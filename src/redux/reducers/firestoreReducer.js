@@ -1,12 +1,12 @@
 export const initialState = {
-  sessionData: {},
-  roleSpecificSessionData: {},
+  sessionData: [],
+  roleSpecificSessionData: [],
   userData: {},
   selectedSessionAttendees: [],
   singleSession: {},
   selectedSessionMentors: [],
   singleBeach: {},
-  beaches: {},
+  beaches: [],
 };
 import {ACTIONS} from '../../constants/actions';
 

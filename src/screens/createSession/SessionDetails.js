@@ -42,7 +42,7 @@ export default function SessionDetails({navigation}) {
 
   useEffect(() => {
     console.log('beaches in sessiondetails', beaches);
-  }, [beaches]);
+  }, []);
 
   return (
     <SafeAreaView>

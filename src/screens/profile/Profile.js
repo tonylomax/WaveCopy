@@ -167,7 +167,7 @@ export default function Profile({navigation}) {
             updateOwnBio(bio, UID);
           }}
           title="Confirm Bio Update"></ConfirmButton>
-        <Text testID="firestoreName">Name: {userData?.Name} </Text>
+        <Text testID="firestoreName">Name: {userData?.firstName} </Text>
 
         <ConfirmButton
           testID="uploadNewProfilePic"
