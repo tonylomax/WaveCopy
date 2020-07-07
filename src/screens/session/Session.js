@@ -28,14 +28,19 @@ export default function Session({navigation, route}) {
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionMentors,
   );
-
+  const userData = useSelector((state) => state.firestoreReducer.userData);
+  const {roles} = useSelector((state) => state.authenticationReducer.roles);
   //LOCAL STATE
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
-    dispatch(subscribeToSession(ID));
-    dispatch(getAllSessionMentors(Mentors));
+    const unsubscribeGetAllSessionAttendees = dispatch(
+      getAllSessionAttendees(AttendeesIDandAttendance),
+    );
+    const unsubscibeToSession = dispatch(subscribeToSession(ID));
+    const unsubscribeGetAllSessionMentors = dispatch(
+      getAllSessionMentors(Mentors),
+    );
   }, []);
 
   useEffect(() => {
@@ -48,9 +53,9 @@ export default function Session({navigation, route}) {
     }
   }, [sessionData, selectedSessionAttendeesData, selectedSessionMentorsData]);
 
-  // useEffect(() => {
-  //   console.log('selectedBeach in sesssion', selectedBeach);
-  // }, [selectedBeach]);
+  useEffect(() => {
+    console.log('roles', roles);
+  }, [roles]);
 
   return (
     <View>
@@ -85,16 +90,24 @@ export default function Session({navigation, route}) {
             data={beach}
             type="location"
             title="Location"></AccordionMenu> */}
-          <ConfirmButton
-            title="Register"
-            testID="registerButton"
-            onPress={() => {
-              navigation.navigate('Register', {
-                ID,
-              });
-            }}>
-            Register
-          </ConfirmButton>
+
+          {roles?.some(
+            () =>
+              userData?.Roles?.includes('SurfLead') ||
+              userData?.Roles?.includes('NationalAdmin') ||
+              userData?.Roles?.includes('Coordinator'),
+          ) && (
+            <ConfirmButton
+              title="Register"
+              testID="registerButton"
+              onPress={() => {
+                navigation.navigate('Register', {
+                  ID,
+                });
+              }}>
+              Register
+            </ConfirmButton>
+          )}
         </>
       )}
     </View>

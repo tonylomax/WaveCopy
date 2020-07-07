@@ -158,9 +158,9 @@ export function getAllSessionAttendees(attendeesArray) {
   return async (dispatch) => {
     const SESSION_USERS = await returnSessionAttendees(
       attendeesArray,
-      COLLECTIONS.SERVICE_USERS,
+      COLLECTIONS.TEST_SERVICE_USERS,
     );
-    // console.log('SESSION_USERS', SESSION_USERS);
+    console.log('SESSION_USERS', SESSION_USERS);
 
     const SESSION_USERS_FILTERED = SESSION_USERS.map((user) => {
       const data = user?._data;

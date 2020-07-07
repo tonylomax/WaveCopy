@@ -2,6 +2,7 @@ import {ACTIONS} from '../../constants/actions';
 
 export const initialState = {
   userState: {},
+  roles: {roles: ['SurfMentor', 'Coordinator', 'NationAdmin']},
 };
 
 export default (state = initialState, action) => {

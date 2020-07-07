@@ -40,24 +40,16 @@ export default function Profile({navigation}) {
         );
       }
       dispatch(getAllBeaches());
-      return () => {
-        console.log('unsubscribing from sessions');
-        Promise.resolve(unsubscribeFromSessions);
-        Promise.resolve(unsubscribeFromSubscribeToRoleSpecificSessions);
-        // unsubscribeFromSessions();
-        // When this is called at the moment the error
-        // is that unsubscribe is an unresolved promise
-      };
     }
   }, [userData]);
 
-  useEffect(() => {
-    console.log('roleSessions', roleSessions);
-  }, [roleSessions]);
+  // useEffect(() => {
+  //   console.log('roleSessions', roleSessions);
+  // }, [roleSessions]);
 
-  useEffect(() => {
-    console.log('sessions', sessions);
-  }, [sessions]);
+  // useEffect(() => {
+  //   console.log('sessions', sessions);
+  // }, [sessions]);
 
   getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
 

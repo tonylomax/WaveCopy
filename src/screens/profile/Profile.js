@@ -21,12 +21,15 @@ moment.locale('en-gb');
 moment().format('en-gb');
 
 export default function Profile({navigation}) {
+  //REDUX STATE
   const userData = useSelector((state) => state.firestoreReducer.userData);
-  const [bio, setBio] = useState(userData?.Bio);
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
   const currentAuthenticatedUser = useSelector(
     (state) => state.authenticationReducer.userState,
   );
+
+  //LOCAL STATE
+  const [bio, setBio] = useState(userData?.Bio);
   const [profileURL, setProfileURL] = useState();
   const [editBio, setEditBio] = useState(false);
   const [imageConfirmPopup, setImageConfirmPopup] = useState(false);
@@ -43,6 +46,7 @@ export default function Profile({navigation}) {
     },
     noData: true,
   });
+
   const [uploadImg, setUploadImg] = useState();
   const [uploadProgress, setuploadProgress] = useState(0);
 
