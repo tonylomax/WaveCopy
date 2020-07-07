@@ -149,15 +149,15 @@ export default function Profile({navigation}) {
 
         <Text> Training</Text>
         {userData?.Training?.map((indvidualTraining, index) => (
-          <>
+          <View key={index}>
             <Text>{indvidualTraining?.Name} </Text>
             <Text>
               Completed:{' '}
-              <Moment element={Text} format="MMMM YYYY" key={index}>
+              <Moment element={Text} format="MMMM YYYY">
                 {indvidualTraining}
               </Moment>
             </Text>
-          </>
+          </View>
         ))}
 
         <ConfirmButton

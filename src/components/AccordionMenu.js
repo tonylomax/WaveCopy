@@ -20,7 +20,7 @@ export default function AccordionMenu({
         {mentors?.length > 0 &&
           mentors?.map((mentor, i) => (
             <List.Item
-              id={`mentor-${i + 1}`}
+              key={`mentor-${i + 1}`}
               title={`${i + 1}) ${mentor?.firstName} ${mentor?.lastName}`}
             />
           ))}
@@ -33,7 +33,7 @@ export default function AccordionMenu({
           selectedUsers?.map((user, i) => (
             <List.Item
               testId="attendees-accordian"
-              id={`attendee-${i + 1}`}
+              key={`attendee-${i + 1}`}
               title={`${i + 1}) ${user?.firstName} ${user?.lastName}`}
             />
           ))}
