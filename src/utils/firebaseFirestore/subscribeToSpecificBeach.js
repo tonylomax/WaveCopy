@@ -8,8 +8,13 @@ export default (beachID) => {
   return firestore()
     .collection(COLLECTIONS.BEACHES)
     .doc(beachID)
-    .onSnapshot((beach) => {
-      const singleBeach = beach?.data();
-      store.dispatch(updateBeach(singleBeach));
-    });
+    .onSnapshot(
+      (beach) => {
+        const singleBeach = beach?.data();
+        store.dispatch(updateBeach(singleBeach));
+      },
+      (error) => {
+        console.error(error);
+      },
+    );
 };

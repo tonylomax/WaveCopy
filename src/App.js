@@ -62,11 +62,7 @@ const App: () => React$Node = () => {
   }, []);
 
   useEffect(() => {
-    console.log(
-      'currentAuthenticatedUser is ',
-      currentAuthenticatedUser?.email,
-    );
-
+    console.log('currentAuthenticatedUser is ', currentAuthenticatedUser);
     if (!isEmpty(currentAuthenticatedUser)) {
       const unsubscribeFromFirestoreUserData = subscribeToFirestoreUsers(
         currentAuthenticatedUser.uid,

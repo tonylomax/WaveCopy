@@ -13,6 +13,61 @@ export function updateSessions(sessionsData) {
   };
 }
 
+export function updateRoleSpecificSessions(roleSessions) {
+  console.log('Inside updateRoleSpecificSessions action', roleSessions);
+  return async (dispatch) => {
+    dispatch({
+      type: ACTIONS.UPDATE_ROLE_SESSIONS,
+      data: roleSessions,
+    });
+  };
+}
+
+export function subscribeToSession(sessionID) {
+  console.log('INSIDE subscribeToSession ACTION ');
+  return async (dispatch) => {
+    const sessionSubscription = firestore()
+      .collection(COLLECTIONS.SESSIONS)
+      .doc(sessionID)
+      .onSnapshot(
+        (singleSessionData) => {
+          // console.log('singleSessionData', singleSessionData);
+          dispatch({
+            type: ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION,
+            data: singleSessionData,
+          });
+        },
+        (error) => {
+          console.error(error);
+        },
+      );
+    return sessionSubscription;
+  };
+}
+
+export function subscribeToFirestoreUserData(currentUserUID) {
+  console.log('INSIDE subscribeToFirestoreUserData ACTION ', currentUserUID);
+  return async (dispatch) => {
+    const userDataSubscription = firestore()
+      .collection(COLLECTIONS.USERS)
+      .doc(currentUserUID)
+      .onSnapshot(
+        (userData) => {
+          const updatedUserData = userData?.data();
+          console.log('updatedUserData', updatedUserData);
+          dispatch({
+            type: ACTIONS.SET_CURRENT_FIRESTORE_USER_DATA,
+            data: updatedUserData,
+          });
+        },
+        (error) => {
+          console.error(error);
+        },
+      );
+    return userDataSubscription;
+  };
+}
+
 export function updateCurrentSession(singleSessionData) {
   console.log('subscription came in subscribeToSession action ');
   console.log({singleSessionData});
@@ -61,13 +116,15 @@ export function getAllBeaches() {
 }
 
 export function getAllSessionAttendees(attendeesArray) {
-  console.log('INSIDE getAllSessionAttendees ACTION ');
+  console.log('INSIDE getAllSessionAttendees ACTION ', attendeesArray);
   return async (dispatch) => {
     const SESSION_USERS = await returnSessionAttendees(
       attendeesArray,
-      COLLECTIONS.SERVICE_USERS,
-    );
-    // console.log('SESSION_USERS', SESSION_USERS);
+      COLLECTIONS.TEST_SERVICE_USERS,
+    ).catch((error) => {
+      console.log(error);
+    });
+    console.log('SESSION_USERS', SESSION_USERS);
 
     const SESSION_USERS_FILTERED = SESSION_USERS.map((user) => {
       const data = user?._data;
@@ -79,6 +136,14 @@ export function getAllSessionAttendees(attendeesArray) {
     dispatch({
       type: ACTIONS.GET_SESSION_ATTENDEES,
       data: SESSION_USERS_FILTERED,
+    });
+  };
+}
+export function clearSelectedSessionAttendees() {
+  return async (dispatch) => {
+    dispatch({
+      type: ACTIONS.GET_SESSION_ATTENDEES,
+      data: [],
     });
   };
 }
@@ -102,6 +167,15 @@ export function getAllSessionMentors(mentorsArray) {
     dispatch({
       type: ACTIONS.GET_SESSION_MENTORS,
       data: SESSION_MENTORS_FILTERED,
+    });
+  };
+}
+
+export function clearSelectedSessionMentors() {
+  return async (dispatch) => {
+    dispatch({
+      type: ACTIONS.GET_SESSION_MENTORS,
+      data: [],
     });
   };
 }

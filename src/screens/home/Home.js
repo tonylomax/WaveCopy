@@ -4,26 +4,51 @@ import {useSelector, useDispatch} from 'react-redux';
 import {getAllBeaches} from '../../redux/';
 import {ConfirmButton, ChoicePopup} from 'components';
 import {TouchableHighlight} from 'react-native-gesture-handler';
-import {subscribeToSessions} from 'utils';
+import {isEmpty} from 'lodash';
+import {
+  subscribeToSessions,
+  subscribeToRoleSpecificSessionChanges,
+} from 'utils';
+
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
   //REDUX STATE
+
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
+
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
+  const roleSessions = useSelector(
+    (state) => state.firestoreReducer.roleSpecificSessionData,
+  );
+  const userData = useSelector((state) => state.firestoreReducer.userData);
+
+  const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
 
   //LOCAL STATE
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const unsubscribeFromSessions = subscribeToSessions();
-    dispatch(getAllBeaches());
-    return () => {
-      console.log('unsubscribing from sessions');
-      unsubscribeFromSessions();
-    };
-  }, []);
-
-  const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
+    let unsubscribeFromSessions = () => {};
+    let unsubscribeFromRoleSessions = () => {};
+    if (!isEmpty(userData)) {
+      if (userData?.Roles.includes('NationalAdmin')) {
+        console.log(userData?.firstName, 'IS NationalAdmin');
+        unsubscribeFromSessions = subscribeToSessions();
+      } else {
+        console.log(userData?.firstName, 'IS NOT NationalAdmin');
+        console.log('calling updateRoleSpecificSessions');
+        unsubscribeFromRoleSessions = subscribeToRoleSpecificSessionChanges(
+          userData.Region,
+        );
+      }
+      dispatch(getAllBeaches());
+      return () => {
+        console.log('unsubscribing from sessions');
+        unsubscribeFromSessions();
+        unsubscribeFromRoleSessions();
+      };
+    }
+  }, [userData]);
 
   return (
     <SafeAreaView>
@@ -38,9 +63,12 @@ export default function Profile({navigation}) {
           testID="choicePopup"
           visible={visible}
           setVisible={setVisible}></ChoicePopup>
+
         <FlatList
           testID="SessionsList"
-          data={sessions}
+          data={
+            userData?.Roles?.includes('NationalAdmin') ? sessions : roleSessions
+          }
           renderItem={({item}) => (
             <TouchableHighlight
               onPress={() => {
@@ -63,8 +91,7 @@ export default function Profile({navigation}) {
               </View>
             </TouchableHighlight>
           )}
-          keyExtractor={(item) => item.ID}
-        />
+          keyExtractor={(item) => item.ID}></FlatList>
       </View>
     </SafeAreaView>
   );

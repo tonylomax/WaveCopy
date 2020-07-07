@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
 import {ConfirmButton, ImageConfirmPopup} from 'components';
 import {useSelector, useDispatch} from 'react-redux';
@@ -21,12 +21,15 @@ moment.locale('en-gb');
 moment().format('en-gb');
 
 export default function Profile({navigation}) {
+  //REDUX STATE
   const userData = useSelector((state) => state.firestoreReducer.userData);
-  const [bio, setBio] = useState(userData?.Bio);
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
   const currentAuthenticatedUser = useSelector(
     (state) => state.authenticationReducer.userState,
   );
+
+  //LOCAL STATE
+  const [bio, setBio] = useState(userData?.Bio);
   const [profileURL, setProfileURL] = useState();
   const [editBio, setEditBio] = useState(false);
   const [imageConfirmPopup, setImageConfirmPopup] = useState(false);
@@ -43,6 +46,7 @@ export default function Profile({navigation}) {
     },
     noData: true,
   });
+
   const [uploadImg, setUploadImg] = useState();
   const [uploadProgress, setuploadProgress] = useState(0);
 
@@ -52,10 +56,15 @@ export default function Profile({navigation}) {
   };
 
   useEffect(() => {
+    console.log('USER DATA IN PROFILE', userData);
+  }, [userData]);
+
+  useEffect(() => {
     getImageDownloadURI(UID).then((url) => {
       setProfileURL(url);
     });
   }, [newProfilePicUploadComplete]);
+
   // Could be imported as a component
   const imagePicker = () => {
     ImagePicker.showImagePicker(options, (response) => {
@@ -140,15 +149,15 @@ export default function Profile({navigation}) {
 
         <Text> Training</Text>
         {userData?.Training?.map((indvidualTraining, index) => (
-          <>
+          <View key={index}>
             <Text>{indvidualTraining?.Name} </Text>
             <Text>
               Completed:{' '}
-              <Moment element={Text} format="MMMM YYYY" key={index}>
+              <Moment element={Text} format="MMMM YYYY">
                 {indvidualTraining}
               </Moment>
             </Text>
-          </>
+          </View>
         ))}
 
         <ConfirmButton
@@ -158,7 +167,7 @@ export default function Profile({navigation}) {
             updateOwnBio(bio, UID);
           }}
           title="Confirm Bio Update"></ConfirmButton>
-        <Text testID="firestoreName">Name: {userData?.Name} </Text>
+        <Text testID="firestoreName">Name: {userData?.firstName} </Text>
 
         <ConfirmButton
           testID="uploadNewProfilePic"

@@ -7,8 +7,13 @@ export default (currentUserUID) => {
   return firestore()
     .collection(COLLECTIONS.USERS)
     .doc(currentUserUID)
-    .onSnapshot((userData) => {
-      const updatedUserData = userData?.data();
-      store.dispatch(updateFirestoreUserData(updatedUserData));
-    });
+    .onSnapshot(
+      (userData) => {
+        const updatedUserData = userData?.data();
+        store.dispatch(updateFirestoreUserData(updatedUserData));
+      },
+      (error) => {
+        console.error(error);
+      },
+    );
 };

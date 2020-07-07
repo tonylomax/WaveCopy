@@ -1,11 +1,12 @@
 export const initialState = {
-  sessionData: {},
+  sessionData: [],
+  roleSpecificSessionData: [],
   userData: {},
-  selectedSessionAttendees: {},
+  selectedSessionAttendees: [],
   singleSession: {},
-  selectedSessionMentors: {},
+  selectedSessionMentors: [],
   singleBeach: {},
-  beaches: {},
+  beaches: [],
 };
 import {ACTIONS} from '../../constants/actions';
 
@@ -18,11 +19,19 @@ export default (state = initialState, action) => {
 
       return {...state, sessionData};
 
+    case ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION:
+      console.log('[Reducer - fireStoreReducer] SUBSCRIBE_TO_SINGLE_SESSION');
+
     case ACTIONS.UPDATE_CURRENT_SESSION:
       console.log('[Reducer - fireStoreReducer] UPDATE_CURRENT_SESSION');
       const singleSession = action.data._data;
 
       return {...state, singleSession};
+
+    case ACTIONS.UPDATE_ROLE_SESSIONS:
+      console.log('[Reducer - fireStoreReducer] UPDATE_ROLE_SESSIONS', action);
+      const roleSpecificSessionData = action.data;
+      return {...state, roleSpecificSessionData};
 
     case ACTIONS.SET_CURRENT_FIRESTORE_USER_DATA:
       console.log(

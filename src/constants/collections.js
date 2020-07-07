@@ -5,4 +5,5 @@ export const COLLECTIONS = {
   USERS: 'Users',
   SESSIONS: 'Sessions',
   BEACHES: 'Beaches',
+  TEST_SERVICE_USERS: 'TestServiceUsers',
 };

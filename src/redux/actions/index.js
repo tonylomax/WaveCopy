@@ -1,21 +1,31 @@
 import {setCurrentAuthenticatedUser} from './authentication';
 import {
-  updateFirestoreUserData,
   updateSessions,
-  getAllSessionAttendees,
+  subscribeToSession,
+  subscribeToFirestoreUserData,
   updateCurrentSession,
-  getAllSessionMentors,
+  updateFirestoreUserData,
   updateBeach,
   getAllBeaches,
+  getAllSessionAttendees,
+  getAllSessionMentors,
+  clearSelectedSessionMentors,
+  clearSelectedSessionAttendees,
+  updateRoleSpecificSessions,
 } from './firestore';
 
 export {
+  clearSelectedSessionMentors,
   setCurrentAuthenticatedUser,
-  updateFirestoreUserData,
   updateSessions,
-  getAllSessionAttendees,
+  subscribeToSession,
+  subscribeToFirestoreUserData,
   updateCurrentSession,
-  getAllSessionMentors,
+  updateFirestoreUserData,
   updateBeach,
   getAllBeaches,
+  getAllSessionAttendees,
+  getAllSessionMentors,
+  clearSelectedSessionAttendees,
+  updateRoleSpecificSessions,
 };

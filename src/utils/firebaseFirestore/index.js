@@ -7,6 +7,7 @@ import subscribeToSessionChanges from './subscribeToSessionChanges';
 import subscribeToSessions from './subscribeToSessions';
 import subscribeToFirestoreUsers from './subscribeToFirestoreUsers';
 import subscribeToSpecificBeach from './subscribeToSpecificBeach';
+import subscribeToRoleSpecificSessionChanges from './subscribeToRoleSpecificSessionChanges';
 
 export {
   updateOwnBio,
@@ -18,4 +19,5 @@ export {
   subscribeToSessions,
   subscribeToFirestoreUsers,
   subscribeToSpecificBeach,
+  subscribeToRoleSpecificSessionChanges,
 };

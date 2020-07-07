@@ -15,6 +15,7 @@ import {
   subscribeToSessions,
   subscribeToFirestoreUsers,
   subscribeToSpecificBeach,
+  subscribeToRoleSpecificSessionChanges,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -47,4 +48,5 @@ export {
   getCoverImage,
   generateDateTimeArray,
   generateNumberedArray,
+  subscribeToRoleSpecificSessionChanges,
 };
