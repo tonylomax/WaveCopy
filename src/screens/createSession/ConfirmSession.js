@@ -33,6 +33,9 @@ export default function ConfirmSession({route, navigation}) {
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
 
   const CoverImage = getCoverImage(location);
+  useEffect(() => {
+    console.log('location', location);
+  }, []);
 
   return (
     <SafeAreaView>
@@ -90,20 +93,10 @@ export default function ConfirmSession({route, navigation}) {
         onChangeText={(text) => setDescriptionOfSession(text)}
       />
       <AccordionMenu
-        testID="mentors-accordian"
-        title={`Mentors (0/${numberOfVolunteers})`}
-      />
-      <AccordionMenu
-        testID="attendees-accordian"
-        type="attendees"
-        title={`Attendees (${selectedUsers.length})`}
-        data={selectedUsers}
-      />
-      <AccordionMenu
-        testID="location-accordian"
-        type="location"
-        title="Location"
-        data={location}
+        location={location}
+        selectedUsers={selectedUsers}
+        numberOfMentors={numberOfVolunteers}
+        mentors={[]}
       />
     </SafeAreaView>
   );

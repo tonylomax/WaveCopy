@@ -1,23 +1,27 @@
-import {createFirebaseAuthSubscription} from './authentication';
+import {setCurrentAuthenticatedUser} from './authentication';
 import {
-  subscribeToFirestoreUserData,
-  subscribeToAllSessions,
-  getAllSessionAttendees,
+  updateSessions,
+  updateRoleSpecificSessions,
   subscribeToSession,
-  getAllSessionMentors,
-  subscribeToBeach,
+  subscribeToFirestoreUserData,
+  updateCurrentSession,
+  updateFirestoreUserData,
+  updateBeach,
   getAllBeaches,
-  subscribeToRoleSpecificSessions,
+  getAllSessionAttendees,
+  getAllSessionMentors,
 } from './firestore';
 
 export {
-  createFirebaseAuthSubscription,
-  subscribeToFirestoreUserData,
-  subscribeToAllSessions,
-  getAllSessionAttendees,
+  setCurrentAuthenticatedUser,
+  updateSessions,
+  updateRoleSpecificSessions,
   subscribeToSession,
-  getAllSessionMentors,
-  subscribeToBeach,
+  subscribeToFirestoreUserData,
+  updateCurrentSession,
+  updateFirestoreUserData,
+  updateBeach,
   getAllBeaches,
-  subscribeToRoleSpecificSessions,
+  getAllSessionAttendees,
+  getAllSessionMentors,
 };

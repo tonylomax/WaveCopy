@@ -10,20 +10,9 @@ import Profile from './screens/profile/Profile';
 import CreateSession from './screens/createSession/CreateSession';
 import Session from './screens/session/Session';
 import Register from './screens/session/Register';
-import {
-  createFirebaseAuthSubscription,
-  subscribeToFirestoreUserData,
-} from './redux/index';
-import {useDispatch, useSelector} from 'react-redux';
+import {subscribeToFirestoreUsers, createAuthSubscription} from 'utils';
+import {useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
 const BottomTabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -59,7 +48,6 @@ const HomeNavigator = () => (
 );
 
 const App: () => React$Node = () => {
-  const dispatch = useDispatch();
   const [loggedIn, setLoggedIn] = useState(false);
 
   const currentAuthenticatedUser = useSelector(
@@ -67,10 +55,7 @@ const App: () => React$Node = () => {
   );
 
   useEffect(() => {
-    const unsubscribeFromFirebaseAuth = dispatch(
-      createFirebaseAuthSubscription(),
-    );
-
+    const unsubscribeFromFirebaseAuth = createAuthSubscription();
     return () => {
       unsubscribeFromFirebaseAuth();
     };
@@ -78,15 +63,12 @@ const App: () => React$Node = () => {
 
   useEffect(() => {
     console.log('currentAuthenticatedUser is ', currentAuthenticatedUser);
-    let unsubscribeFromFirestoreUserData;
     if (!isEmpty(currentAuthenticatedUser)) {
-      unsubscribeFromFirestoreUserData = dispatch(
-        subscribeToFirestoreUserData(currentAuthenticatedUser.uid),
+      const unsubscribeFromFirestoreUserData = subscribeToFirestoreUsers(
+        currentAuthenticatedUser.uid,
       );
-
-      // return () => unsubscribeFromFirestoreUserData();
+      return () => unsubscribeFromFirestoreUserData();
     }
-    return () => Promise.resolve(unsubscribeFromFirestoreUserData);
   }, [currentAuthenticatedUser]);
 
   return isEmpty(currentAuthenticatedUser) ? (

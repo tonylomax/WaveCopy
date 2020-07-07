@@ -4,11 +4,15 @@ import {useSelector, useDispatch} from 'react-redux';
 import {
   subscribeToAllSessions,
   getAllBeaches,
-  subscribeToRoleSpecificSessions,
+  updateRoleSpecificSessions,
 } from '../../redux/';
 import {ConfirmButton, ChoicePopup} from 'components';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import {isEmpty} from 'lodash';
+import {
+  subscribeToSessions,
+  subscribeToRoleSpecificSessionChanges,
+} from 'utils';
 
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
@@ -22,36 +26,32 @@ export default function Profile({navigation}) {
   );
   const userData = useSelector((state) => state.firestoreReducer.userData);
 
+  const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
+
   //LOCAL STATE
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    console.log('userData in home', userData);
-    let unsubscribeFromSessions;
-    let unsubscribeFromSubscribeToRoleSpecificSessions;
+    let unsubscribeFromSessions = () => {};
+    let unsubscribeFromRoleSessions = () => {};
     if (!isEmpty(userData)) {
       if (userData?.Roles.includes('NationalAdmin')) {
         console.log(userData?.firstName, 'IS NationalAdmin');
-        unsubscribeFromSessions = dispatch(subscribeToAllSessions());
+        unsubscribeFromSessions = subscribeToSessions();
       } else {
         console.log(userData?.firstName, 'IS NOT NationalAdmin');
-        unsubscribeFromSubscribeToRoleSpecificSessions = dispatch(
-          subscribeToRoleSpecificSessions(userData.Region),
+        unsubscribeFromRoleSessions = subscribeToRoleSpecificSessionChanges(
+          userData.Region,
         );
       }
       dispatch(getAllBeaches());
+      return () => {
+        console.log('unsubscribing from sessions');
+        unsubscribeFromSessions();
+        unsubscribeFromRoleSessions();
+      };
     }
   }, [userData]);
-
-  // useEffect(() => {
-  //   console.log('roleSessions', roleSessions);
-  // }, [roleSessions]);
-
-  // useEffect(() => {
-  //   console.log('sessions', sessions);
-  // }, [sessions]);
-
-  getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
 
   return (
     <SafeAreaView>
@@ -76,6 +76,7 @@ export default function Profile({navigation}) {
             <TouchableHighlight
               onPress={() => {
                 const selectedBeach = getBeach(item.ID)[0];
+                console.log({item});
                 navigation.navigate('Session', {item, selectedBeach});
               }}
               style={{

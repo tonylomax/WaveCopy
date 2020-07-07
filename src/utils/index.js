@@ -3,6 +3,7 @@ import {
   signOut,
   updatePassword,
   validatePassword,
+  createAuthSubscription,
 } from './auth/index';
 import {
   updateOwnBio,
@@ -10,6 +11,11 @@ import {
   markAttendance,
   searchFirestoreServiceUsers,
   createSessionInFirestore,
+  subscribeToSessionChanges,
+  subscribeToSessions,
+  subscribeToFirestoreUsers,
+  subscribeToSpecificBeach,
+  subscribeToRoleSpecificSessionChanges,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -21,8 +27,13 @@ import generateDateTimeArray from './time/repetitionDatesArray';
 import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
 export {
+  createAuthSubscription,
   createSessionInFirestore,
   searchFirestoreServiceUsers,
+  subscribeToSessions,
+  subscribeToSpecificBeach,
+  subscribeToSessionChanges,
+  subscribeToFirestoreUsers,
   loginWithEmail,
   signOut,
   updateOwnBio,
@@ -37,4 +48,5 @@ export {
   getCoverImage,
   generateDateTimeArray,
   generateNumberedArray,
+  subscribeToRoleSpecificSessionChanges,
 };

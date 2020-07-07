@@ -6,14 +6,15 @@ import {useSelector, useDispatch} from 'react-redux';
 import Moment from 'react-moment';
 import {
   getAllSessionAttendees,
-  subscribeToSession,
+  updateCurrentSession,
   getAllSessionMentors,
 } from '../../redux/';
 import {LoadingScreen} from 'components';
+import {subscribeToSessionChanges} from 'utils';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
-  const {ID, AttendeesIDandAttendance, Mentors} = route.params.item;
+  const {ID, AttendeesIDandAttendance, Mentors, MaxMentors} = route.params.item;
   const {selectedBeach} = route.params;
 
   //REDUX STATE
@@ -34,13 +35,16 @@ export default function Session({navigation, route}) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribeGetAllSessionAttendees = dispatch(
-      getAllSessionAttendees(AttendeesIDandAttendance),
-    );
-    const unsubscibeToSession = dispatch(subscribeToSession(ID));
-    const unsubscribeGetAllSessionMentors = dispatch(
-      getAllSessionMentors(Mentors),
-    );
+    if (AttendeesIDandAttendance.length > 0) {
+      dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
+    }
+    dispatch(getAllSessionMentors(Mentors));
+    console.log('max mentors is ', MaxMentors);
+    const unsubscribe = subscribeToSessionChanges(ID);
+    return () => {
+      console.log('unsubscribing');
+      unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
@@ -52,10 +56,6 @@ export default function Session({navigation, route}) {
       setLoading(false);
     }
   }, [sessionData, selectedSessionAttendeesData, selectedSessionMentorsData]);
-
-  useEffect(() => {
-    console.log('roles', roles);
-  }, [roles]);
 
   return (
     <View>
@@ -74,23 +74,17 @@ export default function Session({navigation, route}) {
           </Text>
           <Text>Coordinator: {sessionData?.CoordinatorID}</Text>
           <Text>{sessionData?.Description}</Text>
-          {/* DATA TO BE ADDED INTO ACCORDION. */}
-          <Text>{selectedSessionMentorsData[0]?.data?.firstName}</Text>
-          <Text>{selectedSessionAttendeesData[0]?.data?.firstName}</Text>
-          <Text>{selectedBeach?.data?.Name}</Text>
-          {/* <AccordionMenu
-            type="mentors"
-            data={selectedSessionMentorsData}
-            title={`Mentors ${sessionData?.Mentors?.length}/${sessionData?.MaxMentors}`}></AccordionMenu>
-          <AccordionMenu
-            type="attendees"
-            data={selectedSessionAttendeesData}
-            title={`Attendees  ${sessionData?.Attendees?.length}`}></AccordionMenu>
-          <AccordionMenu
-            data={beach}
-            type="location"
-            title="Location"></AccordionMenu> */}
-
+          {selectedSessionAttendeesData &&
+            selectedBeach &&
+            MaxMentors > 0 &&
+            selectedSessionMentorsData && (
+              <AccordionMenu
+                selectedUsers={selectedSessionAttendeesData}
+                numberOfMentors={MaxMentors}
+                location={selectedBeach}
+                mentors={selectedSessionMentorsData}
+              />
+            )}
           {roles?.some(
             () =>
               userData?.Roles?.includes('SurfLead') ||
