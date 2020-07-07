@@ -48,10 +48,9 @@ export function getAllBeaches() {
     // const beaches = [];
     const snapshot = await firestore().collection(COLLECTIONS.BEACHES).get();
     const beaches = snapshot.docs.map((doc) => {
-      return {
-        data: doc.data(),
-        id: doc._ref?._documentPath?._parts[1],
-      };
+      const data = doc.data();
+      const id = doc._ref?._documentPath?._parts[1];
+      return {...data, id};
     });
     console.log('beaches retrieved, ', beaches);
     dispatch({
@@ -73,7 +72,8 @@ export function getAllSessionAttendees(attendeesArray) {
     const SESSION_USERS_FILTERED = SESSION_USERS.map((user) => {
       const data = user?._data;
       const id = user?._ref?._documentPath?._parts[1];
-      return {id, data};
+      console.log('SESSION ATTENDESS', {...data, id});
+      return {...data, id};
     });
 
     dispatch({
@@ -91,12 +91,12 @@ export function getAllSessionMentors(mentorsArray) {
       mentorsArray,
       COLLECTIONS.USERS,
     );
-    // console.log('SESSION_MENTORS', SESSION_MENTORS);
 
     const SESSION_MENTORS_FILTERED = SESSION_MENTORS.map((mentor) => {
       const data = mentor?._data;
       const id = mentor?._ref?._documentPath?._parts[1];
-      return {id, data};
+      console.log('SESSION MENTORS', {...data, id});
+      return {...data, id};
     });
 
     dispatch({

@@ -59,7 +59,7 @@ export default function Register({navigation, route}) {
                 );
               }}>
               <Text testID={`personToRegister${attendee.id}`}>
-                {attendee?.data?.firstName} {attendee?.data?.lastName}{' '}
+                {attendee?.firstName} {attendee?.lastName}{' '}
                 {hasPersonAttended?.toString()}
               </Text>
             </TouchableOpacity>
@@ -79,7 +79,7 @@ export default function Register({navigation, route}) {
                 markAttendance(ID, mentor.id, sessionData, USER_GROUP.MENTORS);
               }}>
               <Text testID={`personToRegister${mentor.id}`}>
-                {mentor?.data?.firstName} {mentor?.data?.lastName}{' '}
+                {mentor?.firstName} {mentor?.lastName}{' '}
                 {hasPersonAttended?.toString()}
               </Text>
             </TouchableOpacity>
