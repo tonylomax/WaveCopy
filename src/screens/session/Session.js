@@ -73,10 +73,6 @@ export default function Session({navigation, route}) {
           </Text>
           <Text>Coordinator: {sessionData?.CoordinatorID}</Text>
           <Text>{sessionData?.Description}</Text>
-          {/* DATA TO BE ADDED INTO ACCORDION. */}
-          <Text>{selectedSessionMentorsData[0]?.data?.firstName}</Text>
-          <Text>{selectedSessionAttendeesData[0]?.data?.firstName}</Text>
-          <Text>{selectedBeach?.data?.Name}</Text>
           {selectedSessionAttendeesData &&
             selectedBeach &&
             MaxMentors > 0 &&

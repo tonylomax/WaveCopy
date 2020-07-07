@@ -14,7 +14,7 @@ export default function AccordionMenu({
   return (
     <List.AccordionGroup>
       <List.Accordion
-        testId="mentors-accordian"
+        testID="mentors-accordian"
         title={`Mentors (${mentors?.length || 0}/${numberOfMentors})`}
         id="1">
         {mentors?.length > 0 &&
@@ -27,7 +27,10 @@ export default function AccordionMenu({
             />
           ))}
       </List.Accordion>
-      <List.Accordion title={`Attendees (${selectedUsers.length})`} id="2">
+      <List.Accordion
+        title={`Attendees (${selectedUsers.length})`}
+        id="2"
+        testID="attendees-accordian">
         {selectedUsers.length > 0 &&
           selectedUsers?.map((user, i) => (
             <List.Item
@@ -41,7 +44,7 @@ export default function AccordionMenu({
             />
           ))}
       </List.Accordion>
-      <List.Accordion title="Location" id="3" testId="location-accordian">
+      <List.Accordion title="Location" id="3" testID="location-accordian">
         <List.Item
           title="Address"
           description={() => (

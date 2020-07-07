@@ -2,13 +2,11 @@ import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Moment from 'react-moment';
 import {RegisterTabs} from 'components';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {markAttendance, subscribeToSessionChanges} from 'utils';
 import {USER_GROUP} from '../../constants/userGroups';
 
 export default function Register({navigation, route}) {
-  const dispatch = useDispatch();
-
   //REDUX STATE
   const sessionData = useSelector(
     (state) => state.firestoreReducer.singleSession,
@@ -30,7 +28,7 @@ export default function Register({navigation, route}) {
   useEffect(() => {
     const unsubscribe = subscribeToSessionChanges(ID);
     return () => {
-      console.log('unsubscribing');
+      console.log(`unsubscribing from session ${ID} changes`);
       unsubscribe();
     };
   }, []);
@@ -46,9 +44,9 @@ export default function Register({navigation, route}) {
       </Moment>
       <RegisterTabs registerTitle="Attendees">
         {selectedSessionAttendeesData.map((attendee) => {
-          const hasPersonAttended = sessionData.Attendees.filter((person) => {
-            return person.id === attendee.id;
-          })[0].Attended;
+          const hasPersonAttended = sessionData?.Attendees?.filter((person) => {
+            return person?.id === attendee?.id;
+          })[0]?.Attended;
           return (
             <TouchableOpacity
               testID={`personToRegisterButton${attendee.id}`}
@@ -62,7 +60,7 @@ export default function Register({navigation, route}) {
               }}>
               <Text testID={`personToRegister${attendee.id}`}>
                 {attendee?.data?.firstName} {attendee?.data?.lastName}{' '}
-                {hasPersonAttended.toString()}
+                {hasPersonAttended?.toString()}
               </Text>
             </TouchableOpacity>
           );
@@ -82,7 +80,7 @@ export default function Register({navigation, route}) {
               }}>
               <Text testID={`personToRegister${mentor.id}`}>
                 {mentor?.data?.firstName} {mentor?.data?.lastName}{' '}
-                {hasPersonAttended.toString()}
+                {hasPersonAttended?.toString()}
               </Text>
             </TouchableOpacity>
           );

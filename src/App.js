@@ -14,14 +14,6 @@ import {subscribeToFirestoreUsers, createAuthSubscription} from 'utils';
 import {useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
 const BottomTabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 

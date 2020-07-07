@@ -1,6 +1,8 @@
 describe('Test register', () => {
   exampleEmail = 't@t.com';
   examplePassword = 'Asdasd6';
+  const testName = 'Archie McArchie';
+  const testUserID = 'EbXDQw9VMNZKia7AYKcr';
   beforeEach(async () => {
     // await device.terminateApp();
     // await device.launchApp();
@@ -27,22 +29,22 @@ describe('Test register', () => {
 
     await element(by.id('registerButton')).tap();
 
-    await waitFor(element(by.id('personToRegister129520710')))
+    await waitFor(element(by.id(`personToRegister${testUserID}`)))
       .toExist()
       .withTimeout(10000);
 
     if (
-      await waitFor(element(by.id('personToRegister129520710')))
-        .toHaveText('Charlotte Viqueria true')
+      await waitFor(element(by.id(`personToRegister${testUserID}`)))
+        .toHaveText(`${testName} true`)
         .withTimeout(10000)
     ) {
       serviceUsersAttended = true;
     } else serviceUsersAttended = false;
 
-    await element(by.id('personToRegisterButton129520710')).tap();
+    await element(by.id(`personToRegisterButton${testUserID}`)).tap();
 
-    await waitFor(element(by.id('personToRegister129520710')))
-      .toHaveText(`Charlotte Viqueria ${serviceUsersAttended}`)
+    await waitFor(element(by.id(`personToRegister${testUserID}`)))
+      .toHaveText(`${testName} ${serviceUsersAttended}`)
       .withTimeout(10000);
 
     if (

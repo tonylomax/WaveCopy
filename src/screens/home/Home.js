@@ -20,9 +20,6 @@ export default function Profile({navigation}) {
     return () => {
       console.log('unsubscribing from sessions');
       unsubscribeFromSessions();
-      // unsubscribeFromSessions();
-      // When this is called at the moment the error
-      // is that unsubscribe is an unresolved promise
     };
   }, []);
 
