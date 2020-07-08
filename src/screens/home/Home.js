@@ -55,6 +55,10 @@ export default function Profile({navigation}) {
     }
   }, [userData]);
 
+  useEffect(() => {
+    console.log('beaches', beaches);
+  }, [beaches]);
+
   return (
     <SafeAreaView>
       <View>
