@@ -131,7 +131,7 @@ export default function Session({navigation, route}) {
             onPress={() => {
               signupForSession(ID, UID)
                 .then((result) => {
-                  console.log('Session signup result: ', result);
+                  console.log('Session signup done ');
                 })
                 .catch((err) => {
                   console.log('ERROR: ', err);
@@ -143,7 +143,7 @@ export default function Session({navigation, route}) {
             onPress={() => {
               removeSelfFromSession(ID, UID)
                 .then((result) => {
-                  console.log('Session signup result: ', result);
+                  console.log('Session remove done');
                 })
                 .catch((err) => {
                   console.log('ERROR: ', err);
