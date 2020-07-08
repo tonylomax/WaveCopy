@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
       return {...state, singleSession};
 
     case ACTIONS.UPDATE_ROLE_SESSIONS:
-      console.log('[Reducer - fireStoreReducer] UPDATE_ROLE_SESSIONS', action);
+      console.log('[Reducer - fireStoreReducer] UPDATE_ROLE_SESSIONS');
       const roleSpecificSessionData = action.data;
       return {...state, roleSpecificSessionData};
 

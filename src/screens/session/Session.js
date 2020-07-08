@@ -12,7 +12,7 @@ import {
   clearSelectedSessionAttendees,
 } from '../../redux/';
 import {LoadingScreen} from 'components';
-import {subscribeToSessionChanges} from 'utils';
+import {subscribeToSessionChanges, signupForSession} from 'utils';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
@@ -31,6 +31,8 @@ export default function Session({navigation, route}) {
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionMentors,
   );
+  const UID = useSelector((state) => state.authenticationReducer.userState.uid);
+
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
   //LOCAL STATE
@@ -110,6 +112,17 @@ export default function Session({navigation, route}) {
               Register
             </ConfirmButton>
           )}
+          <ConfirmButton
+            title="Sign Up"
+            onPress={() => {
+              signupForSession(ID, UID)
+                .then((result) => {
+                  console.log('Session signup result: ', result);
+                })
+                .catch((err) => {
+                  console.log('ERROR: ', err);
+                });
+            }}></ConfirmButton>
         </>
       )}
     </View>

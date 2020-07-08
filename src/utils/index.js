@@ -16,6 +16,7 @@ import {
   subscribeToFirestoreUsers,
   subscribeToSpecificBeach,
   subscribeToRoleSpecificSessionChanges,
+  signupForSession,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -49,4 +50,5 @@ export {
   generateDateTimeArray,
   generateNumberedArray,
   subscribeToRoleSpecificSessionChanges,
+  signupForSession,
 };
