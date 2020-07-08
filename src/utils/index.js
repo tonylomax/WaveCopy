@@ -16,6 +16,8 @@ import {
   subscribeToFirestoreUsers,
   subscribeToSpecificBeach,
   subscribeToRoleSpecificSessionChanges,
+  assignSessionLead,
+  unassignSessionLead,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -27,6 +29,8 @@ import generateDateTimeArray from './time/repetitionDatesArray';
 import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
 export {
+  assignSessionLead,
+  unassignSessionLead,
   createAuthSubscription,
   createSessionInFirestore,
   searchFirestoreServiceUsers,

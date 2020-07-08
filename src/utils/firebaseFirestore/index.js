@@ -8,6 +8,8 @@ import subscribeToSessions from './subscribeToSessions';
 import subscribeToFirestoreUsers from './subscribeToFirestoreUsers';
 import subscribeToSpecificBeach from './subscribeToSpecificBeach';
 import subscribeToRoleSpecificSessionChanges from './subscribeToRoleSpecificSessionChanges';
+import assignSessionLead from './assignSessionLead';
+import unassignSessionLead from './unassignSessionLead';
 
 export {
   updateOwnBio,
@@ -20,4 +22,6 @@ export {
   subscribeToFirestoreUsers,
   subscribeToSpecificBeach,
   subscribeToRoleSpecificSessionChanges,
+  assignSessionLead,
+  unassignSessionLead,
 };
