@@ -8,6 +8,9 @@ import subscribeToSessions from './subscribeToSessions';
 import subscribeToFirestoreUsers from './subscribeToFirestoreUsers';
 import subscribeToSpecificBeach from './subscribeToSpecificBeach';
 import subscribeToRoleSpecificSessionChanges from './subscribeToRoleSpecificSessionChanges';
+import signupForSession from './signupForSession';
+import retrieveCoordinatorData from './retrieveCoordinatorData';
+import removeSelfFromSession from './removeSelfFromSession';
 import assignSessionLead from './assignSessionLead';
 import unassignSessionLead from './unassignSessionLead';
 
@@ -22,6 +25,9 @@ export {
   subscribeToFirestoreUsers,
   subscribeToSpecificBeach,
   subscribeToRoleSpecificSessionChanges,
+  signupForSession,
+  retrieveCoordinatorData,
+  removeSelfFromSession,
   assignSessionLead,
   unassignSessionLead,
 };

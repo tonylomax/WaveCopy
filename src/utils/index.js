@@ -16,6 +16,9 @@ import {
   subscribeToFirestoreUsers,
   subscribeToSpecificBeach,
   subscribeToRoleSpecificSessionChanges,
+  signupForSession,
+  retrieveCoordinatorData,
+  removeSelfFromSession,
   assignSessionLead,
   unassignSessionLead,
 } from './firebaseFirestore/index';
@@ -53,4 +56,7 @@ export {
   generateDateTimeArray,
   generateNumberedArray,
   subscribeToRoleSpecificSessionChanges,
+  signupForSession,
+  retrieveCoordinatorData,
+  removeSelfFromSession,
 };

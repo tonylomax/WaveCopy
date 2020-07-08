@@ -11,7 +11,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import store from './src/redux/store';
 import React from 'react';
 
-// console.disableYellowBox = true;
+console.disableYellowBox = true;
 
 const AppWithReduxProvider = () => (
   <ReduxProvider store={store}>
