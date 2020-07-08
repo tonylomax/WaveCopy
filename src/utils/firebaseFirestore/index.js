@@ -11,6 +11,9 @@ import subscribeToRoleSpecificSessionChanges from './subscribeToRoleSpecificSess
 import signupForSession from './signupForSession';
 import retrieveCoordinatorData from './retrieveCoordinatorData';
 import removeSelfFromSession from './removeSelfFromSession';
+import assignSessionLead from './assignSessionLead';
+import unassignSessionLead from './unassignSessionLead';
+
 export {
   updateOwnBio,
   searchFirestoreServiceUsers,
@@ -25,4 +28,6 @@ export {
   signupForSession,
   retrieveCoordinatorData,
   removeSelfFromSession,
+  assignSessionLead,
+  unassignSessionLead,
 };

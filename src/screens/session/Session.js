@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Button} from 'react-native';
 import {AccordionMenu, ConfirmButton} from 'components';
 import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
@@ -17,6 +17,8 @@ import {
   signupForSession,
   retrieveCoordinatorData,
   removeSelfFromSession,
+  assignSessionLead,
+  unassignSessionLead,
 } from 'utils';
 
 export default function Session({navigation, route}) {
