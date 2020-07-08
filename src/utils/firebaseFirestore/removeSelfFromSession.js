@@ -1,7 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
-import {constant} from 'lodash';
 moment.locale('en-gb');
 moment().format('en-gb');
 
