@@ -215,7 +215,7 @@ export default function Profile({navigation}) {
                   borderWidth: 2,
                   marginBottom: '2%',
                 }}>
-                <View testID={`SessionsListItem${item.ID}`} id={item.ID}>
+                <View testID={`ProfileSessionsListItem${item.ID}`} id={item.ID}>
                   <Text> {item?.Type} </Text>
                   <Text> {item?.Beach} </Text>
                   <Text> {item?.DateTime} </Text>
