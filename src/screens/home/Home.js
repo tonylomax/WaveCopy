@@ -94,7 +94,7 @@ export default function Profile({navigation}) {
                 <Text> {item?.Type} </Text>
                 <Text> {item?.Beach} </Text>
                 <Text> {item?.DateTime} </Text>
-                <Text>
+                <Text testID={`SessionsListItemVolNum${item.ID}`}>
                   Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
                 </Text>
               </View>

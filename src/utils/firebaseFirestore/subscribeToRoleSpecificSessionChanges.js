@@ -10,12 +10,9 @@ export default (userRegion) => {
     .where('Region', '==', userRegion)
     .onSnapshot(
       (roleSpecificSessions) => {
-        console.log(
-          'inside on snapshot, received some data',
-          roleSpecificSessions,
-        );
+        console.log('inside on snapshot, received some data');
         const sessionsData = roleSpecificSessions.docs.map((session) => {
-          console.log('subscribeToRoleSpecificSessions sessions', session);
+          console.log('subscribeToRoleSpecificSessions sessions');
           return {
             ID: session?._ref?._documentPath?._parts[1],
             Beach: session?._data?.Beach,

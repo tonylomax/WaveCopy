@@ -14,7 +14,7 @@ export function updateSessions(sessionsData) {
 }
 
 export function updateRoleSpecificSessions(roleSessions) {
-  console.log('Inside updateRoleSpecificSessions action', roleSessions);
+  console.log('Inside updateRoleSpecificSessions action');
   return async (dispatch) => {
     dispatch({
       type: ACTIONS.UPDATE_ROLE_SESSIONS,
@@ -70,7 +70,7 @@ export function subscribeToFirestoreUserData(currentUserUID) {
 
 export function updateCurrentSession(singleSessionData) {
   console.log('subscription came in subscribeToSession action ');
-  console.log({singleSessionData});
+  // console.log({singleSessionData});
   return (dispatch) =>
     dispatch({
       type: ACTIONS.UPDATE_CURRENT_SESSION,
@@ -107,7 +107,7 @@ export function getAllBeaches() {
       const id = doc._ref?._documentPath?._parts[1];
       return {...data, id};
     });
-    console.log('beaches retrieved, ', beaches);
+    // console.log('beaches retrieved, ', beaches);
     dispatch({
       type: ACTIONS.GET_ALL_BEACHES,
       data: beaches,
@@ -124,12 +124,12 @@ export function getAllSessionAttendees(attendeesArray) {
     ).catch((error) => {
       console.log(error);
     });
-    console.log('SESSION_USERS', SESSION_USERS);
+    // console.log('SESSION_USERS', SESSION_USERS);
 
     const SESSION_USERS_FILTERED = SESSION_USERS.map((user) => {
       const data = user?._data;
       const id = user?._ref?._documentPath?._parts[1];
-      console.log('SESSION ATTENDESS', {...data, id});
+      // console.log('SESSION ATTENDESS', {...data, id});
       return {...data, id};
     });
 
@@ -160,7 +160,7 @@ export function getAllSessionMentors(mentorsArray) {
     const SESSION_MENTORS_FILTERED = SESSION_MENTORS.map((mentor) => {
       const data = mentor?._data;
       const id = mentor?._ref?._documentPath?._parts[1];
-      console.log('SESSION MENTORS', {...data, id});
+      // console.log('SESSION MENTORS', {...data, id});
       return {...data, id};
     });
 

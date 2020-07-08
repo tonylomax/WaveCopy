@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Button} from 'react-native';
 import {AccordionMenu, ConfirmButton} from 'components';
 import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
@@ -12,7 +12,14 @@ import {
   clearSelectedSessionAttendees,
 } from '../../redux/';
 import {LoadingScreen} from 'components';
-import {subscribeToSessionChanges} from 'utils';
+import {
+  subscribeToSessionChanges,
+  signupForSession,
+  retrieveCoordinatorData,
+  removeSelfFromSession,
+  assignSessionLead,
+  unassignSessionLead,
+} from 'utils';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
@@ -31,11 +38,13 @@ export default function Session({navigation, route}) {
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionMentors,
   );
+  const UID = useSelector((state) => state.authenticationReducer.userState.uid);
+
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
   //LOCAL STATE
   const [loading, setLoading] = useState(true);
-
+  const [coordinator, setCoordinator] = useState();
   useEffect(() => {
     if (
       AttendeesIDandAttendance !== undefined &&
@@ -65,6 +74,12 @@ export default function Session({navigation, route}) {
     }
   }, [sessionData, selectedSessionAttendeesData, selectedSessionMentorsData]);
 
+  useEffect(() => {
+    (async () => {
+      setCoordinator(await retrieveCoordinatorData(sessionData?.CoordinatorID));
+    })();
+  }, [sessionData]);
+
   return (
     <View>
       {loading ? (
@@ -80,7 +95,9 @@ export default function Session({navigation, route}) {
           <Text>
             {sessionData?.Type}-{sessionData?.Beach}
           </Text>
-          <Text>Coordinator: {sessionData?.CoordinatorID}</Text>
+          <Text>
+            Coordinator: {coordinator?.firstName} {coordinator?.lastName}
+          </Text>
           <Text>{sessionData?.Description}</Text>
           {selectedSessionAttendeesData &&
             selectedBeach &&
@@ -110,6 +127,30 @@ export default function Session({navigation, route}) {
               Register
             </ConfirmButton>
           )}
+          <ConfirmButton
+            testID="signupButton"
+            title="Sign Up"
+            onPress={() => {
+              signupForSession(ID, UID)
+                .then((result) => {
+                  console.log('Session signup done ');
+                })
+                .catch((err) => {
+                  console.log('ERROR: ', err);
+                });
+            }}></ConfirmButton>
+          <ConfirmButton
+            testID="leaveSessionButton"
+            title="Leave session"
+            onPress={() => {
+              removeSelfFromSession(ID, UID)
+                .then((result) => {
+                  console.log('Session remove done');
+                })
+                .catch((err) => {
+                  console.log('ERROR: ', err);
+                });
+            }}></ConfirmButton>
         </>
       )}
     </View>
