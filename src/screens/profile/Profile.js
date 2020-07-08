@@ -197,15 +197,19 @@ export default function Profile({navigation}) {
             }
             renderItem={({item}) => (
               <TouchableHighlight
+                disabled={moment(item?.DateTime).diff(new Date()) < 0}
                 onPress={() => {
-                  console.log('IS THE SESSION IN THE PAST', moment(new Date()));
-
-                  const selectedBeach = getBeach(item.ID)[0];
+                  // const selectedBeach = getBeach(item.ID)[0];
                   console.log({item});
-                  navigation.navigate('Session', {item, selectedBeach});
+                  // navigation.navigate('Session', {item, selectedBeach});
                 }}
                 style={{
-                  borderColor: 'black',
+                  borderColor:
+                    moment(item?.DateTime).diff(new Date()) < 0
+                      ? 'grey'
+                      : 'black',
+                  backgroundColor:
+                    moment(item?.DateTime).diff(new Date()) < 0 ? 'grey' : '',
                   borderWidth: 2,
                   marginBottom: '2%',
                 }}>
