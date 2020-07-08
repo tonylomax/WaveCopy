@@ -8,15 +8,14 @@ export default signupForSession = async (sessionID, userID) => {
     console.log('sessionReference', sessionReference);
 
     firestore()
-      .runTransaction(async (transaction) => {
-        // Get post data first
-        const sessionData = await transaction.get(sessionReference);
+      .runTransaction(async (signupTransaction) => {
+        const sessionData = await signupTransaction.get(sessionReference);
         console.log('transaction sessionData ', sessionData.data());
 
         if (!sessionData.exists) {
           reject('Session does not exist!');
 
-          transaction.update(sessionReference, {
+          signupTransaction.update(sessionReference, {
             Mentors: [...sessionData.data().Mentors],
           });
         } else if (
@@ -28,11 +27,11 @@ export default signupForSession = async (sessionID, userID) => {
           sessionData.data().Mentors.length >= sessionData.data().MaxMentors
         ) {
           reject('Session is full!');
-          transaction.update(sessionReference, {
+          signupTransaction.update(sessionReference, {
             Mentors: [...sessionData.data().Mentors],
           });
         } else {
-          transaction.update(sessionReference, {
+          signupTransaction.update(sessionReference, {
             Mentors: [
               ...sessionData.data().Mentors,
               {Attended: false, id: userID},

@@ -10,6 +10,7 @@ import subscribeToSpecificBeach from './subscribeToSpecificBeach';
 import subscribeToRoleSpecificSessionChanges from './subscribeToRoleSpecificSessionChanges';
 import signupForSession from './signupForSession';
 import retrieveCoordinatorData from './retrieveCoordinatorData';
+import removeSelfFromSession from './removeSelfFromSession';
 export {
   updateOwnBio,
   searchFirestoreServiceUsers,
@@ -23,4 +24,5 @@ export {
   subscribeToRoleSpecificSessionChanges,
   signupForSession,
   retrieveCoordinatorData,
+  removeSelfFromSession,
 };

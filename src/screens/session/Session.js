@@ -16,6 +16,7 @@ import {
   subscribeToSessionChanges,
   signupForSession,
   retrieveCoordinatorData,
+  removeSelfFromSession,
 } from 'utils';
 
 export default function Session({navigation, route}) {
@@ -128,6 +129,17 @@ export default function Session({navigation, route}) {
             title="Sign Up"
             onPress={() => {
               signupForSession(ID, UID)
+                .then((result) => {
+                  console.log('Session signup result: ', result);
+                })
+                .catch((err) => {
+                  console.log('ERROR: ', err);
+                });
+            }}></ConfirmButton>
+          <ConfirmButton
+            title="Leave session"
+            onPress={() => {
+              removeSelfFromSession(ID, UID)
                 .then((result) => {
                   console.log('Session signup result: ', result);
                 })

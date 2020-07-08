@@ -18,6 +18,7 @@ import {
   subscribeToRoleSpecificSessionChanges,
   signupForSession,
   retrieveCoordinatorData,
+  removeSelfFromSession,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -53,4 +54,5 @@ export {
   subscribeToRoleSpecificSessionChanges,
   signupForSession,
   retrieveCoordinatorData,
+  removeSelfFromSession,
 };
