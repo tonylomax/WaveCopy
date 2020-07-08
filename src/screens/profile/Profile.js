@@ -1,5 +1,13 @@
 import React, {useEffect, useState, useMemo} from 'react';
-import {View, Text, SafeAreaView, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  TouchableHighlight,
+} from 'react-native';
 import {ConfirmButton, ImageConfirmPopup} from 'components';
 import {useSelector, useDispatch} from 'react-redux';
 import {TextInput} from 'react-native-gesture-handler';
@@ -28,6 +36,20 @@ export default function Profile({navigation}) {
     (state) => state.authenticationReducer.userState,
   );
 
+  const sessions = useSelector((state) =>
+    console.log('all sessions', state.firestoreReducer.sessionData),
+  );
+  const roleSessions = useSelector((state) => {
+    return state.firestoreReducer.roleSpecificSessionData.filter((session) => {
+      let filteredMentors = session?.Mentors.filter((mentor) => {
+        console.log(mentor.id === UID);
+        return mentor.id === UID;
+      });
+      if (filteredMentors.length >= 1) {
+        return true;
+      }
+    });
+  });
   //LOCAL STATE
   const [bio, setBio] = useState(userData?.Bio);
   const [profileURL, setProfileURL] = useState();
@@ -58,6 +80,10 @@ export default function Profile({navigation}) {
   useEffect(() => {
     console.log('USER DATA IN PROFILE', userData);
   }, [userData]);
+
+  useEffect(() => {
+    console.log('SESSIONS IN PROFILE', roleSessions);
+  }, [roleSessions]);
 
   useEffect(() => {
     getImageDownloadURI(UID).then((url) => {
@@ -110,6 +136,7 @@ export default function Profile({navigation}) {
               setNewProfilePicUploadComplete,
             );
           }}></ImageConfirmPopup>
+
         <ConfirmButton
           testID="signOutButton"
           onPress={() => {
@@ -159,6 +186,41 @@ export default function Profile({navigation}) {
             </Text>
           </View>
         ))}
+        <View>
+          <Text> My Sessions</Text>
+          <FlatList
+            testID="profileSessionsList"
+            data={
+              userData?.Roles?.includes('NationalAdmin')
+                ? sessions
+                : roleSessions
+            }
+            renderItem={({item}) => (
+              <TouchableHighlight
+                onPress={() => {
+                  console.log('IS THE SESSION IN THE PAST', moment(new Date()));
+
+                  const selectedBeach = getBeach(item.ID)[0];
+                  console.log({item});
+                  navigation.navigate('Session', {item, selectedBeach});
+                }}
+                style={{
+                  borderColor: 'black',
+                  borderWidth: 2,
+                  marginBottom: '2%',
+                }}>
+                <View testID={`SessionsListItem${item.ID}`} id={item.ID}>
+                  <Text> {item?.Type} </Text>
+                  <Text> {item?.Beach} </Text>
+                  <Text> {item?.DateTime} </Text>
+                  <Text>
+                    Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
+                  </Text>
+                </View>
+              </TouchableHighlight>
+            )}
+            keyExtractor={(item) => item.ID}></FlatList>
+        </View>
 
         <ConfirmButton
           testID="confirmBioUpdate"
