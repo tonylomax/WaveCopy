@@ -126,6 +126,7 @@ export default function Session({navigation, route}) {
             </ConfirmButton>
           )}
           <ConfirmButton
+            testID="signupButton"
             title="Sign Up"
             onPress={() => {
               signupForSession(ID, UID)
@@ -137,6 +138,7 @@ export default function Session({navigation, route}) {
                 });
             }}></ConfirmButton>
           <ConfirmButton
+            testID="leaveSessionButton"
             title="Leave session"
             onPress={() => {
               removeSelfFromSession(ID, UID)

@@ -14,7 +14,6 @@ export default removeSelfFromSession = async (sessionID, userID) => {
         const sessionData = await removeFromSessionTransaction.get(
           sessionReference,
         );
-        console.log('transaction sessionData ', sessionData.data().DateTime);
 
         const newMentors = sessionData
           .data()
