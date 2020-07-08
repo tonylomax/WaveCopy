@@ -1,6 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import {ACTIONS} from '../../constants/actions';
-import {COLLECTIONS} from '../../constants/collections';
+import {ACTIONS, COLLECTIONS} from 'constants';
 import {returnSessionAttendees} from 'utils';
 
 export function updateSessions(sessionsData) {

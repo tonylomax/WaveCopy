@@ -4,11 +4,6 @@ describe('Create a surf session', () => {
   function timeout(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-  beforeEach(async () => {
-    // await device.terminateApp();
-    // await device.launchApp();
-    // await device.reloadReactNative();
-  });
 
   it('It should be able to navigate to create session page, fill in the form, select attendees and create a session', async () => {
     if (device.getPlatform() === 'ios') {
@@ -134,7 +129,7 @@ describe('Create a surf session', () => {
         .withTimeout(10000);
 
       await element(by.id('signOutButton')).tap();
-      // await expect(element(by.id('email'))).toExist();
+      await expect(element(by.id('email'))).toExist();
     }
   });
 });

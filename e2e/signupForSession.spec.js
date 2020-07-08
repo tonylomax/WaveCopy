@@ -2,12 +2,6 @@ describe('Test register', () => {
   exampleEmail = 'a@a.com';
   examplePassword = 'Asdasd6';
 
-  beforeEach(async () => {
-    // await device.terminateApp();
-    // await device.launchApp();
-    // await device.reloadReactNative();
-  });
-
   it('it should be able to log in, select a specific session, navigate to the register for that session and mark a user as "in attendance" and see that change rendered on the screen', async () => {
     await element(by.id('email')).typeText(exampleEmail);
     await element(by.id('password')).typeText(examplePassword);
@@ -37,6 +31,6 @@ describe('Test register', () => {
     await element(by.id('navigate-to-profile-button')).tap();
     await expect(element(by.id('firestoreName'))).toExist();
     await element(by.id('signOutButton')).tap();
-    // await expect(element(by.id('email'))).toExist();
+    await expect(element(by.id('email'))).toExist();
   });
 });
