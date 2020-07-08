@@ -9,6 +9,7 @@ import subscribeToFirestoreUsers from './subscribeToFirestoreUsers';
 import subscribeToSpecificBeach from './subscribeToSpecificBeach';
 import subscribeToRoleSpecificSessionChanges from './subscribeToRoleSpecificSessionChanges';
 import signupForSession from './signupForSession';
+import retrieveCoordinatorData from './retrieveCoordinatorData';
 export {
   updateOwnBio,
   searchFirestoreServiceUsers,
@@ -21,4 +22,5 @@ export {
   subscribeToSpecificBeach,
   subscribeToRoleSpecificSessionChanges,
   signupForSession,
+  retrieveCoordinatorData,
 };

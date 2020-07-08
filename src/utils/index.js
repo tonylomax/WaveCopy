@@ -17,6 +17,7 @@ import {
   subscribeToSpecificBeach,
   subscribeToRoleSpecificSessionChanges,
   signupForSession,
+  retrieveCoordinatorData,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -51,4 +52,5 @@ export {
   generateNumberedArray,
   subscribeToRoleSpecificSessionChanges,
   signupForSession,
+  retrieveCoordinatorData,
 };

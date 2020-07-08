@@ -12,7 +12,11 @@ import {
   clearSelectedSessionAttendees,
 } from '../../redux/';
 import {LoadingScreen} from 'components';
-import {subscribeToSessionChanges, signupForSession} from 'utils';
+import {
+  subscribeToSessionChanges,
+  signupForSession,
+  retrieveCoordinatorData,
+} from 'utils';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
@@ -37,7 +41,7 @@ export default function Session({navigation, route}) {
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
   //LOCAL STATE
   const [loading, setLoading] = useState(true);
-
+  const [coordinator, setCoordinator] = useState();
   useEffect(() => {
     if (
       AttendeesIDandAttendance !== undefined &&
@@ -67,6 +71,12 @@ export default function Session({navigation, route}) {
     }
   }, [sessionData, selectedSessionAttendeesData, selectedSessionMentorsData]);
 
+  useEffect(() => {
+    (async () => {
+      setCoordinator(await retrieveCoordinatorData(sessionData?.CoordinatorID));
+    })();
+  }, [sessionData]);
+
   return (
     <View>
       {loading ? (
@@ -82,7 +92,9 @@ export default function Session({navigation, route}) {
           <Text>
             {sessionData?.Type}-{sessionData?.Beach}
           </Text>
-          <Text>Coordinator: {sessionData?.CoordinatorID}</Text>
+          <Text>
+            Coordinator: {coordinator?.firstName} {coordinator?.lastName}
+          </Text>
           <Text>{sessionData?.Description}</Text>
           {selectedSessionAttendeesData &&
             selectedBeach &&

@@ -20,7 +20,7 @@ export default signupForSession = async (sessionID, userID) => {
             Mentors: [...sessionData.data().Mentors],
           });
         } else if (
-          sessionData.data().Mentors.map((mentor) => mentor.id === userID)
+          sessionData.data().Mentors.filter((mentor) => mentor.id === userID)
             .length > 0
         ) {
           reject('You are already in this session');
