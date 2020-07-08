@@ -39,7 +39,7 @@ export default function Profile({navigation}) {
   const sessions = useSelector((state) =>
     console.log('all sessions', state.firestoreReducer.sessionData),
   );
-  const roleSessions = useSelector((state) => {
+  const mySessions = useSelector((state) => {
     return state.firestoreReducer.roleSpecificSessionData.filter((session) => {
       let filteredMentors = session?.Mentors.filter((mentor) => {
         console.log(mentor.id === UID);
@@ -50,6 +50,9 @@ export default function Profile({navigation}) {
       }
     });
   });
+
+  const beaches = useSelector((state) => state.firestoreReducer.beaches);
+
   //LOCAL STATE
   const [bio, setBio] = useState(userData?.Bio);
   const [profileURL, setProfileURL] = useState();
@@ -82,14 +85,15 @@ export default function Profile({navigation}) {
   }, [userData]);
 
   useEffect(() => {
-    console.log('SESSIONS IN PROFILE', roleSessions);
-  }, [roleSessions]);
+    console.log('SESSIONS IN PROFILE', mySessions);
+  }, [mySessions]);
 
   useEffect(() => {
     getImageDownloadURI(UID).then((url) => {
       setProfileURL(url);
     });
   }, [newProfilePicUploadComplete]);
+  const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
 
   // Could be imported as a component
   const imagePicker = () => {
@@ -191,17 +195,15 @@ export default function Profile({navigation}) {
           <FlatList
             testID="profileSessionsList"
             data={
-              userData?.Roles?.includes('NationalAdmin')
-                ? sessions
-                : roleSessions
+              userData?.Roles?.includes('NationalAdmin') ? sessions : mySessions
             }
             renderItem={({item}) => (
               <TouchableHighlight
                 disabled={moment(item?.DateTime).diff(new Date()) < 0}
                 onPress={() => {
-                  // const selectedBeach = getBeach(item.ID)[0];
+                  const selectedBeach = getBeach(item.ID)[0];
                   console.log({item});
-                  // navigation.navigate('Session', {item, selectedBeach});
+                  navigation.navigate('Session', {item, selectedBeach});
                 }}
                 style={{
                   borderColor:
