@@ -41,6 +41,7 @@ export default function Session({navigation, route}) {
 
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
+
   //LOCAL STATE
   const [loading, setLoading] = useState(true);
   const [coordinator, setCoordinator] = useState();
@@ -95,15 +96,18 @@ export default function Session({navigation, route}) {
   }, [sessionData]);
 
   useEffect(() => {
-    console.log('sessionData in session', sessionData);
-  }, [sessionData]);
+    console.log(
+      'selectedSessionMentorsData',
+      selectedSessionMentorsData.length,
+    );
+  }, [selectedSessionMentorsData]);
 
   return (
     <View>
       {loading ? (
         <LoadingScreen visible={true}></LoadingScreen>
       ) : (
-        <>
+        <View>
           <Image
             style={{height: '15%', width: '15%'}}
             source={Edit_Icon}></Image>
@@ -151,31 +155,37 @@ export default function Session({navigation, route}) {
               Register
             </ConfirmButton>
           )}
-          <ConfirmButton
-            testID="signupButton"
-            title="Sign Up"
-            onPress={() => {
-              signupForSession(ID, UID)
-                .then((result) => {
-                  console.log('Session signup done ');
-                })
-                .catch((err) => {
-                  console.log('ERROR: ', err);
-                });
-            }}></ConfirmButton>
-          <ConfirmButton
-            testID="leaveSessionButton"
-            title="Leave session"
-            onPress={() => {
-              removeSelfFromSession(ID, UID, sessionData?.SessionLead?.id)
-                .then((result) => {
-                  console.log('Session remove done');
-                })
-                .catch((err) => {
-                  console.log('ERROR: ', err);
-                });
-            }}></ConfirmButton>
-        </>
+
+          {selectedSessionMentorsData.filter((mentor) => mentor.id === UID)
+            .length >= 1 ? (
+            <ConfirmButton
+              testID="leaveSessionButton"
+              title="Leave session"
+              onPress={() => {
+                removeSelfFromSession(ID, UID, sessionData?.SessionLead?.id)
+                  .then((result) => {
+                    console.log('Session remove done');
+                  })
+                  .catch((err) => {
+                    console.log('ERROR: ', err);
+                  });
+              }}></ConfirmButton>
+          ) : (
+            <ConfirmButton
+              testID="signupButton"
+              title="Sign Up"
+              disabled={MaxMentors === selectedSessionMentorsData.length}
+              onPress={() => {
+                signupForSession(ID, UID)
+                  .then((result) => {
+                    console.log('Session signup done ');
+                  })
+                  .catch((err) => {
+                    console.log('ERROR: ', err);
+                  });
+              }}></ConfirmButton>
+          )}
+        </View>
       )}
     </View>
   );
