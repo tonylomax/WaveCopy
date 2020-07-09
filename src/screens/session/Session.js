@@ -45,6 +45,8 @@ export default function Session({navigation, route}) {
   //LOCAL STATE
   const [loading, setLoading] = useState(true);
   const [coordinator, setCoordinator] = useState();
+  const [surfLead, setSurfLead] = useState();
+
   useEffect(() => {
     if (
       AttendeesIDandAttendance !== undefined &&
@@ -64,6 +66,19 @@ export default function Session({navigation, route}) {
     };
   }, []);
 
+  const getSessionLeadName = (surfLeadID) => {
+    const SURFLEAD = selectedSessionMentorsData?.filter(
+      (mentor) => mentor.id === surfLeadID,
+    );
+    console.log('SURFLEAD', SURFLEAD);
+    setSurfLead(SURFLEAD[0]);
+  };
+
+  useEffect(() => {
+    // console.log('selectedSessionMentorsData', selectedSessionMentorsData);
+    getSessionLeadName(sessionData?.SessionLead?.id);
+  }, [selectedSessionMentorsData, sessionData]);
+
   useEffect(() => {
     if (
       sessionData &&
@@ -78,6 +93,10 @@ export default function Session({navigation, route}) {
     (async () => {
       setCoordinator(await retrieveCoordinatorData(sessionData?.CoordinatorID));
     })();
+  }, [sessionData]);
+
+  useEffect(() => {
+    console.log('sessionData in session', sessionData);
   }, [sessionData]);
 
   return (
@@ -98,6 +117,9 @@ export default function Session({navigation, route}) {
           <Text>
             Coordinator: {coordinator?.firstName} {coordinator?.lastName}
           </Text>
+          <Text>
+            Surf Lead: {surfLead?.firstName} {surfLead?.lastName}
+          </Text>
           <Text>{sessionData?.Description}</Text>
           {selectedSessionAttendeesData &&
             selectedBeach &&
@@ -108,6 +130,10 @@ export default function Session({navigation, route}) {
                 numberOfMentors={MaxMentors}
                 location={selectedBeach}
                 mentors={selectedSessionMentorsData}
+                assignSessionLead={assignSessionLead}
+                unassignSessionLead={unassignSessionLead}
+                sessionLead={sessionData?.SessionLead}
+                sessionID={ID}
               />
             )}
           {roles?.some(

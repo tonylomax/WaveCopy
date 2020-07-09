@@ -37,9 +37,7 @@ export default function Profile({navigation}) {
   );
   //REDUX STATE
 
-  const sessions = useSelector((state) =>
-    console.log('all sessions', state.firestoreReducer.sessionData),
-  );
+  const sessions = useSelector((state) => state.firestoreReducer.sessionData);
   const mySessions = useSelector((state) => {
     return state.firestoreReducer.roleSpecificSessionData.filter((session) => {
       let filteredMentors = session?.Mentors.filter((mentor) => {
@@ -86,8 +84,8 @@ export default function Profile({navigation}) {
   }, [userData]);
 
   useEffect(() => {
-    console.log('SESSIONS IN PROFILE', mySessions);
-  }, [mySessions]);
+    console.log('SESSIONS IN PROFILE', sessions);
+  }, [sessions]);
 
   useEffect(() => {
     getImageDownloadURI(UID).then((url) => {
