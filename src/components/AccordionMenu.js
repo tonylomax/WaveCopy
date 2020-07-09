@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {Text} from 'react-native';
 import {List} from 'react-native-paper';
 import {AddButton, CloseButton} from 'components';
+import {useSelector, useDispatch} from 'react-redux';
 
 export default function AccordionMenu({
   testID,
@@ -13,14 +14,17 @@ export default function AccordionMenu({
   unassignSessionLead,
   sessionLead,
   sessionID,
+  roles,
 }) {
   React.useEffect(() => {
     console.log('mentors', mentors);
   }, []);
 
   React.useEffect(() => {
-    console.log('sessionLead', sessionLead?.id);
-  }, [sessionLead]);
+    console.log('roles in accordion', roles);
+  }, [roles]);
+
+  const userData = useSelector((state) => state.firestoreReducer.userData);
 
   return (
     <List.AccordionGroup>
@@ -33,20 +37,29 @@ export default function AccordionMenu({
             <List.Item
               key={`mentor-${i + 1}`}
               title={`${i + 1}) ${mentor?.firstName} ${mentor?.lastName}`}
-              right={() => (
-                <>
-                  <AddButton
-                    onPress={() => {
-                      assignSessionLead(sessionID, mentor.id);
-                    }}
-                    title="Add"></AddButton>
-                  <CloseButton
-                    title="Remove"
-                    onPress={() => {
-                      unassignSessionLead(sessionID, mentor.id);
-                    }}></CloseButton>
-                </>
-              )}
+              right={() => {
+                return (
+                  roles.some(
+                    () =>
+                      userData?.Roles?.includes('SurfLead') ||
+                      userData?.Roles?.includes('NationalAdmin') ||
+                      userData?.Roles?.includes('Coordinator'),
+                  ) && (
+                    <>
+                      <AddButton
+                        onPress={() => {
+                          assignSessionLead(sessionID, mentor.id);
+                        }}
+                        title="Add"></AddButton>
+                      <CloseButton
+                        title="Remove"
+                        onPress={() => {
+                          unassignSessionLead(sessionID, mentor.id);
+                        }}></CloseButton>
+                    </>
+                  )
+                );
+              }}
             />
           ))}
       </List.Accordion>

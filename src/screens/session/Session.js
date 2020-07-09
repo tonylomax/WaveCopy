@@ -134,6 +134,7 @@ export default function Session({navigation, route}) {
                 unassignSessionLead={unassignSessionLead}
                 sessionLead={sessionData?.SessionLead}
                 sessionID={ID}
+                roles={roles}
               />
             )}
           {roles?.some(
