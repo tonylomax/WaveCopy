@@ -4,7 +4,12 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 
-export default removeMentorFromSession = async (sessionID, userID, UID) => {
+export default removeMentorFromSession = async (
+  sessionID,
+  userID,
+  UID,
+  sessionleadID,
+) => {
   const sessionReference = firestore().doc(`Sessions/${sessionID}`);
 
   firestore()
@@ -21,6 +26,9 @@ export default removeMentorFromSession = async (sessionID, userID, UID) => {
       }
       if (userID === UID) {
         throw 'You cannot remove yourself as a mentor, please contact the coordinator to remove you';
+      }
+      if (sessionleadID === userID) {
+        throw 'Remove this person from session lead before you remove them from session';
       } else {
         removeMentorFromSessionTransaction.update(sessionReference, {
           Mentors: newMentors,

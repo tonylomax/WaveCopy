@@ -54,7 +54,12 @@ export default function AccordionMenu({
                       <CloseButton
                         testID={`removeAsMentorButton${mentor.id}`}
                         onPress={() => {
-                          removeMentorFromSession(sessionID, mentor.id, UID);
+                          removeMentorFromSession(
+                            sessionID,
+                            mentor.id,
+                            UID,
+                            sessionLead.id,
+                          );
                         }}
                         title="Remove as Mentor"></CloseButton>
                       {sessionLead.id === mentor.id ? (

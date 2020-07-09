@@ -37,8 +37,10 @@ export default function Session({navigation, route}) {
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionMentors,
   );
+  const sessionLeadID = useSelector(
+    (state) => state.firestoreReducer?.singleSession?.SessionLead?.id,
+  );
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
-
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
 
@@ -67,6 +69,7 @@ export default function Session({navigation, route}) {
   }, []);
 
   const getSessionLeadName = (surfLeadID) => {
+    console.log('selectedSessionMentorsData', selectedSessionMentorsData);
     const SURFLEAD = selectedSessionMentorsData?.filter(
       (mentor) => mentor.id === surfLeadID,
     );
@@ -75,7 +78,6 @@ export default function Session({navigation, route}) {
   };
 
   useEffect(() => {
-    // console.log('selectedSessionMentorsData', selectedSessionMentorsData);
     getSessionLeadName(sessionData?.SessionLead?.id);
   }, [selectedSessionMentorsData, sessionData]);
 
@@ -95,13 +97,6 @@ export default function Session({navigation, route}) {
     })();
   }, [sessionData]);
 
-  useEffect(() => {
-    console.log(
-      'selectedSessionMentorsData',
-      selectedSessionMentorsData.length,
-    );
-  }, [selectedSessionMentorsData]);
-
   return (
     <View>
       {loading ? (
@@ -117,15 +112,22 @@ export default function Session({navigation, route}) {
           <Moment element={Text} format="DD.MM.YY">
             {sessionData?.DateTime}
           </Moment>
+          {!sessionLeadID || sessionLeadID === '' ? (
+            <Text>No session lead</Text>
+          ) : sessionLeadID === UID ? (
+            <Text>You are the session lead</Text>
+          ) : (
+            <Text>
+              {surfLead?.firstName} {surfLead?.lastName} is the session lead
+            </Text>
+          )}
           <Text>
             {sessionData?.Type}-{sessionData?.Beach}
           </Text>
           <Text>
             Coordinator: {coordinator?.firstName} {coordinator?.lastName}
           </Text>
-          <Text>
-            Surf Lead: {surfLead?.firstName} {surfLead?.lastName}
-          </Text>
+
           <Text>{sessionData?.Description}</Text>
           {selectedSessionAttendeesData &&
             selectedBeach &&
