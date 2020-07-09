@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, Button} from 'react-native';
-import {AccordionMenu, ConfirmButton} from 'components';
+import {AccordionMenu, ConfirmButton, ChoicePopup} from 'components';
 import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
+import {CommonActions} from '@react-navigation/native';
+
 import Moment from 'react-moment';
 import {
   getAllSessionAttendees,
@@ -19,6 +21,7 @@ import {
   removeSelfFromSession,
   assignSessionLead,
   unassignSessionLead,
+  deleteSession,
 } from 'utils';
 
 export default function Session({navigation, route}) {
@@ -41,12 +44,16 @@ export default function Session({navigation, route}) {
   const sessionLeadID = useSelector(
     (state) => state.firestoreReducer?.singleSession?.SessionLead?.id,
   );
+
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
+
   //LOCAL STATE
   const [loading, setLoading] = useState(true);
   const [coordinator, setCoordinator] = useState();
+  const [visible, setVisible] = useState(false);
+
   useEffect(() => {
     if (
       AttendeesIDandAttendance !== undefined &&
@@ -136,6 +143,51 @@ export default function Session({navigation, route}) {
               Register
             </ConfirmButton>
           )}
+          {/* DElETE SESSION */}
+          {roles?.some(
+            () =>
+              userData?.Roles?.includes('NationalAdmin') ||
+              userData?.Roles?.includes('RegionalManager') ||
+              userData?.Roles?.includes('Coordinator'),
+          ) && (
+            <ConfirmButton
+              title="Delete session"
+              testID="delete-session-button"
+              onPress={() => setVisible((visible) => !visible)}>
+              Register
+            </ConfirmButton>
+          )}
+          <ChoicePopup
+            testID="choicePopup"
+            visible={visible}
+            setVisible={setVisible}
+            yesAction={() => {
+              console.log('deleting session');
+              deleteSession(ID, UID)
+                .then((res) => {
+                  console.log(res);
+
+                  // If this session was reached from profile, go back to home,
+                  // Otherwise go back to profile
+                  if (route.name === 'HomeSession') {
+                    navigation.dispatch(
+                      CommonActions.reset({
+                        index: 0,
+                        routes: [{name: 'Home'}],
+                      }),
+                    );
+                  } else {
+                    navigation.dispatch(
+                      CommonActions.reset({
+                        index: 0,
+                        routes: [{name: 'Profile'}],
+                      }),
+                    );
+                  }
+                })
+                .catch((err) => console.log(err));
+            }}></ChoicePopup>
+
           <ConfirmButton
             testID="signupButton"
             title="Sign Up"

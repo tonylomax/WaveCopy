@@ -84,7 +84,7 @@ export default function Profile({navigation}) {
               onPress={() => {
                 const selectedBeach = getBeach(item.ID)[0];
                 console.log({item});
-                navigation.navigate('Session', {item, selectedBeach});
+                navigation.navigate('HomeSession', {item, selectedBeach});
               }}
               style={{
                 borderColor: 'black',

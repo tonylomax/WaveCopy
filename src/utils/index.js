@@ -21,6 +21,7 @@ import {
   removeSelfFromSession,
   assignSessionLead,
   unassignSessionLead,
+  deleteSession,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -32,6 +33,7 @@ import generateDateTimeArray from './time/repetitionDatesArray';
 import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
 export {
+  deleteSession,
   assignSessionLead,
   unassignSessionLead,
   createAuthSubscription,
