@@ -16,8 +16,10 @@ import {serializeError} from 'serialize-error';
 export default function Home({navigation, setLoggedIn}) {
   const dispatch = useDispatch();
 
+  //LOCAL STATE
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  //LOCAL STATE
 
   return (
     <SafeAreaView>

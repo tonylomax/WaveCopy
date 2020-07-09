@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import {COLLECTIONS} from '../../constants/collections';
+import {COLLECTIONS} from 'constants';
 import store from '../../redux/store';
 import {updateSessions} from '../../redux/';
 

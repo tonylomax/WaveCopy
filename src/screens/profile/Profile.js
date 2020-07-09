@@ -35,6 +35,7 @@ export default function Profile({navigation}) {
   const currentAuthenticatedUser = useSelector(
     (state) => state.authenticationReducer.userState,
   );
+  //REDUX STATE
 
   const sessions = useSelector((state) =>
     console.log('all sessions', state.firestoreReducer.sessionData),
@@ -71,9 +72,9 @@ export default function Profile({navigation}) {
     },
     noData: true,
   });
-
   const [uploadImg, setUploadImg] = useState();
   const [uploadProgress, setuploadProgress] = useState(0);
+  //LOCAL STATE
 
   const getFileLocalPath = (response) => {
     const {path, uri} = response;

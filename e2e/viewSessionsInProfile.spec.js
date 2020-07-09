@@ -24,6 +24,6 @@ describe('Test profile', () => {
 
     await expect(element(by.id('firestoreName'))).toExist();
     await element(by.id('signOutButton')).tap();
-    // await expect(element(by.id('email'))).toExist();
+    await expect(element(by.id('email'))).toExist();
   });
 });

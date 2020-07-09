@@ -1,14 +1,6 @@
 // TO DO - merge this with session/EditSession.js
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  Image,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {View, Text, TextInput, Image, SafeAreaView} from 'react-native';
 import {ConfirmButton, ChoicePopup, AccordionMenu} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
@@ -20,8 +12,6 @@ import {createSessionInFirestore, getCoverImage} from 'utils';
 import {useSelector} from 'react-redux';
 
 export default function ConfirmSession({route, navigation}) {
-  const [visible, setVisible] = useState(false);
-  const [descriptionOfSession, setDescriptionOfSession] = useState('');
   const {
     sessionType,
     location,
@@ -29,8 +19,16 @@ export default function ConfirmSession({route, navigation}) {
     selectedUsers,
     dateTimeArray,
   } = route.params;
+
+  //LOCAL STATE
+  const [visible, setVisible] = useState(false);
+  const [descriptionOfSession, setDescriptionOfSession] = useState('');
+  //LOCAL STATE
+
+  //REDUX STATE
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
+  //REDUX STATE
 
   const CoverImage = getCoverImage(location);
   useEffect(() => {

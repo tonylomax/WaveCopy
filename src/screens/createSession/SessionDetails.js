@@ -16,7 +16,7 @@ import {
   MAX_NUMBER_OF_VOLUNTEERS,
   MIN_NUMBER_OF_REPETITIONS,
   MAX_NUMBER_OF_REPETITIONS,
-} from '../../constants/sessionChoices.js';
+} from 'constants';
 
 export default function SessionDetails({navigation}) {
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
