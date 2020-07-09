@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, Button} from 'react-native';
-import {AccordionMenu, ConfirmButton} from 'components';
+import {AccordionMenu, ConfirmButton, LoadingScreen} from 'components';
 import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
 import Moment from 'react-moment';
@@ -11,14 +11,13 @@ import {
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
 } from '../../redux/';
-import {LoadingScreen} from 'components';
+
 import {
   subscribeToSessionChanges,
   signupForSession,
   retrieveCoordinatorData,
   removeSelfFromSession,
   assignSessionLead,
-  unassignSessionLead,
 } from 'utils';
 
 export default function Session({navigation, route}) {
@@ -130,8 +129,6 @@ export default function Session({navigation, route}) {
                 numberOfMentors={MaxMentors}
                 location={selectedBeach}
                 mentors={selectedSessionMentorsData}
-                assignSessionLead={assignSessionLead}
-                unassignSessionLead={unassignSessionLead}
                 sessionLead={sessionData?.SessionLead}
                 sessionID={ID}
                 roles={roles}

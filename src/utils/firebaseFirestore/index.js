@@ -13,6 +13,7 @@ import retrieveCoordinatorData from './retrieveCoordinatorData';
 import removeSelfFromSession from './removeSelfFromSession';
 import assignSessionLead from './assignSessionLead';
 import unassignSessionLead from './unassignSessionLead';
+import removeMentorFromSession from './removeMentorFromSession';
 
 export {
   updateOwnBio,
@@ -30,4 +31,5 @@ export {
   removeSelfFromSession,
   assignSessionLead,
   unassignSessionLead,
+  removeMentorFromSession,
 };
