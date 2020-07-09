@@ -111,6 +111,9 @@ export default function Session({navigation, route}) {
           <Image
             style={{height: '15%', width: '15%'}}
             source={Edit_Icon}></Image>
+          {MaxMentors === selectedSessionMentorsData.length && (
+            <Text> This session is full</Text>
+          )}
           <Moment element={Text} format="DD.MM.YY">
             {sessionData?.DateTime}
           </Moment>
