@@ -21,8 +21,8 @@ export default function AccordionMenu({
   }, []);
 
   React.useEffect(() => {
-    console.log('roles in accordion', roles);
-  }, [roles]);
+    console.log('roles in sessionLead', sessionLead);
+  }, [sessionLead]);
 
   const userData = useSelector((state) => state.firestoreReducer.userData);
 
@@ -38,26 +38,23 @@ export default function AccordionMenu({
               key={`mentor-${i + 1}`}
               title={`${i + 1}) ${mentor?.firstName} ${mentor?.lastName}`}
               right={() => {
-                return (
-                  roles.some(
-                    () =>
-                      userData?.Roles?.includes('SurfLead') ||
-                      userData?.Roles?.includes('NationalAdmin') ||
-                      userData?.Roles?.includes('Coordinator'),
-                  ) && (
-                    <>
-                      <AddButton
-                        onPress={() => {
-                          assignSessionLead(sessionID, mentor.id);
-                        }}
-                        title="Add"></AddButton>
-                      <CloseButton
-                        title="Remove"
-                        onPress={() => {
-                          unassignSessionLead(sessionID, mentor.id);
-                        }}></CloseButton>
-                    </>
-                  )
+                return roles.some(
+                  () =>
+                    userData?.Roles?.includes('SurfLead') ||
+                    userData?.Roles?.includes('NationalAdmin') ||
+                    userData?.Roles?.includes('Coordinator'),
+                ) && sessionLead.id === mentor.id ? (
+                  <CloseButton
+                    title="Remove"
+                    onPress={() => {
+                      unassignSessionLead(sessionID, mentor.id);
+                    }}></CloseButton>
+                ) : (
+                  <AddButton
+                    onPress={() => {
+                      assignSessionLead(sessionID, mentor.id);
+                    }}
+                    title="Add"></AddButton>
                 );
               }}
             />
