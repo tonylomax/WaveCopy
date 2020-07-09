@@ -1,9 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, SafeAreaView, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  TouchableHighlight,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {getAllBeaches} from '../../redux/';
 import {ConfirmButton, ChoicePopup} from 'components';
-import {TouchableHighlight} from 'react-native-gesture-handler';
 import {isEmpty} from 'lodash';
 import {
   subscribeToSessions,
@@ -50,6 +55,10 @@ export default function Profile({navigation}) {
       };
     }
   }, [userData]);
+
+  useEffect(() => {
+    console.log('beaches', beaches);
+  }, [beaches]);
 
   return (
     <SafeAreaView>

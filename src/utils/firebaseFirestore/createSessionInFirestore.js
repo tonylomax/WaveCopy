@@ -20,7 +20,7 @@ export default createSessionInFirestore = ({
         Attended: false,
       });
     });
-    console.log(updatedAttendees);
+    console.log('location', location.id);
     let GroupID = '';
     if (dateTimeArray.length > 1) {
       GroupID = uuidv1();
@@ -33,12 +33,13 @@ export default createSessionInFirestore = ({
           MaxMentors: numberOfVolunteers,
           Mentors: [],
           Beach: location.Name,
+          BeachID: location.id,
           Type: sessionType,
           Description: descriptionOfSession,
           DateTime: sessionDate.format(),
           CoordinatorID: uid,
           CoordinatorName: coordinator,
-          Region: location.region,
+          RegionID: location.Region,
           GroupID,
           CreatedAt: firestore.FieldValue.serverTimestamp(),
           UpdatedAt: firestore.FieldValue.serverTimestamp(),
