@@ -48,9 +48,6 @@ export default function Session({navigation, route}) {
   const [loading, setLoading] = useState(true);
   const [coordinator, setCoordinator] = useState();
   useEffect(() => {
-    console.log({sessionLeadID});
-    console.log({UID});
-
     if (
       AttendeesIDandAttendance !== undefined &&
       AttendeesIDandAttendance.length > 0
@@ -110,7 +107,6 @@ export default function Session({navigation, route}) {
           <Text>
             Coordinator: {coordinator?.firstName} {coordinator?.lastName}
           </Text>
-          <Text></Text>
           <Text>{sessionData?.Description}</Text>
           {selectedSessionAttendeesData &&
             selectedBeach &&
