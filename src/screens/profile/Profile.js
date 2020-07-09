@@ -37,9 +37,10 @@ export default function Profile({navigation}) {
   );
   //REDUX STATE
 
-  const sessions = useSelector((state) =>
-    console.log('all sessions', state.firestoreReducer.sessionData),
-  );
+  const sessions = useSelector((state) => {
+    console.log('all sessions', state.firestoreReducer.sessionData);
+    return state.firestoreReducer.sessionData;
+  });
   const mySessions = useSelector((state) => {
     return state.firestoreReducer.roleSpecificSessionData.filter((session) => {
       let filteredMentors = session?.Mentors.filter((mentor) => {

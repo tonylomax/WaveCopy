@@ -32,7 +32,7 @@ const TabNavigator = () => (
       />
       <BottomTabs.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileNavigator}
         options={{tabBarTestID: 'navigate-to-profile-button'}}
       />
     </BottomTabs.Navigator>
@@ -42,6 +42,13 @@ const TabNavigator = () => (
 const HomeNavigator = () => (
   <HomeStack.Navigator>
     <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
+    <HomeStack.Screen name="Session" component={Session}></HomeStack.Screen>
+    <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
+  </HomeStack.Navigator>
+);
+const ProfileNavigator = () => (
+  <HomeStack.Navigator>
+    <HomeStack.Screen name="Profile" component={Profile}></HomeStack.Screen>
     <HomeStack.Screen name="Session" component={Session}></HomeStack.Screen>
     <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
   </HomeStack.Navigator>

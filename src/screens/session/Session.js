@@ -38,14 +38,19 @@ export default function Session({navigation, route}) {
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionMentors,
   );
+  const sessionLeadID = useSelector(
+    (state) => state.firestoreReducer?.singleSession?.SessionLead?.id,
+  );
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
-
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
   //LOCAL STATE
   const [loading, setLoading] = useState(true);
   const [coordinator, setCoordinator] = useState();
   useEffect(() => {
+    console.log({sessionLeadID});
+    console.log({UID});
+
     if (
       AttendeesIDandAttendance !== undefined &&
       AttendeesIDandAttendance.length > 0
@@ -92,12 +97,20 @@ export default function Session({navigation, route}) {
           <Moment element={Text} format="DD.MM.YY">
             {sessionData?.DateTime}
           </Moment>
+          {!sessionLeadID || sessionLeadID === '' ? (
+            <Text>No session lead</Text>
+          ) : sessionLeadID === UID ? (
+            <Text>You are the session lead</Text>
+          ) : (
+            <Text>{sessionData?.SessionLead?.id} is the session lead</Text>
+          )}
           <Text>
             {sessionData?.Type}-{sessionData?.Beach}
           </Text>
           <Text>
             Coordinator: {coordinator?.firstName} {coordinator?.lastName}
           </Text>
+          <Text></Text>
           <Text>{sessionData?.Description}</Text>
           {selectedSessionAttendeesData &&
             selectedBeach &&
