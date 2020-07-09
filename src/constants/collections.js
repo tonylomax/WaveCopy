@@ -6,4 +6,6 @@ export const COLLECTIONS = {
   SESSIONS: 'Sessions',
   BEACHES: 'Beaches',
   TEST_SERVICE_USERS: 'TestServiceUsers',
+  AREAS: 'Areas',
+  REGIONS: 'Regions',
 };

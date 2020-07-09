@@ -12,20 +12,21 @@ import {
 
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
+
+  //LOCAL STATE
+  const [visible, setVisible] = useState(false);
+  //LOCAL STATE
+
   //REDUX STATE
-
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
-
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
   const roleSessions = useSelector(
     (state) => state.firestoreReducer.roleSpecificSessionData,
   );
   const userData = useSelector((state) => state.firestoreReducer.userData);
+  //REDUX STATE
 
   const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
-
-  //LOCAL STATE
-  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     let unsubscribeFromSessions = () => {};

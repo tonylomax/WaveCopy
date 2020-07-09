@@ -4,23 +4,20 @@ import Moment from 'react-moment';
 import {RegisterTabs} from 'components';
 import {useSelector} from 'react-redux';
 import {markAttendance, subscribeToSessionChanges} from 'utils';
-import {USER_GROUP} from '../../constants/userGroups';
+import {USER_GROUP} from 'constants';
 
 export default function Register({navigation, route}) {
   //REDUX STATE
   const sessionData = useSelector(
     (state) => state.firestoreReducer.singleSession,
   );
-
   const selectedSessionAttendeesData = useSelector(
     (state) => state.firestoreReducer.selectedSessionAttendees,
   );
-
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionMentors,
   );
-
-  //LOCAL STATE
+  //REDUX STATE
 
   //PROPS
   const {ID} = route.params;

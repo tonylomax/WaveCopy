@@ -8,7 +8,7 @@ export const initialState = {
   singleBeach: {},
   beaches: [],
 };
-import {ACTIONS} from '../../constants/actions';
+import {ACTIONS} from 'constants';
 
 export default (state = initialState, action) => {
   console.log('[REDUCER], firestorereducer');

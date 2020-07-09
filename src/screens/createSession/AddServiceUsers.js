@@ -1,12 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button, TextInput, FlatList} from 'react-native';
-import {searchFirestoreServiceUsers} from '../../utils';
-const EXAMPLE_LIST_OF_USERS = [
-  {name: 'john1', id: 1},
-  {name: 'john2', id: 2},
-  {name: 'john3', id: 3},
-];
-const SEARCH_DELAY = 2000;
+import {searchFirestoreServiceUsers} from 'utils';
 
 export default function AddServiceUsers({route, navigation}) {
   const {
@@ -15,12 +9,15 @@ export default function AddServiceUsers({route, navigation}) {
     numberOfVolunteers,
     dateTimeArray,
   } = route.params;
+
+  //LOCAL STATE
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [typing, setTyping] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState(0);
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  //LOCAL STATE
 
   useEffect(() => {
     if (!typing && searchTerm.length > 0) {

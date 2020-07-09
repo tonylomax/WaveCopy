@@ -1,4 +1,4 @@
-import {ACTIONS} from '../../constants/actions';
+import {ACTIONS} from 'constants';
 
 export const initialState = {
   userState: {},
