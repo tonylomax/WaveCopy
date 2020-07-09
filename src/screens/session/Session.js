@@ -38,8 +38,10 @@ export default function Session({navigation, route}) {
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionMentors,
   );
+  const sessionLeadID = useSelector(
+    (state) => state.firestoreReducer?.singleSession?.SessionLead?.id,
+  );
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
-
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
   //LOCAL STATE
@@ -92,6 +94,13 @@ export default function Session({navigation, route}) {
           <Moment element={Text} format="DD.MM.YY">
             {sessionData?.DateTime}
           </Moment>
+          {!sessionLeadID || sessionLeadID === '' ? (
+            <Text>No session lead</Text>
+          ) : sessionLeadID === UID ? (
+            <Text>You are the session lead</Text>
+          ) : (
+            <Text>{sessionData?.SessionLead?.id} is the session lead</Text>
+          )}
           <Text>
             {sessionData?.Type}-{sessionData?.Beach}
           </Text>
