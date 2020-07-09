@@ -4,7 +4,7 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 
-export default removeMentorFromSession = async (sessionID, userID) => {
+export default removeMentorFromSession = async (sessionID, userID, UID) => {
   const sessionReference = firestore().doc(`Sessions/${sessionID}`);
 
   firestore()
@@ -18,6 +18,9 @@ export default removeMentorFromSession = async (sessionID, userID) => {
 
       if (!sessionData.exists) {
         throw 'Session does not exist!';
+      }
+      if (userID === UID) {
+        throw 'You cannot remove yourself as a mentor, please contact the coordinator to remove you';
       } else {
         removeMentorFromSessionTransaction.update(sessionReference, {
           Mentors: newMentors,

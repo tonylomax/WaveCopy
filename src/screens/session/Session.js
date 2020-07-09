@@ -167,7 +167,7 @@ export default function Session({navigation, route}) {
             testID="leaveSessionButton"
             title="Leave session"
             onPress={() => {
-              removeSelfFromSession(ID, UID)
+              removeSelfFromSession(ID, UID, sessionData?.SessionLead?.id)
                 .then((result) => {
                   console.log('Session remove done');
                 })

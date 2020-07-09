@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 
-export default function (sessionID, mentorID) {
+export default function (sessionID, mentorID, UID) {
   // Create a reference to the specific session doc.
   var sessionDocRef = firestore().collection('Sessions').doc(sessionID);
 
@@ -16,6 +16,10 @@ export default function (sessionID, mentorID) {
         if (sessionData.SessionLead.id === '') {
           throw 'Mentor has not been set';
         }
+        if (mentorID === UID) {
+          throw 'You cannot remove yourself as session lead, please contact the coordinator to remove you and add a new lead';
+        }
+
         if (mentorInSession < 0) {
           throw 'Mentor not in this session';
         }
