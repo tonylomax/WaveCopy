@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {Text} from 'react-native';
 import {List} from 'react-native-paper';
 export default function AccordionMenu({
+  navigation,
   testID,
   location,
   selectedUsers,
@@ -10,7 +11,8 @@ export default function AccordionMenu({
 }) {
   React.useEffect(() => {
     console.log('mentors', mentors);
-  }, []);
+  }, [mentors]);
+
   return (
     <List.AccordionGroup>
       <List.Accordion
@@ -20,6 +22,10 @@ export default function AccordionMenu({
         {mentors?.length > 0 &&
           mentors?.map((mentor, i) => (
             <List.Item
+              onPress={() => {
+                console.log('mentor in accord', mentor);
+                navigation.navigate('Volunteer Profile', {mentor});
+              }}
               key={`mentor-${i + 1}`}
               title={`${i + 1}) ${mentor?.firstName} ${mentor?.lastName}`}
             />

@@ -7,8 +7,13 @@ import {
   Image,
   FlatList,
   TouchableHighlight,
+  ScrollView,
 } from 'react-native';
-import {ConfirmButton, ImageConfirmPopup} from 'components';
+import {
+  ConfirmButton,
+  ImageConfirmPopup,
+  TrainingAccordionMenu,
+} from 'components';
 import {useSelector, useDispatch} from 'react-redux';
 import {TextInput} from 'react-native-gesture-handler';
 import {Edit_Icon, BrightonBeach} from 'assets';
@@ -20,6 +25,7 @@ import {
   getImageDownloadURI,
   signOut,
 } from 'utils';
+
 import ProgressBar from 'react-native-progress/Bar';
 import {ResetPassword} from 'components';
 import Moment from 'react-moment';
@@ -123,7 +129,7 @@ export default function Profile({navigation}) {
 
   return (
     <SafeAreaView>
-      <View>
+      <ScrollView>
         <Image
           style={{alignSelf: 'center', height: 150}}
           source={BrightonBeach}
@@ -181,17 +187,9 @@ export default function Profile({navigation}) {
         </TouchableOpacity>
 
         <Text> Training</Text>
-        {userData?.Training?.map((indvidualTraining, index) => (
-          <View key={index}>
-            <Text>{indvidualTraining?.Name} </Text>
-            <Text>
-              Completed:{' '}
-              <Moment element={Text} format="MMMM YYYY">
-                {indvidualTraining}
-              </Moment>
-            </Text>
-          </View>
-        ))}
+        <TrainingAccordionMenu
+          training={userData?.Training}></TrainingAccordionMenu>
+
         <View>
           <Text> My Sessions</Text>
           <FlatList
@@ -250,7 +248,7 @@ export default function Profile({navigation}) {
 
         <ResetPassword
           authenticatedUser={currentAuthenticatedUser}></ResetPassword>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

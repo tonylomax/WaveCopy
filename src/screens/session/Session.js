@@ -117,6 +117,7 @@ export default function Session({navigation, route}) {
                 numberOfMentors={MaxMentors}
                 location={selectedBeach}
                 mentors={selectedSessionMentorsData}
+                navigation={navigation}
               />
             )}
           {roles?.some(
