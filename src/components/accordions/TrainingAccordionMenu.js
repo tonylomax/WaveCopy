@@ -11,7 +11,7 @@ export default function TrainingAccordionMenu({training}) {
   return (
     <List.AccordionGroup>
       <List.Accordion testID="training-accordian" title={'Training'} id="1">
-        {training.map((trainingInstance, i) => {
+        {training?.map((trainingInstance, i) => {
           return (
             <List.Item
               key={i}

@@ -43,10 +43,7 @@ export default function Profile({navigation}) {
     (state) => state.authenticationReducer.userState,
   );
 
-  const sessions = useSelector((state) => {
-    console.log('all sessions', state.firestoreReducer.sessionData);
-    return state.firestoreReducer.sessionData;
-  });
+  const sessions = useSelector((state) => state.firestoreReducer.sessionData);
   const mySessions = useSelector((state) => {
     return state.firestoreReducer.roleSpecificSessionData.filter((session) => {
       let filteredMentors = session?.Mentors.filter((mentor) => {
@@ -94,8 +91,8 @@ export default function Profile({navigation}) {
   }, [userData]);
 
   useEffect(() => {
-    console.log('SESSIONS IN PROFILE', mySessions);
-  }, [mySessions]);
+    console.log('SESSIONS IN PROFILE', sessions);
+  }, [sessions]);
 
   useEffect(() => {
     getImageDownloadURI(UID).then((url) => {
@@ -164,6 +161,15 @@ export default function Profile({navigation}) {
             uri: profileURL,
           }}></Image>
 
+        <TrainingAccordionMenu training={userData?.Training} />
+
+        <SessionListAccordionMenu
+          sessions={
+            userData?.Roles?.includes('NationalAdmin') ? sessions : mySessions
+          }
+          beaches={beaches}
+          navigation={navigation}></SessionListAccordionMenu>
+
         {editBio ? (
           <TextInput
             testID="editBio"
@@ -187,36 +193,86 @@ export default function Profile({navigation}) {
             source={Edit_Icon}></Image>
         </TouchableOpacity>
 
-        <TrainingAccordionMenu
-          training={userData?.Training}></TrainingAccordionMenu>
+        {/* <Text> Training</Text>
+          {userData?.Training?.map((indvidualTraining, index) => (
+            <View key={index}>
+              <Text>{indvidualTraining?.Name} </Text>
+              <Text>
+                Completed:{' '}
+                <Moment element={Text} format="MMMM YYYY">
+                  {indvidualTraining}
+                </Moment>
+              </Text>
+            </View>
+          ))}
+          <View style={{marginBottom: 50}}>
+            <Text> My Sessions</Text>
+            <FlatList
+              testID="profileSessionsList"
+              data={
+                userData?.Roles?.includes('NationalAdmin')
+                  ? sessions
+                  : mySessions
+              }
+              renderItem={({item}) => (
+                <TouchableHighlight
+                  testID={`ProfileSessionsListItem${item.ID}`}
+                  disabled={moment(item?.DateTime).diff(new Date()) < 0}
+                  onPress={() => {
+                    const selectedBeach = getBeach(item.ID)[0];
+                    console.log({item});
+                    navigation.navigate('ProfileSession', {
+                      item,
+                      selectedBeach,
+                    });
+                  }}
+                  style={{
+                    borderColor:
+                      moment(item?.DateTime).diff(new Date()) < 0
+                        ? 'grey'
+                        : 'black',
+                    backgroundColor:
+                      moment(item?.DateTime).diff(new Date()) < 0 ? 'grey' : '',
+                    borderWidth: 2,
+                    marginBottom: '2%',
+                  }}>
+                  <View
+                    // testID={`ProfileSessionsListItem${item.ID}`}
+                    id={item.ID}>
+                    <Text> {item?.Type} </Text>
+                    <Text> {item?.Beach} </Text>
+                    <Text> {item?.DateTime} </Text>
+                    <Text>
+                      Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+              )}
+              keyExtractor={(item) => item.ID}></FlatList>
+          </View> */}
 
-        <SessionListAccordionMenu
-          sessions={
-            userData?.Roles?.includes('NationalAdmin') ? sessions : mySessions
-          }
-          beaches={beaches}
-          navigation={navigation}></SessionListAccordionMenu>
+        <View style={{paddingBottom: 30}}>
+          <ConfirmButton
+            testID="confirmBioUpdate"
+            onPress={() => {
+              setEditBio(false);
+              updateOwnBio(bio, UID);
+            }}
+            title="Confirm Bio Update"></ConfirmButton>
+          <Text testID="firestoreName">Name: {userData?.firstName} </Text>
 
-        <ConfirmButton
-          testID="confirmBioUpdate"
-          onPress={() => {
-            setEditBio(false);
-            updateOwnBio(bio, UID);
-          }}
-          title="Confirm Bio Update"></ConfirmButton>
-        <Text testID="firestoreName">Name: {userData?.firstName} </Text>
+          <ConfirmButton
+            testID="uploadNewProfilePic"
+            title="Upload image"
+            onPress={() => {
+              imagePicker();
+            }}
+          />
+          <ProgressBar progress={uploadProgress} width={200} />
 
-        <ConfirmButton
-          testID="uploadNewProfilePic"
-          title="Upload image"
-          onPress={() => {
-            imagePicker();
-          }}
-        />
-        <ProgressBar progress={uploadProgress} width={200} />
-
-        <ResetPassword
-          authenticatedUser={currentAuthenticatedUser}></ResetPassword>
+          <ResetPassword
+            authenticatedUser={currentAuthenticatedUser}></ResetPassword>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

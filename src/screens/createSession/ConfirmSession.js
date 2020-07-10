@@ -1,7 +1,11 @@
 // TO DO - merge this with session/EditSession.js
 import React, {useState, useEffect} from 'react';
 import {View, Text, TextInput, Image, SafeAreaView} from 'react-native';
-import {ConfirmButton, ChoicePopup, AccordionMenu} from 'components';
+import {
+  ConfirmButton,
+  ChoicePopup,
+  SessionDetailsAccordionMenu,
+} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
