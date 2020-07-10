@@ -245,6 +245,13 @@ export default function Session({navigation, route}) {
                   });
               }}></ConfirmButton>
           )}
+          <Button
+            title="Edit Session"
+            testID="edit-session-button"
+            onPress={() => {
+              navigation.navigate('EditSession');
+            }}
+          />
         </View>
       )}
     </View>

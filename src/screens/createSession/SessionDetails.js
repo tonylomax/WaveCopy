@@ -18,7 +18,7 @@ import {
   MAX_NUMBER_OF_REPETITIONS,
 } from 'constants';
 
-export default function SessionDetails({navigation}) {
+export default function SessionDetails({navigation, route}) {
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
   const [sessionType, setSessionType] = useState('surf-club');
   const [location, setLocation] = useState(beaches[0]);
@@ -28,6 +28,7 @@ export default function SessionDetails({navigation}) {
   const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
   const [sessionTime, setSessionTime] = useState(new Date());
   const [showTimePicker, setShowTimePicker] = useState(Platform.OS === 'ios');
+  const isInEditMode = route?.params?.editMode === true ? true : false;
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || sessionDate;
@@ -42,6 +43,12 @@ export default function SessionDetails({navigation}) {
 
   useEffect(() => {
     console.log('beaches in sessiondetails', beaches);
+    console.log('route name', route.name);
+    console.log('route params', route.params);
+    console.log(isInEditMode);
+    if (isInEditMode) {
+      console.log('set current session data');
+    }
   }, []);
 
   return (

@@ -52,6 +52,9 @@ const ProfileNavigator = () => (
     <HomeStack.Screen
       name="ProfileSession"
       component={Session}></HomeStack.Screen>
+    <HomeStack.Screen
+      name="EditSession"
+      component={CreateSession}></HomeStack.Screen>
     <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
   </HomeStack.Navigator>
 );
