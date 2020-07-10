@@ -4,7 +4,11 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 
-export default removeSelfFromSession = async (sessionID, userID) => {
+export default removeSelfFromSession = async (
+  sessionID,
+  userID,
+  sessionLeadID,
+) => {
   const sessionReference = firestore().doc(`Sessions/${sessionID}`);
 
   firestore()
@@ -29,6 +33,8 @@ export default removeSelfFromSession = async (sessionID, userID) => {
           .length !== 1
       ) {
         throw 'You are not signed up for this session';
+      } else if (userID === sessionLeadID) {
+        throw 'You are set as the session lead for this session, if you wish to leave please contact the coordinator to remove you';
       } else {
         removeFromSessionTransaction.update(sessionReference, {
           Mentors: newMentors,
