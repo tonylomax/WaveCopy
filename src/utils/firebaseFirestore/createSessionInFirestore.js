@@ -45,6 +45,10 @@ export default createSessionInFirestore = ({
           GroupID,
           CreatedAt: firestore.FieldValue.serverTimestamp(),
           UpdatedAt: firestore.FieldValue.serverTimestamp(),
+          SessionLead: {
+            id: '',
+            CreatedAt: firestore.FieldValue.serverTimestamp(),
+          },
           // Surf lead ID
         })
         .then((session) => {

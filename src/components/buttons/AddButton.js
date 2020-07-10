@@ -1,9 +1,9 @@
 import React from 'react';
 import {Button} from 'react-native';
 
-export default function AddButton({title, onPress}) {
+export default function AddButton({title, onPress, disabled}) {
   return (
-    <Button title={title} onPress={onPress}>
+    <Button disabled={disabled} title={title} onPress={onPress}>
       Button
     </Button>
   );

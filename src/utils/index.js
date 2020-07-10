@@ -22,6 +22,7 @@ import {
   assignSessionLead,
   unassignSessionLead,
   deleteSession,
+  removeMentorFromSession,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -61,4 +62,5 @@ export {
   signupForSession,
   retrieveCoordinatorData,
   removeSelfFromSession,
+  removeMentorFromSession,
 };

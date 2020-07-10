@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, Button} from 'react-native';
-import {AccordionMenu, ConfirmButton, ChoicePopup} from 'components';
+import {
+  AccordionMenu,
+  ConfirmButton,
+  ChoicePopup,
+  LoadingScreen,
+} from 'components';
 import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
 import {CommonActions} from '@react-navigation/native';
@@ -13,7 +18,7 @@ import {
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
 } from '../../redux/';
-import {LoadingScreen} from 'components';
+
 import {
   subscribeToSessionChanges,
   signupForSession,
@@ -53,6 +58,7 @@ export default function Session({navigation, route}) {
   const [loading, setLoading] = useState(true);
   const [coordinator, setCoordinator] = useState();
   const [visible, setVisible] = useState(false);
+  const [surfLead, setSurfLead] = useState();
 
   useEffect(() => {
     if (
@@ -72,6 +78,19 @@ export default function Session({navigation, route}) {
       unsubscribe();
     };
   }, []);
+
+  const getSessionLeadName = (surfLeadID) => {
+    console.log('selectedSessionMentorsData', selectedSessionMentorsData);
+    const SURFLEAD = selectedSessionMentorsData?.filter(
+      (mentor) => mentor.id === surfLeadID,
+    );
+    console.log('SURFLEAD', SURFLEAD);
+    setSurfLead(SURFLEAD[0]);
+  };
+
+  useEffect(() => {
+    getSessionLeadName(sessionData?.SessionLead?.id);
+  }, [selectedSessionMentorsData, sessionData]);
 
   useEffect(() => {
     if (
@@ -94,10 +113,13 @@ export default function Session({navigation, route}) {
       {loading ? (
         <LoadingScreen visible={true}></LoadingScreen>
       ) : (
-        <>
+        <View>
           <Image
             style={{height: '15%', width: '15%'}}
             source={Edit_Icon}></Image>
+          {MaxMentors === selectedSessionMentorsData.length && (
+            <Text> This session is full</Text>
+          )}
           <Moment element={Text} format="DD.MM.YY">
             {sessionData?.DateTime}
           </Moment>
@@ -106,7 +128,9 @@ export default function Session({navigation, route}) {
           ) : sessionLeadID === UID ? (
             <Text>You are the session lead</Text>
           ) : (
-            <Text>{sessionData?.SessionLead?.id} is the session lead</Text>
+            <Text>
+              {surfLead?.firstName} {surfLead?.lastName} is the session lead
+            </Text>
           )}
           <Text>
             {sessionData?.Type}-{sessionData?.Beach}
@@ -114,6 +138,7 @@ export default function Session({navigation, route}) {
           <Text>
             Coordinator: {coordinator?.firstName} {coordinator?.lastName}
           </Text>
+
           <Text>{sessionData?.Description}</Text>
           {selectedSessionAttendeesData &&
             selectedBeach &&
@@ -124,6 +149,9 @@ export default function Session({navigation, route}) {
                 numberOfMentors={MaxMentors}
                 location={selectedBeach}
                 mentors={selectedSessionMentorsData}
+                sessionLead={sessionData?.SessionLead}
+                sessionID={ID}
+                roles={roles}
               />
             )}
           {roles?.some(
@@ -188,31 +216,36 @@ export default function Session({navigation, route}) {
                 .catch((err) => console.log(err));
             }}></ChoicePopup>
 
-          <ConfirmButton
-            testID="signupButton"
-            title="Sign Up"
-            onPress={() => {
-              signupForSession(ID, UID)
-                .then((result) => {
-                  console.log('Session signup done ');
-                })
-                .catch((err) => {
-                  console.log('ERROR: ', err);
-                });
-            }}></ConfirmButton>
-          <ConfirmButton
-            testID="leaveSessionButton"
-            title="Leave session"
-            onPress={() => {
-              removeSelfFromSession(ID, UID)
-                .then((result) => {
-                  console.log('Session remove done');
-                })
-                .catch((err) => {
-                  console.log('ERROR: ', err);
-                });
-            }}></ConfirmButton>
-        </>
+          {selectedSessionMentorsData.filter((mentor) => mentor.id === UID)
+            .length >= 1 ? (
+            <ConfirmButton
+              testID="leaveSessionButton"
+              title="Leave session"
+              onPress={() => {
+                removeSelfFromSession(ID, UID, sessionData?.SessionLead?.id)
+                  .then((result) => {
+                    console.log('Session remove done');
+                  })
+                  .catch((err) => {
+                    console.log('ERROR: ', err);
+                  });
+              }}></ConfirmButton>
+          ) : (
+            <ConfirmButton
+              testID="signupButton"
+              title="Sign Up"
+              disabled={MaxMentors === selectedSessionMentorsData.length}
+              onPress={() => {
+                signupForSession(ID, UID)
+                  .then((result) => {
+                    console.log('Session signup done ');
+                  })
+                  .catch((err) => {
+                    console.log('ERROR: ', err);
+                  });
+              }}></ConfirmButton>
+          )}
+        </View>
       )}
     </View>
   );
