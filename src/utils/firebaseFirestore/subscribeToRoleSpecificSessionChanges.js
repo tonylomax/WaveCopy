@@ -7,12 +7,11 @@ export default (userRegion) => {
   console.log('creating a subscription role role based sessions', userRegion);
   return firestore()
     .collection(COLLECTIONS.SESSIONS)
-    .where('Region', '==', userRegion)
+    .where('RegionID', '==', userRegion)
     .onSnapshot(
       (roleSpecificSessions) => {
         console.log('inside on snapshot, received some data');
         const sessionsData = roleSpecificSessions.docs.map((session) => {
-          console.log('subscribeToRoleSpecificSessions sessions');
           return {
             ID: session?._ref?._documentPath?._parts[1],
             Beach: session?._data?.Beach,

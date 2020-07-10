@@ -23,7 +23,9 @@ export default createSessionInFirestore = ({
     console.log('location', location.id);
     let GroupID = '';
     if (dateTimeArray.length > 1) {
+      console.log('about to generate multi sessions');
       GroupID = uuidv1();
+      console.log(GroupID);
     }
     dateTimeArray.map((sessionDate, i) => {
       firestore()

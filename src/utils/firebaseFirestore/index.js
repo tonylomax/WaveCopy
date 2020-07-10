@@ -13,9 +13,11 @@ import retrieveCoordinatorData from './retrieveCoordinatorData';
 import removeSelfFromSession from './removeSelfFromSession';
 import assignSessionLead from './assignSessionLead';
 import unassignSessionLead from './unassignSessionLead';
+import deleteSession from './deleteSession';
 import removeMentorFromSession from './removeMentorFromSession';
 
 export {
+  deleteSession,
   updateOwnBio,
   searchFirestoreServiceUsers,
   returnSessionAttendees,
