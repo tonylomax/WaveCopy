@@ -7,11 +7,11 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 
-export default function TrainingAccordionMenu({training}) {
+export default function SessionListAccordionMenu({}) {
   return (
     <List.AccordionGroup>
-      <List.Accordion testID="training-accordian" title={'Training'} id="1">
-        {training.map((trainingInstance, i) => {
+      <List.Accordion testID="sessionlist-accordian" title={'Sessions'} id="1">
+        {/* {training.map((trainingInstance, i) => {
           return (
             <List.Item
               key={i}
@@ -28,7 +28,7 @@ export default function TrainingAccordionMenu({training}) {
               }}
             />
           );
-        })}
+        })} */}
       </List.Accordion>
     </List.AccordionGroup>
   );

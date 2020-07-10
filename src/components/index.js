@@ -11,7 +11,11 @@ import RegisterTabs from './RegisterTabs';
 import LoadingScreen from './LoadingScreen';
 import ResetPassword from './ResetPassword';
 
-import {AccordionMenu, TrainingAccordionMenu} from './accordions/index';
+import {
+  SessionDetailsAccordionMenu,
+  TrainingAccordionMenu,
+  SessionListAccordionMenu,
+} from './accordions/index';
 
 export {
   ConfirmButton,
@@ -26,6 +30,7 @@ export {
   ConfirmPopup,
   ImageConfirmPopup,
   ResetPassword,
-  AccordionMenu,
+  SessionDetailsAccordionMenu,
   TrainingAccordionMenu,
+  SessionListAccordionMenu,
 };

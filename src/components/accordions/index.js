@@ -1,4 +1,8 @@
-import AccordionMenu from './AccordionMenu';
+import SessionDetailsAccordionMenu from './SessionDetailsAccordionMenu';
 import TrainingAccordionMenu from './TrainingAccordionMenu';
-
-export {AccordionMenu, TrainingAccordionMenu};
+import SessionListAccordionMenu from './SessionListAccordionMenu';
+export {
+  SessionDetailsAccordionMenu,
+  TrainingAccordionMenu,
+  SessionListAccordionMenu,
+};

@@ -90,7 +90,7 @@ export default function ConfirmSession({route, navigation}) {
         defaultValue={descriptionOfSession}
         onChangeText={(text) => setDescriptionOfSession(text)}
       />
-      <AccordionMenu
+      <SessionDetailsAccordionMenu
         location={location}
         selectedUsers={selectedUsers}
         numberOfMentors={numberOfVolunteers}

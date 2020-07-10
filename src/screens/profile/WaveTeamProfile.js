@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
 import Moment from 'react-moment';
 import moment from 'moment';
-import {TrainingAccordionMenu} from 'components';
+import {TrainingAccordionMenu, SessionListAccordionMenu} from 'components';
 import 'moment/src/locale/en-gb';
 
 moment.locale('en-gb');
@@ -24,11 +24,10 @@ export default function WaveTeamProfile({route}) {
       <Text>{mentor.ContactNumber} </Text>
       <Text>{mentor?.Training[0].Name} </Text>
       <TrainingAccordionMenu training={mentor.Training}></TrainingAccordionMenu>
+      <SessionListAccordionMenu></SessionListAccordionMenu>
       <Text> Volunteering Area</Text>
       <Text> Training as accordion</Text>
       <Text> Session as accordion</Text>
     </View>
   );
 }
-
-// const age = moment().diff(birthday, 'years');

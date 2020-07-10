@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, Button} from 'react-native';
-import {AccordionMenu, ConfirmButton} from 'components';
+import {SessionDetailsAccordionMenu, ConfirmButton} from 'components';
 import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
 import Moment from 'react-moment';
@@ -112,7 +112,7 @@ export default function Session({navigation, route}) {
             selectedBeach &&
             MaxMentors > 0 &&
             selectedSessionMentorsData && (
-              <AccordionMenu
+              <SessionDetailsAccordionMenu
                 selectedUsers={selectedSessionAttendeesData}
                 numberOfMentors={MaxMentors}
                 location={selectedBeach}

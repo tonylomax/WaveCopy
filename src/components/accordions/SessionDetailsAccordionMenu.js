@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Text} from 'react-native';
 import {List} from 'react-native-paper';
-export default function AccordionMenu({
+export default function SessionDetailsAccordionMenu({
   navigation,
   testID,
   location,
