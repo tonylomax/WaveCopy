@@ -81,6 +81,7 @@ export default function Profile({navigation}) {
           }
           renderItem={({item}) => (
             <TouchableHighlight
+              testID={`SessionsListItem${item.ID}`}
               onPress={() => {
                 const selectedBeach = getBeach(item.ID)[0];
                 console.log({item});
@@ -91,7 +92,7 @@ export default function Profile({navigation}) {
                 borderWidth: 2,
                 marginBottom: '2%',
               }}>
-              <View testID={`SessionsListItem${item.ID}`} id={item.ID}>
+              <View id={item.ID}>
                 <Text> {item?.Type} </Text>
                 <Text> {item?.Beach} </Text>
                 <Text> {item?.DateTime} </Text>

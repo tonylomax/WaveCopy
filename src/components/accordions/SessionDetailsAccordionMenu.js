@@ -41,6 +41,7 @@ export default function SessionDetailsAccordionMenu({
         {mentors?.length > 0 &&
           mentors?.map((mentor, i) => (
             <List.Item
+              testID={`session-accordion-mentor${mentor.id}`}
               onPress={() => {
                 console.log('mentor in accord', mentor);
                 navigation.navigate('Volunteer Profile', {mentor});

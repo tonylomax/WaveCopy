@@ -193,64 +193,6 @@ export default function Profile({navigation}) {
             source={Edit_Icon}></Image>
         </TouchableOpacity>
 
-        {/* <Text> Training</Text>
-          {userData?.Training?.map((indvidualTraining, index) => (
-            <View key={index}>
-              <Text>{indvidualTraining?.Name} </Text>
-              <Text>
-                Completed:{' '}
-                <Moment element={Text} format="MMMM YYYY">
-                  {indvidualTraining}
-                </Moment>
-              </Text>
-            </View>
-          ))}
-          <View style={{marginBottom: 50}}>
-            <Text> My Sessions</Text>
-            <FlatList
-              testID="profileSessionsList"
-              data={
-                userData?.Roles?.includes('NationalAdmin')
-                  ? sessions
-                  : mySessions
-              }
-              renderItem={({item}) => (
-                <TouchableHighlight
-                  testID={`ProfileSessionsListItem${item.ID}`}
-                  disabled={moment(item?.DateTime).diff(new Date()) < 0}
-                  onPress={() => {
-                    const selectedBeach = getBeach(item.ID)[0];
-                    console.log({item});
-                    navigation.navigate('ProfileSession', {
-                      item,
-                      selectedBeach,
-                    });
-                  }}
-                  style={{
-                    borderColor:
-                      moment(item?.DateTime).diff(new Date()) < 0
-                        ? 'grey'
-                        : 'black',
-                    backgroundColor:
-                      moment(item?.DateTime).diff(new Date()) < 0 ? 'grey' : '',
-                    borderWidth: 2,
-                    marginBottom: '2%',
-                  }}>
-                  <View
-                    // testID={`ProfileSessionsListItem${item.ID}`}
-                    id={item.ID}>
-                    <Text> {item?.Type} </Text>
-                    <Text> {item?.Beach} </Text>
-                    <Text> {item?.DateTime} </Text>
-                    <Text>
-                      Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
-                    </Text>
-                  </View>
-                </TouchableHighlight>
-              )}
-              keyExtractor={(item) => item.ID}></FlatList>
-          </View> */}
-
         <View style={{paddingBottom: 30}}>
           <ConfirmButton
             testID="confirmBioUpdate"
