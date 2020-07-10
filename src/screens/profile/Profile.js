@@ -13,6 +13,7 @@ import {
   ConfirmButton,
   ImageConfirmPopup,
   TrainingAccordionMenu,
+  SessionListAccordionMenu,
 } from 'components';
 import {useSelector, useDispatch} from 'react-redux';
 import {TextInput} from 'react-native-gesture-handler';
@@ -41,7 +42,6 @@ export default function Profile({navigation}) {
   const currentAuthenticatedUser = useSelector(
     (state) => state.authenticationReducer.userState,
   );
-  //REDUX STATE
 
   const sessions = useSelector((state) => {
     console.log('all sessions', state.firestoreReducer.sessionData);
@@ -60,6 +60,7 @@ export default function Profile({navigation}) {
   });
 
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
+  //REDUX STATE
 
   //LOCAL STATE
   const [bio, setBio] = useState(userData?.Bio);
@@ -128,10 +129,10 @@ export default function Profile({navigation}) {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <ScrollView>
         <Image
-          style={{alignSelf: 'center', height: 150}}
+          style={{alignSelf: 'center', height: 100}}
           source={BrightonBeach}
         />
 
@@ -186,47 +187,15 @@ export default function Profile({navigation}) {
             source={Edit_Icon}></Image>
         </TouchableOpacity>
 
-        <Text> Training</Text>
         <TrainingAccordionMenu
           training={userData?.Training}></TrainingAccordionMenu>
 
-        <View>
-          <Text> My Sessions</Text>
-          <FlatList
-            testID="profileSessionsList"
-            data={
-              userData?.Roles?.includes('NationalAdmin') ? sessions : mySessions
-            }
-            renderItem={({item}) => (
-              <TouchableHighlight
-                disabled={moment(item?.DateTime).diff(new Date()) < 0}
-                onPress={() => {
-                  const selectedBeach = getBeach(item.ID)[0];
-                  console.log({item});
-                  navigation.navigate('Session', {item, selectedBeach});
-                }}
-                style={{
-                  borderColor:
-                    moment(item?.DateTime).diff(new Date()) < 0
-                      ? 'grey'
-                      : 'black',
-                  backgroundColor:
-                    moment(item?.DateTime).diff(new Date()) < 0 ? 'grey' : '',
-                  borderWidth: 2,
-                  marginBottom: '2%',
-                }}>
-                <View testID={`ProfileSessionsListItem${item.ID}`} id={item.ID}>
-                  <Text> {item?.Type} </Text>
-                  <Text> {item?.Beach} </Text>
-                  <Text> {item?.DateTime} </Text>
-                  <Text>
-                    Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            )}
-            keyExtractor={(item) => item.ID}></FlatList>
-        </View>
+        <SessionListAccordionMenu
+          sessions={
+            userData?.Roles?.includes('NationalAdmin') ? sessions : mySessions
+          }
+          beaches={beaches}
+          navigation={navigation}></SessionListAccordionMenu>
 
         <ConfirmButton
           testID="confirmBioUpdate"

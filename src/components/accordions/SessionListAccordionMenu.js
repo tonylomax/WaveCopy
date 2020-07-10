@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Text} from 'react-native';
+import {Text, TouchableHighlight, View} from 'react-native';
 import {List} from 'react-native-paper';
 import Moment from 'react-moment';
 import moment from 'moment';
@@ -7,28 +7,59 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 
-export default function SessionListAccordionMenu({}) {
+export default function SessionListAccordionMenu({
+  sessions,
+  beaches,
+  navigation,
+}) {
+  const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
+
   return (
     <List.AccordionGroup>
       <List.Accordion testID="sessionlist-accordian" title={'Sessions'} id="1">
-        {/* {training.map((trainingInstance, i) => {
+        {sessions?.map((session, i) => {
           return (
             <List.Item
               key={i}
-              title={trainingInstance.Name}
+              title={session.Type}
               description={() => {
                 return (
-                  <Text>
-                    Completed:{' '}
-                    <Moment element={Text} format="MMMM YYYY">
-                      {trainingInstance.DateCompleted}
-                    </Moment>
-                  </Text>
+                  <TouchableHighlight
+                    disabled={moment(session?.DateTime).diff(new Date()) < 0}
+                    onPress={() => {
+                      const selectedBeach = getBeach(session.ID)[0];
+                      console.log('selectedBeach', selectedBeach);
+                      // navigation.navigate('Session', {session, selectedBeach});
+                    }}
+                    style={{
+                      borderColor:
+                        moment(session?.DateTime).diff(new Date()) < 0
+                          ? 'grey'
+                          : 'black',
+                      backgroundColor:
+                        moment(session?.DateTime).diff(new Date()) < 0
+                          ? 'grey'
+                          : '',
+                      borderWidth: 2,
+                      marginBottom: '2%',
+                    }}>
+                    <View
+                      testID={`ProfileSessionsListItem${session.ID}`}
+                      id={session.ID}>
+                      <Text> {session?.Type} </Text>
+                      <Text> {session?.Beach} </Text>
+                      <Text> {session?.DateTime} </Text>
+                      <Text>
+                        Volunteers: {session?.Mentors?.length}/
+                        {session?.MaxMentors}
+                      </Text>
+                    </View>
+                  </TouchableHighlight>
                 );
               }}
             />
           );
-        })} */}
+        })}
       </List.Accordion>
     </List.AccordionGroup>
   );
