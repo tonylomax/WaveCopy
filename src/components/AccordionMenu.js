@@ -71,7 +71,7 @@ export default function AccordionMenu({
                       ) : (
                         <AddButton
                           onPress={() => {
-                            assignSessionLead(sessionID, mentor.id);
+                            assignSessionLead(sessionID, mentor.id, UID);
                           }}
                           title="Add as Lead"></AddButton>
                       )}
