@@ -1,7 +1,8 @@
-import store from '../../redux/store/index';
 import {ROLES} from 'constants';
 
-export default userHasRoles = (role) => {
-  const userRoles = store.getState().firestoreReducer.userData.Roles;
-  return userRoles.includes(role);
+export default userHasRoles = (userRoles) => {
+  const result = ROLES.filter((role) => userRoles?.includes(role));
+  if (result.length > 0) {
+    return true;
+  } else return false;
 };

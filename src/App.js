@@ -10,14 +10,20 @@ import Profile from './screens/profile/Profile';
 import CreateSession from './screens/createSession/CreateSession';
 import Session from './screens/session/Session';
 import Register from './screens/session/Register';
-import {subscribeToFirestoreUsers, createAuthSubscription} from 'utils';
+import {
+  subscribeToFirestoreUsers,
+  createAuthSubscription,
+  userHasRoles,
+} from 'utils';
 import {useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
+import store from './redux/store/index';
+import {ROLES} from 'constants';
 
 const BottomTabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 
-const TabNavigator = () => (
+const AdminTabNavigator = () => (
   <NavigationContainer>
     <BottomTabs.Navigator>
       <BottomTabs.Screen
@@ -25,11 +31,31 @@ const TabNavigator = () => (
         component={HomeNavigator}
         options={{tabBarTestID: 'navigate-to-home-button'}}
       />
+
       <BottomTabs.Screen
         name="Create Session"
         component={CreateSession}
         options={{tabBarTestID: 'navigate-to-create-session'}}
       />
+
+      <BottomTabs.Screen
+        name="Profile"
+        component={ProfileNavigator}
+        options={{tabBarTestID: 'navigate-to-profile-button'}}
+      />
+    </BottomTabs.Navigator>
+  </NavigationContainer>
+);
+
+const StandardTabNavigator = () => (
+  <NavigationContainer>
+    <BottomTabs.Navigator>
+      <BottomTabs.Screen
+        name="Home"
+        component={HomeNavigator}
+        options={{tabBarTestID: 'navigate-to-home-button'}}
+      />
+
       <BottomTabs.Screen
         name="Profile"
         component={ProfileNavigator}
@@ -63,6 +89,8 @@ const App: () => React$Node = () => {
     (state) => state.authenticationReducer.userState,
   );
 
+  const userData = useSelector((state) => state.firestoreReducer.userData);
+
   useEffect(() => {
     const unsubscribeFromFirebaseAuth = createAuthSubscription();
     return () => {
@@ -82,8 +110,10 @@ const App: () => React$Node = () => {
 
   return isEmpty(currentAuthenticatedUser) ? (
     <Login setLoggedIn={setLoggedIn} />
+  ) : userHasRoles(userData?.Roles) ? (
+    <AdminTabNavigator />
   ) : (
-    <TabNavigator />
+    <StandardTabNavigator />
   );
 };
 

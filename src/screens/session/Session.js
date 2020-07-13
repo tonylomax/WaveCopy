@@ -157,19 +157,18 @@ export default function Session({navigation, route}) {
                 roles={roles}
               />
             )}
-          {ROLES.some(userHasRoles) ||
-            (sessionLeadID === UID && (
-              <ConfirmButton
-                title="Register"
-                testID="registerButton"
-                onPress={() => {
-                  navigation.navigate('Register', {
-                    ID,
-                  });
-                }}>
-                Register
-              </ConfirmButton>
-            ))}
+          {(userHasRoles(userData?.Roles) || sessionLeadID === UID) && (
+            <ConfirmButton
+              title="Register"
+              testID="registerButton"
+              onPress={() => {
+                navigation.navigate('Register', {
+                  ID,
+                });
+              }}>
+              Register
+            </ConfirmButton>
+          )}
           {/* DElETE SESSION */}
           {roles?.some(
             () =>
@@ -246,7 +245,10 @@ export default function Session({navigation, route}) {
           )}
           <ConfirmButton
             title="Determine roles"
-            onPress={() => {}}></ConfirmButton>
+            onPress={() => {
+              console.log('userData?.Roles)', userData?.Roles);
+              console.log(userHasRoles(userData?.Roles));
+            }}></ConfirmButton>
         </View>
       )}
     </View>
