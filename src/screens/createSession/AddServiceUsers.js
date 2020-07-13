@@ -52,6 +52,25 @@ export default function AddServiceUsers({route, navigation}) {
       setTypingTimeout(newTimeout);
     }
   };
+  const addUser = (item) => {
+    // Add the user if they have not already been selected
+    const found = selectedUsers.some((user) => {
+      return user.objectID === item.objectID;
+    });
+    if (!found) {
+      setSelectedUsers((currentlySelected) => currentlySelected.concat(item));
+    }
+    setLoading(false);
+    setTyping(false);
+    setSearchTerm('');
+    setSearchResults([]);
+  };
+  const removeUser = (serviceUser) => {
+    const updatedSelectedUsers = selectedUsers.filter(
+      (selectedUser) => selectedUser.id !== serviceUser.id,
+    );
+    setSelectedUsers(updatedSelectedUsers);
+  };
 
   return (
     <View>
@@ -73,24 +92,7 @@ export default function AddServiceUsers({route, navigation}) {
                 <Button
                   key={`button-not-added-${item.id}`}
                   title="Add user"
-                  onPress={() => {
-                    console.log('clicked selected user');
-                    // Add the user if they have not already been selected
-                    const found = selectedUsers.some((user) => {
-                      console.log({user});
-                      console.log({item});
-                      return user.objectID === item.objectID;
-                    });
-                    if (!found) {
-                      setSelectedUsers((currentlySelected) =>
-                        currentlySelected.concat(item),
-                      );
-                    }
-                    setLoading(false);
-                    setTyping(false);
-                    setSearchTerm('');
-                    setSearchResults([]);
-                  }}
+                  onPress={() => addUser(item)}
                 />
               </View>
             );
@@ -107,12 +109,7 @@ export default function AddServiceUsers({route, navigation}) {
           </Text>
           <Button
             title="Remove"
-            onPress={() => {
-              const updatedSelectedUsers = selectedUsers.filter(
-                (selectedUser) => selectedUser.id !== serviceUser.id,
-              );
-              setSelectedUsers(updatedSelectedUsers);
-            }}
+            onPress={(serviceUser) => removeUser(serviceUser)}
           />
         </View>
       ))}
@@ -120,15 +117,9 @@ export default function AddServiceUsers({route, navigation}) {
         testID="continue-to-review-created-session-page"
         title="Continue"
         onPress={() =>
-          navigation.navigate('ConfirmSession', {
-            sessionType,
-            location,
-            numberOfVolunteers,
+          navigation.push('ConfirmSession', {
             selectedUsers,
-            dateTimeArray,
-            previousSessionData,
-            previouslySelectedMentors,
-            previousSessionID,
+            ...route.params,
           })
         }
       />

@@ -62,6 +62,19 @@ const ProfileNavigator = () => (
       component={CreateSession}></HomeStack.Screen>
   </HomeStack.Navigator>
 );
+const editor = () => (
+  <HomeStack.Navigator>
+    <HomeStack.Screen name="Profile" component={Profile}></HomeStack.Screen>
+    <HomeStack.Screen
+      name="ProfileSession"
+      component={Session}></HomeStack.Screen>
+    <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
+
+    <HomeStack.Screen
+      name="ProfileEditSession"
+      component={CreateSession}></HomeStack.Screen>
+  </HomeStack.Navigator>
+);
 
 const App: () => React$Node = () => {
   const [loggedIn, setLoggedIn] = useState(false);

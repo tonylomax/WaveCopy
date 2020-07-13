@@ -26,8 +26,6 @@ export default function SessionDetails({navigation, route}) {
   const previouslySelectedMentors = route?.params?.previouslySelectedMentors;
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
 
-  // If it's in edit mode, the beach exists so find it in the array and set it.
-
   const [sessionType, setSessionType] = useState(
     previousSessionData?.Type || 'surf-club',
   );
@@ -36,7 +34,9 @@ export default function SessionDetails({navigation, route}) {
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(
     previousSessionData?.MaxMentors || 1,
   );
+  // Default state is 0, previous state will not exist.
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
+
   const [sessionDate, setSessionDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
   const [sessionTime, setSessionTime] = useState(new Date());
@@ -64,10 +64,6 @@ export default function SessionDetails({navigation, route}) {
       );
       setLocation(beaches[prevBeachIndex]);
     }
-    console.log(
-      'testing previousSessionData session Data',
-      previousSessionData,
-    );
   }, []);
 
   return (
@@ -182,7 +178,7 @@ export default function SessionDetails({navigation, route}) {
               sessionTime,
               numberOfRepetitions,
             );
-            navigation.navigate('AddServiceUsers', {
+            navigation.push('AddServiceUsers', {
               sessionType,
               location,
               numberOfVolunteers,
