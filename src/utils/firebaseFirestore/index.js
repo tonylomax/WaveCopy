@@ -15,6 +15,7 @@ import assignSessionLead from './assignSessionLead';
 import unassignSessionLead from './unassignSessionLead';
 import deleteSession from './deleteSession';
 import removeMentorFromSession from './removeMentorFromSession';
+import updateOwnContactNumber from './updateOwnContactNumber';
 
 export {
   deleteSession,
@@ -34,4 +35,5 @@ export {
   assignSessionLead,
   unassignSessionLead,
   removeMentorFromSession,
+  updateOwnContactNumber,
 };
