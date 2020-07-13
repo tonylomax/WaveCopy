@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Text} from 'react-native';
+import {Text, Alert} from 'react-native';
 import {List} from 'react-native-paper';
 
 import {AddButton, CloseButton} from 'components';
@@ -94,11 +94,31 @@ export default function SessionDetailsAccordionMenu({
         id="2"
         testID="attendees-accordian">
         {selectedUsers.length > 0 &&
-          selectedUsers?.map((user, i) => (
+          selectedUsers?.map((serviceUser, i) => (
             <List.Item
+              onPress={() => {
+                if (
+                  roles.some(
+                    () =>
+                      userData?.Roles?.includes('SurfLead') ||
+                      userData?.Roles?.includes('NationalAdmin') ||
+                      userData?.Roles?.includes('Coordinator') ||
+                      sessionLead?.id === UID,
+                  )
+                ) {
+                  navigation.navigate('ServiceUser Profile', {
+                    serviceUser,
+                    roles,
+                  });
+                } else {
+                  Alert.alert("You don't have permission to do this");
+                }
+              }}
               testId="attendees-accordian"
               key={`attendee-${i + 1}`}
-              title={`${i + 1}) ${user?.firstName} ${user?.lastName}`}
+              title={`${i + 1}) ${serviceUser?.firstName} ${
+                serviceUser?.lastName
+              }`}
             />
           ))}
       </List.Accordion>

@@ -11,6 +11,7 @@ import CreateSession from './screens/createSession/CreateSession';
 import Session from './screens/session/Session';
 import Register from './screens/session/Register';
 import WaveTeamProfile from './screens/profile/WaveTeamProfile';
+import ServiceUserProfile from './screens/profile/ServiceUserProfile';
 import {subscribeToFirestoreUsers, createAuthSubscription} from 'utils';
 import {useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
@@ -48,6 +49,9 @@ const HomeNavigator = () => (
     <HomeStack.Screen
       name="Volunteer Profile"
       component={WaveTeamProfile}></HomeStack.Screen>
+    <HomeStack.Screen
+      name="ServiceUser Profile"
+      component={ServiceUserProfile}></HomeStack.Screen>
   </HomeStack.Navigator>
 );
 const ProfileNavigator = () => (
