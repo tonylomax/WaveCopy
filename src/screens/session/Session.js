@@ -13,7 +13,6 @@ import {CommonActions} from '@react-navigation/native';
 import Moment from 'react-moment';
 import {
   getAllSessionAttendees,
-  updateCurrentSession,
   getAllSessionMentors,
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
@@ -24,9 +23,8 @@ import {
   signupForSession,
   retrieveCoordinatorData,
   removeSelfFromSession,
-  assignSessionLead,
-  unassignSessionLead,
   deleteSession,
+  getSessionLeadName,
 } from 'utils';
 
 export default function Session({navigation, route}) {
@@ -35,14 +33,13 @@ export default function Session({navigation, route}) {
   const {selectedBeach} = route.params;
 
   //REDUX STATE
+  // Data on the session
   const sessionData = useSelector(
     (state) => state.firestoreReducer.singleSession,
   );
-
   const selectedSessionAttendeesData = useSelector(
     (state) => state.firestoreReducer.selectedSessionAttendees,
   );
-
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionMentors,
   );
@@ -50,6 +47,7 @@ export default function Session({navigation, route}) {
     (state) => state.firestoreReducer?.singleSession?.SessionLead?.id,
   );
 
+  // Current Auth User
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
@@ -62,34 +60,35 @@ export default function Session({navigation, route}) {
 
   useEffect(() => {
     if (
+      // If there are attendees, go get their full details from firestore
       AttendeesIDandAttendance !== undefined &&
       AttendeesIDandAttendance.length > 0
     ) {
-      console.log({AttendeesIDandAttendance});
       dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
     }
-    dispatch(getAllSessionMentors(Mentors));
-    console.log('max mentors is ', MaxMentors);
-    const unsubscribe = subscribeToSessionChanges(ID);
+    if (
+      // If there are mentors, go get their full details from firestore
+      Mentors !== undefined &&
+      Mentors.length > 0
+    ) {
+      dispatch(getAllSessionMentors(Mentors));
+    }
+    const unsubscribeToSessionChanges = subscribeToSessionChanges(ID);
     return () => {
       console.log('unsubscribing');
-      dispatch(clearSelectedSessionMentors());
+      // Set selectedsession mentor & attendee data to empty arrays
       dispatch(clearSelectedSessionAttendees());
-      unsubscribe();
+      dispatch(clearSelectedSessionMentors());
+      unsubscribeToSessionChanges();
     };
   }, []);
 
-  const getSessionLeadName = (surfLeadID) => {
-    console.log('selectedSessionMentorsData', selectedSessionMentorsData);
-    const SURFLEAD = selectedSessionMentorsData?.filter(
-      (mentor) => mentor.id === surfLeadID,
-    );
-    console.log('SURFLEAD', SURFLEAD);
-    setSurfLead(SURFLEAD[0]);
-  };
-
   useEffect(() => {
-    getSessionLeadName(sessionData?.SessionLead?.id);
+    const surfLeadName = getSessionLeadName(
+      sessionData?.SessionLead?.id,
+      selectedSessionMentorsData,
+    );
+    setSurfLead(surfLeadName);
   }, [selectedSessionMentorsData, sessionData]);
 
   useEffect(() => {

@@ -34,7 +34,9 @@ import {
 import generateDateTimeArray from './time/repetitionDatesArray';
 import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
+import getSessionLeadName from './getSessionLeadName';
 export {
+  getSessionLeadName,
   updateSessionInFirestore,
   deleteSession,
   assignSessionLead,
