@@ -1,6 +1,6 @@
 // TO DO - merge this with session/EditSession.js
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, Image, SafeAreaView} from 'react-native';
+import {View, Text, TextInput, Image, SafeAreaView, Alert} from 'react-native';
 import {
   ConfirmButton,
   ChoicePopup,
@@ -72,7 +72,11 @@ export default function ConfirmSession({route, navigation}) {
                 }),
               );
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+              console.log(err);
+              //Needs testing, err may need serializing
+              // Alert.alert(err);
+            });
         }}></ChoicePopup>
       {dateTimeArray &&
         dateTimeArray.map((dateTimeOfSession, i) => (
