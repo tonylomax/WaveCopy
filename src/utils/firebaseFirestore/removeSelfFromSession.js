@@ -11,7 +11,7 @@ export default removeSelfFromSession = async (
 ) => {
   const sessionReference = firestore().doc(`Sessions/${sessionID}`);
 
-  firestore()
+  return await firestore()
     .runTransaction(async (removeFromSessionTransaction) => {
       const sessionData = await removeFromSessionTransaction.get(
         sessionReference,
@@ -41,8 +41,12 @@ export default removeSelfFromSession = async (
         });
       }
     })
-    .then(() => console.log('REMOVE SELF FROM SESSION TRANSACTION COMPLETED'))
+    .then((result) => {
+      console.log('REMOVE SELF FROM SESSION TRANSACTION COMPLETED', result);
+      return result;
+    })
     .catch((err) => {
-      console.log(err);
+      console.log('ERROR INSIDE TRANSACTION', err);
+      throw err;
     });
 };

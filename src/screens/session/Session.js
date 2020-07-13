@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, Button} from 'react-native';
+import {View, Text, Image, Button, Alert} from 'react-native';
 import {
   SessionDetailsAccordionMenu,
   ConfirmButton,
@@ -9,6 +9,7 @@ import {
 import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
 import {CommonActions} from '@react-navigation/native';
+import {serializeError} from 'serialize-error';
 
 import Moment from 'react-moment';
 import {
@@ -222,13 +223,18 @@ export default function Session({navigation, route}) {
             <ConfirmButton
               testID="leaveSessionButton"
               title="Leave session"
-              onPress={() => {
-                removeSelfFromSession(ID, UID, sessionData?.SessionLead?.id)
+              onPress={async () => {
+                await removeSelfFromSession(
+                  ID,
+                  UID,
+                  sessionData?.SessionLead?.id,
+                )
                   .then((result) => {
-                    console.log('Session remove done');
+                    console.log('Session remove done', result);
                   })
                   .catch((err) => {
-                    console.log('ERROR: ', err);
+                    console.log('ERROR OUTSIDE TRANSACTION ', err);
+                    Alert.alert(err);
                   });
               }}></ConfirmButton>
           ) : (

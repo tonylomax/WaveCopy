@@ -40,14 +40,11 @@ export default function WaveTeamProfile({route}) {
         {moment().diff(mentor.DateOfBirth, 'years')}
       </Text>
       <Text>{mentor.ContactNumber} </Text>
-      <Text>{mentor?.Training[0].Name} </Text>
+
       <TrainingAccordionMenu training={mentor.Training}></TrainingAccordionMenu>
       <SessionListAccordionMenu
         sessions={volunteerSessions}
         beaches={beaches}></SessionListAccordionMenu>
-      <Text> Volunteering Area</Text>
-      <Text> Training as accordion</Text>
-      <Text> Session as accordion</Text>
     </View>
   );
 }
