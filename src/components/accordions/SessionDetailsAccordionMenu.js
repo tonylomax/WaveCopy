@@ -66,19 +66,38 @@ export default function SessionDetailsAccordionMenu({
                             mentor.id,
                             UID,
                             sessionLead?.id,
-                          );
+                          )
+                            .then((result) => {
+                              console.log('Mentor remove done', result);
+                            })
+                            .catch((err) => {
+                              console.log('ERROR OUTSIDE TRANSACTION ', err);
+                              Alert.alert(err);
+                            });
                         }}
                         title="Remove as Mentor"></CloseButton>
                       {sessionLead?.id === mentor.id ? (
                         <CloseButton
                           title="Remove as Lead"
                           onPress={() => {
-                            unassignSessionLead(sessionID, mentor.id, UID);
+                            unassignSessionLead(
+                              sessionID,
+                              mentor.id,
+                              UID,
+                            ).catch((err) => {
+                              console.log('ERROR OUTSIDE TRANSACTION ', err);
+                              Alert.alert(err);
+                            });
                           }}></CloseButton>
                       ) : (
                         <AddButton
                           onPress={() => {
-                            assignSessionLead(sessionID, mentor.id, UID);
+                            assignSessionLead(sessionID, mentor.id, UID).catch(
+                              (err) => {
+                                console.log('ERROR OUTSIDE TRANSACTION ', err);
+                                Alert.alert(err);
+                              },
+                            );
                           }}
                           title="Add as Lead"></AddButton>
                       )}

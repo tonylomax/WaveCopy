@@ -223,12 +223,8 @@ export default function Session({navigation, route}) {
             <ConfirmButton
               testID="leaveSessionButton"
               title="Leave session"
-              onPress={async () => {
-                await removeSelfFromSession(
-                  ID,
-                  UID,
-                  sessionData?.SessionLead?.id,
-                )
+              onPress={() => {
+                removeSelfFromSession(ID, UID, sessionData?.SessionLead?.id)
                   .then((result) => {
                     console.log('Session remove done', result);
                   })
