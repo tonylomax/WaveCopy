@@ -11,7 +11,7 @@ export default createSessionInFirestore = ({
   descriptionOfSession,
   coordinator,
   uid,
-  sessionId,
+  sessionID,
 }) => {
   return new Promise((resolve, reject) => {
     const updatedAttendees = [];
@@ -22,43 +22,30 @@ export default createSessionInFirestore = ({
       });
     });
     console.log('location', location.id);
-    dateTimeArray.map((sessionDate, i) => {
-      firestore()
-        .collection('Sessions')
-        .add({
-          Attendees: updatedAttendees,
-          MaxMentors: numberOfVolunteers,
-          //   Mentors: [], can't be updated from this view
-          Beach: location.Name,
-          BeachID: location.id,
-          Type: sessionType,
-          Description: descriptionOfSession,
-          DateTime: sessionDate.format(),
-          CoordinatorID: uid,
-          CoordinatorName: coordinator,
-          RegionID: location.Region,
-          CreatedAt: firestore.FieldValue.serverTimestamp(),
-          UpdatedAt: firestore.FieldValue.serverTimestamp(),
-          SessionLead: {
-            id: '',
-            CreatedAt: firestore.FieldValue.serverTimestamp(),
-          },
-          // Surf lead ID
-        })
-        .then((session) => {
-          console.log('Session added!', session);
-        })
-        .catch((err) => {
-          if (i === 0) {
-            reject('No sessions were created');
-          } else {
-            reject(
-              'some sessions were created, some failed to create, please check sessions list. ',
-              err,
-            );
-          }
-        });
-      resolve('All sessions created');
-    });
+    firestore()
+      .collection('Sessions')
+      .doc(sessionID)
+      .update({
+        Attendees: updatedAttendees,
+        MaxMentors: numberOfVolunteers,
+        //   Mentors: [], can't be updated from this view
+        Beach: location.Name,
+        BeachID: location.id,
+        Type: sessionType,
+        Description: descriptionOfSession,
+        DateTime: dateTimeArray[0].format(),
+        CoordinatorID: uid,
+        CoordinatorName: coordinator,
+        RegionID: location.Region,
+        UpdatedAt: firestore.FieldValue.serverTimestamp(),
+        // Surf lead ID
+      })
+      .then((session) => {
+        console.log('Session updated!', session);
+        resolve(session);
+      })
+      .catch((err) => {
+        reject('Sessions were not updated');
+      });
   });
 };

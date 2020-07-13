@@ -8,7 +8,11 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 import {CommonActions} from '@react-navigation/native';
-import {createSessionInFirestore, getCoverImage} from 'utils';
+import {
+  createSessionInFirestore,
+  getCoverImage,
+  updateSessionInFirestore,
+} from 'utils';
 import {useSelector} from 'react-redux';
 
 export default function ConfirmSession({route, navigation}) {
@@ -20,6 +24,7 @@ export default function ConfirmSession({route, navigation}) {
     dateTimeArray,
     previousSessionData,
     previouslySelectedMentors,
+    previousSessionID,
   } = route.params;
 
   //LOCAL STATE
@@ -53,26 +58,51 @@ export default function ConfirmSession({route, navigation}) {
         yesAction={() => {
           console.log('creating a session');
           console.log(userData);
-          createSessionInFirestore({
-            sessionType,
-            location,
-            numberOfVolunteers,
-            selectedUsers,
-            dateTimeArray,
-            descriptionOfSession,
-            coordinator: userData?.Name || '',
-            uid,
-          })
-            .then(() => {
-              console.log('session created');
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{name: 'Home'}],
-                }),
-              );
+          console.log('previous session data', previousSessionID);
+          console.log(previousSessionID);
+          if (!previousSessionID) {
+            createSessionInFirestore({
+              sessionType,
+              location,
+              numberOfVolunteers,
+              selectedUsers,
+              dateTimeArray,
+              descriptionOfSession,
+              coordinator: userData?.Name || '',
+              uid,
             })
-            .catch((err) => console.log(err));
+              .then(() => {
+                console.log('session created');
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'Home'}],
+                  }),
+                );
+              })
+              .catch((err) => console.log(err));
+          } else {
+            updateSessionInFirestore({
+              sessionType,
+              location,
+              numberOfVolunteers,
+              selectedUsers,
+              dateTimeArray,
+              descriptionOfSession,
+              coordinator: userData?.Name || '',
+              uid,
+              sessionID: previousSessionID,
+            })
+              .then(() => {
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'Home'}],
+                  }),
+                );
+              })
+              .catch((err) => console.log(err));
+          }
         }}></ChoicePopup>
       {dateTimeArray &&
         dateTimeArray.map((dateTimeOfSession, i) => (

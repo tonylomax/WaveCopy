@@ -20,21 +20,18 @@ import {
 
 export default function SessionDetails({navigation, route}) {
   const previousSessionData = route?.params?.previousSessionData;
+  const previousSessionID = route?.params?.previousSessionID;
   const previouslySelectedAttendees =
     route?.params?.previouslySelectedAttendees;
   const previouslySelectedMentors = route?.params?.previouslySelectedMentors;
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
 
   // If it's in edit mode, the beach exists so find it in the array and set it.
-  const initiallySelectedBeach =
-    beaches[
-      beaches.findIndex((beach) => beach.Name === previousSessionData?.Beach) ||
-        0
-    ];
+
   const [sessionType, setSessionType] = useState(
     previousSessionData?.Type || 'surf-club',
   );
-  const [location, setLocation] = useState(initiallySelectedBeach);
+  const [location, setLocation] = useState(beaches[0]);
 
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(
     previousSessionData?.MaxMentors || 1,
@@ -57,6 +54,16 @@ export default function SessionDetails({navigation, route}) {
   };
 
   useEffect(() => {
+    if (previousSessionData?.DateTime) {
+      setSessionDate(new Date(previousSessionData?.DateTime));
+      setSessionTime(new Date(previousSessionData?.DateTime));
+    }
+    if (previousSessionData?.Beach) {
+      const prevBeachIndex = beaches.findIndex(
+        (beach) => beach.Name === previousSessionData?.Beach,
+      );
+      setLocation(beaches[prevBeachIndex]);
+    }
     console.log(
       'testing previousSessionData session Data',
       previousSessionData,
@@ -95,6 +102,7 @@ export default function SessionDetails({navigation, route}) {
             onChange={onChangeDate}
             minimumDate={new Date()}
           />
+          // <Text>test</Text>
         )}
         <View>
           <Text>Time</Text>
@@ -182,6 +190,7 @@ export default function SessionDetails({navigation, route}) {
               previousSessionData,
               previouslySelectedAttendees,
               previouslySelectedMentors,
+              previousSessionID,
             });
           }}
         />

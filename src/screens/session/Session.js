@@ -123,6 +123,7 @@ export default function Session({navigation, route}) {
                 previousSessionData: sessionData,
                 previouslySelectedAttendees: selectedSessionAttendeesData,
                 previouslySelectedMentors: selectedSessionMentorsData,
+                previousSessionID: ID,
               });
             }}>
             Edit session

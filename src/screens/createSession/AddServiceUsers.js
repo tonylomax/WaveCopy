@@ -11,6 +11,7 @@ export default function AddServiceUsers({route, navigation}) {
     previousSessionData,
     previouslySelectedAttendees,
     previouslySelectedMentors,
+    previousSessionID,
   } = route.params;
 
   //LOCAL STATE
@@ -127,6 +128,7 @@ export default function AddServiceUsers({route, navigation}) {
             dateTimeArray,
             previousSessionData,
             previouslySelectedMentors,
+            previousSessionID,
           })
         }
       />

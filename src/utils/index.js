@@ -23,6 +23,7 @@ import {
   unassignSessionLead,
   deleteSession,
   removeMentorFromSession,
+  updateSessionInFirestore,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -34,6 +35,7 @@ import generateDateTimeArray from './time/repetitionDatesArray';
 import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
 export {
+  updateSessionInFirestore,
   deleteSession,
   assignSessionLead,
   unassignSessionLead,
