@@ -119,12 +119,21 @@ export default function Session({navigation, route}) {
             source={Edit_Icon}></Image>
           <Text
             onPress={() => {
-              navigation.navigate('ProfileCreateSession', {
-                previousSessionData: sessionData,
-                previouslySelectedAttendees: selectedSessionAttendeesData,
-                previouslySelectedMentors: selectedSessionMentorsData,
-                previousSessionID: ID,
-              });
+              if (route.name === 'HomeSession') {
+                navigation.navigate('HomeEditSession', {
+                  previousSessionData: sessionData,
+                  previouslySelectedAttendees: selectedSessionAttendeesData,
+                  previouslySelectedMentors: selectedSessionMentorsData,
+                  previousSessionID: ID,
+                });
+              } else {
+                navigation.navigate('ProfileEditSession', {
+                  previousSessionData: sessionData,
+                  previouslySelectedAttendees: selectedSessionAttendeesData,
+                  previouslySelectedMentors: selectedSessionMentorsData,
+                  previousSessionID: ID,
+                });
+              }
             }}>
             Edit session
           </Text>

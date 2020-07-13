@@ -26,7 +26,7 @@ const TabNavigator = () => (
         options={{tabBarTestID: 'navigate-to-home-button'}}
       />
       <BottomTabs.Screen
-        name="Create Session"
+        name="CreateSession"
         component={CreateSession}
         options={{tabBarTestID: 'navigate-to-create-session'}}
       />
@@ -44,6 +44,9 @@ const HomeNavigator = () => (
     <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
     <HomeStack.Screen name="HomeSession" component={Session}></HomeStack.Screen>
     <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
+    <HomeStack.Screen
+      name="HomeEditSession"
+      component={CreateSession}></HomeStack.Screen>
   </HomeStack.Navigator>
 );
 const ProfileNavigator = () => (
@@ -55,7 +58,7 @@ const ProfileNavigator = () => (
     <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
 
     <HomeStack.Screen
-      name="ProfileCreateSession"
+      name="ProfileEditSession"
       component={CreateSession}></HomeStack.Screen>
   </HomeStack.Navigator>
 );
