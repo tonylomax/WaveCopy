@@ -27,7 +27,10 @@ import {
   assignSessionLead,
   unassignSessionLead,
   deleteSession,
+  userHasRoles,
 } from 'utils';
+
+import {ROLES} from 'constants';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
@@ -89,7 +92,7 @@ export default function Session({navigation, route}) {
   };
 
   useEffect(() => {
-    getSessionLeadName(sessionData?.SessionLead?.id);
+    getSessionLeadName(sessionLeadID);
   }, [selectedSessionMentorsData, sessionData]);
 
   useEffect(() => {
@@ -154,23 +157,19 @@ export default function Session({navigation, route}) {
                 roles={roles}
               />
             )}
-          {roles?.some(
-            () =>
-              userData?.Roles?.includes('SurfLead') ||
-              userData?.Roles?.includes('NationalAdmin') ||
-              userData?.Roles?.includes('Coordinator'),
-          ) && (
-            <ConfirmButton
-              title="Register"
-              testID="registerButton"
-              onPress={() => {
-                navigation.navigate('Register', {
-                  ID,
-                });
-              }}>
-              Register
-            </ConfirmButton>
-          )}
+          {ROLES.some(userHasRoles) ||
+            (sessionLeadID === UID && (
+              <ConfirmButton
+                title="Register"
+                testID="registerButton"
+                onPress={() => {
+                  navigation.navigate('Register', {
+                    ID,
+                  });
+                }}>
+                Register
+              </ConfirmButton>
+            ))}
           {/* DElETE SESSION */}
           {roles?.some(
             () =>
@@ -222,7 +221,7 @@ export default function Session({navigation, route}) {
               testID="leaveSessionButton"
               title="Leave session"
               onPress={() => {
-                removeSelfFromSession(ID, UID, sessionData?.SessionLead?.id)
+                removeSelfFromSession(ID, UID, sessionLeadID)
                   .then((result) => {
                     console.log('Session remove done');
                   })
@@ -245,6 +244,9 @@ export default function Session({navigation, route}) {
                   });
               }}></ConfirmButton>
           )}
+          <ConfirmButton
+            title="Determine roles"
+            onPress={() => {}}></ConfirmButton>
         </View>
       )}
     </View>
