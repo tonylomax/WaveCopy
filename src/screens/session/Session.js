@@ -117,6 +117,13 @@ export default function Session({navigation, route}) {
           <Image
             style={{height: '15%', width: '15%'}}
             source={Edit_Icon}></Image>
+          <Text
+            onPress={() => {
+              console.log('navigating');
+              navigation.navigate('ProfileCreateSession');
+            }}>
+            Edit session
+          </Text>
           {MaxMentors === selectedSessionMentorsData.length && (
             <Text> This session is full</Text>
           )}

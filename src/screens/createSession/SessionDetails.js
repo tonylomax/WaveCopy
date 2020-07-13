@@ -18,7 +18,7 @@ import {
   MAX_NUMBER_OF_REPETITIONS,
 } from 'constants';
 
-export default function SessionDetails({navigation}) {
+export default function SessionDetails({navigation, ...props}) {
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
   const [sessionType, setSessionType] = useState('surf-club');
   const [location, setLocation] = useState(beaches[0]);
@@ -42,6 +42,7 @@ export default function SessionDetails({navigation}) {
 
   useEffect(() => {
     console.log('beaches in sessiondetails', beaches);
+    console.log('test', props);
   }, []);
 
   return (
