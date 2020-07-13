@@ -245,10 +245,11 @@ export default function Session({navigation, route}) {
               onPress={() => {
                 signupForSession(ID, UID)
                   .then((result) => {
-                    console.log('Session signup done ');
+                    console.log('Signup for session complete', result);
                   })
                   .catch((err) => {
-                    console.log('ERROR: ', err);
+                    console.log('ERROR OUTSIDE TRANSACTION ', err);
+                    Alert.alert(err);
                   });
               }}></ConfirmButton>
           )}

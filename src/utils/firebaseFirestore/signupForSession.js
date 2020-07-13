@@ -7,7 +7,7 @@ moment().format('en-gb');
 export default signupForSession = async (sessionID, userID) => {
   const sessionReference = firestore().doc(`Sessions/${sessionID}`);
 
-  return firestore().runTransaction(async (signupTransaction) => {
+  return await firestore().runTransaction(async (signupTransaction) => {
     return signupTransaction
       .get(sessionReference)
       .then((sessionData) => {
@@ -35,9 +35,13 @@ export default signupForSession = async (sessionID, userID) => {
           });
         }
       })
-      .then(() => console.log('SIGNUP TRANSACTION COMPLETED'))
+      .then((result) => {
+        console.log('SIGNUP TRANSACTION COMPLETED');
+        return result;
+      })
       .catch((err) => {
-        console.log(err);
+        console.log('ERROR INSIDE TRANSACTION', err);
+        throw err;
       });
   });
 };
