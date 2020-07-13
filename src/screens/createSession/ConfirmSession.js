@@ -18,11 +18,15 @@ export default function ConfirmSession({route, navigation}) {
     numberOfVolunteers,
     selectedUsers,
     dateTimeArray,
+    previousSessionData,
+    previouslySelectedMentors,
   } = route.params;
 
   //LOCAL STATE
   const [visible, setVisible] = useState(false);
-  const [descriptionOfSession, setDescriptionOfSession] = useState('');
+  const [descriptionOfSession, setDescriptionOfSession] = useState(
+    previousSessionData?.Description || '',
+  );
   //LOCAL STATE
 
   //REDUX STATE
@@ -94,7 +98,7 @@ export default function ConfirmSession({route, navigation}) {
         location={location}
         selectedUsers={selectedUsers}
         numberOfMentors={numberOfVolunteers}
-        mentors={[]}
+        mentors={previouslySelectedMentors || []}
       />
     </SafeAreaView>
   );

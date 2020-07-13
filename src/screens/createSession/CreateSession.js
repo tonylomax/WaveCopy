@@ -18,9 +18,8 @@ export default function CreateSession({route}) {
       <Stack.Screen
         name="SessionDetails"
         component={SessionDetails}
-        options={{title: 'Session details', test1: 'hello1'}}
-        screenProps={{test: 'hello'}}
-        initialParams={{test3: 'test3'}}
+        options={{title: 'Session details'}}
+        initialParams={params}
       />
       <Stack.Screen
         name="AddServiceUsers"

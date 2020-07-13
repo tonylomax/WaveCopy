@@ -8,10 +8,15 @@ export default function AddServiceUsers({route, navigation}) {
     location,
     numberOfVolunteers,
     dateTimeArray,
+    previousSessionData,
+    previouslySelectedAttendees,
+    previouslySelectedMentors,
   } = route.params;
 
   //LOCAL STATE
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState(
+    previouslySelectedAttendees || [],
+  );
   const [searchTerm, setSearchTerm] = useState('');
   const [typing, setTyping] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState(0);
@@ -120,6 +125,8 @@ export default function AddServiceUsers({route, navigation}) {
             numberOfVolunteers,
             selectedUsers,
             dateTimeArray,
+            previousSessionData,
+            previouslySelectedMentors,
           })
         }
       />

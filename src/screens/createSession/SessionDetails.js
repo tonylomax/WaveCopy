@@ -18,11 +18,27 @@ import {
   MAX_NUMBER_OF_REPETITIONS,
 } from 'constants';
 
-export default function SessionDetails({navigation, ...props}) {
+export default function SessionDetails({navigation, route}) {
+  const previousSessionData = route?.params?.previousSessionData;
+  const previouslySelectedAttendees =
+    route?.params?.previouslySelectedAttendees;
+  const previouslySelectedMentors = route?.params?.previouslySelectedMentors;
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
-  const [sessionType, setSessionType] = useState('surf-club');
-  const [location, setLocation] = useState(beaches[0]);
-  const [numberOfVolunteers, setNumberOfVolunteers] = useState(1);
+
+  // If it's in edit mode, the beach exists so find it in the array and set it.
+  const initiallySelectedBeach =
+    beaches[
+      beaches.findIndex((beach) => beach.Name === previousSessionData?.Beach) ||
+        0
+    ];
+  const [sessionType, setSessionType] = useState(
+    previousSessionData?.Type || 'surf-club',
+  );
+  const [location, setLocation] = useState(initiallySelectedBeach);
+
+  const [numberOfVolunteers, setNumberOfVolunteers] = useState(
+    previousSessionData?.MaxMentors || 1,
+  );
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
   const [sessionDate, setSessionDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
@@ -41,8 +57,10 @@ export default function SessionDetails({navigation, ...props}) {
   };
 
   useEffect(() => {
-    console.log('beaches in sessiondetails', beaches);
-    console.log('test', props);
+    console.log(
+      'testing previousSessionData session Data',
+      previousSessionData,
+    );
   }, []);
 
   return (
@@ -131,19 +149,22 @@ export default function SessionDetails({navigation, ...props}) {
           ))}
         </Picker>
         <Text>Number of repetitions</Text>
-        <Picker
-          testID="number-of-repetitions"
-          selectedValue={numberOfRepetitions}
-          onValueChange={(itemValue, itemIndex) =>
-            setNumberOfRepetitions(itemValue)
-          }>
-          {generateNumberedArray(
-            MIN_NUMBER_OF_REPETITIONS,
-            MAX_NUMBER_OF_REPETITIONS,
-          ).map((n) => (
-            <Picker.Item label={n.toString()} value={n} key={n} />
-          ))}
-        </Picker>
+        {!previousSessionData && (
+          <Picker
+            testID="number-of-repetitions"
+            selectedValue={numberOfRepetitions}
+            onValueChange={(itemValue, itemIndex) =>
+              setNumberOfRepetitions(itemValue)
+            }>
+            {generateNumberedArray(
+              MIN_NUMBER_OF_REPETITIONS,
+              MAX_NUMBER_OF_REPETITIONS,
+            ).map((n) => (
+              <Picker.Item label={n.toString()} value={n} key={n} />
+            ))}
+          </Picker>
+        )}
+
         <Button
           testID="continue-to-select-service-users"
           title="Continue"
@@ -158,6 +179,9 @@ export default function SessionDetails({navigation, ...props}) {
               location,
               numberOfVolunteers,
               dateTimeArray,
+              previousSessionData,
+              previouslySelectedAttendees,
+              previouslySelectedMentors,
             });
           }}
         />

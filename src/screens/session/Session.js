@@ -119,8 +119,11 @@ export default function Session({navigation, route}) {
             source={Edit_Icon}></Image>
           <Text
             onPress={() => {
-              console.log('navigating');
-              navigation.navigate('ProfileCreateSession', {sessionData});
+              navigation.navigate('ProfileCreateSession', {
+                previousSessionData: sessionData,
+                previouslySelectedAttendees: selectedSessionAttendeesData,
+                previouslySelectedMentors: selectedSessionMentorsData,
+              });
             }}>
             Edit session
           </Text>
