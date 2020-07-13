@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, Button} from 'react-native';
+import {View, Text, Image, Button, TouchableOpacity} from 'react-native';
 import {
   AccordionMenu,
   ConfirmButton,
@@ -57,6 +57,10 @@ export default function Session({navigation, route}) {
   const [coordinator, setCoordinator] = useState();
   const [visible, setVisible] = useState(false);
   const [surfLead, setSurfLead] = useState();
+  const IS_ADMIN =
+    userData?.Roles?.includes('SurfLead') ||
+    userData?.Roles?.includes('NationalAdmin') ||
+    userData?.Roles?.includes('Coordinator');
 
   useEffect(() => {
     if (
@@ -84,14 +88,6 @@ export default function Session({navigation, route}) {
   }, []);
 
   useEffect(() => {
-    const surfLeadName = getSessionLeadName(
-      sessionData?.SessionLead?.id,
-      selectedSessionMentorsData,
-    );
-    setSurfLead(surfLeadName);
-  }, [selectedSessionMentorsData, sessionData]);
-
-  useEffect(() => {
     if (
       sessionData &&
       selectedSessionAttendeesData &&
@@ -99,6 +95,11 @@ export default function Session({navigation, route}) {
     ) {
       setLoading(false);
     }
+    const surfLeadName = getSessionLeadName(
+      sessionData?.SessionLead?.id,
+      selectedSessionMentorsData,
+    );
+    setSurfLead(surfLeadName);
   }, [sessionData, selectedSessionAttendeesData, selectedSessionMentorsData]);
 
   useEffect(() => {
@@ -113,29 +114,24 @@ export default function Session({navigation, route}) {
         <LoadingScreen visible={true}></LoadingScreen>
       ) : (
         <View>
-          <Image
-            style={{height: '15%', width: '15%'}}
-            source={Edit_Icon}></Image>
-          <Text
+          <TouchableOpacity
             onPress={() => {
-              if (route.name === 'HomeSession') {
-                navigation.navigate('HomeEditSession', {
-                  previousSessionData: sessionData,
-                  previouslySelectedAttendees: selectedSessionAttendeesData,
-                  previouslySelectedMentors: selectedSessionMentorsData,
-                  previousSessionID: ID,
-                });
-              } else {
-                navigation.navigate('ProfileEditSession', {
-                  previousSessionData: sessionData,
-                  previouslySelectedAttendees: selectedSessionAttendeesData,
-                  previouslySelectedMentors: selectedSessionMentorsData,
-                  previousSessionID: ID,
-                });
-              }
+              const RouteDestination =
+                route.name === 'HomeSession'
+                  ? 'HomeEditSession'
+                  : 'ProfileEditSession';
+              navigation.navigate(RouteDestination, {
+                previousSessionData: sessionData,
+                previouslySelectedAttendees: selectedSessionAttendeesData,
+                previouslySelectedMentors: selectedSessionMentorsData,
+                previousSessionID: ID,
+              });
             }}>
-            Edit session
-          </Text>
+            <Image
+              style={{height: '15%', width: '15%'}}
+              source={Edit_Icon}></Image>
+          </TouchableOpacity>
+          <Text>Edit session</Text>
           {MaxMentors === selectedSessionMentorsData.length && (
             <Text> This session is full</Text>
           )}
@@ -159,26 +155,16 @@ export default function Session({navigation, route}) {
           </Text>
 
           <Text>{sessionData?.Description}</Text>
-          {selectedSessionAttendeesData &&
-            selectedBeach &&
-            MaxMentors > 0 &&
-            selectedSessionMentorsData && (
-              <AccordionMenu
-                selectedUsers={selectedSessionAttendeesData}
-                numberOfMentors={MaxMentors}
-                location={selectedBeach}
-                mentors={selectedSessionMentorsData}
-                sessionLead={sessionData?.SessionLead}
-                sessionID={ID}
-                roles={roles}
-              />
-            )}
-          {roles?.some(
-            () =>
-              userData?.Roles?.includes('SurfLead') ||
-              userData?.Roles?.includes('NationalAdmin') ||
-              userData?.Roles?.includes('Coordinator'),
-          ) && (
+          <AccordionMenu
+            selectedUsers={selectedSessionAttendeesData}
+            numberOfMentors={MaxMentors}
+            location={selectedBeach}
+            mentors={selectedSessionMentorsData}
+            sessionLead={sessionData?.SessionLead}
+            sessionID={ID}
+            roles={roles}
+          />
+          {IS_ADMIN && (
             <ConfirmButton
               title="Register"
               testID="registerButton"
@@ -191,12 +177,7 @@ export default function Session({navigation, route}) {
             </ConfirmButton>
           )}
           {/* DElETE SESSION */}
-          {roles?.some(
-            () =>
-              userData?.Roles?.includes('NationalAdmin') ||
-              userData?.Roles?.includes('RegionalManager') ||
-              userData?.Roles?.includes('Coordinator'),
-          ) && (
+          {IS_ADMIN && (
             <ConfirmButton
               title="Delete session"
               testID="delete-session-button"
@@ -213,30 +194,19 @@ export default function Session({navigation, route}) {
               deleteSession(ID, UID)
                 .then((res) => {
                   console.log(res);
-
-                  // If this session was reached from profile, go back to home,
-                  // Otherwise go back to profile
-                  if (route.name === 'HomeSession') {
-                    navigation.dispatch(
-                      CommonActions.reset({
-                        index: 0,
-                        routes: [{name: 'Home'}],
-                      }),
-                    );
-                  } else {
-                    navigation.dispatch(
-                      CommonActions.reset({
-                        index: 0,
-                        routes: [{name: 'Profile'}],
-                      }),
-                    );
-                  }
+                  const RouteDestination =
+                    route.name === 'HomeSession' ? 'Home' : 'Profile';
+                  navigation.dispatch(
+                    CommonActions.reset({
+                      index: 0,
+                      routes: [{name: RouteDestination}],
+                    }),
+                  );
                 })
                 .catch((err) => console.log(err));
             }}></ChoicePopup>
 
-          {selectedSessionMentorsData.filter((mentor) => mentor.id === UID)
-            .length >= 1 ? (
+          {selectedSessionMentorsData.some((mentor) => mentor.id === UID) ? (
             <ConfirmButton
               testID="leaveSessionButton"
               title="Leave session"
