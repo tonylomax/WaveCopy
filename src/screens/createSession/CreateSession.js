@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -7,7 +7,12 @@ import AddServiceUsers from './AddServiceUsers';
 import ConfirmSession from './ConfirmSession';
 const Stack = createStackNavigator();
 
-export default function CreateSession() {
+export default function CreateSession({route}) {
+  const {params} = route;
+  useEffect(() => {
+    console.log(params);
+  }, []);
+
   return (
     <Stack.Navigator>
       <Stack.Screen

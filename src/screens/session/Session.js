@@ -120,7 +120,7 @@ export default function Session({navigation, route}) {
           <Text
             onPress={() => {
               console.log('navigating');
-              navigation.navigate('ProfileCreateSession');
+              navigation.navigate('ProfileCreateSession', {sessionData});
             }}>
             Edit session
           </Text>
