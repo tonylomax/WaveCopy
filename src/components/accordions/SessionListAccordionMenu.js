@@ -18,6 +18,7 @@ export default function SessionListAccordionMenu({
     <List.AccordionGroup>
       <List.Accordion testID="sessionlist-accordian" title={'Sessions'} id="1">
         {sessions?.map((session, i) => {
+          const IS_IN_PAST = moment(session?.DateTime).diff(new Date()) < 0;
           return (
             <List.Item
               key={i}
@@ -25,21 +26,15 @@ export default function SessionListAccordionMenu({
               description={() => {
                 return (
                   <TouchableHighlight
-                    disabled={moment(session?.DateTime).diff(new Date()) < 0}
+                    disabled={IS_IN_PAST}
                     onPress={() => {
                       const selectedBeach = getBeach(session.ID)[0];
                       console.log('selectedBeach', selectedBeach);
                       // navigation.navigate('Session', {session, selectedBeach});
                     }}
                     style={{
-                      borderColor:
-                        moment(session?.DateTime).diff(new Date()) < 0
-                          ? 'grey'
-                          : 'black',
-                      backgroundColor:
-                        moment(session?.DateTime).diff(new Date()) < 0
-                          ? 'grey'
-                          : '',
+                      borderColor: IS_IN_PAST ? 'grey' : 'black',
+                      backgroundColor: IS_IN_PAST ? 'grey' : '',
                       borderWidth: 2,
                       marginBottom: '2%',
                     }}>

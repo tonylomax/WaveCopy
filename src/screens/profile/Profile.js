@@ -44,17 +44,12 @@ export default function Profile({navigation}) {
   );
 
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
-  const mySessions = useSelector((state) => {
-    return state.firestoreReducer.roleSpecificSessionData.filter((session) => {
-      let filteredMentors = session?.Mentors.filter((mentor) => {
-        console.log(mentor.id === UID);
-        return mentor.id === UID;
-      });
-      if (filteredMentors.length >= 1) {
-        return true;
-      }
-    });
-  });
+  // Finds all sessions that you are signed up for
+  const mySessions = useSelector((state) =>
+    state.firestoreReducer.roleSpecificSessionData.filter((session) =>
+      session?.Mentors.some((mentor) => mentor.id === UID),
+    ),
+  );
 
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
   //REDUX STATE

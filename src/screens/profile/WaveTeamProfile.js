@@ -13,27 +13,22 @@ moment().format('en-gb');
 export default function WaveTeamProfile({route}) {
   const {mentor} = route.params;
 
-  const volunteerSessions = useSelector((state) => {
-    return state.firestoreReducer.sessionData.filter((session) => {
-      let filteredMentors = session?.Mentors.filter((filteredMentor) => {
-        console.log(filteredMentor.id === mentor.id);
-        return filteredMentor.id === mentor.id;
-      });
-      if (filteredMentors.length >= 1) {
-        return true;
-      }
-    });
-  });
+  // Find sessions that a volunteer is signed up for
+  const volunteerSessions = useSelector((state) =>
+    state.firestoreReducer.sessionData.filter((session) =>
+      session?.Mentors.some(
+        (filteredMentor) => filteredMentor.id === mentor.id,
+      ),
+    ),
+  );
 
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
 
-  useEffect(() => {
-    console.log('volunteerSessions in waveteamprofile', volunteerSessions);
-  }, [volunteerSessions]);
-
   return (
     <View>
+      {/* Place holder for profile pic */}
       <Image></Image>
+      {/* Mentor name and age */}
       <Text>
         {mentor.firstName} {mentor.lastName}
         {', '}
