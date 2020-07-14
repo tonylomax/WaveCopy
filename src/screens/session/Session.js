@@ -120,7 +120,7 @@ export default function Session({navigation, route}) {
                 route.name === 'HomeSession'
                   ? 'HomeEditSession'
                   : 'ProfileEditSession';
-              navigation.navigate(RouteDestination, {
+              navigation.push(RouteDestination, {
                 previousSessionData: sessionData,
                 previouslySelectedAttendees: selectedSessionAttendeesData,
                 previouslySelectedMentors: selectedSessionMentorsData,

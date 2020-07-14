@@ -8,6 +8,7 @@ import Home from './screens/home/Home';
 import Login from './screens/login/Login';
 import Profile from './screens/profile/Profile';
 import CreateSession from './screens/createSession/CreateSession';
+import EditSession from './screens/createSession/EditSession';
 import Session from './screens/session/Session';
 import Register from './screens/session/Register';
 import {subscribeToFirestoreUsers, createAuthSubscription} from 'utils';
@@ -16,6 +17,7 @@ import {isEmpty} from 'lodash';
 
 const BottomTabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 
 const TabNavigator = () => (
   <NavigationContainer>
@@ -23,7 +25,9 @@ const TabNavigator = () => (
       <BottomTabs.Screen
         name="Home"
         component={HomeNavigator}
-        options={{tabBarTestID: 'navigate-to-home-button'}}
+        options={{
+          tabBarTestID: 'navigate-to-home-button',
+        }}
       />
       <BottomTabs.Screen
         name="CreateSession"
@@ -46,34 +50,27 @@ const HomeNavigator = () => (
     <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
     <HomeStack.Screen
       name="HomeEditSession"
-      component={CreateSession}></HomeStack.Screen>
+      component={EditSession}
+      options={{title: 'Edit session'}}></HomeStack.Screen>
   </HomeStack.Navigator>
 );
 const ProfileNavigator = () => (
-  <HomeStack.Navigator>
-    <HomeStack.Screen name="Profile" component={Profile}></HomeStack.Screen>
-    <HomeStack.Screen
+  <ProfileStack.Navigator>
+    <ProfileStack.Screen
+      name="Profile"
+      component={Profile}></ProfileStack.Screen>
+    <ProfileStack.Screen
       name="ProfileSession"
-      component={Session}></HomeStack.Screen>
-    <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
-
-    <HomeStack.Screen
+      component={Session}></ProfileStack.Screen>
+    <ProfileStack.Screen
+      name="Register"
+      component={Register}></ProfileStack.Screen>
+    <ProfileStack.Screen
       name="ProfileEditSession"
-      component={CreateSession}></HomeStack.Screen>
-  </HomeStack.Navigator>
-);
-const editor = () => (
-  <HomeStack.Navigator>
-    <HomeStack.Screen name="Profile" component={Profile}></HomeStack.Screen>
-    <HomeStack.Screen
-      name="ProfileSession"
-      component={Session}></HomeStack.Screen>
-    <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
-
-    <HomeStack.Screen
-      name="ProfileEditSession"
-      component={CreateSession}></HomeStack.Screen>
-  </HomeStack.Navigator>
+      // title="Edit session"
+      options={{title: 'Edit session'}}
+      component={EditSession}></ProfileStack.Screen>
+  </ProfileStack.Navigator>
 );
 
 const App: () => React$Node = () => {

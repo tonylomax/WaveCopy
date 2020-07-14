@@ -178,7 +178,7 @@ export default function SessionDetails({navigation, route}) {
               sessionTime,
               numberOfRepetitions,
             );
-            navigation.push('AddServiceUsers', {
+            navigation.navigate('AddServiceUsers', {
               sessionType,
               location,
               numberOfVolunteers,
