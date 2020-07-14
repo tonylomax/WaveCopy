@@ -192,9 +192,7 @@ export default function Profile({navigation}) {
                   setContactNumber(updatedNumber);
                 }}
                 autoFocus={true}
-                defaultValue={contactNumber}>
-                {' '}
-              </TextInput>
+                defaultValue={contactNumber}></TextInput>
             ) : (
               <Text>{contactNumber}</Text>
             )}
