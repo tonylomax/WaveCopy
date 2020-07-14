@@ -12,9 +12,6 @@ import {CommonActions} from '@react-navigation/native';
 
 import Moment from 'react-moment';
 import {
-  getAllSessionAttendees,
-  updateCurrentSession,
-  getAllSessionMentors,
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
 } from '../../redux/';
@@ -24,13 +21,12 @@ import {
   signupForSession,
   retrieveCoordinatorData,
   removeSelfFromSession,
-  assignSessionLead,
-  unassignSessionLead,
   deleteSession,
   userHasRoles,
+  updateCurrentSessionAttendees,
 } from 'utils';
 
-import {ROLES} from 'constants';
+import {COLLECTIONS} from 'constants';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
@@ -43,67 +39,73 @@ export default function Session({navigation, route}) {
   );
 
   const selectedSessionAttendeesData = useSelector(
-    (state) => state.firestoreReducer.selectedSessionAttendees,
+    (state) => state.firestoreReducer.selectedSessionSubscribedAttendees,
   );
 
-  const selectedSessionMentorsData = useSelector(
-    (state) => state.firestoreReducer.selectedSessionMentors,
-  );
   const sessionLeadID = useSelector(
     (state) => state.firestoreReducer?.singleSession?.SessionLead?.id,
   );
-
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
 
+  const selectedSessionMentorsData = useSelector((state) => {
+    console.log(
+      'state in session ',
+      state.firestoreReducer.selectedSessionSubscribedMentors,
+    );
+    return state.firestoreReducer.selectedSessionSubscribedMentors;
+  });
+
   //LOCAL STATE
-  const [loading, setLoading] = useState(true);
   const [coordinator, setCoordinator] = useState();
   const [visible, setVisible] = useState(false);
   const [surfLead, setSurfLead] = useState();
 
   useEffect(() => {
-    if (
-      AttendeesIDandAttendance !== undefined &&
-      AttendeesIDandAttendance.length > 0
-    ) {
-      console.log({AttendeesIDandAttendance});
-      dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
-    }
-    dispatch(getAllSessionMentors(Mentors));
-    console.log('max mentors is ', MaxMentors);
-    const unsubscribe = subscribeToSessionChanges(ID);
+    console.log('sessionData', sessionData);
+    console.log('MENTORS', Mentors);
+
+    const mentorsUnsubscribers = updateCurrentSessionAttendees(
+      sessionData?.Mentors,
+      COLLECTIONS.USERS,
+    );
+
+    const serviceUsersUnsubscribers = updateCurrentSessionAttendees(
+      sessionData?.Attendees,
+      COLLECTIONS.TEST_SERVICE_USERS,
+    );
+
     return () => {
       console.log('unsubscribing');
+      mentorsUnsubscribers?.forEach((unsub) => {
+        console.log('unsub called');
+        unsub();
+      });
+      serviceUsersUnsubscribers?.forEach((unsub) => {
+        console.log('unsub called');
+        unsub();
+      });
       dispatch(clearSelectedSessionMentors());
       dispatch(clearSelectedSessionAttendees());
+    };
+  }, [sessionData]);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToSessionChanges(ID);
+
+    return () => {
       unsubscribe();
     };
   }, []);
 
-  const getSessionLeadName = (surfLeadID) => {
-    console.log('selectedSessionMentorsData', selectedSessionMentorsData);
+  useEffect(() => {
     const SURFLEAD = selectedSessionMentorsData?.filter(
-      (mentor) => mentor.id === surfLeadID,
+      (mentor) => mentor.id === sessionLeadID,
     );
     console.log('SURFLEAD', SURFLEAD);
     setSurfLead(SURFLEAD[0]);
-  };
-
-  useEffect(() => {
-    getSessionLeadName(sessionLeadID);
   }, [selectedSessionMentorsData, sessionData]);
-
-  useEffect(() => {
-    if (
-      sessionData &&
-      selectedSessionAttendeesData &&
-      selectedSessionMentorsData
-    ) {
-      setLoading(false);
-    }
-  }, [sessionData, selectedSessionAttendeesData, selectedSessionMentorsData]);
 
   useEffect(() => {
     (async () => {
@@ -113,144 +115,137 @@ export default function Session({navigation, route}) {
 
   return (
     <View>
-      {loading ? (
-        <LoadingScreen visible={true}></LoadingScreen>
-      ) : (
-        <View>
-          <Image
-            style={{height: '15%', width: '15%'}}
-            source={Edit_Icon}></Image>
-          {MaxMentors === selectedSessionMentorsData.length && (
-            <Text> This session is full</Text>
-          )}
-          <Moment element={Text} format="DD.MM.YY">
-            {sessionData?.DateTime}
-          </Moment>
-          {!sessionLeadID || sessionLeadID === '' ? (
-            <Text>No session lead</Text>
-          ) : sessionLeadID === UID ? (
-            <Text>You are the session lead</Text>
-          ) : (
-            <Text>
-              {surfLead?.firstName} {surfLead?.lastName} is the session lead
-            </Text>
-          )}
-          <Text>
-            {sessionData?.Type}-{sessionData?.Beach}
-          </Text>
-          <Text>
-            Coordinator: {coordinator?.firstName} {coordinator?.lastName}
-          </Text>
-
-          <Text>{sessionData?.Description}</Text>
-          {selectedSessionAttendeesData &&
-            selectedBeach &&
-            MaxMentors > 0 &&
-            selectedSessionMentorsData && (
-              <AccordionMenu
-                selectedUsers={selectedSessionAttendeesData}
-                numberOfMentors={MaxMentors}
-                location={selectedBeach}
-                mentors={selectedSessionMentorsData}
-                sessionLead={sessionData?.SessionLead}
-                sessionID={ID}
-                roles={roles}
-              />
-            )}
-          {(userHasRoles(userData?.Roles) || sessionLeadID === UID) && (
-            <ConfirmButton
-              title="Register"
-              testID="registerButton"
-              onPress={() => {
-                navigation.navigate('Register', {
-                  ID,
-                });
-              }}>
-              Register
-            </ConfirmButton>
-          )}
-          {/* DElETE SESSION */}
-          {roles?.some(
-            () =>
-              userData?.Roles?.includes('NationalAdmin') ||
-              userData?.Roles?.includes('RegionalManager') ||
-              userData?.Roles?.includes('Coordinator'),
-          ) && (
-            <ConfirmButton
-              title="Delete session"
-              testID="delete-session-button"
-              onPress={() => setVisible((visible) => !visible)}>
-              Register
-            </ConfirmButton>
-          )}
-          <ChoicePopup
-            testID="choicePopup"
-            visible={visible}
-            setVisible={setVisible}
-            yesAction={() => {
-              console.log('deleting session');
-              deleteSession(ID, UID)
-                .then((res) => {
-                  console.log(res);
-
-                  // If this session was reached from profile, go back to home,
-                  // Otherwise go back to profile
-                  if (route.name === 'HomeSession') {
-                    navigation.dispatch(
-                      CommonActions.reset({
-                        index: 0,
-                        routes: [{name: 'Home'}],
-                      }),
-                    );
-                  } else {
-                    navigation.dispatch(
-                      CommonActions.reset({
-                        index: 0,
-                        routes: [{name: 'Profile'}],
-                      }),
-                    );
-                  }
-                })
-                .catch((err) => console.log(err));
-            }}></ChoicePopup>
-
-          {selectedSessionMentorsData.filter((mentor) => mentor.id === UID)
-            .length >= 1 ? (
-            <ConfirmButton
-              testID="leaveSessionButton"
-              title="Leave session"
-              onPress={() => {
-                removeSelfFromSession(ID, UID, sessionLeadID)
-                  .then((result) => {
-                    console.log('Session remove done');
-                  })
-                  .catch((err) => {
-                    console.log('ERROR: ', err);
-                  });
-              }}></ConfirmButton>
-          ) : (
-            <ConfirmButton
-              testID="signupButton"
-              title="Sign Up"
-              disabled={MaxMentors === selectedSessionMentorsData.length}
-              onPress={() => {
-                signupForSession(ID, UID)
-                  .then((result) => {
-                    console.log('Session signup done ');
-                  })
-                  .catch((err) => {
-                    console.log('ERROR: ', err);
-                  });
-              }}></ConfirmButton>
-          )}
-          <ConfirmButton
-            title="Determine roles"
-            onPress={() => {
-              console.log('userData?.Roles)', userData?.Roles);
-              console.log(userHasRoles(userData?.Roles));
-            }}></ConfirmButton>
-        </View>
+      <Image style={{height: '15%', width: '15%'}} source={Edit_Icon}></Image>
+      {MaxMentors === selectedSessionMentorsData.length && (
+        <Text> This session is full</Text>
       )}
+      <Moment element={Text} format="DD.MM.YY">
+        {sessionData?.DateTime}
+      </Moment>
+      {!sessionLeadID || sessionLeadID === '' ? (
+        <Text>No session lead</Text>
+      ) : sessionLeadID === UID ? (
+        <Text>You are the session lead</Text>
+      ) : (
+        <Text>
+          {surfLead?.firstName} {surfLead?.lastName} is the session lead
+        </Text>
+      )}
+      <Text>
+        {sessionData?.Type}-{sessionData?.Beach}
+      </Text>
+      <Text>
+        Coordinator: {coordinator?.firstName} {coordinator?.lastName}
+      </Text>
+
+      <Text>{sessionData?.Description}</Text>
+      {selectedSessionAttendeesData &&
+        selectedBeach &&
+        MaxMentors > 0 &&
+        selectedSessionMentorsData && (
+          <AccordionMenu
+            selectedUsers={selectedSessionAttendeesData}
+            numberOfMentors={MaxMentors}
+            location={selectedBeach}
+            mentors={selectedSessionMentorsData}
+            sessionLead={sessionData?.SessionLead}
+            sessionID={ID}
+            roles={roles}
+          />
+        )}
+      {(userHasRoles(userData?.Roles) || sessionLeadID === UID) && (
+        <ConfirmButton
+          title="Register"
+          testID="registerButton"
+          onPress={() => {
+            navigation.navigate('Register', {
+              ID,
+            });
+          }}>
+          Register
+        </ConfirmButton>
+      )}
+      {/* DElETE SESSION */}
+      {roles?.some(
+        () =>
+          userData?.Roles?.includes('NationalAdmin') ||
+          userData?.Roles?.includes('RegionalManager') ||
+          userData?.Roles?.includes('Coordinator'),
+      ) && (
+        <ConfirmButton
+          title="Delete session"
+          testID="delete-session-button"
+          onPress={() => setVisible((visible) => !visible)}>
+          Register
+        </ConfirmButton>
+      )}
+      <ChoicePopup
+        testID="choicePopup"
+        visible={visible}
+        setVisible={setVisible}
+        yesAction={() => {
+          console.log('deleting session');
+          deleteSession(ID, UID)
+            .then((res) => {
+              console.log(res);
+
+              // If this session was reached from profile, go back to home,
+              // Otherwise go back to profile
+              if (route.name === 'HomeSession') {
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'Home'}],
+                  }),
+                );
+              } else {
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'Profile'}],
+                  }),
+                );
+              }
+            })
+            .catch((err) => console.log(err));
+        }}></ChoicePopup>
+
+      {selectedSessionMentorsData.filter((mentor) => mentor.id === UID)
+        .length >= 1 ? (
+        <ConfirmButton
+          testID="leaveSessionButton"
+          title="Leave session"
+          onPress={() => {
+            removeSelfFromSession(ID, UID, sessionLeadID)
+              .then((result) => {
+                console.log('Session remove done');
+                navigation.goBack();
+              })
+              .catch((err) => {
+                console.log('ERROR: ', err);
+              });
+          }}></ConfirmButton>
+      ) : (
+        <ConfirmButton
+          testID="signupButton"
+          title="Sign Up"
+          disabled={MaxMentors === selectedSessionMentorsData.length}
+          onPress={() => {
+            signupForSession(ID, UID)
+              .then((result) => {
+                console.log('Session signup done ');
+              })
+              .catch((err) => {
+                console.log('ERROR: ', err);
+              });
+          }}></ConfirmButton>
+      )}
+      <ConfirmButton
+        title="Determine roles"
+        onPress={() => {
+          console.log('userData?.Roles)', userData?.Roles);
+          console.log(userHasRoles(userData?.Roles));
+        }}></ConfirmButton>
     </View>
   );
 }

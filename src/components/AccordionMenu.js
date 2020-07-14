@@ -20,11 +20,11 @@ export default function AccordionMenu({
   roles,
 }) {
   React.useEffect(() => {
-    console.log('mentors', mentors);
+    // console  .log('mentors', mentors);
   }, []);
 
   React.useEffect(() => {
-    console.log('roles in sessionLead', sessionLead);
+    // console.log('roles in sessionLead', sessionLead);
   }, [sessionLead]);
 
   const userData = useSelector((state) => state.firestoreReducer.userData);
@@ -83,10 +83,10 @@ export default function AccordionMenu({
           ))}
       </List.Accordion>
       <List.Accordion
-        title={`Attendees (${selectedUsers.length})`}
+        title={`Attendees (${selectedUsers?.length})`}
         id="2"
         testID="attendees-accordian">
-        {selectedUsers.length > 0 &&
+        {selectedUsers?.length > 0 &&
           selectedUsers?.map((user, i) => (
             <List.Item
               testId="attendees-accordian"

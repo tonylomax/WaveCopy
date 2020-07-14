@@ -10,6 +10,8 @@ import {
   updateRoleSpecificSessions,
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
+  subscribeToSessionMentors,
+  subscribeToSessionAttendees,
 } from './actions';
 
 export {
@@ -24,4 +26,6 @@ export {
   updateRoleSpecificSessions,
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
+  subscribeToSessionMentors,
+  subscribeToSessionAttendees,
 };

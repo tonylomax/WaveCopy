@@ -4,7 +4,7 @@ import store from '../../redux/store';
 import {updateRoleSpecificSessions} from '../../redux/';
 
 export default (userRegion) => {
-  console.log('creating a subscription role role based sessions', userRegion);
+  console.log('creating a subscription role role based sessions');
   return firestore()
     .collection(COLLECTIONS.SESSIONS)
     .where('RegionID', '==', userRegion)

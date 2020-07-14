@@ -43,7 +43,7 @@ export default function Profile({navigation}) {
   const mySessions = useSelector((state) => {
     return state.firestoreReducer.roleSpecificSessionData.filter((session) => {
       let filteredMentors = session?.Mentors.filter((mentor) => {
-        console.log(mentor.id === UID);
+        // console.log(mentor.id === UID);
         return mentor.id === UID;
       });
       if (filteredMentors.length >= 1) {
@@ -83,13 +83,13 @@ export default function Profile({navigation}) {
     return Platform.OS === 'android' ? path : uri;
   };
 
-  useEffect(() => {
-    console.log('USER DATA IN PROFILE', userData);
-  }, [userData]);
+  // useEffect(() => {
+  //   console.log('USER DATA IN PROFILE', userData);
+  // }, [userData]);
 
-  useEffect(() => {
-    console.log('SESSIONS IN PROFILE', sessions);
-  }, [sessions]);
+  // useEffect(() => {
+  //   console.log('SESSIONS IN PROFILE', sessions);
+  // }, [sessions]);
 
   useEffect(() => {
     getImageDownloadURI(UID).then((url) => {
@@ -232,7 +232,7 @@ export default function Profile({navigation}) {
                 disabled={moment(item?.DateTime).diff(new Date()) < 0}
                 onPress={() => {
                   const selectedBeach = getBeach(item.ID)[0];
-                  console.log({item});
+                  // console.log({item});
                   navigation.navigate('ProfileSession', {
                     item,
                     selectedBeach,

@@ -12,6 +12,8 @@ import {
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
   updateRoleSpecificSessions,
+  subscribeToSessionMentors,
+  subscribeToSessionAttendees,
 } from './firestore';
 
 export {
@@ -28,4 +30,6 @@ export {
   getAllSessionMentors,
   clearSelectedSessionAttendees,
   updateRoleSpecificSessions,
+  subscribeToSessionMentors,
+  subscribeToSessionAttendees,
 };

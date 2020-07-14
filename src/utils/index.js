@@ -8,7 +8,7 @@ import {
 } from './auth/index';
 import {
   updateOwnBio,
-  returnSessionAttendees,
+  updateCurrentSessionAttendees,
   markAttendance,
   searchFirestoreServiceUsers,
   createSessionInFirestore,
@@ -55,7 +55,7 @@ export {
   uploadProgress,
   updatePassword,
   validatePassword,
-  returnSessionAttendees,
+  updateCurrentSessionAttendees,
   markAttendance,
   getCoverImage,
   generateDateTimeArray,

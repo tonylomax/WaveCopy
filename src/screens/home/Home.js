@@ -56,9 +56,9 @@ export default function Profile({navigation}) {
     }
   }, [userData]);
 
-  useEffect(() => {
-    console.log('beaches', beaches);
-  }, [beaches]);
+  // useEffect(() => {
+  //   console.log('beaches', beaches);
+  // }, [beaches]);
 
   return (
     <SafeAreaView>
@@ -83,7 +83,7 @@ export default function Profile({navigation}) {
             <TouchableHighlight
               onPress={() => {
                 const selectedBeach = getBeach(item.ID)[0];
-                console.log({item});
+                // console.log({item});
                 navigation.navigate('HomeSession', {item, selectedBeach});
               }}
               style={{

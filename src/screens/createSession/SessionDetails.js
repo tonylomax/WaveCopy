@@ -40,9 +40,9 @@ export default function SessionDetails({navigation}) {
     setSessionTime(currentTime);
   };
 
-  useEffect(() => {
-    console.log('beaches in sessiondetails', beaches);
-  }, []);
+  // useEffect(() => {
+  //   console.log('beaches in sessiondetails', beaches);
+  // }, []);
 
   return (
     <SafeAreaView>

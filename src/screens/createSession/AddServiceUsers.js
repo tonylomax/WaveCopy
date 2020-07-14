@@ -68,7 +68,7 @@ export default function AddServiceUsers({route, navigation}) {
                   key={`button-not-added-${item.id}`}
                   title="Add user"
                   onPress={() => {
-                    console.log('clicked selected user');
+                    // console.log('clicked selected user');
                     // Add the user if they have not already been selected
                     const found = selectedUsers.some((user) => {
                       console.log({user});
