@@ -8,17 +8,21 @@ import 'react-native-gesture-handler';
 import Home from './screens/home/Home';
 import Login from './screens/login/Login';
 import Profile from './screens/profile/Profile';
-import CreateSession from './screens/createSession/CreateSession';
-import EditSession from './screens/createSession/EditSession';
 import Session from './screens/session/Session';
 import Register from './screens/session/Register';
 import {subscribeToFirestoreUsers, createAuthSubscription} from 'utils';
 import {useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
+import SessionDetails from './screens/createSession/SessionDetails';
+import AddServiceUsers from './screens/createSession/AddServiceUsers';
+import ConfirmSession from './screens/createSession/ConfirmSession';
+import {HeaderBackButton} from 'react-navigation';
 
 const BottomTabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+const CreateSessionStack = createStackNavigator();
+const EditSessionStack = createStackNavigator();
 
 const TabNavigator = () => (
   <NavigationContainer>
@@ -32,7 +36,7 @@ const TabNavigator = () => (
       />
       <BottomTabs.Screen
         name="Session"
-        component={CreateSession}
+        component={CreateSessionNavigator}
         options={{tabBarTestID: 'navigate-to-create-session'}}
       />
       <BottomTabs.Screen
@@ -51,10 +55,60 @@ const HomeNavigator = () => (
     <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
     <HomeStack.Screen
       name="HomeEditSession"
-      component={EditSession}
+      component={EditSessionNavigator}
       options={{title: 'Edit session'}}></HomeStack.Screen>
   </HomeStack.Navigator>
 );
+
+const CreateSessionNavigator = () => (
+  <CreateSessionStack.Navigator>
+    <CreateSessionStack.Screen
+      name="SessionDetails"
+      component={SessionDetails}
+      options={{
+        title: 'Session Details',
+      }}
+    />
+    <CreateSessionStack.Screen
+      name="AddServiceUsers"
+      component={AddServiceUsers}
+      options={{title: 'Add service users'}}
+    />
+    <CreateSessionStack.Screen
+      name="ConfirmSession"
+      component={ConfirmSession}
+      options={{title: 'EDIT PAGE'}}
+    />
+  </CreateSessionStack.Navigator>
+);
+
+const EditSessionNavigator = ({route}) => {
+  const {params} = route;
+  useEffect(() => {
+    console.log(params);
+  }, []);
+  // console.log('came into edit session', route.name);
+  return (
+    <EditSessionStack.Navigator>
+      <EditSessionStack.Screen
+        name="SessionDetails"
+        component={SessionDetails}
+        initialParams={params}
+      />
+      <EditSessionStack.Screen
+        name="AddServiceUsers"
+        component={AddServiceUsers}
+        navigationOptions
+      />
+      <EditSessionStack.Screen
+        name="ConfirmSession"
+        component={ConfirmSession}
+        options={{title: 'EDIT PAGE'}}
+      />
+    </EditSessionStack.Navigator>
+  );
+};
+
 const ProfileNavigator = () => (
   <ProfileStack.Navigator>
     <ProfileStack.Screen
@@ -70,12 +124,8 @@ const ProfileNavigator = () => (
       name="ProfileEditSession"
       options={({navigation}) => ({
         title: 'Edit session',
-        headerMode: 'screen',
-        headerLeft: () => (
-          <Button onPress={() => navigation.goBack()} title="app.js Back" />
-        ),
       })}
-      component={EditSession}></ProfileStack.Screen>
+      component={EditSessionNavigator}></ProfileStack.Screen>
   </ProfileStack.Navigator>
 );
 

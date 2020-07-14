@@ -104,7 +104,7 @@ export default function ConfirmSession({route, navigation}) {
               .catch((err) => console.log(err));
           }
         }}></ChoicePopup>
-      <Button title="go back" onPress={() => navigation.goBack()} />
+      <Button title="Previous" onPress={() => navigation.goBack()} />
       {dateTimeArray &&
         dateTimeArray.map((dateTimeOfSession, i) => (
           <Moment
