@@ -22,27 +22,27 @@ export function updateRoleSpecificSessions(roleSessions) {
   };
 }
 
-export function subscribeToSession(sessionID) {
-  console.log('INSIDE subscribeToSession ACTION ');
-  return async (dispatch) => {
-    const sessionSubscription = firestore()
-      .collection(COLLECTIONS.SESSIONS)
-      .doc(sessionID)
-      .onSnapshot(
-        (singleSessionData) => {
-          // console.log('singleSessionData', singleSessionData);
-          dispatch({
-            type: ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION,
-            data: singleSessionData,
-          });
-        },
-        (error) => {
-          console.error(error);
-        },
-      );
-    return sessionSubscription;
-  };
-}
+// export function subscribeToSession(sessionID) {
+//   console.log('INSIDE subscribeToSession ACTION ');
+//   return async (dispatch) => {
+//     const sessionSubscription = firestore()
+//       .collection(COLLECTIONS.SESSIONS)
+//       .doc(sessionID)
+//       .onSnapshot(
+//         (singleSessionData) => {
+//           // console.log('singleSessionData', singleSessionData);
+//           dispatch({
+//             type: ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION,
+//             data: singleSessionData,
+//           });
+//         },
+//         (error) => {
+//           console.error(error);
+//         },
+//       );
+//     return sessionSubscription;
+//   };
+// }
 
 export function subscribeToFirestoreUserData(currentUserUID) {
   console.log('INSIDE subscribeToFirestoreUserData ACTION ', currentUserUID);
@@ -114,63 +114,54 @@ export function getAllBeaches() {
   };
 }
 
-export function getAllSessionAttendees(attendeesArray) {
-  console.log('INSIDE getAllSessionAttendees ACTION ');
-  return async (dispatch) => {
-    const SESSION_USERS = await updateCurrentSessionAttendees(
-      attendeesArray,
-      COLLECTIONS.TEST_SERVICE_USERS,
-    ).catch((error) => {
-      console.log(error);
-    });
-    console.log('SESSION_USERS', SESSION_USERS);
+// export function getAllSessionAttendees(attendeesArray) {
+//   console.log('INSIDE getAllSessionAttendees ACTION ');
+//   return async (dispatch) => {
+//     const SESSION_USERS = await updateCurrentSessionAttendees(
+//       attendeesArray,
+//       COLLECTIONS.TEST_SERVICE_USERS,
+//     ).catch((error) => {
+//       console.log(error);
+//     });
+//     console.log('SESSION_USERS', SESSION_USERS);
 
-    const SESSION_USERS_FILTERED = SESSION_USERS.map((user) => {
-      const data = user?._data;
-      const id = user?._ref?._documentPath?._parts[1];
-      // console.log('SESSION ATTENDESS', {...data, id});
-      return {...data, id};
-    });
+//     const SESSION_USERS_FILTERED = SESSION_USERS.map((user) => {
+//       const data = user?._data;
+//       const id = user?._ref?._documentPath?._parts[1];
+//       // console.log('SESSION ATTENDESS', {...data, id});
+//       return {...data, id};
+//     });
 
-    dispatch({
-      type: ACTIONS.GET_SESSION_ATTENDEES,
-      data: SESSION_USERS_FILTERED,
-    });
-  };
-}
+//     dispatch({
+//       type: ACTIONS.GET_SESSION_ATTENDEES,
+//       data: SESSION_USERS_FILTERED,
+//     });
+//   };
+// }
 
-export function getAllSessionMentors(mentorsArray) {
-  console.log('INSIDE getAllSessionMentors ACTION ');
-  // console.log({mentorsArray});
-  return async (dispatch) => {
-    const SESSION_MENTORS = await updateCurrentSessionAttendees(
-      mentorsArray,
-      COLLECTIONS.USERS,
-    );
-    console.log('SESSION_MENTORS', SESSION_MENTORS);
+// export function getAllSessionMentors(mentorsArray) {
+//   console.log('INSIDE getAllSessionMentors ACTION ');
+//   // console.log({mentorsArray});
+//   return async (dispatch) => {
+//     const SESSION_MENTORS = await updateCurrentSessionAttendees(
+//       mentorsArray,
+//       COLLECTIONS.USERS,
+//     );
+//     console.log('SESSION_MENTORS', SESSION_MENTORS);
 
-    const SESSION_MENTORS_FILTERED = SESSION_MENTORS.map((mentor) => {
-      const data = mentor?._data;
-      const id = mentor?._ref?._documentPath?._parts[1];
-      // console.log('SESSION MENTORS', {...data, id});
-      return {...data, id};
-    });
+//     const SESSION_MENTORS_FILTERED = SESSION_MENTORS.map((mentor) => {
+//       const data = mentor?._data;
+//       const id = mentor?._ref?._documentPath?._parts[1];
+//       // console.log('SESSION MENTORS', {...data, id});
+//       return {...data, id};
+//     });
 
-    dispatch({
-      type: ACTIONS.GET_SESSION_MENTORS,
-      data: SESSION_MENTORS_FILTERED,
-    });
-  };
-}
-
-export function clearSelectedSessionMentors() {
-  return async (dispatch) => {
-    dispatch({
-      type: ACTIONS.CLEAR_SUBSCRIBE_TO_SESSION_MENTORS,
-      data: [],
-    });
-  };
-}
+//     dispatch({
+//       type: ACTIONS.GET_SESSION_MENTORS,
+//       data: SESSION_MENTORS_FILTERED,
+//     });
+//   };
+// }
 
 export function subscribeToSessionMentors(subscribedUserData) {
   console.log('Inside subscribeToSessionMentors action');
@@ -188,6 +179,15 @@ export function subscribeToSessionAttendees(subscribedUserData) {
     dispatch({
       type: ACTIONS.SUBSCRIBE_TO_SESSION_ATTENDEES,
       data: subscribedUserData,
+    });
+  };
+}
+
+export function clearSelectedSessionMentors() {
+  return async (dispatch) => {
+    dispatch({
+      type: ACTIONS.CLEAR_SUBSCRIBE_TO_SESSION_MENTORS,
+      data: [],
     });
   };
 }

@@ -20,8 +20,8 @@ export default (state = initialState, action) => {
 
       return {...state, sessionData};
 
-    case ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION:
-      console.log('[Reducer - fireStoreReducer] SUBSCRIBE_TO_SINGLE_SESSION');
+    // case ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION:
+    //   console.log('[Reducer - fireStoreReducer] SUBSCRIBE_TO_SINGLE_SESSION');
 
     case ACTIONS.UPDATE_CURRENT_SESSION:
       console.log('[Reducer - fireStoreReducer] UPDATE_CURRENT_SESSION');
@@ -51,15 +51,15 @@ export default (state = initialState, action) => {
       const beaches = action.data;
       return {...state, beaches};
 
-    case ACTIONS.GET_SESSION_ATTENDEES:
-      console.log('[Reducer - fireStoreReducer] GET_SESSIONS_ATTENDEES');
-      const selectedSessionAttendees = action.data;
-      return {...state, selectedSessionAttendees};
+    // case ACTIONS.GET_SESSION_ATTENDEES:
+    //   console.log('[Reducer - fireStoreReducer] GET_SESSIONS_ATTENDEES');
+    //   const selectedSessionAttendees = action.data;
+    //   return {...state, selectedSessionAttendees};
 
-    case ACTIONS.GET_SESSION_MENTORS:
-      console.log('[Reducer - fireStoreReducer] GET_SESSION_MENTORS');
-      const selectedSessionMentors = action.data;
-      return {...state, selectedSessionMentors};
+    // case ACTIONS.GET_SESSION_MENTORS:
+    //   console.log('[Reducer - fireStoreReducer] GET_SESSION_MENTORS');
+    //   const selectedSessionMentors = action.data;
+    //   return {...state, selectedSessionMentors};
 
     case ACTIONS.SUBSCRIBE_TO_SESSION_MENTORS:
       console.log(
