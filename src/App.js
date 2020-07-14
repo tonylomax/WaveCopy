@@ -13,7 +13,7 @@ import Register from './screens/session/Register';
 import {
   subscribeToFirestoreUsers,
   createAuthSubscription,
-  userHasRoles,
+  userHasPermission,
 } from 'utils';
 import {useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
@@ -110,7 +110,7 @@ const App: () => React$Node = () => {
 
   return isEmpty(currentAuthenticatedUser) ? (
     <Login setLoggedIn={setLoggedIn} />
-  ) : userHasRoles(userData?.Roles) ? (
+  ) : userHasPermission(userData?.Roles) ? (
     <AdminTabNavigator />
   ) : (
     <StandardTabNavigator />

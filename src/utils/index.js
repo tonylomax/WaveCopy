@@ -4,7 +4,7 @@ import {
   updatePassword,
   validatePassword,
   createAuthSubscription,
-  userHasRoles,
+  userHasPermission,
 } from './auth/index';
 import {
   updateOwnBio,
@@ -66,5 +66,5 @@ export {
   removeSelfFromSession,
   removeMentorFromSession,
   updateOwnContactNumber,
-  userHasRoles,
+  userHasPermission,
 };

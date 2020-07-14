@@ -12,10 +12,10 @@ export default function Register({navigation, route}) {
     (state) => state.firestoreReducer.singleSession,
   );
   const selectedSessionAttendeesData = useSelector(
-    (state) => state.firestoreReducer.selectedSessionAttendees,
+    (state) => state.firestoreReducer.selectedSessionSubscribedAttendees,
   );
   const selectedSessionMentorsData = useSelector(
-    (state) => state.firestoreReducer.selectedSessionMentors,
+    (state) => state.firestoreReducer.selectedSessionSubscribedMentors,
   );
   //REDUX STATE
 
@@ -41,6 +41,7 @@ export default function Register({navigation, route}) {
       </Moment>
       <RegisterTabs registerTitle="Attendees">
         {selectedSessionAttendeesData.map((attendee) => {
+          //Retrieve the bool value that shows whether the person has attended the session
           const hasPersonAttended = sessionData?.Attendees?.filter((person) => {
             return person?.id === attendee?.id;
           })[0]?.Attended;

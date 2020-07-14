@@ -9,23 +9,20 @@ import {
 import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
 import {CommonActions} from '@react-navigation/native';
-
 import Moment from 'react-moment';
 import {
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
 } from '../../redux/';
-
 import {
   subscribeToSessionChanges,
   signupForSession,
   retrieveCoordinatorData,
   removeSelfFromSession,
   deleteSession,
-  userHasRoles,
+  userHasPermission,
   updateCurrentSessionAttendees,
 } from 'utils';
-
 import {COLLECTIONS} from 'constants';
 
 export default function Session({navigation, route}) {
@@ -49,13 +46,9 @@ export default function Session({navigation, route}) {
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
 
-  const selectedSessionMentorsData = useSelector((state) => {
-    console.log(
-      'state in session ',
-      state.firestoreReducer.selectedSessionSubscribedMentors,
-    );
-    return state.firestoreReducer.selectedSessionSubscribedMentors;
-  });
+  const selectedSessionMentorsData = useSelector(
+    (state) => state.firestoreReducer.selectedSessionSubscribedMentors,
+  );
 
   //LOCAL STATE
   const [coordinator, setCoordinator] = useState();
@@ -66,11 +59,12 @@ export default function Session({navigation, route}) {
     console.log('sessionData', sessionData);
     console.log('MENTORS', Mentors);
 
+    // Set up subscription for all the data relating to the mentors in a session
     const mentorsUnsubscribers = updateCurrentSessionAttendees(
       sessionData?.Mentors,
       COLLECTIONS.USERS,
     );
-
+    // Set up subscription for all the data relating to the attendees in a session
     const serviceUsersUnsubscribers = updateCurrentSessionAttendees(
       sessionData?.Attendees,
       COLLECTIONS.TEST_SERVICE_USERS,
@@ -78,13 +72,13 @@ export default function Session({navigation, route}) {
 
     return () => {
       console.log('unsubscribing');
-      mentorsUnsubscribers?.forEach((unsub) => {
-        console.log('unsub called');
-        unsub();
+      mentorsUnsubscribers?.forEach((unsubscribe) => {
+        console.log('unsubscribe called');
+        unsubscribe();
       });
-      serviceUsersUnsubscribers?.forEach((unsub) => {
-        console.log('unsub called');
-        unsub();
+      serviceUsersUnsubscribers?.forEach((unsubscribe) => {
+        console.log('unsubscribe called');
+        unsubscribe();
       });
       dispatch(clearSelectedSessionMentors());
       dispatch(clearSelectedSessionAttendees());
@@ -92,6 +86,7 @@ export default function Session({navigation, route}) {
   }, [sessionData]);
 
   useEffect(() => {
+    // Set up subscription for all the session data
     const unsubscribe = subscribeToSessionChanges(ID);
 
     return () => {
@@ -153,7 +148,8 @@ export default function Session({navigation, route}) {
             roles={roles}
           />
         )}
-      {(userHasRoles(userData?.Roles) || sessionLeadID === UID) && (
+      {/* REGISTER BUTTON */}
+      {(userHasPermission(userData?.Roles) || sessionLeadID === UID) && (
         <ConfirmButton
           title="Register"
           testID="registerButton"
@@ -166,12 +162,7 @@ export default function Session({navigation, route}) {
         </ConfirmButton>
       )}
       {/* DElETE SESSION */}
-      {roles?.some(
-        () =>
-          userData?.Roles?.includes('NationalAdmin') ||
-          userData?.Roles?.includes('RegionalManager') ||
-          userData?.Roles?.includes('Coordinator'),
-      ) && (
+      {userHasPermission(userData?.Roles) && (
         <ConfirmButton
           title="Delete session"
           testID="delete-session-button"
@@ -210,6 +201,8 @@ export default function Session({navigation, route}) {
             .catch((err) => console.log(err));
         }}></ChoicePopup>
 
+      {/* LEAVE/SIGNUP */}
+      {/* Only show if signup button if user is in the session, otherwise show signup button */}
       {selectedSessionMentorsData.filter((mentor) => mentor.id === UID)
         .length >= 1 ? (
         <ConfirmButton
@@ -240,12 +233,6 @@ export default function Session({navigation, route}) {
               });
           }}></ConfirmButton>
       )}
-      <ConfirmButton
-        title="Determine roles"
-        onPress={() => {
-          console.log('userData?.Roles)', userData?.Roles);
-          console.log(userHasRoles(userData?.Roles));
-        }}></ConfirmButton>
     </View>
   );
 }

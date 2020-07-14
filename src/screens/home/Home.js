@@ -36,17 +36,18 @@ export default function Profile({navigation}) {
   useEffect(() => {
     let unsubscribeFromSessions = () => {};
     let unsubscribeFromRoleSessions = () => {};
+    // Check to see if there is user data
     if (!isEmpty(userData)) {
+      //If the user is a national admin then set up a subscription too all sessions
       if (userData?.Roles.includes('NationalAdmin')) {
-        console.log(userData?.firstName, 'IS NationalAdmin');
         unsubscribeFromSessions = subscribeToSessions();
       } else {
-        console.log(userData?.firstName, 'IS NOT NationalAdmin');
-        console.log('calling updateRoleSpecificSessions');
+        // Otherwise set up a subscription to sessions restricted to the users area
         unsubscribeFromRoleSessions = subscribeToRoleSpecificSessionChanges(
           userData.Region,
         );
       }
+      // Get the latest beach information
       dispatch(getAllBeaches());
       return () => {
         console.log('unsubscribing from sessions');
