@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Button} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -30,7 +31,7 @@ const TabNavigator = () => (
         }}
       />
       <BottomTabs.Screen
-        name="CreateSession"
+        name="Session"
         component={CreateSession}
         options={{tabBarTestID: 'navigate-to-create-session'}}
       />
@@ -67,8 +68,13 @@ const ProfileNavigator = () => (
       component={Register}></ProfileStack.Screen>
     <ProfileStack.Screen
       name="ProfileEditSession"
-      // title="Edit session"
-      options={{title: 'Edit session'}}
+      options={({navigation}) => ({
+        title: 'Edit session',
+        headerMode: 'screen',
+        headerLeft: () => (
+          <Button onPress={() => navigation.goBack()} title="app.js Back" />
+        ),
+      })}
       component={EditSession}></ProfileStack.Screen>
   </ProfileStack.Navigator>
 );

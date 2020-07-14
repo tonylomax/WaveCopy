@@ -3,16 +3,7 @@ import {View, Text, Button, TextInput, FlatList} from 'react-native';
 import {searchFirestoreServiceUsers} from 'utils';
 
 export default function AddServiceUsers({route, navigation}) {
-  const {
-    sessionType,
-    location,
-    numberOfVolunteers,
-    dateTimeArray,
-    previousSessionData,
-    previouslySelectedAttendees,
-    previouslySelectedMentors,
-    previousSessionID,
-  } = route.params;
+  const {previouslySelectedAttendees} = route.params;
 
   //LOCAL STATE
   const [selectedUsers, setSelectedUsers] = useState(
@@ -123,6 +114,7 @@ export default function AddServiceUsers({route, navigation}) {
           })
         }
       />
+      <Button title="go back" onPress={() => navigation.goBack()} />
     </View>
   );
 }

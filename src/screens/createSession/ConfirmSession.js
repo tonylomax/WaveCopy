@@ -1,6 +1,6 @@
 // TO DO - merge this with session/EditSession.js
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, Image, SafeAreaView} from 'react-native';
+import {View, Text, TextInput, Image, SafeAreaView, Button} from 'react-native';
 import {ConfirmButton, ChoicePopup, AccordionMenu} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
@@ -104,6 +104,7 @@ export default function ConfirmSession({route, navigation}) {
               .catch((err) => console.log(err));
           }
         }}></ChoicePopup>
+      <Button title="go back" onPress={() => navigation.goBack()} />
       {dateTimeArray &&
         dateTimeArray.map((dateTimeOfSession, i) => (
           <Moment

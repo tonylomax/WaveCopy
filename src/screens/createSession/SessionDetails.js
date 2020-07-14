@@ -17,6 +17,7 @@ import {
   MIN_NUMBER_OF_REPETITIONS,
   MAX_NUMBER_OF_REPETITIONS,
 } from 'constants';
+import {CommonActions, NavigationActions} from '@react-navigation/native';
 
 export default function SessionDetails({navigation, route}) {
   const previousSessionData = route?.params?.previousSessionData;
@@ -54,6 +55,7 @@ export default function SessionDetails({navigation, route}) {
   };
 
   useEffect(() => {
+    console.log(previousSessionData);
     if (previousSessionData?.DateTime) {
       setSessionDate(new Date(previousSessionData?.DateTime));
       setSessionTime(new Date(previousSessionData?.DateTime));
@@ -69,7 +71,12 @@ export default function SessionDetails({navigation, route}) {
   return (
     <SafeAreaView>
       <ScrollView testID="session-details-scroll-view">
-        <Text testID="create-session-title">Create a session</Text>
+        {previousSessionData ? (
+          <Text>Editing session</Text>
+        ) : (
+          <Text testID="create-session-title">Create a session</Text>
+        )}
+
         <Text>Session</Text>
         <Picker
           testID="type-of-session"
@@ -178,7 +185,7 @@ export default function SessionDetails({navigation, route}) {
               sessionTime,
               numberOfRepetitions,
             );
-            navigation.navigate('AddServiceUsers', {
+            navigation.push('AddServiceUsers', {
               sessionType,
               location,
               numberOfVolunteers,
