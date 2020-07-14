@@ -15,9 +15,11 @@ import assignSessionLead from './assignSessionLead';
 import unassignSessionLead from './unassignSessionLead';
 import deleteSession from './deleteSession';
 import removeMentorFromSession from './removeMentorFromSession';
+import updateSessionInFirestore from './updateSessionInFirestore';
 
 export {
   deleteSession,
+  updateSessionInFirestore,
   updateOwnBio,
   searchFirestoreServiceUsers,
   returnSessionAttendees,

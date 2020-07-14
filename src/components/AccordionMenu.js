@@ -43,7 +43,7 @@ export default function AccordionMenu({
               title={`${i + 1}) ${mentor?.firstName} ${mentor?.lastName}`}
               right={() => {
                 return (
-                  roles.some(
+                  roles?.some(
                     () =>
                       userData?.Roles?.includes('SurfLead') ||
                       userData?.Roles?.includes('NationalAdmin') ||
