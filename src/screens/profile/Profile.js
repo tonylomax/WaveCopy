@@ -5,11 +5,14 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
-  FlatList,
-  TouchableHighlight,
   ScrollView,
 } from 'react-native';
-import {ConfirmButton, ImageConfirmPopup} from 'components';
+import {
+  ConfirmButton,
+  ImageConfirmPopup,
+  TrainingAccordionMenu,
+  SessionListAccordionMenu,
+} from 'components';
 import {useSelector, useDispatch} from 'react-redux';
 import {TextInput} from 'react-native-gesture-handler';
 import {Edit_Icon, BrightonBeach} from 'assets';
@@ -22,6 +25,7 @@ import {
   signOut,
   updateOwnContactNumber,
 } from 'utils';
+
 import ProgressBar from 'react-native-progress/Bar';
 import {ResetPassword} from 'components';
 import Moment from 'react-moment';
@@ -30,29 +34,24 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 
-export default function Profile({navigation}) {
+export default function Profile({navigation, route}) {
   //REDUX STATE
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
   const currentAuthenticatedUser = useSelector(
     (state) => state.authenticationReducer.userState,
   );
-  //REDUX STATE
 
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
-  const mySessions = useSelector((state) => {
-    return state.firestoreReducer.roleSpecificSessionData.filter((session) => {
-      let filteredMentors = session?.Mentors.filter((mentor) => {
-        // console.log(mentor.id === UID);
-        return mentor.id === UID;
-      });
-      if (filteredMentors.length >= 1) {
-        return true;
-      }
-    });
-  });
+  // Finds all sessions that you are signed up for
+  const mySessions = useSelector((state) =>
+    state.firestoreReducer.roleSpecificSessionData.filter((session) =>
+      session?.Mentors.some((mentor) => mentor.id === UID),
+    ),
+  );
 
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
+  //REDUX STATE
 
   //LOCAL STATE
   const [bio, setBio] = useState(userData?.Bio);
@@ -82,14 +81,6 @@ export default function Profile({navigation}) {
     const {path, uri} = response;
     return Platform.OS === 'android' ? path : uri;
   };
-
-  // useEffect(() => {
-  //   console.log('USER DATA IN PROFILE', userData);
-  // }, [userData]);
-
-  // useEffect(() => {
-  //   console.log('SESSIONS IN PROFILE', sessions);
-  // }, [sessions]);
 
   useEffect(() => {
     getImageDownloadURI(UID).then((url) => {
@@ -127,7 +118,7 @@ export default function Profile({navigation}) {
       <ScrollView testID="profile-scroll-view">
         <View style={{flex: 1}}>
           <Image
-            style={{alignSelf: 'center', height: 150}}
+            style={{alignSelf: 'center', height: 100}}
             source={BrightonBeach}
           />
 
@@ -143,21 +134,35 @@ export default function Profile({navigation}) {
                 newProfilePicUploadComplete,
                 setNewProfilePicUploadComplete,
               );
-            }}></ImageConfirmPopup>
+            }}
+          />
 
           <ConfirmButton
             testID="signOutButton"
             onPress={() => {
               signOut();
             }}
-            title="signout"></ConfirmButton>
+            title="signout"
+          />
           <Image
             title="Profle Pic"
             testID="profilePic"
             style={{height: '10%', width: '10%'}}
             source={{
               uri: profileURL,
-            }}></Image>
+            }}
+          />
+
+          <TrainingAccordionMenu training={userData?.Training} />
+
+          <SessionListAccordionMenu
+            sessions={
+              userData?.Roles?.includes('NationalAdmin') ? sessions : mySessions
+            }
+            beaches={beaches}
+            route={route}
+            navigation={navigation}
+          />
 
           {editBio ? (
             <TextInput
@@ -166,7 +171,8 @@ export default function Profile({navigation}) {
                 setBio(updatedBio);
               }}
               autoFocus={true}
-              defaultValue={userData?.Bio}></TextInput>
+              defaultValue={userData?.Bio}
+            />
           ) : (
             <Text testID="bio">Bio: {bio}</Text>
           )}
@@ -174,13 +180,35 @@ export default function Profile({navigation}) {
           <TouchableOpacity
             testID="editBioButton"
             onPress={() => {
+              console.log('EDIT BIO PRESSED');
               setEditBio((editBio) => !editBio);
             }}
             style={{height: '15%', width: '15%'}}>
-            <Image
-              style={{height: '75%', width: '75%'}}
-              source={Edit_Icon}></Image>
+            <Image style={{height: '25%', width: '25%'}} source={Edit_Icon} />
           </TouchableOpacity>
+
+          <ConfirmButton
+            testID="confirmBioUpdate"
+            onPress={() => {
+              setEditBio(false);
+              updateOwnBio(bio, UID);
+            }}
+            title="Confirm Bio Update"
+          />
+
+          <Text testID="firestoreName">Name: {userData?.firstName} </Text>
+
+          <ConfirmButton
+            testID="uploadNewProfilePic"
+            title="Upload image"
+            onPress={() => {
+              imagePicker();
+            }}
+            style={{height: '15%', width: '15%'}}
+          />
+          <Image
+            style={{height: '10%', width: '10%'}}
+            source={Edit_Icon}></Image>
 
           <TouchableOpacity
             onPress={() => {
@@ -192,9 +220,8 @@ export default function Profile({navigation}) {
                   setContactNumber(updatedNumber);
                 }}
                 autoFocus={true}
-                defaultValue={contactNumber}>
-                {' '}
-              </TextInput>
+                defaultValue={contactNumber}
+              />
             ) : (
               <Text>{contactNumber}</Text>
             )}
@@ -205,83 +232,12 @@ export default function Profile({navigation}) {
             onPress={() => {
               setEditContactNumber(false);
               updateOwnContactNumber(contactNumber, UID);
-            }}></ConfirmButton>
-
-          <Text> Training</Text>
-          {userData?.Training?.map((indvidualTraining, index) => (
-            <View key={index}>
-              <Text>{indvidualTraining?.Name} </Text>
-              <Text>
-                Completed:{' '}
-                <Moment element={Text} format="MMMM YYYY">
-                  {indvidualTraining}
-                </Moment>
-              </Text>
-            </View>
-          ))}
-
-          <Text> My Sessions</Text>
-          <FlatList
-            testID="profileSessionsList"
-            data={
-              userData?.Roles?.includes('NationalAdmin') ? sessions : mySessions
-            }
-            renderItem={({item}) => (
-              <TouchableHighlight
-                testID={`ProfileSessionsListItem${item.ID}`}
-                disabled={moment(item?.DateTime).diff(new Date()) < 0}
-                onPress={() => {
-                  const selectedBeach = getBeach(item.ID)[0];
-                  // console.log({item});
-                  navigation.navigate('ProfileSession', {
-                    item,
-                    selectedBeach,
-                  });
-                }}
-                style={{
-                  borderColor:
-                    moment(item?.DateTime).diff(new Date()) < 0
-                      ? 'grey'
-                      : 'black',
-                  backgroundColor:
-                    moment(item?.DateTime).diff(new Date()) < 0 ? 'grey' : '',
-                  borderWidth: 2,
-                  marginBottom: '2%',
-                }}>
-                <View
-                  // testID={`ProfileSessionsListItem${item.ID}`}
-                  id={item.ID}>
-                  <Text> {item?.Type} </Text>
-                  <Text> {item?.Beach} </Text>
-                  <Text> {item?.DateTime} </Text>
-                  <Text>
-                    Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
-                  </Text>
-                </View>
-              </TouchableHighlight>
-            )}
-            keyExtractor={(item) => item.ID}></FlatList>
-
-          <ConfirmButton
-            testID="confirmBioUpdate"
-            onPress={() => {
-              setEditBio(false);
-              updateOwnBio(bio, UID);
-            }}
-            title="Confirm Bio Update"></ConfirmButton>
-          <Text testID="firestoreName">Name: {userData?.firstName} </Text>
-
-          <ConfirmButton
-            testID="uploadNewProfilePic"
-            title="Upload image"
-            onPress={() => {
-              imagePicker();
             }}
           />
+
           <ProgressBar progress={uploadProgress} width={200} />
 
-          <ResetPassword
-            authenticatedUser={currentAuthenticatedUser}></ResetPassword>
+          <ResetPassword authenticatedUser={currentAuthenticatedUser} />
         </View>
       </ScrollView>
     </SafeAreaView>

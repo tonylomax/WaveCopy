@@ -1,10 +1,32 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity, Linking} from 'react-native';
+import {CallPerson} from 'components';
 
-export default function ServiceUserProfile() {
+export default function ServiceUserProfile({route}) {
+  const {serviceUser, roles} = route.params;
+
+  console.log('serviceUser in serviceuser profile', serviceUser);
+
   return (
     <View>
-      <Text>ServiceUserProfile</Text>
+      <Text>
+        {serviceUser?.firstName} {serviceUser?.lastName}
+      </Text>
+      <Text>Age:</Text>
+      <Text>Reason for referral: </Text>
+      <Text>Triggers: </Text>
+      <Text>Reactions </Text>
+      <Text>Medical requirements </Text>
+      <TouchableOpacity
+        onPress={async () => {
+          await Linking.openURL(`tel:${serviceUser?.Number}`).catch((err) => {
+            console.log(err);
+          });
+        }}>
+        <Text>Emergency contacts: {serviceUser?.Number} </Text>
+      </TouchableOpacity>
+
+      <CallPerson title="Call Parent"></CallPerson>
     </View>
   );
 }

@@ -7,7 +7,7 @@ import {
   Button,
   Platform,
 } from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {generateDateTimeArray, generateNumberedArray} from 'utils';
@@ -18,12 +18,25 @@ import {
   MAX_NUMBER_OF_REPETITIONS,
 } from 'constants';
 
-export default function SessionDetails({navigation}) {
+export default function SessionDetails({navigation, route}) {
+  const previousSessionData = route?.params?.previousSessionData;
+  const previousSessionID = route?.params?.previousSessionID;
+  const previouslySelectedAttendees =
+    route?.params?.previouslySelectedAttendees;
+  const previouslySelectedMentors = route?.params?.previouslySelectedMentors;
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
-  const [sessionType, setSessionType] = useState('surf-club');
+
+  const [sessionType, setSessionType] = useState(
+    previousSessionData?.Type || 'surf-club',
+  );
   const [location, setLocation] = useState(beaches[0]);
-  const [numberOfVolunteers, setNumberOfVolunteers] = useState(1);
+
+  const [numberOfVolunteers, setNumberOfVolunteers] = useState(
+    previousSessionData?.MaxMentors || 1,
+  );
+  // Default state is 0, previous state will not exist.
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
+
   const [sessionDate, setSessionDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
   const [sessionTime, setSessionTime] = useState(new Date());
@@ -40,14 +53,29 @@ export default function SessionDetails({navigation}) {
     setSessionTime(currentTime);
   };
 
-  // useEffect(() => {
-  //   console.log('beaches in sessiondetails', beaches);
-  // }, []);
+  useEffect(() => {
+    console.log(previousSessionData);
+    if (previousSessionData?.DateTime) {
+      setSessionDate(new Date(previousSessionData?.DateTime));
+      setSessionTime(new Date(previousSessionData?.DateTime));
+    }
+    if (previousSessionData?.Beach) {
+      const prevBeachIndex = beaches.findIndex(
+        (beach) => beach.Name === previousSessionData?.Beach,
+      );
+      setLocation(beaches[prevBeachIndex]);
+    }
+  }, []);
 
   return (
     <SafeAreaView>
       <ScrollView testID="session-details-scroll-view">
-        <Text testID="create-session-title">Create a session</Text>
+        {previousSessionData ? (
+          <Text>Editing session</Text>
+        ) : (
+          <Text testID="create-session-title">Create a session</Text>
+        )}
+
         <Text>Session</Text>
         <Picker
           testID="type-of-session"
@@ -76,6 +104,7 @@ export default function SessionDetails({navigation}) {
             onChange={onChangeDate}
             minimumDate={new Date()}
           />
+          // <Text>test</Text>
         )}
         <View>
           <Text>Time</Text>
@@ -130,19 +159,22 @@ export default function SessionDetails({navigation}) {
           ))}
         </Picker>
         <Text>Number of repetitions</Text>
-        <Picker
-          testID="number-of-repetitions"
-          selectedValue={numberOfRepetitions}
-          onValueChange={(itemValue, itemIndex) =>
-            setNumberOfRepetitions(itemValue)
-          }>
-          {generateNumberedArray(
-            MIN_NUMBER_OF_REPETITIONS,
-            MAX_NUMBER_OF_REPETITIONS,
-          ).map((n) => (
-            <Picker.Item label={n.toString()} value={n} key={n} />
-          ))}
-        </Picker>
+        {!previousSessionData && (
+          <Picker
+            testID="number-of-repetitions"
+            selectedValue={numberOfRepetitions}
+            onValueChange={(itemValue, itemIndex) =>
+              setNumberOfRepetitions(itemValue)
+            }>
+            {generateNumberedArray(
+              MIN_NUMBER_OF_REPETITIONS,
+              MAX_NUMBER_OF_REPETITIONS,
+            ).map((n) => (
+              <Picker.Item label={n.toString()} value={n} key={n} />
+            ))}
+          </Picker>
+        )}
+
         <Button
           testID="continue-to-select-service-users"
           title="Continue"
@@ -152,11 +184,15 @@ export default function SessionDetails({navigation}) {
               sessionTime,
               numberOfRepetitions,
             );
-            navigation.navigate('AddServiceUsers', {
+            navigation.push('AddServiceUsers', {
               sessionType,
               location,
               numberOfVolunteers,
               dateTimeArray,
+              previousSessionData,
+              previouslySelectedAttendees,
+              previouslySelectedMentors,
+              previousSessionID,
             });
           }}
         />

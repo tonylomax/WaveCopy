@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, Button} from 'react-native';
+import {View, Text, Image, Button, Alert, TouchableOpacity} from 'react-native';
 import {
-  AccordionMenu,
+  SessionDetailsAccordionMenu,
   ConfirmButton,
   ChoicePopup,
   LoadingScreen,
@@ -9,8 +9,11 @@ import {
 import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
 import {CommonActions} from '@react-navigation/native';
+import {serializeError} from 'serialize-error';
 import Moment from 'react-moment';
 import {
+  getAllSessionAttendees,
+  getAllSessionMentors,
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
 } from '../../redux/';
@@ -22,38 +25,50 @@ import {
   deleteSession,
   userHasPermission,
   updateCurrentSessionAttendees,
+  getSessionLeadName,
 } from 'utils';
 import {COLLECTIONS} from 'constants';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
-  const {ID, AttendeesIDandAttendance, Mentors, MaxMentors} = route.params.item;
+  // If coming from home, there is an item field,
+  const {ID, AttendeesIDandAttendance, Mentors, MaxMentors} = route?.params
+    ?.item
+    ? route?.params?.item
+    : route?.params?.session;
+
   const {selectedBeach} = route.params;
 
   //REDUX STATE
+  // Data on the session
   const sessionData = useSelector(
     (state) => state.firestoreReducer.singleSession,
   );
-
   const selectedSessionAttendeesData = useSelector(
     (state) => state.firestoreReducer.selectedSessionSubscribedAttendees,
   );
-
-  const sessionLeadID = useSelector(
-    (state) => state.firestoreReducer?.singleSession?.SessionLead?.id,
-  );
-  const UID = useSelector((state) => state.authenticationReducer.userState.uid);
-  const userData = useSelector((state) => state.firestoreReducer.userData);
-  const {roles} = useSelector((state) => state.authenticationReducer.roles);
 
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionSubscribedMentors,
   );
 
+  const sessionLeadID = useSelector(
+    (state) => state.firestoreReducer?.singleSession?.SessionLead?.id,
+  );
+
+  // Current Auth User
+  const UID = useSelector((state) => state.authenticationReducer.userState.uid);
+  const userData = useSelector((state) => state.firestoreReducer.userData);
+  const {roles} = useSelector((state) => state.authenticationReducer.roles);
+
   //LOCAL STATE
   const [coordinator, setCoordinator] = useState();
   const [visible, setVisible] = useState(false);
   const [surfLead, setSurfLead] = useState();
+  const IS_ADMIN =
+    userData?.Roles?.includes('SurfLead') ||
+    userData?.Roles?.includes('NationalAdmin') ||
+    userData?.Roles?.includes('Coordinator');
 
   useEffect(() => {
     console.log('sessionData', sessionData);
@@ -73,11 +88,11 @@ export default function Session({navigation, route}) {
     return () => {
       console.log('unsubscribing');
       mentorsUnsubscribers?.forEach((unsubscribe) => {
-        console.log('unsubscribe called');
+        console.log(' mentor unsubscribe called');
         unsubscribe();
       });
       serviceUsersUnsubscribers?.forEach((unsubscribe) => {
-        console.log('unsubscribe called');
+        console.log('service user unsubscribe called');
         unsubscribe();
       });
       dispatch(clearSelectedSessionMentors());
@@ -108,15 +123,45 @@ export default function Session({navigation, route}) {
     })();
   }, [sessionData]);
 
+  const leaveSession = (ID, UID, sessionLeadID) => {
+    removeSelfFromSession(ID, UID, sessionLeadID)
+      .then((result) => {
+        console.log('Session remove done');
+        // navigation.goBack();
+      })
+      .catch((err) => {
+        console.log('ERROR: ', err);
+        Alert.alert(err);
+      });
+  };
+
   return (
     <View>
-      <Image style={{height: '15%', width: '15%'}} source={Edit_Icon}></Image>
+      {/* Edit session button */}
+      <TouchableOpacity
+        onPress={() => {
+          const nextScreen =
+            route.name === 'HomeSession'
+              ? 'HomeEditSession'
+              : 'ProfileEditSession';
+          navigation.push(nextScreen, {
+            previousSessionData: sessionData,
+            previouslySelectedAttendees: selectedSessionAttendeesData,
+            previouslySelectedMentors: selectedSessionMentorsData,
+            previousSessionID: ID,
+          });
+        }}>
+        <Image style={{height: '15%', width: '15%'}} source={Edit_Icon}></Image>
+      </TouchableOpacity>
+      {/* Show if session is full */}
       {MaxMentors === selectedSessionMentorsData.length && (
         <Text> This session is full</Text>
       )}
+      {/* Session date/time */}
       <Moment element={Text} format="DD.MM.YY">
         {sessionData?.DateTime}
       </Moment>
+      {/* Session Lead */}
       {!sessionLeadID || sessionLeadID === '' ? (
         <Text>No session lead</Text>
       ) : sessionLeadID === UID ? (
@@ -126,28 +171,36 @@ export default function Session({navigation, route}) {
           {surfLead?.firstName} {surfLead?.lastName} is the session lead
         </Text>
       )}
+      {/* Session beach  */}
       <Text>
         {sessionData?.Type}-{sessionData?.Beach}
       </Text>
+      {/* Cover coordinator */}
       <Text>
         Coordinator: {coordinator?.firstName} {coordinator?.lastName}
       </Text>
 
+      {/* Session description */}
       <Text>{sessionData?.Description}</Text>
+      {/* Session Accordion menu for attendees */}
+
       {selectedSessionAttendeesData &&
         selectedBeach &&
         MaxMentors > 0 &&
         selectedSessionMentorsData && (
-          <AccordionMenu
+          <SessionDetailsAccordionMenu
             selectedUsers={selectedSessionAttendeesData}
             numberOfMentors={MaxMentors}
             location={selectedBeach}
             mentors={selectedSessionMentorsData}
+            navigation={navigation}
+            route={route}
             sessionLead={sessionData?.SessionLead}
             sessionID={ID}
             roles={roles}
           />
         )}
+
       {/* REGISTER BUTTON */}
       {(userHasPermission(userData?.Roles) || sessionLeadID === UID) && (
         <ConfirmButton
@@ -170,6 +223,8 @@ export default function Session({navigation, route}) {
           Register
         </ConfirmButton>
       )}
+      {/* Popup to confirm delete session */}
+
       <ChoicePopup
         testID="choicePopup"
         visible={visible}
@@ -179,24 +234,14 @@ export default function Session({navigation, route}) {
           deleteSession(ID, UID)
             .then((res) => {
               console.log(res);
-
-              // If this session was reached from profile, go back to home,
-              // Otherwise go back to profile
-              if (route.name === 'HomeSession') {
-                navigation.dispatch(
-                  CommonActions.reset({
-                    index: 0,
-                    routes: [{name: 'Home'}],
-                  }),
-                );
-              } else {
-                navigation.dispatch(
-                  CommonActions.reset({
-                    index: 0,
-                    routes: [{name: 'Profile'}],
-                  }),
-                );
-              }
+              const RouteDestination =
+                route.name === 'HomeSession' ? 'Home' : 'Profile';
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{name: RouteDestination}],
+                }),
+              );
             })
             .catch((err) => console.log(err));
         }}></ChoicePopup>
@@ -209,14 +254,7 @@ export default function Session({navigation, route}) {
           testID="leaveSessionButton"
           title="Leave session"
           onPress={() => {
-            removeSelfFromSession(ID, UID, sessionLeadID)
-              .then((result) => {
-                console.log('Session remove done');
-                navigation.goBack();
-              })
-              .catch((err) => {
-                console.log('ERROR: ', err);
-              });
+            leaveSession(ID, UID, sessionLeadID);
           }}></ConfirmButton>
       ) : (
         <ConfirmButton

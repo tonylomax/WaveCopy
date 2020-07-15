@@ -15,7 +15,6 @@ import {
   subscribeToSessionChanges,
   subscribeToSessions,
   subscribeToFirestoreUsers,
-  // subscribeToSpecificBeach,
   subscribeToRoleSpecificSessionChanges,
   signupForSession,
   retrieveCoordinatorData,
@@ -25,6 +24,7 @@ import {
   deleteSession,
   removeMentorFromSession,
   updateOwnContactNumber,
+  updateSessionInFirestore,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -35,7 +35,10 @@ import {
 import generateDateTimeArray from './time/repetitionDatesArray';
 import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
+import getSessionLeadName from './getSessionLeadName';
 export {
+  getSessionLeadName,
+  updateSessionInFirestore,
   deleteSession,
   assignSessionLead,
   unassignSessionLead,
@@ -43,7 +46,6 @@ export {
   createSessionInFirestore,
   searchFirestoreServiceUsers,
   subscribeToSessions,
-  // subscribeToSpecificBeach,
   subscribeToSessionChanges,
   subscribeToFirestoreUsers,
   loginWithEmail,

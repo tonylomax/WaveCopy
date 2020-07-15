@@ -1,13 +1,13 @@
 import firestore from '@react-native-firebase/firestore';
 
-export default function (sessionID, mentorID, userID) {
+export default unassignSessionLead = async (sessionID, mentorID, userID) => {
   // Create a reference to the specific session doc.
   const sessionDocRef = firestore().collection('Sessions').doc(sessionID);
   const userDocRef = firestore().collection('Users').doc(userID);
-  return firestore()
-    .runTransaction(function (transaction) {
+  return await firestore()
+    .runTransaction((transaction) => {
       // This code may get re-run multiple times if there are conflicts.
-      return transaction.get(sessionDocRef).then(async function (sessionDoc) {
+      return transaction.get(sessionDocRef).then(async (sessionDoc) => {
         // Check if the session lead id has been set.
         const sessionData = sessionDoc.data();
         const sessionRegion = sessionData.Region;
@@ -20,14 +20,14 @@ export default function (sessionID, mentorID, userID) {
           return mentor.id === mentorID;
         });
 
-        if (sessionData.SessionLead.id === '') {
+        if (sessionData?.SessionLead?.id === '') {
           throw 'Mentor has not been set';
         }
 
         if (mentorInSession < 0) {
           throw 'Mentor not in this session';
         }
-        if (sessionData.SessionLead.id !== mentorID) {
+        if (sessionData?.SessionLead?.id !== mentorID) {
           throw 'This mentor is not the current session lead';
         }
         if (Roles.includes('NationalAdmin')) {
@@ -62,10 +62,12 @@ export default function (sessionID, mentorID, userID) {
         }
       });
     })
-    .then(function () {
+    .then((result) => {
       console.log('Transaction successfully committed!');
+      return result;
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.log('Transaction failed: ', error);
+      throw error;
     });
-}
+};

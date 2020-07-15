@@ -6,7 +6,6 @@ import searchFirestoreServiceUsers from './searchFirestoreServiceUsers';
 import subscribeToSessionChanges from './subscribeToSessionChanges';
 import subscribeToSessions from './subscribeToSessions';
 import subscribeToFirestoreUsers from './subscribeToFirestoreUsers';
-// import subscribeToSpecificBeach from './subscribeToSpecificBeach';
 import subscribeToRoleSpecificSessionChanges from './subscribeToRoleSpecificSessionChanges';
 import signupForSession from './signupForSession';
 import retrieveCoordinatorData from './retrieveCoordinatorData';
@@ -16,9 +15,11 @@ import unassignSessionLead from './unassignSessionLead';
 import deleteSession from './deleteSession';
 import removeMentorFromSession from './removeMentorFromSession';
 import updateOwnContactNumber from './updateOwnContactNumber';
+import updateSessionInFirestore from './updateSessionInFirestore';
 
 export {
   deleteSession,
+  updateSessionInFirestore,
   updateOwnBio,
   searchFirestoreServiceUsers,
   updateCurrentSessionAttendees,
@@ -27,7 +28,6 @@ export {
   subscribeToSessionChanges,
   subscribeToSessions,
   subscribeToFirestoreUsers,
-  // subscribeToSpecificBeach,
   subscribeToRoleSpecificSessionChanges,
   signupForSession,
   retrieveCoordinatorData,

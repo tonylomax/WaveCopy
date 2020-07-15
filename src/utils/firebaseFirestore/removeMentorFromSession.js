@@ -12,7 +12,7 @@ export default removeMentorFromSession = async (
 ) => {
   const sessionReference = firestore().doc(`Sessions/${sessionID}`);
 
-  firestore()
+  return await firestore()
     .runTransaction(async (removeMentorFromSessionTransaction) => {
       const sessionData = await removeMentorFromSessionTransaction.get(
         sessionReference,
@@ -35,8 +35,12 @@ export default removeMentorFromSession = async (
         });
       }
     })
-    .then(() => console.log('REMOVE MENTOR FROM SESSION TRANSACTION COMPLETED'))
+    .then((result) => {
+      console.log('REMOVE MENTOR FROM SESSION TRANSACTION COMPLETED');
+      return result;
+    })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };

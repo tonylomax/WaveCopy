@@ -1,14 +1,30 @@
 // TO DO - merge this with session/EditSession.js
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, Image, SafeAreaView} from 'react-native';
-import {ConfirmButton, ChoicePopup, AccordionMenu} from 'components';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  SafeAreaView,
+  Alert,
+  Button,
+} from 'react-native';
+import {
+  ConfirmButton,
+  ChoicePopup,
+  SessionDetailsAccordionMenu,
+} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 import {CommonActions} from '@react-navigation/native';
-import {createSessionInFirestore, getCoverImage} from 'utils';
+import {
+  createSessionInFirestore,
+  getCoverImage,
+  updateSessionInFirestore,
+} from 'utils';
 import {useSelector} from 'react-redux';
 
 export default function ConfirmSession({route, navigation}) {
@@ -18,11 +34,17 @@ export default function ConfirmSession({route, navigation}) {
     numberOfVolunteers,
     selectedUsers,
     dateTimeArray,
+    previousSessionData,
+    previouslySelectedMentors,
+    previousSessionID,
   } = route.params;
 
   //LOCAL STATE
   const [visible, setVisible] = useState(false);
-  const [descriptionOfSession, setDescriptionOfSession] = useState('');
+  const [descriptionOfSession, setDescriptionOfSession] = useState(
+    previousSessionData?.Description || '',
+  );
+  const [CoverImage, setCoverImage] = useState();
   //LOCAL STATE
 
   //REDUX STATE
@@ -30,9 +52,8 @@ export default function ConfirmSession({route, navigation}) {
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   //REDUX STATE
 
-  const CoverImage = getCoverImage(location);
   useEffect(() => {
-    console.log('location', location);
+    setCoverImage(getCoverImage(location));
   }, []);
 
   return (
@@ -49,27 +70,57 @@ export default function ConfirmSession({route, navigation}) {
         yesAction={() => {
           console.log('creating a session');
           console.log(userData);
-          createSessionInFirestore({
-            sessionType,
-            location,
-            numberOfVolunteers,
-            selectedUsers,
-            dateTimeArray,
-            descriptionOfSession,
-            coordinator: userData?.Name || '',
-            uid,
-          })
-            .then(() => {
-              console.log('session created');
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{name: 'Home'}],
-                }),
-              );
+          console.log('previous session data', previousSessionID);
+          console.log(previousSessionID);
+          if (!previousSessionID) {
+            createSessionInFirestore({
+              sessionType,
+              location,
+              numberOfVolunteers,
+              selectedUsers,
+              dateTimeArray,
+              descriptionOfSession,
+              coordinator: userData?.Name || '',
+              uid,
             })
-            .catch((err) => console.log(err));
+              .then(() => {
+                console.log('session created');
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'Home'}],
+                  }),
+                );
+              })
+              .catch((err) => console.log(err));
+          } else {
+            updateSessionInFirestore({
+              sessionType,
+              location,
+              numberOfVolunteers,
+              selectedUsers,
+              dateTimeArray,
+              descriptionOfSession,
+              coordinator: userData?.Name || '',
+              uid,
+              sessionID: previousSessionID,
+            })
+              .then(() => {
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'Home'}],
+                  }),
+                );
+              })
+              .catch((err) => {
+                console.log(err);
+                //Needs testing, err may need serializing
+                // Alert.alert(err);
+              });
+          }
         }}></ChoicePopup>
+      <Button title="Previous" onPress={() => navigation.goBack()} />
       {dateTimeArray &&
         dateTimeArray.map((dateTimeOfSession, i) => (
           <Moment
@@ -90,11 +141,11 @@ export default function ConfirmSession({route, navigation}) {
         defaultValue={descriptionOfSession}
         onChangeText={(text) => setDescriptionOfSession(text)}
       />
-      <AccordionMenu
+      <SessionDetailsAccordionMenu
         location={location}
         selectedUsers={selectedUsers}
         numberOfMentors={numberOfVolunteers}
-        mentors={[]}
+        mentors={previouslySelectedMentors || []}
       />
     </SafeAreaView>
   );
