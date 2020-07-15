@@ -220,8 +220,7 @@ export default function Profile({navigation, route}) {
                   setContactNumber(updatedNumber);
                 }}
                 autoFocus={true}
-                defaultValue={contactNumber}
-              />
+                defaultValue={contactNumber}></TextInput>
             ) : (
               <Text>{contactNumber}</Text>
             )}
