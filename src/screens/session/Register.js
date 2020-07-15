@@ -5,6 +5,7 @@ import {RegisterTabs} from 'components';
 import {useSelector} from 'react-redux';
 import {markAttendance, subscribeToSessionChanges} from 'utils';
 import {USER_GROUP} from 'constants';
+import {Checkbox, Paragraph, BottomNavigation} from 'react-native-paper';
 
 export default function Register({navigation, route}) {
   //REDUX STATE
@@ -39,6 +40,7 @@ export default function Register({navigation, route}) {
       <Moment element={Text} format="DD.MM.YY">
         {sessionData?.DateTime}
       </Moment>
+
       <RegisterTabs registerTitle="Attendees">
         {selectedSessionAttendeesData.map((attendee) => {
           //Retrieve the bool value that shows whether the person has attended the session
@@ -46,21 +48,24 @@ export default function Register({navigation, route}) {
             return person?.id === attendee?.id;
           })[0]?.Attended;
           return (
-            <TouchableOpacity
-              testID={`personToRegisterButton${attendee.id}`}
-              onPress={() => {
-                markAttendance(
-                  ID,
-                  attendee.id,
-                  sessionData,
-                  USER_GROUP.ATTENDEES,
-                );
-              }}>
-              <Text testID={`personToRegister${attendee.id}`}>
+            <>
+              <Paragraph>
                 {attendee?.firstName} {attendee?.lastName}{' '}
-                {hasPersonAttended?.toString()}
-              </Text>
-            </TouchableOpacity>
+              </Paragraph>
+              <Checkbox.Android
+                status={hasPersonAttended ? 'checked' : 'unchecked'}
+                uncheckedColor="black"
+                color="blue"
+                onPress={() => {
+                  markAttendance(
+                    ID,
+                    attendee.id,
+                    sessionData,
+                    USER_GROUP.ATTENDEES,
+                  );
+                }}
+              />
+            </>
           );
         })}
       </RegisterTabs>
@@ -71,16 +76,24 @@ export default function Register({navigation, route}) {
             return person.id === mentor.id;
           })[0].Attended;
           return (
-            <TouchableOpacity
-              testID={`personToRegisterButton${mentor.id}`}
-              onPress={() => {
-                markAttendance(ID, mentor.id, sessionData, USER_GROUP.MENTORS);
-              }}>
-              <Text testID={`personToRegister${mentor.id}`}>
-                {mentor?.firstName} {mentor?.lastName}{' '}
-                {hasPersonAttended?.toString()}
-              </Text>
-            </TouchableOpacity>
+            <>
+              <Paragraph>
+                {mentor?.firstName} {mentor?.lastName}
+              </Paragraph>
+              <Checkbox.Android
+                status={hasPersonAttended ? 'checked' : 'unchecked'}
+                uncheckedColor="black"
+                color="blue"
+                onPress={() => {
+                  markAttendance(
+                    ID,
+                    mentor.id,
+                    sessionData,
+                    USER_GROUP.MENTORS,
+                  );
+                }}
+              />
+            </>
           );
         })}
       </RegisterTabs>

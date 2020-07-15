@@ -32,9 +32,9 @@ import {
   Portal,
   Modal,
   Card,
+  ProgressBar,
 } from 'react-native-paper';
 
-import ProgressBar from 'react-native-progress/Bar';
 import {ResetPassword} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
@@ -170,7 +170,7 @@ export default function Profile({navigation, route}) {
                     onPress={() => {
                       setImageConfirmPopup(false);
                     }}></ConfirmButton>
-                  <ProgressBar progress={uploadProgress} width={200} />
+                  <ProgressBar progress={uploadProgress} />
                 </Card.Content>
               </Card>
             </Modal>
