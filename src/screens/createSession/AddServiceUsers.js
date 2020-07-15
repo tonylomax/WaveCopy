@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button, TextInput, FlatList} from 'react-native';
+import {Searchbar, List, Card, Title, Divider} from 'react-native-paper';
 import {searchFirestoreServiceUsers} from 'utils';
 
 export default function AddServiceUsers({route, navigation}) {
@@ -44,6 +45,7 @@ export default function AddServiceUsers({route, navigation}) {
     }
   };
   const addUser = (item) => {
+    console.log('adding item', item);
     // Add the user if they have not already been selected
     const found = selectedUsers.some((user) => {
       return user.objectID === item.objectID;
@@ -63,10 +65,13 @@ export default function AddServiceUsers({route, navigation}) {
     setSelectedUsers(updatedSelectedUsers);
   };
 
+  useEffect(() => {
+    console.log(selectedUsers);
+    return () => {};
+  }, [selectedUsers]);
   return (
     <View>
-      <Text>Search</Text>
-      <TextInput
+      <Searchbar
         onChangeText={(text) => onTypeLetter(text)}
         value={searchTerm}
       />
@@ -77,14 +82,13 @@ export default function AddServiceUsers({route, navigation}) {
           renderItem={({item}) => {
             return (
               <View>
-                <Text key={`text-not-added-${item.id}`} testID={item.name}>
-                  {item?.firstName} {item?.lastName}
-                </Text>
-                <Button
-                  key={`button-not-added-${item.id}`}
-                  title="Add user"
-                  onPress={() => addUser(item)}
+                <List.Item
+                  title={`${item?.firstName} ${item?.lastName}`}
+                  right={() => (
+                    <Button onPress={() => addUser(item)} title="Add user" />
+                  )}
                 />
+                <Divider />
               </View>
             );
           }}
@@ -92,18 +96,23 @@ export default function AddServiceUsers({route, navigation}) {
         />
       )}
 
-      <Text testID="currently-added-service-users">Currently Added</Text>
+      <Title testID="currently-added-service-users">Currently Added</Title>
+
       {selectedUsers.map((serviceUser) => (
         <View>
-          <Text key={`currently-added-${serviceUser.name}`}>
-            {serviceUser?.firstName} {serviceUser?.lastName}
-          </Text>
-          <Button
-            title="Remove"
-            onPress={(serviceUser) => removeUser(serviceUser)}
+          <List.Item
+            title={`${serviceUser?.firstName} ${serviceUser?.lastName}`}
+            right={() => (
+              <Button
+                title="Remove"
+                onPress={(serviceUser) => removeUser(serviceUser)}
+              />
+            )}
           />
+          <Divider />
         </View>
       ))}
+
       <Button
         testID="continue-to-review-created-session-page"
         title="Continue"
