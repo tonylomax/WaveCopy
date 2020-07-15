@@ -14,7 +14,6 @@ import {
   SessionListAccordionMenu,
 } from 'components';
 import {useSelector, useDispatch} from 'react-redux';
-import {TextInput} from 'react-native-gesture-handler';
 import {Edit_Icon, BrightonBeach} from 'assets';
 import ImagePicker from 'react-native-image-picker';
 import {
@@ -25,6 +24,7 @@ import {
   signOut,
   updateOwnContactNumber,
 } from 'utils';
+import {Avatar, Title, TextInput, Paragraph} from 'react-native-paper';
 
 import ProgressBar from 'react-native-progress/Bar';
 import {ResetPassword} from 'components';
@@ -144,10 +144,12 @@ export default function Profile({navigation, route}) {
             }}
             title="signout"
           />
-          <Image
-            title="Profle Pic"
+          <Title testID="firestoreName">{userData?.firstName} </Title>
+          <Avatar.Image
+            // title="Profle Pic"
             testID="profilePic"
-            style={{height: '10%', width: '10%'}}
+            size={100}
+            // style={{height: '10%', width: '10%'}}
             source={{
               uri: profileURL,
             }}
@@ -174,7 +176,7 @@ export default function Profile({navigation, route}) {
               defaultValue={userData?.Bio}
             />
           ) : (
-            <Text testID="bio">Bio: {bio}</Text>
+            <Paragraph testID="bio">Bio: {bio}</Paragraph>
           )}
 
           <TouchableOpacity
@@ -195,8 +197,6 @@ export default function Profile({navigation, route}) {
             }}
             title="Confirm Bio Update"
           />
-
-          <Text testID="firestoreName">Name: {userData?.firstName} </Text>
 
           <ConfirmButton
             testID="uploadNewProfilePic"

@@ -6,9 +6,9 @@ import {
   FlatList,
   TouchableHighlight,
 } from 'react-native';
+import {Card, Title, Paragraph} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import {getAllBeaches} from '../../redux/';
-import {ConfirmButton, ChoicePopup} from 'components';
 import {isEmpty} from 'lodash';
 import {
   subscribeToSessions,
@@ -65,47 +65,49 @@ export default function Profile({navigation}) {
   return (
     <SafeAreaView>
       <View>
-        <Text>Home</Text>
-        <Text testID="upcoming-sessions-title">Upcoming sessions</Text>
-        <ConfirmButton
-          testID="modalButton"
-          title="Modal"
-          onPress={() => setVisible((visible) => !visible)}></ConfirmButton>
-        <ChoicePopup
-          testID="choicePopup"
-          visible={visible}
-          setVisible={setVisible}></ChoicePopup>
-
+        <Title testID="upcoming-sessions-title">Upcoming sessions</Title>
         <FlatList
           testID="SessionsList"
           data={
             userData?.Roles?.includes('NationalAdmin') ? sessions : roleSessions
           }
           renderItem={({item}) => (
-            <TouchableHighlight
+            <Card
+              style={{padding: '5%', margin: '2%'}}
+              elevation={2}
+              id={item.ID}
               testID={`SessionsListItem${item.ID}`}
               onPress={() => {
                 const selectedBeach = getBeach(item.ID)[0];
                 // console.log({item});
                 navigation.navigate('HomeSession', {item, selectedBeach});
-              }}
-              style={{
-                borderColor: 'black',
-                borderWidth: 2,
-                marginBottom: '2%',
               }}>
-              <View id={item.ID}>
-                <Text> {item?.Type} </Text>
-                <Text> {item?.Beach} </Text>
-                <Text> {item?.DateTime} </Text>
-                <Text testID={`SessionsListItemVolNum${item.ID}`}>
+              <Card.Title title={item?.Type} />
+              <Card.Content>
+                <Paragraph>{item?.Beach}</Paragraph>
+                <Paragraph>{item?.DateTime}</Paragraph>
+                <Paragraph testID={`SessionsListItemVolNum${item.ID}`}>
                   Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
-                </Text>
-              </View>
-            </TouchableHighlight>
+                </Paragraph>
+              </Card.Content>
+              <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
+            </Card>
           )}
           keyExtractor={(item) => item.ID}></FlatList>
       </View>
     </SafeAreaView>
   );
+}
+
+{
+  /* <Card.Title title="Card Title" subtitle="Card Subtitle" left={LeftContent} />
+    <Card.Content>
+      <Title>Card title</Title>
+      <Paragraph>Card content</Paragraph>
+    </Card.Content>
+    <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
+    <Card.Actions>
+      <Button>Cancel</Button>
+      <Button>Ok</Button>
+    </Card.Actions> */
 }

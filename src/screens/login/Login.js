@@ -1,13 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  Image,
-  Alert,
-  SafeAreaView,
-} from 'react-native';
+import {View, Text, Button, Image, Alert, SafeAreaView} from 'react-native';
+import {TextInput} from 'react-native-paper';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
 import {useDispatch} from 'react-redux';
@@ -40,6 +33,7 @@ export default function Home({navigation, setLoggedIn}) {
         />
         <Text>Password</Text>
         <TextInput
+          secureTextEntry={true}
           autoCapitalize="none"
           testID="password"
           onChangeText={(inputPassword) => {

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Text} from 'react-native';
-import {List} from 'react-native-paper';
+import {List, Card, Paragraph} from 'react-native-paper';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
@@ -15,15 +15,20 @@ export default function TrainingAccordionMenu({training}) {
           return (
             <List.Item
               key={i}
-              title={trainingInstance.Name}
+              // title={trainingInstance.Name}
               description={() => {
                 return (
-                  <Text>
-                    Completed:{' '}
-                    <Moment element={Text} format="MMMM YYYY">
-                      {trainingInstance.DateCompleted}
-                    </Moment>
-                  </Text>
+                  <Card>
+                    <Card.Title title={trainingInstance.Name} />
+                    <Card.Content>
+                      <Paragraph>Completed: </Paragraph>
+                      <Paragraph>
+                        <Moment element={Text} format="MMMM YYYY">
+                          {trainingInstance.DateCompleted}
+                        </Moment>
+                      </Paragraph>
+                    </Card.Content>
+                  </Card>
                 );
               }}
             />
