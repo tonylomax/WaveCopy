@@ -1,14 +1,14 @@
 // TO DO - merge this with session/EditSession.js
 import React, {useState, useEffect} from 'react';
+import {View, Text, Image, SafeAreaView, Alert, Button} from 'react-native';
 import {
-  View,
-  Text,
+  Title,
+  Divider,
+  Headline,
+  Subheading,
+  Caption,
   TextInput,
-  Image,
-  SafeAreaView,
-  Alert,
-  Button,
-} from 'react-native';
+} from 'react-native-paper';
 import {
   ConfirmButton,
   ChoicePopup,
@@ -130,12 +130,13 @@ export default function ConfirmSession({route, navigation}) {
             {dateTimeOfSession}
           </Moment>
         ))}
-      <Text>
+      <Headline>
         {sessionType} - {location.name}
-      </Text>
-      <Text>Coordinator</Text>
-      <Text testID="coordinator-name">{userData?.Name}</Text>
-      <Text>Description of session</Text>
+      </Headline>
+      <Divider />
+      <Title>Coordinator</Title>
+      <Subheading testID="coordinator-name">{userData?.Name}</Subheading>
+      <Caption>Description of session</Caption>
       <TextInput
         testID="description-of-session"
         defaultValue={descriptionOfSession}

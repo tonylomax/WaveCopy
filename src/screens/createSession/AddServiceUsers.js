@@ -58,10 +58,13 @@ export default function AddServiceUsers({route, navigation}) {
     setSearchTerm('');
     setSearchResults([]);
   };
-  const removeUser = (serviceUser) => {
-    const updatedSelectedUsers = selectedUsers.filter(
-      (selectedUser) => selectedUser.id !== serviceUser.id,
-    );
+  const removeUser = (serviceUserID) => {
+    const updatedSelectedUsers = selectedUsers.filter((selectedUser) => {
+      console.log({selectedUser});
+      console.log(selectedUser.objectID);
+      console.log(serviceUserID);
+      return selectedUser.objectID !== serviceUserID;
+    });
     setSelectedUsers(updatedSelectedUsers);
   };
 
@@ -102,12 +105,13 @@ export default function AddServiceUsers({route, navigation}) {
         <View>
           <List.Item
             title={`${serviceUser?.firstName} ${serviceUser?.lastName}`}
-            right={() => (
-              <Button
-                title="Remove"
-                onPress={(serviceUser) => removeUser(serviceUser)}
-              />
-            )}
+          />
+          <Button
+            title="Remove"
+            onPress={() => {
+              console.log('clicked on id ', serviceUser?.objectID);
+              removeUser(serviceUser.objectID);
+            }}
           />
           <Divider />
         </View>
