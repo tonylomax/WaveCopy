@@ -6,24 +6,28 @@ export default monitorFileUpload = (
   newProfilePicUploadComplete,
   setNewProfilePicUploadComplete,
 ) => {
-  uploadTask.on('state_changed', (snapshot) => {
-    const progress = uploadProgress(
-      snapshot.bytesTransferred / snapshot.totalBytes,
-    );
+  return new Promise((resolve, reject) => {
+    uploadTask.on('state_changed', (snapshot) => {
+      const progress = uploadProgress(
+        snapshot.bytesTransferred / snapshot.totalBytes,
+      );
 
-    switch (snapshot.state) {
-      case 'running':
-        console.log('UPLOAD IS RUNNING');
-        setuploadProgress(progress / 100);
-        break;
-      case 'success':
-        console.log('UPLOAD IS SUCCESSFUL');
-        setNewProfilePicUploadComplete(
-          (newProfilePicUploadComplete) => !newProfilePicUploadComplete,
-        );
-        break;
-      default:
-        break;
-    }
+      switch (snapshot.state) {
+        case 'running':
+          console.log('UPLOAD IS RUNNING');
+          setuploadProgress(progress / 100);
+          break;
+        case 'success':
+          console.log('UPLOAD IS SUCCESSFUL');
+          setNewProfilePicUploadComplete(
+            (newProfilePicUploadComplete) => !newProfilePicUploadComplete,
+          );
+          resolve('Upload completed');
+          break;
+        default:
+          reject('something bad happend to file upload');
+          break;
+      }
+    });
   });
 };

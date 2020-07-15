@@ -24,7 +24,15 @@ import {
   signOut,
   updateOwnContactNumber,
 } from 'utils';
-import {Avatar, Title, TextInput, Paragraph} from 'react-native-paper';
+import {
+  Avatar,
+  Title,
+  TextInput,
+  Paragraph,
+  Portal,
+  Modal,
+  Card,
+} from 'react-native-paper';
 
 import ProgressBar from 'react-native-progress/Bar';
 import {ResetPassword} from 'components';
@@ -122,7 +130,7 @@ export default function Profile({navigation, route}) {
             source={BrightonBeach}
           />
 
-          <ImageConfirmPopup
+          {/* <ImageConfirmPopup
             visible={imageConfirmPopup}
             setVisible={setImageConfirmPopup}
             imgSource={uploadImg?.uri}
@@ -135,7 +143,38 @@ export default function Profile({navigation, route}) {
                 setNewProfilePicUploadComplete,
               );
             }}
-          />
+          /> */}
+          <Portal>
+            <Modal
+              visible={imageConfirmPopup}
+              onDismiss={() => setImageConfirmPopup(false)}>
+              <Card>
+                <Card.Title title="Are you happy with this photo?" />
+                <Card.Content>
+                  <Image
+                    style={{height: '25%', width: '25%'}}
+                    source={{uri: uploadImg?.uri}}></Image>
+                  <ConfirmButton
+                    title="Yes"
+                    onPress={() => {
+                      const task = uploadFile(localFilePath, UID);
+                      monitorFileUpload(
+                        task,
+                        setuploadProgress,
+                        newProfilePicUploadComplete,
+                        setNewProfilePicUploadComplete,
+                      ).then(() => setImageConfirmPopup(false));
+                    }}></ConfirmButton>
+                  <ConfirmButton
+                    title="No"
+                    onPress={() => {
+                      setImageConfirmPopup(false);
+                    }}></ConfirmButton>
+                  <ProgressBar progress={uploadProgress} width={200} />
+                </Card.Content>
+              </Card>
+            </Modal>
+          </Portal>
 
           <ConfirmButton
             testID="signOutButton"
@@ -233,8 +272,6 @@ export default function Profile({navigation, route}) {
               updateOwnContactNumber(contactNumber, UID);
             }}
           />
-
-          <ProgressBar progress={uploadProgress} width={200} />
 
           <ResetPassword authenticatedUser={currentAuthenticatedUser} />
         </View>
