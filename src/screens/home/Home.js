@@ -40,9 +40,14 @@ export default function Profile({navigation}) {
     if (!isEmpty(userData)) {
       //If the user is a national admin then set up a subscription too all sessions
       if (userData?.Roles.includes('NationalAdmin')) {
+        console.log('subscribing to all sessions', userData.Region);
+        console.log('current roles', userData.Roles);
         unsubscribeFromSessions = subscribeToSessions();
       } else {
         // Otherwise set up a subscription to sessions restricted to the users area
+
+        console.log('subscribing to role specific sessions', userData.Region);
+        console.log('current roles', userData.Roles);
         unsubscribeFromRoleSessions = subscribeToRoleSpecificSessionChanges(
           userData.Region,
         );
@@ -50,7 +55,7 @@ export default function Profile({navigation}) {
       // Get the latest beach information
       dispatch(getAllBeaches());
       return () => {
-        console.log('unsubscribing from sessions');
+        console.log('unsubscribing from sessions in home.js');
         unsubscribeFromSessions();
         unsubscribeFromRoleSessions();
       };
