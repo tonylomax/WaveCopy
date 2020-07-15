@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, Button, TouchableOpacity} from 'react-native';
+import {View, Text, Image, Button, Alert, TouchableOpacity} from 'react-native';
 import {
-  AccordionMenu,
+  SessionDetailsAccordionMenu,
   ConfirmButton,
   ChoicePopup,
   LoadingScreen,
@@ -9,6 +9,7 @@ import {
 import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
 import {CommonActions} from '@react-navigation/native';
+import {serializeError} from 'serialize-error';
 
 import Moment from 'react-moment';
 import {
@@ -29,7 +30,12 @@ import {
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
-  const {ID, AttendeesIDandAttendance, Mentors, MaxMentors} = route.params.item;
+  // If coming from home, there is an item field,
+  const {ID, AttendeesIDandAttendance, Mentors, MaxMentors} = route?.params
+    ?.item
+    ? route?.params?.item
+    : route?.params?.session;
+
   const {selectedBeach} = route.params;
 
   //REDUX STATE
@@ -155,16 +161,28 @@ export default function Session({navigation, route}) {
           </Text>
 
           <Text>{sessionData?.Description}</Text>
-          <AccordionMenu
-            selectedUsers={selectedSessionAttendeesData}
-            numberOfMentors={MaxMentors}
-            location={selectedBeach}
-            mentors={selectedSessionMentorsData}
-            sessionLead={sessionData?.SessionLead}
-            sessionID={ID}
-            roles={roles}
-          />
-          {IS_ADMIN && (
+          {selectedSessionAttendeesData &&
+            selectedBeach &&
+            MaxMentors > 0 &&
+            selectedSessionMentorsData && (
+              <SessionDetailsAccordionMenu
+                selectedUsers={selectedSessionAttendeesData}
+                numberOfMentors={MaxMentors}
+                location={selectedBeach}
+                mentors={selectedSessionMentorsData}
+                navigation={navigation}
+                route={route}
+                sessionLead={sessionData?.SessionLead}
+                sessionID={ID}
+                roles={roles}
+              />
+            )}
+          {roles?.some(
+            () =>
+              userData?.Roles?.includes('SurfLead') ||
+              userData?.Roles?.includes('NationalAdmin') ||
+              userData?.Roles?.includes('Coordinator'),
+          ) && (
             <ConfirmButton
               title="Register"
               testID="registerButton"
@@ -213,10 +231,11 @@ export default function Session({navigation, route}) {
               onPress={() => {
                 removeSelfFromSession(ID, UID, sessionData?.SessionLead?.id)
                   .then((result) => {
-                    console.log('Session remove done');
+                    console.log('Session remove done', result);
                   })
                   .catch((err) => {
-                    console.log('ERROR: ', err);
+                    console.log('ERROR OUTSIDE TRANSACTION ', err);
+                    Alert.alert(err);
                   });
               }}></ConfirmButton>
           ) : (
@@ -227,10 +246,11 @@ export default function Session({navigation, route}) {
               onPress={() => {
                 signupForSession(ID, UID)
                   .then((result) => {
-                    console.log('Session signup done ');
+                    console.log('Signup for session complete', result);
                   })
                   .catch((err) => {
-                    console.log('ERROR: ', err);
+                    console.log('ERROR OUTSIDE TRANSACTION ', err);
+                    Alert.alert(err);
                   });
               }}></ConfirmButton>
           )}

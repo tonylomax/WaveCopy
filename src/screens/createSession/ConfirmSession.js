@@ -1,7 +1,19 @@
 // TO DO - merge this with session/EditSession.js
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, Image, SafeAreaView, Button} from 'react-native';
-import {ConfirmButton, ChoicePopup, AccordionMenu} from 'components';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  SafeAreaView,
+  Alert,
+  Button,
+} from 'react-native';
+import {
+  ConfirmButton,
+  ChoicePopup,
+  SessionDetailsAccordionMenu,
+} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
@@ -101,7 +113,11 @@ export default function ConfirmSession({route, navigation}) {
                   }),
                 );
               })
-              .catch((err) => console.log(err));
+              .catch((err) => {
+                console.log(err);
+                //Needs testing, err may need serializing
+                // Alert.alert(err);
+              });
           }
         }}></ChoicePopup>
       <Button title="Previous" onPress={() => navigation.goBack()} />
@@ -125,7 +141,7 @@ export default function ConfirmSession({route, navigation}) {
         defaultValue={descriptionOfSession}
         onChangeText={(text) => setDescriptionOfSession(text)}
       />
-      <AccordionMenu
+      <SessionDetailsAccordionMenu
         location={location}
         selectedUsers={selectedUsers}
         numberOfMentors={numberOfVolunteers}

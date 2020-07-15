@@ -10,6 +10,8 @@ import Login from './screens/login/Login';
 import Profile from './screens/profile/Profile';
 import Session from './screens/session/Session';
 import Register from './screens/session/Register';
+import WaveTeamProfile from './screens/profile/WaveTeamProfile';
+import ServiceUserProfile from './screens/profile/ServiceUserProfile';
 import {subscribeToFirestoreUsers, createAuthSubscription} from 'utils';
 import {useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
@@ -53,6 +55,12 @@ const HomeNavigator = () => (
     <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
     <HomeStack.Screen name="HomeSession" component={Session}></HomeStack.Screen>
     <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
+    <HomeStack.Screen
+      name="Home Volunteer Profile"
+      component={WaveTeamProfile}></HomeStack.Screen>
+    <HomeStack.Screen
+      name="Home ServiceUser Profile"
+      component={ServiceUserProfile}></HomeStack.Screen>
     <HomeStack.Screen
       name="HomeEditSession"
       component={EditSessionNavigator}
@@ -120,6 +128,12 @@ const ProfileNavigator = () => (
     <ProfileStack.Screen
       name="Register"
       component={Register}></ProfileStack.Screen>
+    <ProfileStack.Screen
+      name="Profile Volunteer Profile"
+      component={WaveTeamProfile}></ProfileStack.Screen>
+    <ProfileStack.Screen
+      name="Profile ServiceUser Profile"
+      component={ServiceUserProfile}></ProfileStack.Screen>
     <ProfileStack.Screen
       name="ProfileEditSession"
       options={({navigation}) => ({
