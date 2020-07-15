@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, Button, Alert} from 'react-native';
+import {View, Text, Image, Button, Alert, TouchableOpacity} from 'react-native';
 import {
   SessionDetailsAccordionMenu,
   ConfirmButton,
@@ -14,7 +14,6 @@ import {serializeError} from 'serialize-error';
 import Moment from 'react-moment';
 import {
   getAllSessionAttendees,
-  updateCurrentSession,
   getAllSessionMentors,
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
@@ -25,25 +24,28 @@ import {
   signupForSession,
   retrieveCoordinatorData,
   removeSelfFromSession,
-  assignSessionLead,
-  unassignSessionLead,
   deleteSession,
+  getSessionLeadName,
 } from 'utils';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
-  const {ID, AttendeesIDandAttendance, Mentors, MaxMentors} = route.params.item;
+  // If coming from home, there is an item field,
+  const {ID, AttendeesIDandAttendance, Mentors, MaxMentors} = route?.params
+    ?.item
+    ? route?.params?.item
+    : route?.params?.session;
+
   const {selectedBeach} = route.params;
 
   //REDUX STATE
+  // Data on the session
   const sessionData = useSelector(
     (state) => state.firestoreReducer.singleSession,
   );
-
   const selectedSessionAttendeesData = useSelector(
     (state) => state.firestoreReducer.selectedSessionAttendees,
   );
-
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionMentors,
   );
@@ -51,6 +53,7 @@ export default function Session({navigation, route}) {
     (state) => state.firestoreReducer?.singleSession?.SessionLead?.id,
   );
 
+  // Current Auth User
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
@@ -60,38 +63,35 @@ export default function Session({navigation, route}) {
   const [coordinator, setCoordinator] = useState();
   const [visible, setVisible] = useState(false);
   const [surfLead, setSurfLead] = useState();
+  const IS_ADMIN =
+    userData?.Roles?.includes('SurfLead') ||
+    userData?.Roles?.includes('NationalAdmin') ||
+    userData?.Roles?.includes('Coordinator');
 
   useEffect(() => {
     if (
+      // If there are attendees, go get their full details from firestore
       AttendeesIDandAttendance !== undefined &&
       AttendeesIDandAttendance.length > 0
     ) {
-      console.log({AttendeesIDandAttendance});
       dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
     }
-    dispatch(getAllSessionMentors(Mentors));
-    console.log('max mentors is ', MaxMentors);
-    const unsubscribe = subscribeToSessionChanges(ID);
+    if (
+      // If there are mentors, go get their full details from firestore
+      Mentors !== undefined &&
+      Mentors.length > 0
+    ) {
+      dispatch(getAllSessionMentors(Mentors));
+    }
+    const unsubscribeToSessionChanges = subscribeToSessionChanges(ID);
     return () => {
       console.log('unsubscribing');
-      dispatch(clearSelectedSessionMentors());
+      // Set selectedsession mentor & attendee data to empty arrays
       dispatch(clearSelectedSessionAttendees());
-      unsubscribe();
+      dispatch(clearSelectedSessionMentors());
+      unsubscribeToSessionChanges();
     };
   }, []);
-
-  const getSessionLeadName = (surfLeadID) => {
-    console.log('selectedSessionMentorsData', selectedSessionMentorsData);
-    const SURFLEAD = selectedSessionMentorsData?.filter(
-      (mentor) => mentor.id === surfLeadID,
-    );
-    console.log('SURFLEAD', SURFLEAD);
-    setSurfLead(SURFLEAD[0]);
-  };
-
-  useEffect(() => {
-    getSessionLeadName(sessionData?.SessionLead?.id);
-  }, [selectedSessionMentorsData, sessionData]);
 
   useEffect(() => {
     if (
@@ -101,6 +101,11 @@ export default function Session({navigation, route}) {
     ) {
       setLoading(false);
     }
+    const surfLeadName = getSessionLeadName(
+      sessionData?.SessionLead?.id,
+      selectedSessionMentorsData,
+    );
+    setSurfLead(surfLeadName);
   }, [sessionData, selectedSessionAttendeesData, selectedSessionMentorsData]);
 
   useEffect(() => {
@@ -115,9 +120,24 @@ export default function Session({navigation, route}) {
         <LoadingScreen visible={true}></LoadingScreen>
       ) : (
         <View>
-          <Image
-            style={{height: '15%', width: '15%'}}
-            source={Edit_Icon}></Image>
+          <TouchableOpacity
+            onPress={() => {
+              const nextScreen =
+                route.name === 'HomeSession'
+                  ? 'HomeEditSession'
+                  : 'ProfileEditSession';
+              navigation.push(nextScreen, {
+                previousSessionData: sessionData,
+                previouslySelectedAttendees: selectedSessionAttendeesData,
+                previouslySelectedMentors: selectedSessionMentorsData,
+                previousSessionID: ID,
+              });
+            }}>
+            <Image
+              style={{height: '15%', width: '15%'}}
+              source={Edit_Icon}></Image>
+          </TouchableOpacity>
+          <Text>Edit session</Text>
           {MaxMentors === selectedSessionMentorsData.length && (
             <Text> This session is full</Text>
           )}
@@ -151,6 +171,7 @@ export default function Session({navigation, route}) {
                 location={selectedBeach}
                 mentors={selectedSessionMentorsData}
                 navigation={navigation}
+                route={route}
                 sessionLead={sessionData?.SessionLead}
                 sessionID={ID}
                 roles={roles}
@@ -174,12 +195,7 @@ export default function Session({navigation, route}) {
             </ConfirmButton>
           )}
           {/* DElETE SESSION */}
-          {roles?.some(
-            () =>
-              userData?.Roles?.includes('NationalAdmin') ||
-              userData?.Roles?.includes('RegionalManager') ||
-              userData?.Roles?.includes('Coordinator'),
-          ) && (
+          {IS_ADMIN && (
             <ConfirmButton
               title="Delete session"
               testID="delete-session-button"
@@ -196,30 +212,19 @@ export default function Session({navigation, route}) {
               deleteSession(ID, UID)
                 .then((res) => {
                   console.log(res);
-
-                  // If this session was reached from profile, go back to home,
-                  // Otherwise go back to profile
-                  if (route.name === 'HomeSession') {
-                    navigation.dispatch(
-                      CommonActions.reset({
-                        index: 0,
-                        routes: [{name: 'Home'}],
-                      }),
-                    );
-                  } else {
-                    navigation.dispatch(
-                      CommonActions.reset({
-                        index: 0,
-                        routes: [{name: 'Profile'}],
-                      }),
-                    );
-                  }
+                  const RouteDestination =
+                    route.name === 'HomeSession' ? 'Home' : 'Profile';
+                  navigation.dispatch(
+                    CommonActions.reset({
+                      index: 0,
+                      routes: [{name: RouteDestination}],
+                    }),
+                  );
                 })
                 .catch((err) => console.log(err));
             }}></ChoicePopup>
 
-          {selectedSessionMentorsData.filter((mentor) => mentor.id === UID)
-            .length >= 1 ? (
+          {selectedSessionMentorsData.some((mentor) => mentor.id === UID) ? (
             <ConfirmButton
               testID="leaveSessionButton"
               title="Leave session"

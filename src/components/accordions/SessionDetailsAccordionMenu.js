@@ -12,6 +12,7 @@ import {
 
 export default function SessionDetailsAccordionMenu({
   navigation,
+  route,
   testID,
   location,
   selectedUsers,
@@ -44,13 +45,22 @@ export default function SessionDetailsAccordionMenu({
               testID={`session-accordion-mentor${mentor.id}`}
               onPress={() => {
                 console.log('mentor in accord', mentor);
-                navigation.navigate('Volunteer Profile', {mentor});
+                console.log(
+                  'route when going to volunteer profile screen ',
+                  route,
+                  route.name,
+                );
+                const routeDestination =
+                  route.name === 'HomeSession'
+                    ? 'Home Volunteer Profile'
+                    : 'Profile Volunteer Profile';
+                navigation.navigate(routeDestination, {mentor});
               }}
               key={`mentor-${i + 1}`}
               title={`${i + 1}) ${mentor?.firstName} ${mentor?.lastName}`}
               right={() => {
                 return (
-                  roles.some(
+                  roles?.some(
                     () =>
                       userData?.Roles?.includes('SurfLead') ||
                       userData?.Roles?.includes('NationalAdmin') ||
@@ -125,7 +135,13 @@ export default function SessionDetailsAccordionMenu({
                       sessionLead?.id === UID,
                   )
                 ) {
-                  navigation.navigate('ServiceUser Profile', {
+                  console.log('route  in profile on click', route);
+                  console.log('route name in profile on click', route.name);
+                  const routeDestination =
+                    route.name === 'HomeSession'
+                      ? 'Home ServiceUser Profile'
+                      : 'Profile ServiceUser Profile';
+                  navigation.navigate(routeDestination, {
                     serviceUser,
                     roles,
                   });

@@ -21,6 +21,13 @@ export default function WaveTeamProfile({route}) {
       ),
     ),
   );
+  const allSessions = useSelector(
+    (state) => state.firestoreReducer.sessionData,
+  );
+
+  useEffect(() => {
+    console.log('all sessions ', allSessions);
+  }, []);
 
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
 

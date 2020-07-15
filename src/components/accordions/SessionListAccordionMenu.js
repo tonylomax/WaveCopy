@@ -30,7 +30,10 @@ export default function SessionListAccordionMenu({
                     onPress={() => {
                       const selectedBeach = getBeach(session.ID)[0];
                       console.log('selectedBeach', selectedBeach);
-                      // navigation.navigate('Session', {session, selectedBeach});
+                      navigation.navigate('ProfileSession', {
+                        session,
+                        selectedBeach,
+                      });
                     }}
                     style={{
                       borderColor: IS_IN_PAST ? 'grey' : 'black',

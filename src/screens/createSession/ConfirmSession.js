@@ -1,6 +1,14 @@
 // TO DO - merge this with session/EditSession.js
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, Image, SafeAreaView, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  SafeAreaView,
+  Alert,
+  Button,
+} from 'react-native';
 import {
   ConfirmButton,
   ChoicePopup,
@@ -12,7 +20,11 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 import {CommonActions} from '@react-navigation/native';
-import {createSessionInFirestore, getCoverImage} from 'utils';
+import {
+  createSessionInFirestore,
+  getCoverImage,
+  updateSessionInFirestore,
+} from 'utils';
 import {useSelector} from 'react-redux';
 
 export default function ConfirmSession({route, navigation}) {
@@ -22,11 +34,16 @@ export default function ConfirmSession({route, navigation}) {
     numberOfVolunteers,
     selectedUsers,
     dateTimeArray,
+    previousSessionData,
+    previouslySelectedMentors,
+    previousSessionID,
   } = route.params;
 
   //LOCAL STATE
   const [visible, setVisible] = useState(false);
-  const [descriptionOfSession, setDescriptionOfSession] = useState('');
+  const [descriptionOfSession, setDescriptionOfSession] = useState(
+    previousSessionData?.Description || '',
+  );
   //LOCAL STATE
 
   //REDUX STATE
@@ -53,31 +70,57 @@ export default function ConfirmSession({route, navigation}) {
         yesAction={() => {
           console.log('creating a session');
           console.log(userData);
-          createSessionInFirestore({
-            sessionType,
-            location,
-            numberOfVolunteers,
-            selectedUsers,
-            dateTimeArray,
-            descriptionOfSession,
-            coordinator: userData?.Name || '',
-            uid,
-          })
-            .then(() => {
-              console.log('session created');
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{name: 'Home'}],
-                }),
-              );
+          console.log('previous session data', previousSessionID);
+          console.log(previousSessionID);
+          if (!previousSessionID) {
+            createSessionInFirestore({
+              sessionType,
+              location,
+              numberOfVolunteers,
+              selectedUsers,
+              dateTimeArray,
+              descriptionOfSession,
+              coordinator: userData?.Name || '',
+              uid,
             })
-            .catch((err) => {
-              console.log(err);
-              //Needs testing, err may need serializing
-              // Alert.alert(err);
-            });
+              .then(() => {
+                console.log('session created');
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'Home'}],
+                  }),
+                );
+              })
+              .catch((err) => console.log(err));
+          } else {
+            updateSessionInFirestore({
+              sessionType,
+              location,
+              numberOfVolunteers,
+              selectedUsers,
+              dateTimeArray,
+              descriptionOfSession,
+              coordinator: userData?.Name || '',
+              uid,
+              sessionID: previousSessionID,
+            })
+              .then(() => {
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{name: 'Home'}],
+                  }),
+                );
+              })
+              .catch((err) => {
+                console.log(err);
+                //Needs testing, err may need serializing
+                // Alert.alert(err);
+              });
+          }
         }}></ChoicePopup>
+      <Button title="Previous" onPress={() => navigation.goBack()} />
       {dateTimeArray &&
         dateTimeArray.map((dateTimeOfSession, i) => (
           <Moment
@@ -102,7 +145,7 @@ export default function ConfirmSession({route, navigation}) {
         location={location}
         selectedUsers={selectedUsers}
         numberOfMentors={numberOfVolunteers}
-        mentors={[]}
+        mentors={previouslySelectedMentors || []}
       />
     </SafeAreaView>
   );
