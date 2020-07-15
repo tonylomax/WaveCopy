@@ -35,7 +35,7 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 
-export default function Profile({navigation}) {
+export default function Profile({navigation, route}) {
   //REDUX STATE
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
@@ -163,6 +163,7 @@ export default function Profile({navigation}) {
             userData?.Roles?.includes('NationalAdmin') ? sessions : mySessions
           }
           beaches={beaches}
+          route={route}
           navigation={navigation}></SessionListAccordionMenu>
 
         {editBio ? (

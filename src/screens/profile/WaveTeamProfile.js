@@ -10,24 +10,26 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 
-export default function WaveTeamProfile({route}) {
+export default function WaveTeamProfile({route, navigation}) {
   const {mentor} = route.params;
 
+  const {roles} = useSelector((state) => state.authenticationReducer.roles);
+
+  const IS_ADMIN = roles.includes('NationalAdmin');
+
+  const sessionData = IS_ADMIN ? 'sessionData' : 'roleSpecificSessionData';
   // Find sessions that a volunteer is signed up for
   const volunteerSessions = useSelector((state) =>
-    state.firestoreReducer.sessionData.filter((session) =>
-      session?.Mentors.some(
+    state.firestoreReducer[sessionData].filter((session) =>
+      session?.Mentors?.some(
         (filteredMentor) => filteredMentor.id === mentor.id,
       ),
     ),
   );
-  const allSessions = useSelector(
-    (state) => state.firestoreReducer.sessionData,
-  );
 
   useEffect(() => {
-    console.log('all sessions ', allSessions);
-  }, []);
+    console.log('volunteerSessions ', volunteerSessions);
+  }, [volunteerSessions]);
 
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
 
@@ -46,7 +48,9 @@ export default function WaveTeamProfile({route}) {
       <TrainingAccordionMenu training={mentor.Training}></TrainingAccordionMenu>
       <SessionListAccordionMenu
         sessions={volunteerSessions}
-        beaches={beaches}></SessionListAccordionMenu>
+        beaches={beaches}
+        navigation={navigation}
+        route={route}></SessionListAccordionMenu>
     </View>
   );
 }
