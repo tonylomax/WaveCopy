@@ -22,14 +22,6 @@ export default function SessionDetailsAccordionMenu({
   sessionID,
   roles,
 }) {
-  React.useEffect(() => {
-    console.log('mentors', mentors);
-  }, [mentors]);
-
-  React.useEffect(() => {
-    console.log('roles in sessionLead', sessionLead);
-  }, [sessionLead]);
-
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
 
@@ -119,7 +111,7 @@ export default function SessionDetailsAccordionMenu({
           ))}
       </List.Accordion>
       <List.Accordion
-        title={`Attendees (${selectedUsers.length})`}
+        title={`Attendees (${selectedUsers?.length})`}
         id="2"
         testID="attendees-accordian">
         {selectedUsers.length > 0 &&

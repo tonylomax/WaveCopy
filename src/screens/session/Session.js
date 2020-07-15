@@ -10,7 +10,6 @@ import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
 import {CommonActions} from '@react-navigation/native';
 import {serializeError} from 'serialize-error';
-
 import Moment from 'react-moment';
 import {
   getAllSessionAttendees,
@@ -18,15 +17,17 @@ import {
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
 } from '../../redux/';
-
 import {
   subscribeToSessionChanges,
   signupForSession,
   retrieveCoordinatorData,
   removeSelfFromSession,
   deleteSession,
+  userHasPermission,
+  updateCurrentSessionAttendees,
   getSessionLeadName,
 } from 'utils';
+import {COLLECTIONS} from 'constants';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
@@ -44,11 +45,13 @@ export default function Session({navigation, route}) {
     (state) => state.firestoreReducer.singleSession,
   );
   const selectedSessionAttendeesData = useSelector(
-    (state) => state.firestoreReducer.selectedSessionAttendees,
+    (state) => state.firestoreReducer.selectedSessionSubscribedAttendees,
   );
+
   const selectedSessionMentorsData = useSelector(
-    (state) => state.firestoreReducer.selectedSessionMentors,
+    (state) => state.firestoreReducer.selectedSessionSubscribedMentors,
   );
+
   const sessionLeadID = useSelector(
     (state) => state.firestoreReducer?.singleSession?.SessionLead?.id,
   );
@@ -59,7 +62,6 @@ export default function Session({navigation, route}) {
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
 
   //LOCAL STATE
-  const [loading, setLoading] = useState(true);
   const [coordinator, setCoordinator] = useState();
   const [visible, setVisible] = useState(false);
   const [surfLead, setSurfLead] = useState();
@@ -69,44 +71,51 @@ export default function Session({navigation, route}) {
     userData?.Roles?.includes('Coordinator');
 
   useEffect(() => {
-    if (
-      // If there are attendees, go get their full details from firestore
-      AttendeesIDandAttendance !== undefined &&
-      AttendeesIDandAttendance.length > 0
-    ) {
-      dispatch(getAllSessionAttendees(AttendeesIDandAttendance));
-    }
-    if (
-      // If there are mentors, go get their full details from firestore
-      Mentors !== undefined &&
-      Mentors.length > 0
-    ) {
-      dispatch(getAllSessionMentors(Mentors));
-    }
-    const unsubscribeToSessionChanges = subscribeToSessionChanges(ID);
+    console.log('sessionData', sessionData);
+    console.log('MENTORS', Mentors);
+
+    // Set up subscription for all the data relating to the mentors in a session
+    const mentorsUnsubscribers = updateCurrentSessionAttendees(
+      sessionData?.Mentors,
+      COLLECTIONS.USERS,
+    );
+    // Set up subscription for all the data relating to the attendees in a session
+    const serviceUsersUnsubscribers = updateCurrentSessionAttendees(
+      sessionData?.Attendees,
+      COLLECTIONS.TEST_SERVICE_USERS,
+    );
+
     return () => {
       console.log('unsubscribing');
-      // Set selectedsession mentor & attendee data to empty arrays
-      dispatch(clearSelectedSessionAttendees());
+      mentorsUnsubscribers?.forEach((unsubscribe) => {
+        console.log(' mentor unsubscribe called');
+        unsubscribe();
+      });
+      serviceUsersUnsubscribers?.forEach((unsubscribe) => {
+        console.log('service user unsubscribe called');
+        unsubscribe();
+      });
       dispatch(clearSelectedSessionMentors());
-      unsubscribeToSessionChanges();
+      dispatch(clearSelectedSessionAttendees());
+    };
+  }, [sessionData]);
+
+  useEffect(() => {
+    // Set up subscription for all the session data
+    const unsubscribe = subscribeToSessionChanges(ID);
+
+    return () => {
+      unsubscribe();
     };
   }, []);
 
   useEffect(() => {
-    if (
-      sessionData &&
-      selectedSessionAttendeesData &&
-      selectedSessionMentorsData
-    ) {
-      setLoading(false);
-    }
-    const surfLeadName = getSessionLeadName(
-      sessionData?.SessionLead?.id,
-      selectedSessionMentorsData,
+    const SURFLEAD = selectedSessionMentorsData?.filter(
+      (mentor) => mentor.id === sessionLeadID,
     );
-    setSurfLead(surfLeadName);
-  }, [sessionData, selectedSessionAttendeesData, selectedSessionMentorsData]);
+    console.log('SURFLEAD', SURFLEAD);
+    setSurfLead(SURFLEAD[0]);
+  }, [selectedSessionMentorsData, sessionData]);
 
   useEffect(() => {
     (async () => {
@@ -114,147 +123,153 @@ export default function Session({navigation, route}) {
     })();
   }, [sessionData]);
 
+  const leaveSession = (ID, UID, sessionLeadID) => {
+    removeSelfFromSession(ID, UID, sessionLeadID)
+      .then((result) => {
+        console.log('Session remove done');
+        // navigation.goBack();
+      })
+      .catch((err) => {
+        console.log('ERROR: ', err);
+        Alert.alert(err);
+      });
+  };
+
   return (
     <View>
-      {loading ? (
-        <LoadingScreen visible={true}></LoadingScreen>
+      {/* Edit session button */}
+      <TouchableOpacity
+        onPress={() => {
+          const nextScreen =
+            route.name === 'HomeSession'
+              ? 'HomeEditSession'
+              : 'ProfileEditSession';
+          navigation.push(nextScreen, {
+            previousSessionData: sessionData,
+            previouslySelectedAttendees: selectedSessionAttendeesData,
+            previouslySelectedMentors: selectedSessionMentorsData,
+            previousSessionID: ID,
+          });
+        }}>
+        <Image style={{height: '15%', width: '15%'}} source={Edit_Icon}></Image>
+      </TouchableOpacity>
+      {/* Show if session is full */}
+      {MaxMentors === selectedSessionMentorsData.length && (
+        <Text> This session is full</Text>
+      )}
+      {/* Session date/time */}
+      <Moment element={Text} format="DD.MM.YY">
+        {sessionData?.DateTime}
+      </Moment>
+      {/* Session Lead */}
+      {!sessionLeadID || sessionLeadID === '' ? (
+        <Text>No session lead</Text>
+      ) : sessionLeadID === UID ? (
+        <Text>You are the session lead</Text>
       ) : (
-        <View>
-          <TouchableOpacity
-            onPress={() => {
-              const nextScreen =
-                route.name === 'HomeSession'
-                  ? 'HomeEditSession'
-                  : 'ProfileEditSession';
-              navigation.push(nextScreen, {
-                previousSessionData: sessionData,
-                previouslySelectedAttendees: selectedSessionAttendeesData,
-                previouslySelectedMentors: selectedSessionMentorsData,
-                previousSessionID: ID,
+        <Text>
+          {surfLead?.firstName} {surfLead?.lastName} is the session lead
+        </Text>
+      )}
+      {/* Session beach  */}
+      <Text>
+        {sessionData?.Type}-{sessionData?.Beach}
+      </Text>
+      {/* Cover coordinator */}
+      <Text>
+        Coordinator: {coordinator?.firstName} {coordinator?.lastName}
+      </Text>
+
+      {/* Session description */}
+      <Text>{sessionData?.Description}</Text>
+      {/* Session Accordion menu for attendees */}
+
+      {selectedSessionAttendeesData &&
+        selectedBeach &&
+        MaxMentors > 0 &&
+        selectedSessionMentorsData && (
+          <SessionDetailsAccordionMenu
+            selectedUsers={selectedSessionAttendeesData}
+            numberOfMentors={MaxMentors}
+            location={selectedBeach}
+            mentors={selectedSessionMentorsData}
+            navigation={navigation}
+            route={route}
+            sessionLead={sessionData?.SessionLead}
+            sessionID={ID}
+            roles={roles}
+          />
+        )}
+
+      {/* REGISTER BUTTON */}
+      {(userHasPermission(userData?.Roles) || sessionLeadID === UID) && (
+        <ConfirmButton
+          title="Register"
+          testID="registerButton"
+          onPress={() => {
+            navigation.navigate('Register', {
+              ID,
+            });
+          }}>
+          Register
+        </ConfirmButton>
+      )}
+      {/* DElETE SESSION */}
+      {userHasPermission(userData?.Roles) && (
+        <ConfirmButton
+          title="Delete session"
+          testID="delete-session-button"
+          onPress={() => setVisible((visible) => !visible)}>
+          Register
+        </ConfirmButton>
+      )}
+      {/* Popup to confirm delete session */}
+
+      <ChoicePopup
+        testID="choicePopup"
+        visible={visible}
+        setVisible={setVisible}
+        yesAction={() => {
+          console.log('deleting session');
+          deleteSession(ID, UID)
+            .then((res) => {
+              console.log(res);
+              const RouteDestination =
+                route.name === 'HomeSession' ? 'Home' : 'Profile';
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{name: RouteDestination}],
+                }),
+              );
+            })
+            .catch((err) => console.log(err));
+        }}></ChoicePopup>
+
+      {/* LEAVE/SIGNUP */}
+      {/* Only show if signup button if user is in the session, otherwise show signup button */}
+      {selectedSessionMentorsData.filter((mentor) => mentor.id === UID)
+        .length >= 1 ? (
+        <ConfirmButton
+          testID="leaveSessionButton"
+          title="Leave session"
+          onPress={() => {
+            leaveSession(ID, UID, sessionLeadID);
+          }}></ConfirmButton>
+      ) : (
+        <ConfirmButton
+          testID="signupButton"
+          title="Sign Up"
+          disabled={MaxMentors === selectedSessionMentorsData.length}
+          onPress={() => {
+            signupForSession(ID, UID)
+              .then((result) => {
+                console.log('Session signup done ');
+              })
+              .catch((err) => {
+                console.log('ERROR: ', err);
               });
-            }}>
-            <Image
-              style={{height: '15%', width: '15%'}}
-              source={Edit_Icon}></Image>
-          </TouchableOpacity>
-          <Text>Edit session</Text>
-          {MaxMentors === selectedSessionMentorsData.length && (
-            <Text> This session is full</Text>
-          )}
-          <Moment element={Text} format="DD.MM.YY">
-            {sessionData?.DateTime}
-          </Moment>
-          {!sessionLeadID || sessionLeadID === '' ? (
-            <Text>No session lead</Text>
-          ) : sessionLeadID === UID ? (
-            <Text>You are the session lead</Text>
-          ) : (
-            <Text>
-              {surfLead?.firstName} {surfLead?.lastName} is the session lead
-            </Text>
-          )}
-          <Text>
-            {sessionData?.Type}-{sessionData?.Beach}
-          </Text>
-          <Text>
-            Coordinator: {coordinator?.firstName} {coordinator?.lastName}
-          </Text>
-
-          <Text>{sessionData?.Description}</Text>
-          {selectedSessionAttendeesData &&
-            selectedBeach &&
-            MaxMentors > 0 &&
-            selectedSessionMentorsData && (
-              <SessionDetailsAccordionMenu
-                selectedUsers={selectedSessionAttendeesData}
-                numberOfMentors={MaxMentors}
-                location={selectedBeach}
-                mentors={selectedSessionMentorsData}
-                navigation={navigation}
-                route={route}
-                sessionLead={sessionData?.SessionLead}
-                sessionID={ID}
-                roles={roles}
-              />
-            )}
-          {roles?.some(
-            () =>
-              userData?.Roles?.includes('SurfLead') ||
-              userData?.Roles?.includes('NationalAdmin') ||
-              userData?.Roles?.includes('Coordinator'),
-          ) && (
-            <ConfirmButton
-              title="Register"
-              testID="registerButton"
-              onPress={() => {
-                navigation.navigate('Register', {
-                  ID,
-                });
-              }}>
-              Register
-            </ConfirmButton>
-          )}
-          {/* DElETE SESSION */}
-          {IS_ADMIN && (
-            <ConfirmButton
-              title="Delete session"
-              testID="delete-session-button"
-              onPress={() => setVisible((visible) => !visible)}>
-              Register
-            </ConfirmButton>
-          )}
-          <ChoicePopup
-            testID="choicePopup"
-            visible={visible}
-            setVisible={setVisible}
-            yesAction={() => {
-              console.log('deleting session');
-              deleteSession(ID, UID)
-                .then((res) => {
-                  console.log(res);
-                  const RouteDestination =
-                    route.name === 'HomeSession' ? 'Home' : 'Profile';
-                  navigation.dispatch(
-                    CommonActions.reset({
-                      index: 0,
-                      routes: [{name: RouteDestination}],
-                    }),
-                  );
-                })
-                .catch((err) => console.log(err));
-            }}></ChoicePopup>
-
-          {selectedSessionMentorsData.some((mentor) => mentor.id === UID) ? (
-            <ConfirmButton
-              testID="leaveSessionButton"
-              title="Leave session"
-              onPress={() => {
-                removeSelfFromSession(ID, UID, sessionData?.SessionLead?.id)
-                  .then((result) => {
-                    console.log('Session remove done', result);
-                  })
-                  .catch((err) => {
-                    console.log('ERROR OUTSIDE TRANSACTION ', err);
-                    Alert.alert(err);
-                  });
-              }}></ConfirmButton>
-          ) : (
-            <ConfirmButton
-              testID="signupButton"
-              title="Sign Up"
-              disabled={MaxMentors === selectedSessionMentorsData.length}
-              onPress={() => {
-                signupForSession(ID, UID)
-                  .then((result) => {
-                    console.log('Signup for session complete', result);
-                  })
-                  .catch((err) => {
-                    console.log('ERROR OUTSIDE TRANSACTION ', err);
-                    Alert.alert(err);
-                  });
-              }}></ConfirmButton>
-          )}
-        </View>
+          }}></ConfirmButton>
       )}
     </View>
   );

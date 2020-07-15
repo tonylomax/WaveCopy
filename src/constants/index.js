@@ -6,6 +6,7 @@ import {
   MIN_NUMBER_OF_REPETITIONS,
   MAX_NUMBER_OF_REPETITIONS,
 } from './sessionChoices';
+import {ROLES} from './roles';
 import {USER_GROUP} from './userGroups';
 
 export {
@@ -16,4 +17,5 @@ export {
   MIN_NUMBER_OF_REPETITIONS,
   MAX_NUMBER_OF_REPETITIONS,
   USER_GROUP,
+  ROLES,
 };

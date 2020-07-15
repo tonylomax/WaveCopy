@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import {ACTIONS, COLLECTIONS} from 'constants';
-import {returnSessionAttendees} from 'utils';
+import {updateCurrentSessionAttendees} from 'utils';
 
 export function updateSessions(sessionsData) {
   console.log('Inside updateSessions data action');
@@ -22,28 +22,6 @@ export function updateRoleSpecificSessions(roleSessions) {
   };
 }
 
-export function subscribeToSession(sessionID) {
-  console.log('INSIDE subscribeToSession ACTION ');
-  return async (dispatch) => {
-    const sessionSubscription = firestore()
-      .collection(COLLECTIONS.SESSIONS)
-      .doc(sessionID)
-      .onSnapshot(
-        (singleSessionData) => {
-          // console.log('singleSessionData', singleSessionData);
-          dispatch({
-            type: ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION,
-            data: singleSessionData,
-          });
-        },
-        (error) => {
-          console.error(error);
-        },
-      );
-    return sessionSubscription;
-  };
-}
-
 export function subscribeToFirestoreUserData(currentUserUID) {
   console.log('INSIDE subscribeToFirestoreUserData ACTION ', currentUserUID);
   return async (dispatch) => {
@@ -53,7 +31,7 @@ export function subscribeToFirestoreUserData(currentUserUID) {
       .onSnapshot(
         (userData) => {
           const updatedUserData = userData?.data();
-          console.log('updatedUserData', updatedUserData);
+          // console.log('updatedUserData', updatedUserData);
           dispatch({
             type: ACTIONS.SET_CURRENT_FIRESTORE_USER_DATA,
             data: updatedUserData,
@@ -114,58 +92,22 @@ export function getAllBeaches() {
   };
 }
 
-export function getAllSessionAttendees(attendeesArray) {
-  console.log('INSIDE getAllSessionAttendees ACTION ', attendeesArray);
-  return async (dispatch) => {
-    const SESSION_USERS = await returnSessionAttendees(
-      attendeesArray,
-      COLLECTIONS.TEST_SERVICE_USERS,
-    ).catch((error) => {
-      console.log(error);
-    });
-    // console.log('SESSION_USERS', SESSION_USERS);
-
-    const SESSION_USERS_FILTERED = SESSION_USERS.map((user) => {
-      const data = user?._data;
-      const id = user?._ref?._documentPath?._parts[1];
-      // console.log('SESSION ATTENDESS', {...data, id});
-      return {...data, id};
-    });
-
-    dispatch({
-      type: ACTIONS.GET_SESSION_ATTENDEES,
-      data: SESSION_USERS_FILTERED,
-    });
-  };
-}
-export function clearSelectedSessionAttendees() {
+export function subscribeToSessionMentors(subscribedUserData) {
+  console.log('Inside subscribeToSessionMentors action');
   return async (dispatch) => {
     dispatch({
-      type: ACTIONS.GET_SESSION_ATTENDEES,
-      data: [],
+      type: ACTIONS.SUBSCRIBE_TO_SESSION_MENTORS,
+      data: subscribedUserData,
     });
   };
 }
 
-export function getAllSessionMentors(mentorsArray) {
-  console.log('INSIDE getAllSessionMentors ACTION ');
-  console.log({mentorsArray});
+export function subscribeToSessionAttendees(subscribedUserData) {
+  console.log('Inside subscribeToSessionAttendees action');
   return async (dispatch) => {
-    const SESSION_MENTORS = await returnSessionAttendees(
-      mentorsArray,
-      COLLECTIONS.USERS,
-    );
-
-    const SESSION_MENTORS_FILTERED = SESSION_MENTORS.map((mentor) => {
-      const data = mentor?._data;
-      const id = mentor?._ref?._documentPath?._parts[1];
-      // console.log('SESSION MENTORS', {...data, id});
-      return {...data, id};
-    });
-
     dispatch({
-      type: ACTIONS.GET_SESSION_MENTORS,
-      data: SESSION_MENTORS_FILTERED,
+      type: ACTIONS.SUBSCRIBE_TO_SESSION_ATTENDEES,
+      data: subscribedUserData,
     });
   };
 }
@@ -173,7 +115,16 @@ export function getAllSessionMentors(mentorsArray) {
 export function clearSelectedSessionMentors() {
   return async (dispatch) => {
     dispatch({
-      type: ACTIONS.GET_SESSION_MENTORS,
+      type: ACTIONS.CLEAR_SUBSCRIBE_TO_SESSION_MENTORS,
+      data: [],
+    });
+  };
+}
+
+export function clearSelectedSessionAttendees() {
+  return async (dispatch) => {
+    dispatch({
+      type: ACTIONS.CLEAR_SUBSCRIBE_TO_SESSION_ATTENDEES,
       data: [],
     });
   };

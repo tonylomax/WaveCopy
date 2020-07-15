@@ -7,7 +7,7 @@ import {
   Button,
   Platform,
 } from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {generateDateTimeArray, generateNumberedArray} from 'utils';
@@ -17,7 +17,6 @@ import {
   MIN_NUMBER_OF_REPETITIONS,
   MAX_NUMBER_OF_REPETITIONS,
 } from 'constants';
-import {CommonActions, NavigationActions} from '@react-navigation/native';
 
 export default function SessionDetails({navigation, route}) {
   const previousSessionData = route?.params?.previousSessionData;

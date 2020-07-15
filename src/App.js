@@ -10,11 +10,18 @@ import Login from './screens/login/Login';
 import Profile from './screens/profile/Profile';
 import Session from './screens/session/Session';
 import Register from './screens/session/Register';
-import WaveTeamProfile from './screens/profile/WaveTeamProfile';
-import ServiceUserProfile from './screens/profile/ServiceUserProfile';
-import {subscribeToFirestoreUsers, createAuthSubscription} from 'utils';
+import {
+  subscribeToFirestoreUsers,
+  createAuthSubscription,
+  userHasPermission,
+} from 'utils';
 import {useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
+import store from './redux/store/index';
+import {ROLES} from 'constants';
+import WaveTeamProfile from './screens/profile/WaveTeamProfile';
+import ServiceUserProfile from './screens/profile/ServiceUserProfile';
+
 import SessionDetails from './screens/createSession/SessionDetails';
 import AddServiceUsers from './screens/createSession/AddServiceUsers';
 import ConfirmSession from './screens/createSession/ConfirmSession';
@@ -26,7 +33,7 @@ const ProfileStack = createStackNavigator();
 const CreateSessionStack = createStackNavigator();
 const EditSessionStack = createStackNavigator();
 
-const TabNavigator = () => (
+const AdminTabNavigator = () => (
   <NavigationContainer>
     <BottomTabs.Navigator>
       <BottomTabs.Screen
@@ -36,11 +43,31 @@ const TabNavigator = () => (
           tabBarTestID: 'navigate-to-home-button',
         }}
       />
+
       <BottomTabs.Screen
         name="Session"
         component={CreateSessionNavigator}
         options={{tabBarTestID: 'navigate-to-create-session'}}
       />
+
+      <BottomTabs.Screen
+        name="Profile"
+        component={ProfileNavigator}
+        options={{tabBarTestID: 'navigate-to-profile-button'}}
+      />
+    </BottomTabs.Navigator>
+  </NavigationContainer>
+);
+
+const StandardTabNavigator = () => (
+  <NavigationContainer>
+    <BottomTabs.Navigator>
+      <BottomTabs.Screen
+        name="Home"
+        component={HomeNavigator}
+        options={{tabBarTestID: 'navigate-to-home-button'}}
+      />
+
       <BottomTabs.Screen
         name="Profile"
         component={ProfileNavigator}
@@ -150,6 +177,8 @@ const App: () => React$Node = () => {
     (state) => state.authenticationReducer.userState,
   );
 
+  const userData = useSelector((state) => state.firestoreReducer.userData);
+
   useEffect(() => {
     const unsubscribeFromFirebaseAuth = createAuthSubscription();
     return () => {
@@ -169,8 +198,10 @@ const App: () => React$Node = () => {
 
   return isEmpty(currentAuthenticatedUser) ? (
     <Login setLoggedIn={setLoggedIn} />
+  ) : userHasPermission(userData?.Roles) ? (
+    <AdminTabNavigator />
   ) : (
-    <TabNavigator />
+    <StandardTabNavigator />
   );
 };
 

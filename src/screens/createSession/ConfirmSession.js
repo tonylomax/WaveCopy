@@ -44,6 +44,7 @@ export default function ConfirmSession({route, navigation}) {
   const [descriptionOfSession, setDescriptionOfSession] = useState(
     previousSessionData?.Description || '',
   );
+  const [CoverImage, setCoverImage] = useState();
   //LOCAL STATE
 
   //REDUX STATE
@@ -51,9 +52,8 @@ export default function ConfirmSession({route, navigation}) {
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   //REDUX STATE
 
-  const CoverImage = getCoverImage(location);
   useEffect(() => {
-    console.log('location', location);
+    setCoverImage(getCoverImage(location));
   }, []);
 
   return (

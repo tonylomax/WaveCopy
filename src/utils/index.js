@@ -4,17 +4,17 @@ import {
   updatePassword,
   validatePassword,
   createAuthSubscription,
+  userHasPermission,
 } from './auth/index';
 import {
   updateOwnBio,
-  returnSessionAttendees,
+  updateCurrentSessionAttendees,
   markAttendance,
   searchFirestoreServiceUsers,
   createSessionInFirestore,
   subscribeToSessionChanges,
   subscribeToSessions,
   subscribeToFirestoreUsers,
-  subscribeToSpecificBeach,
   subscribeToRoleSpecificSessionChanges,
   signupForSession,
   retrieveCoordinatorData,
@@ -23,6 +23,7 @@ import {
   unassignSessionLead,
   deleteSession,
   removeMentorFromSession,
+  updateOwnContactNumber,
   updateSessionInFirestore,
 } from './firebaseFirestore/index';
 import {
@@ -45,7 +46,6 @@ export {
   createSessionInFirestore,
   searchFirestoreServiceUsers,
   subscribeToSessions,
-  subscribeToSpecificBeach,
   subscribeToSessionChanges,
   subscribeToFirestoreUsers,
   loginWithEmail,
@@ -57,7 +57,7 @@ export {
   uploadProgress,
   updatePassword,
   validatePassword,
-  returnSessionAttendees,
+  updateCurrentSessionAttendees,
   markAttendance,
   getCoverImage,
   generateDateTimeArray,
@@ -67,4 +67,6 @@ export {
   retrieveCoordinatorData,
   removeSelfFromSession,
   removeMentorFromSession,
+  updateOwnContactNumber,
+  userHasPermission,
 };
