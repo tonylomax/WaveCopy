@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, Button, Alert, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Button,
+  Alert,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import {
   SessionDetailsAccordionMenu,
   ConfirmButton,
@@ -26,8 +34,11 @@ import {
   userHasPermission,
   updateCurrentSessionAttendees,
   getSessionLeadName,
+  getCoverImage,
 } from 'utils';
+import {Card, Title, Divider, Paragraph} from 'react-native-paper';
 import {COLLECTIONS} from 'constants';
+import {startCase} from 'lodash';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
@@ -69,6 +80,8 @@ export default function Session({navigation, route}) {
     userData?.Roles?.includes('SurfLead') ||
     userData?.Roles?.includes('NationalAdmin') ||
     userData?.Roles?.includes('Coordinator');
+  const [CoverImage, setCoverImage] = useState();
+  //LOCAL STATE
 
   useEffect(() => {
     console.log('sessionData', sessionData);
@@ -99,6 +112,10 @@ export default function Session({navigation, route}) {
       dispatch(clearSelectedSessionAttendees());
     };
   }, [sessionData]);
+
+  useEffect(() => {
+    setCoverImage(getCoverImage(selectedBeach));
+  }, []);
 
   useEffect(() => {
     // Set up subscription for all the session data
@@ -137,140 +154,184 @@ export default function Session({navigation, route}) {
 
   return (
     <View>
-      {/* Edit session button */}
-      <TouchableOpacity
-        onPress={() => {
-          const nextScreen =
-            route.name === 'HomeSession'
-              ? 'HomeEditSession'
-              : 'ProfileEditSession';
-          navigation.push(nextScreen, {
-            previousSessionData: sessionData,
-            previouslySelectedAttendees: selectedSessionAttendeesData,
-            previouslySelectedMentors: selectedSessionMentorsData,
-            previousSessionID: ID,
-          });
-        }}>
-        <Image style={{height: '15%', width: '15%'}} source={Edit_Icon}></Image>
-      </TouchableOpacity>
-      {/* Show if session is full */}
-      {MaxMentors === selectedSessionMentorsData.length && (
-        <Text> This session is full</Text>
-      )}
-      {/* Session date/time */}
-      <Moment element={Text} format="DD.MM.YY">
-        {sessionData?.DateTime}
-      </Moment>
-      {/* Session Lead */}
-      {!sessionLeadID || sessionLeadID === '' ? (
-        <Text>No session lead</Text>
-      ) : sessionLeadID === UID ? (
-        <Text>You are the session lead</Text>
-      ) : (
-        <Text>
-          {surfLead?.firstName} {surfLead?.lastName} is the session lead
-        </Text>
-      )}
-      {/* Session beach  */}
-      <Text>
-        {sessionData?.Type}-{sessionData?.Beach}
-      </Text>
-      {/* Cover coordinator */}
-      <Text>
-        Coordinator: {coordinator?.firstName} {coordinator?.lastName}
-      </Text>
+      <ImageBackground style={{height: 175, width: '100%'}} source={CoverImage}>
+        {/* Edit session button */}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row-reverse',
+          }}>
+          <TouchableOpacity
+            style={{}}
+            onPress={() => {
+              const nextScreen =
+                route.name === 'HomeSession'
+                  ? 'HomeEditSession'
+                  : 'ProfileEditSession';
+              navigation.push(nextScreen, {
+                previousSessionData: sessionData,
+                previouslySelectedAttendees: selectedSessionAttendeesData,
+                previouslySelectedMentors: selectedSessionMentorsData,
+                previousSessionID: ID,
+              });
+            }}>
+            <Image
+              style={{
+                height: 50,
+                width: 50,
+                overflow: 'visible',
+                tintColor: 'white',
+                marginRight: '1%',
+                marginTop: '10%',
+              }}
+              source={Edit_Icon}></Image>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
 
-      {/* Session description */}
-      <Text>{sessionData?.Description}</Text>
-      {/* Session Accordion menu for attendees */}
+      <View>
+        <Paragraph style={{alignSelf: 'center'}}>
+          <Moment element={Text} format="DD.MM.YY">
+            {sessionData?.DateTime}
+          </Moment>
+        </Paragraph>
+        <Divider
+          style={{
+            width: '50%',
+            alignSelf: 'center',
+            borderWidth: 1,
+            borderRadius: 10,
+          }}
+        />
 
-      {selectedSessionAttendeesData &&
-        selectedBeach &&
-        MaxMentors > 0 &&
-        selectedSessionMentorsData && (
-          <SessionDetailsAccordionMenu
-            selectedUsers={selectedSessionAttendeesData}
-            numberOfMentors={MaxMentors}
-            location={selectedBeach}
-            mentors={selectedSessionMentorsData}
-            navigation={navigation}
-            route={route}
-            sessionLead={sessionData?.SessionLead}
-            sessionID={ID}
-            roles={roles}
-          />
+        {/* Session beach  */}
+        <Paragraph style={{alignSelf: 'center'}}>
+          {startCase(sessionData?.Type?.replace(/-/gi, ' '))}-
+          {sessionData?.Beach?.replace(/-/gi, ' ')}
+        </Paragraph>
+
+        {/* Cover coordinator */}
+        <Title style={{alignSelf: 'center'}}>
+          Coordinator{'\n'}
+          <Paragraph>
+            {' '}
+            {coordinator?.firstName} {coordinator?.lastName}
+          </Paragraph>
+        </Title>
+
+        {/* Session description */}
+        <Paragraph>{sessionData?.Description}</Paragraph>
+        {/* Session Accordion menu for attendees */}
+
+        {/* Show if session is full */}
+        {MaxMentors === selectedSessionMentorsData.length && (
+          <Text> This session is full</Text>
+        )}
+        {/* Session date/time */}
+
+        {/* Session Lead */}
+        {!sessionLeadID || sessionLeadID === '' ? (
+          <Text>No session lead</Text>
+        ) : sessionLeadID === UID ? (
+          <Text>You are the session lead</Text>
+        ) : (
+          <Text>
+            {surfLead?.firstName} {surfLead?.lastName} is the session lead
+          </Text>
         )}
 
-      {/* REGISTER BUTTON */}
-      {(userHasPermission(userData?.Roles) || sessionLeadID === UID) && (
-        <ConfirmButton
-          title="Register"
-          testID="registerButton"
-          onPress={() => {
-            navigation.navigate('Register', {
-              ID,
-            });
-          }}>
-          Register
-        </ConfirmButton>
-      )}
-      {/* DElETE SESSION */}
-      {userHasPermission(userData?.Roles) && (
-        <ConfirmButton
-          title="Delete session"
-          testID="delete-session-button"
-          onPress={() => setVisible((visible) => !visible)}>
-          Register
-        </ConfirmButton>
-      )}
-      {/* Popup to confirm delete session */}
+        {selectedSessionAttendeesData &&
+          selectedBeach &&
+          MaxMentors > 0 &&
+          selectedSessionMentorsData && (
+            <SessionDetailsAccordionMenu
+              selectedUsers={selectedSessionAttendeesData}
+              numberOfMentors={MaxMentors}
+              location={selectedBeach}
+              mentors={selectedSessionMentorsData}
+              navigation={navigation}
+              route={route}
+              sessionLead={sessionData?.SessionLead}
+              sessionID={ID}
+              roles={roles}
+            />
+          )}
 
-      <ChoicePopup
-        testID="choicePopup"
-        visible={visible}
-        setVisible={setVisible}
-        yesAction={() => {
-          console.log('deleting session');
-          deleteSession(ID, UID)
-            .then((res) => {
-              console.log(res);
-              const RouteDestination =
-                route.name === 'HomeSession' ? 'Home' : 'Profile';
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{name: RouteDestination}],
-                }),
-              );
-            })
-            .catch((err) => console.log(err));
-        }}></ChoicePopup>
+        <Card style={{alignItems: 'center'}}>
+          <Card.Actions>
+            {/* REGISTER BUTTON */}
+            {(userHasPermission(userData?.Roles) || sessionLeadID === UID) && (
+              <ConfirmButton
+                title="Attendance List"
+                testID="registerButton"
+                onPress={() => {
+                  navigation.navigate('Register', {
+                    ID,
+                  });
+                }}>
+                Register
+              </ConfirmButton>
+            )}
+            {/* DElETE SESSION */}
+            {userHasPermission(userData?.Roles) && (
+              <ConfirmButton
+                title="Delete session"
+                testID="delete-session-button"
+                onPress={() => setVisible((visible) => !visible)}>
+                Register
+              </ConfirmButton>
+            )}
+            {/* Popup to confirm delete session */}
 
-      {/* LEAVE/SIGNUP */}
-      {/* Only show if signup button if user is in the session, otherwise show signup button */}
-      {selectedSessionMentorsData.filter((mentor) => mentor.id === UID)
-        .length >= 1 ? (
-        <ConfirmButton
-          testID="leaveSessionButton"
-          title="Leave session"
-          onPress={() => {
-            leaveSession(ID, UID, sessionLeadID);
-          }}></ConfirmButton>
-      ) : (
-        <ConfirmButton
-          testID="signupButton"
-          title="Sign Up"
-          disabled={MaxMentors === selectedSessionMentorsData.length}
-          onPress={() => {
-            signupForSession(ID, UID)
-              .then((result) => {
-                console.log('Session signup done ');
+            {/* LEAVE/SIGNUP */}
+            {/* Only show if signup button if user is in the session, otherwise show signup button */}
+            {selectedSessionMentorsData.filter((mentor) => mentor.id === UID)
+              .length >= 1 ? (
+              <ConfirmButton
+                testID="leaveSessionButton"
+                title="Leave session"
+                onPress={() => {
+                  leaveSession(ID, UID, sessionLeadID);
+                }}></ConfirmButton>
+            ) : (
+              <ConfirmButton
+                testID="signupButton"
+                title="Sign Up"
+                disabled={MaxMentors === selectedSessionMentorsData.length}
+                onPress={() => {
+                  signupForSession(ID, UID)
+                    .then((result) => {
+                      console.log('Session signup done ');
+                    })
+                    .catch((err) => {
+                      console.log('ERROR: ', err);
+                    });
+                }}></ConfirmButton>
+            )}
+          </Card.Actions>
+        </Card>
+
+        <ChoicePopup
+          testID="choicePopup"
+          visible={visible}
+          setVisible={setVisible}
+          yesAction={() => {
+            console.log('deleting session');
+            deleteSession(ID, UID)
+              .then((res) => {
+                console.log(res);
+                const RouteDestination =
+                  route.name === 'HomeSession' ? 'Home' : 'Profile';
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 0,
+                    routes: [{name: RouteDestination}],
+                  }),
+                );
               })
-              .catch((err) => {
-                console.log('ERROR: ', err);
-              });
-          }}></ConfirmButton>
-      )}
+              .catch((err) => console.log(err));
+          }}></ChoicePopup>
+      </View>
     </View>
   );
 }
