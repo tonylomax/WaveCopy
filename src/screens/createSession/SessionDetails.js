@@ -55,6 +55,7 @@ export default function SessionDetails({navigation, route}) {
   };
 
   useEffect(() => {
+    console.log('beaches', beaches);
     console.log(previousSessionData);
     if (previousSessionData?.DateTime) {
       setSessionDate(new Date(previousSessionData?.DateTime));
