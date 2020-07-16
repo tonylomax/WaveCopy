@@ -13,6 +13,6 @@ export default async function signOut() {
       store.dispatch(updateRoleSpecificSessions([]));
       store.dispatch(updateSessions([]));
       store.dispatch(updateFirestoreUserData({}));
-      console.log('User signed out!');
+      // console.log('User signed out!');
     });
 }
