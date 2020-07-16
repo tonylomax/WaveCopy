@@ -19,17 +19,21 @@ export default function WaveTeamProfile({route, navigation}) {
 
   const sessionData = IS_ADMIN ? 'sessionData' : 'roleSpecificSessionData';
   // Find sessions that a volunteer is signed up for
-  const volunteerSessions = useSelector((state) =>
-    state.firestoreReducer[sessionData].filter((session) =>
-      session?.Mentors?.some(
-        (filteredMentor) => filteredMentor.id === mentor.id,
-      ),
-    ),
+  // const volunteerSessions = useSelector((state) =>
+  //   state.firestoreReducer[sessionData].filter((session) => {
+  //     console.log('firestore reducer in volunteer sessions', {session});
+  //     return session?.Mentors?.some(
+  //       (filteredMentor) => filteredMentor.id === mentor.id,
+  //     );
+  //   }),
+  // );
+  const allSessions = useSelector(
+    (state) => state.firestoreReducer.sessionData,
   );
-
   useEffect(() => {
-    console.log('volunteerSessions ', volunteerSessions);
-  }, [volunteerSessions]);
+    console.log({allSessions});
+    return () => {};
+  }, []);
 
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
 
@@ -47,7 +51,7 @@ export default function WaveTeamProfile({route, navigation}) {
 
       <TrainingAccordionMenu training={mentor.Training}></TrainingAccordionMenu>
       <SessionListAccordionMenu
-        sessions={volunteerSessions}
+        sessions={allSessions}
         beaches={beaches}
         navigation={navigation}
         route={route}></SessionListAccordionMenu>

@@ -14,7 +14,6 @@ import {
   SessionListAccordionMenu,
 } from 'components';
 import {useSelector, useDispatch} from 'react-redux';
-import {TextInput} from 'react-native-gesture-handler';
 import {Edit_Icon, BrightonBeach} from 'assets';
 import ImagePicker from 'react-native-image-picker';
 import {
@@ -25,8 +24,17 @@ import {
   signOut,
   updateOwnContactNumber,
 } from 'utils';
+import {
+  Avatar,
+  Title,
+  TextInput,
+  Paragraph,
+  Portal,
+  Modal,
+  Card,
+  ProgressBar,
+} from 'react-native-paper';
 
-import ProgressBar from 'react-native-progress/Bar';
 import {ResetPassword} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
@@ -122,7 +130,7 @@ export default function Profile({navigation, route}) {
             source={BrightonBeach}
           />
 
-          <ImageConfirmPopup
+          {/* <ImageConfirmPopup
             visible={imageConfirmPopup}
             setVisible={setImageConfirmPopup}
             imgSource={uploadImg?.uri}
@@ -135,7 +143,38 @@ export default function Profile({navigation, route}) {
                 setNewProfilePicUploadComplete,
               );
             }}
-          />
+          /> */}
+          <Portal>
+            <Modal
+              visible={imageConfirmPopup}
+              onDismiss={() => setImageConfirmPopup(false)}>
+              <Card>
+                <Card.Title title="Are you happy with this photo?" />
+                <Card.Content>
+                  <Image
+                    style={{height: '25%', width: '25%'}}
+                    source={{uri: uploadImg?.uri}}></Image>
+                  <ConfirmButton
+                    title="Yes"
+                    onPress={() => {
+                      const task = uploadFile(localFilePath, UID);
+                      monitorFileUpload(
+                        task,
+                        setuploadProgress,
+                        newProfilePicUploadComplete,
+                        setNewProfilePicUploadComplete,
+                      ).then(() => setImageConfirmPopup(false));
+                    }}></ConfirmButton>
+                  <ConfirmButton
+                    title="No"
+                    onPress={() => {
+                      setImageConfirmPopup(false);
+                    }}></ConfirmButton>
+                  <ProgressBar progress={uploadProgress} />
+                </Card.Content>
+              </Card>
+            </Modal>
+          </Portal>
 
           <ConfirmButton
             testID="signOutButton"
@@ -144,10 +183,12 @@ export default function Profile({navigation, route}) {
             }}
             title="signout"
           />
-          <Image
-            title="Profle Pic"
+          <Title testID="firestoreName">{userData?.firstName} </Title>
+          <Avatar.Image
+            // title="Profle Pic"
             testID="profilePic"
-            style={{height: '10%', width: '10%'}}
+            size={100}
+            // style={{height: '10%', width: '10%'}}
             source={{
               uri: profileURL,
             }}
@@ -174,7 +215,7 @@ export default function Profile({navigation, route}) {
               defaultValue={userData?.Bio}
             />
           ) : (
-            <Text testID="bio">Bio: {bio}</Text>
+            <Paragraph testID="bio">Bio: {bio}</Paragraph>
           )}
 
           <TouchableOpacity
@@ -195,8 +236,6 @@ export default function Profile({navigation, route}) {
             }}
             title="Confirm Bio Update"
           />
-
-          <Text testID="firestoreName">Name: {userData?.firstName} </Text>
 
           <ConfirmButton
             testID="uploadNewProfilePic"
@@ -233,8 +272,6 @@ export default function Profile({navigation, route}) {
               updateOwnContactNumber(contactNumber, UID);
             }}
           />
-
-          <ProgressBar progress={uploadProgress} width={200} />
 
           <ResetPassword authenticatedUser={currentAuthenticatedUser} />
         </View>

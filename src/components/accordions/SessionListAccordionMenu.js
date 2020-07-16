@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Text, TouchableHighlight, View} from 'react-native';
-import {List} from 'react-native-paper';
+import {List, Card, Paragraph} from 'react-native-paper';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
@@ -28,19 +28,19 @@ export default function SessionListAccordionMenu({
           return (
             <List.Item
               key={i}
-              title={session.Type}
               description={() => {
                 return (
-                  <TouchableHighlight
-                    disabled={IS_IN_PAST || route.name !== 'Profile'}
+                  <Card
                     onPress={() => {
-                      const selectedBeach = getBeach(session.ID)[0];
-                      console.log('selectedBeach', selectedBeach);
-                      if (route.name === 'Profile') {
-                        navigation.navigate('ProfileSession', {
-                          session,
-                          selectedBeach,
-                        });
+                      if (!(IS_IN_PAST || route.name !== 'Profile')) {
+                        const selectedBeach = getBeach(session.ID)[0];
+                        console.log('selectedBeach', selectedBeach);
+                        if (route.name === 'Profile') {
+                          navigation.navigate('ProfileSession', {
+                            session,
+                            selectedBeach,
+                          });
+                        }
                       }
                     }}
                     style={{
@@ -49,18 +49,19 @@ export default function SessionListAccordionMenu({
                       borderWidth: 2,
                       marginBottom: '2%',
                     }}>
-                    <View
+                    <Card.Title title={session.Type} />
+                    <Card.Content
                       testID={`ProfileSessionsListItem${session.ID}`}
                       id={session.ID}>
-                      <Text> {session?.Type} </Text>
-                      <Text> {session?.Beach} </Text>
-                      <Text> {session?.DateTime} </Text>
-                      <Text>
+                      <Paragraph> {session?.Type} </Paragraph>
+                      <Paragraph> {session?.Beach} </Paragraph>
+                      <Paragraph> {session?.DateTime} </Paragraph>
+                      <Paragraph>
                         Volunteers: {session?.Mentors?.length}/
                         {session?.MaxMentors}
-                      </Text>
-                    </View>
-                  </TouchableHighlight>
+                      </Paragraph>
+                    </Card.Content>
+                  </Card>
                 );
               }}
             />

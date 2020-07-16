@@ -8,6 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import {useSelector} from 'react-redux';
+import {Title, Card, Paragraph} from 'react-native-paper';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {generateDateTimeArray, generateNumberedArray} from 'utils';
@@ -71,20 +72,21 @@ export default function SessionDetails({navigation, route}) {
     <SafeAreaView>
       <ScrollView testID="session-details-scroll-view">
         {previousSessionData ? (
-          <Text>Editing session</Text>
+          <Title>Editing session</Title>
         ) : (
-          <Text testID="create-session-title">Create a session</Text>
+          <Title testID="create-session-title">Create a session</Title>
         )}
 
-        <Text>Session</Text>
-        <Picker
-          testID="type-of-session"
-          selectedValue={sessionType}
-          onValueChange={(itemValue, itemIndex) => setSessionType(itemValue)}>
-          <Picker.Item label="Surf club" value="surf-club" />
-          <Picker.Item label="Surf therapy" value="surf-therapy" />
-        </Picker>
-        <Text>Date</Text>
+        <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+          <Card.Title title="Type of Session" />
+          <Picker
+            testID="type-of-session"
+            selectedValue={sessionType}
+            onValueChange={(itemValue, itemIndex) => setSessionType(itemValue)}>
+            <Picker.Item label="Surf club" value="surf-club" />
+            <Picker.Item label="Surf therapy" value="surf-therapy" />
+          </Picker>
+        </Card>
         <View>
           {Platform.OS === 'android' && (
             <Button
@@ -95,19 +97,20 @@ export default function SessionDetails({navigation, route}) {
         </View>
 
         {showDatePicker && (
-          <DateTimePicker
-            testID="date-of-session"
-            value={sessionDate}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={onChangeDate}
-            minimumDate={new Date()}
-          />
-          // <Text>test</Text>
+          <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+            <Card.Title title="Date of Session" />
+            <DateTimePicker
+              testID="date-of-session"
+              value={sessionDate}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChangeDate}
+              minimumDate={new Date()}
+            />
+          </Card>
         )}
         <View>
-          <Text>Time</Text>
           {Platform.OS === 'android' && (
             <Button
               onPress={() => setShowTimePicker((current) => !current)}
@@ -117,62 +120,72 @@ export default function SessionDetails({navigation, route}) {
         </View>
 
         {showTimePicker && (
-          <DateTimePicker
-            testID="time-of-session"
-            value={sessionTime}
-            mode="time"
-            is24Hour={true}
-            display="default"
-            onChange={onChangeTime}
-          />
+          <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+            <Card.Title title="Time of Session" />
+            <DateTimePicker
+              testID="time-of-session"
+              value={sessionTime}
+              mode="time"
+              is24Hour={true}
+              display="default"
+              onChange={onChangeTime}
+            />
+          </Card>
         )}
 
-        <Text>Location</Text>
-        <Picker
-          testID="location-of-session"
-          selectedValue={location?.Name}
-          onValueChange={(itemValue, itemIndex) => {
-            const ValueToAdd = beaches[itemIndex];
-            setLocation(ValueToAdd);
-          }}>
-          {beaches?.map((beach) => (
-            <Picker.Item
-              label={beach?.Name}
-              value={beach?.Name}
-              id={beach?.Name}
-              key={beach?.Name}
-            />
-          ))}
-        </Picker>
-        <Text>Amount of volunteers needed</Text>
-        <Picker
-          testID="number-of-volunteers"
-          selectedValue={numberOfVolunteers}
-          onValueChange={(itemValue, itemIndex) =>
-            setNumberOfVolunteers(itemValue)
-          }>
-          {generateNumberedArray(
-            MIN_NUMBER_OF_VOLUNTEERS,
-            MAX_NUMBER_OF_VOLUNTEERS,
-          ).map((n) => (
-            <Picker.Item label={n.toString()} value={n} key={n} />
-          ))}
-        </Picker>
-        <Text>Number of repetitions</Text>
-        {!previousSessionData && (
+        <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+          <Card.Title title="Location of session" />
           <Picker
-            testID="number-of-repetitions"
-            selectedValue={numberOfRepetitions}
+            testID="location-of-session"
+            selectedValue={location?.Name}
+            onValueChange={(itemValue, itemIndex) => {
+              const ValueToAdd = beaches[itemIndex];
+              setLocation(ValueToAdd);
+            }}>
+            {beaches?.map((beach) => (
+              <Picker.Item
+                label={beach?.Name}
+                value={beach?.Name}
+                id={beach?.Name}
+                key={beach?.Name}
+              />
+            ))}
+          </Picker>
+        </Card>
+        <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+          <Card.Title title="Amount of volunteers needed" />
+          <Picker
+            testID="number-of-volunteers"
+            selectedValue={numberOfVolunteers}
             onValueChange={(itemValue, itemIndex) =>
-              setNumberOfRepetitions(itemValue)
+              setNumberOfVolunteers(itemValue)
             }>
             {generateNumberedArray(
-              MIN_NUMBER_OF_REPETITIONS,
-              MAX_NUMBER_OF_REPETITIONS,
+              MIN_NUMBER_OF_VOLUNTEERS,
+              MAX_NUMBER_OF_VOLUNTEERS,
             ).map((n) => (
               <Picker.Item label={n.toString()} value={n} key={n} />
             ))}
           </Picker>
+        </Card>
+
+        {!previousSessionData && (
+          <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+            <Card.Title title="Number of repetitions" />
+            <Picker
+              testID="number-of-repetitions"
+              selectedValue={numberOfRepetitions}
+              onValueChange={(itemValue, itemIndex) =>
+                setNumberOfRepetitions(itemValue)
+              }>
+              {generateNumberedArray(
+                MIN_NUMBER_OF_REPETITIONS,
+                MAX_NUMBER_OF_REPETITIONS,
+              ).map((n) => (
+                <Picker.Item label={n.toString()} value={n} key={n} />
+              ))}
+            </Picker>
+          </Card>
         )}
 
         <Button
