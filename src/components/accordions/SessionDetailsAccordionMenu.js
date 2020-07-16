@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
-import {Text, Alert, View} from 'react-native';
+import {Text, Alert, View, Linking, TouchableOpacity} from 'react-native';
 import {List, Divider, Card, Paragraph} from 'react-native-paper';
+import MapView, {Marker} from 'react-native-maps';
 
 import {AddButton, CloseButton} from 'components';
 import {useSelector, useDispatch} from 'react-redux';
@@ -9,6 +10,7 @@ import {
   unassignSessionLead,
   removeMentorFromSession,
 } from 'utils';
+import {ScrollView} from 'react-native-gesture-handler';
 
 export default function SessionDetailsAccordionMenu({
   navigation,
@@ -151,25 +153,44 @@ export default function SessionDetailsAccordionMenu({
       </List.Accordion>
       <List.Accordion title="Location" id="3" testID="location-accordian">
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
-          <Card.Cover
-            source={{
-              uri:
-                'https://i2-prod.cornwalllive.com/incoming/article3890349.ece/ALTERNATES/s1200b/0_coro-mapJPG.jpg',
-            }}
-          />
-          <Card.Content>
-            <Paragraph>{location?.Address?.SecondLine}</Paragraph>
-            <Paragraph>{location?.Address?.FirstLine}</Paragraph>
-            <Paragraph>{location?.Address?.PostCode}</Paragraph>
-          </Card.Content>
-          <Card.Title title="Parking" />
-          <Card.Content>
-            <Paragraph>{location?.Parking}</Paragraph>
-          </Card.Content>
-          <Card.Title title="Toilets" />
-          <Card.Content>
-            <Paragraph>{location?.Toilets}</Paragraph>
-          </Card.Content>
+          <ScrollView>
+            <MapView
+              initialRegion={{
+                latitude: 50.8291,
+                longitude: -0.2388,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.015,
+              }}
+              style={{
+                maxWidth: '99%',
+                maxHeight: '75%',
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                left: 0,
+                bottom: 0,
+              }}>
+              <Marker
+                coordinate={{latitude: 50.8291, longitude: -0.2388}}
+                title={'Beach'}
+                description={'Cool beach'}
+              />
+            </MapView>
+
+            <Card.Content style={{paddingTop: 400, paddingBottom: 5}}>
+              <Paragraph>{location?.Address?.SecondLine}</Paragraph>
+              <Paragraph>{location?.Address?.FirstLine}</Paragraph>
+              <Paragraph>{location?.Address?.PostCode}</Paragraph>
+            </Card.Content>
+            <Card.Title title="Parking" />
+            <Card.Content>
+              <Paragraph>{location?.Parking}</Paragraph>
+            </Card.Content>
+            <Card.Title title="Toilets" />
+            <Card.Content>
+              <Paragraph>{location?.Toilets}</Paragraph>
+            </Card.Content>
+          </ScrollView>
         </Card>
       </List.Accordion>
     </List.AccordionGroup>
