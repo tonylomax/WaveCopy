@@ -150,7 +150,7 @@ export default function SessionDetailsAccordionMenu({
           ))}
       </List.Accordion>
       <List.Accordion title="Location" id="3" testID="location-accordian">
-        <Card>
+        <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
           <Card.Cover
             source={{
               uri:

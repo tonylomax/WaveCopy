@@ -1,6 +1,6 @@
 // TO DO - merge this with session/EditSession.js
 import React, {useState, useEffect} from 'react';
-import {View, Text, Image, SafeAreaView, Alert, Button} from 'react-native';
+import {View, Text, Image, SafeAreaView, Alert} from 'react-native';
 import {
   Title,
   Divider,
@@ -8,6 +8,8 @@ import {
   Subheading,
   Caption,
   TextInput,
+  IconButton,
+  Card,
 } from 'react-native-paper';
 import {
   ConfirmButton,
@@ -26,6 +28,7 @@ import {
   updateSessionInFirestore,
 } from 'utils';
 import {useSelector} from 'react-redux';
+import {ScrollView} from 'react-native-gesture-handler';
 
 export default function ConfirmSession({route, navigation}) {
   const {
@@ -54,104 +57,125 @@ export default function ConfirmSession({route, navigation}) {
 
   useEffect(() => {
     setCoverImage(getCoverImage(location));
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton
+          icon="check"
+          size={35}
+          testID="confirm-session-details"
+          // title="Confirm"
+          onPress={() => setVisible((visible) => !visible)}
+        />
+      ),
+    });
   }, []);
 
   return (
     <SafeAreaView>
-      <Image style={{alignSelf: 'center', height: 150}} source={CoverImage} />
-      <ConfirmButton
-        testID="confirm-session-details"
-        title="Confirm"
-        onPress={() => setVisible((visible) => !visible)}></ConfirmButton>
-      <ChoicePopup
-        testID="choicePopup"
-        visible={visible}
-        setVisible={setVisible}
-        yesAction={() => {
-          console.log('creating a session');
-          console.log(userData);
-          console.log('previous session data', previousSessionID);
-          console.log(previousSessionID);
-          if (!previousSessionID) {
-            createSessionInFirestore({
-              sessionType,
-              location,
-              numberOfVolunteers,
-              selectedUsers,
-              dateTimeArray,
-              descriptionOfSession,
-              coordinator: userData?.Name || '',
-              uid,
-            })
-              .then(() => {
-                console.log('session created');
-                navigation.dispatch(
-                  CommonActions.reset({
-                    index: 0,
-                    routes: [{name: 'Home'}],
-                  }),
-                );
+      <ScrollView>
+        <Image style={{alignSelf: 'center', height: 150}} source={CoverImage} />
+        {previousSessionData && (
+          <ConfirmButton
+            testID="confirm-session-details"
+            title="Confirm"
+            onPress={() => setVisible((visible) => !visible)}></ConfirmButton>
+        )}
+
+        <ChoicePopup
+          testID="choicePopup"
+          visible={visible}
+          setVisible={setVisible}
+          yesAction={() => {
+            console.log('creating a session');
+            console.log(userData);
+            console.log('previous session data', previousSessionID);
+            console.log(previousSessionID);
+            if (!previousSessionID) {
+              createSessionInFirestore({
+                sessionType,
+                location,
+                numberOfVolunteers,
+                selectedUsers,
+                dateTimeArray,
+                descriptionOfSession,
+                coordinator: userData?.Name || '',
+                uid,
               })
-              .catch((err) => console.log(err));
-          } else {
-            updateSessionInFirestore({
-              sessionType,
-              location,
-              numberOfVolunteers,
-              selectedUsers,
-              dateTimeArray,
-              descriptionOfSession,
-              coordinator: userData?.Name || '',
-              uid,
-              sessionID: previousSessionID,
-            })
-              .then(() => {
-                navigation.dispatch(
-                  CommonActions.reset({
-                    index: 0,
-                    routes: [{name: 'Home'}],
-                  }),
-                );
+                .then(() => {
+                  console.log('session created');
+                  navigation.dispatch(
+                    CommonActions.reset({
+                      index: 0,
+                      routes: [{name: 'Home'}],
+                    }),
+                  );
+                })
+                .catch((err) => console.log(err));
+            } else {
+              updateSessionInFirestore({
+                sessionType,
+                location,
+                numberOfVolunteers,
+                selectedUsers,
+                dateTimeArray,
+                descriptionOfSession,
+                coordinator: userData?.Name || '',
+                uid,
+                sessionID: previousSessionID,
               })
-              .catch((err) => {
-                console.log(err);
-                //Needs testing, err may need serializing
-                // Alert.alert(err);
-              });
-          }
-        }}></ChoicePopup>
-      <Button title="Previous" onPress={() => navigation.goBack()} />
-      {dateTimeArray &&
-        dateTimeArray.map((dateTimeOfSession, i) => (
-          <Moment
-            element={Text}
-            // format="Do MMMM YYYY HH:mm"
-            format="LLLL"
-            key={`date-of-session-${i}`}>
-            {dateTimeOfSession}
-          </Moment>
-        ))}
-      <Headline>
-        {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'} -{' '}
-        {location.Name}
-      </Headline>
-      <Divider />
-      <Title>Coordinator</Title>
-      <Subheading testID="coordinator-name">
-        {userData?.firstName} {userData?.lastName}
-      </Subheading>
-      <Caption>Description of session</Caption>
-      <TextInput
-        testID="description-of-session"
-        defaultValue={descriptionOfSession}
-        onChangeText={(text) => setDescriptionOfSession(text)}
-      />
-      <SessionDetailsAccordionMenu
-        location={location}
-        selectedUsers={selectedUsers}
-        numberOfMentors={numberOfVolunteers}
-        mentors={previouslySelectedMentors || []}
-      />
+                .then(() => {
+                  navigation.dispatch(
+                    CommonActions.reset({
+                      index: 0,
+                      routes: [{name: 'Home'}],
+                    }),
+                  );
+                })
+                .catch((err) => {
+                  console.log(err);
+                  //Needs testing, err may need serializing
+                  // Alert.alert(err);
+                });
+            }
+          }}></ChoicePopup>
+        <ConfirmButton title="Previous" onPress={() => navigation.goBack()} />
+        <Divider />
+        {dateTimeArray &&
+          dateTimeArray.map((dateTimeOfSession, i) => (
+            <Moment
+              element={Text}
+              // format="Do MMMM YYYY HH:mm"
+              format="LLLL"
+              key={`date-of-session-${i}`}>
+              {dateTimeOfSession}
+            </Moment>
+          ))}
+        <Headline>
+          {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'} -{' '}
+          {location.Name}
+        </Headline>
+        <Divider />
+        <Title>Coordinator</Title>
+        <Subheading testID="coordinator-name">
+          {userData?.firstName} {userData?.lastName}
+        </Subheading>
+        <Card style={{margin: '2%'}} elevation={2}>
+          <Card.Title title="Description of session" />
+          <Card.Content>
+            <TextInput
+              testID="description-of-session"
+              defaultValue={descriptionOfSession}
+              onChangeText={(text) => setDescriptionOfSession(text)}
+            />
+          </Card.Content>
+        </Card>
+        <SessionDetailsAccordionMenu
+          location={location}
+          selectedUsers={selectedUsers}
+          numberOfMentors={numberOfVolunteers}
+          mentors={previouslySelectedMentors || []}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 }
