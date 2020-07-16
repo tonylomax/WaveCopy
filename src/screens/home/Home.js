@@ -44,7 +44,14 @@ export default function Profile({navigation}) {
   const userData = useSelector((state) => state.firestoreReducer.userData);
   //REDUX STATE
 
-  const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
+  const getBeach = (beachID) => {
+    console.log('all beaches', beaches);
+    beaches.filter((beach) => {
+      console.log(beachID);
+      console.log('beachin getbeach', beach);
+      return beach.id === beachID;
+    });
+  };
 
   useEffect(() => {
     let unsubscribeFromSessions = () => {};
@@ -100,7 +107,9 @@ export default function Profile({navigation}) {
               id={item.ID}
               testID={`SessionsListItem${item.ID}`}
               onPress={() => {
-                const selectedBeach = getBeach(item.ID)[0];
+                console.log('this is the clikced thing ', item);
+                // const selectedBeach = getBeach(item.Beach);
+                const selectedBeach = item.Beach;
                 // console.log({item});
                 navigation.navigate('HomeSession', {item, selectedBeach});
               }}>

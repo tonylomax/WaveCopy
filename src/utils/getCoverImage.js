@@ -89,6 +89,7 @@ export default getCoverImage = (location) => {
       return Sidmouth;
       break;
     case 'StIves':
+    case 'St Ives':
       return StIves;
       break;
     case 'TheWave':
