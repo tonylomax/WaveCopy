@@ -6,14 +6,20 @@ import {
   FlatList,
   TouchableHighlight,
 } from 'react-native';
-import {Card, Title, Paragraph} from 'react-native-paper';
+import {Card, Title, Paragraph, Subheading} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import {getAllBeaches} from '../../redux/';
 import {isEmpty} from 'lodash';
 import {
   subscribeToSessions,
   subscribeToRoleSpecificSessionChanges,
+  getCoverImage,
 } from 'utils';
+import Moment from 'react-moment';
+import moment from 'moment';
+import 'moment/src/locale/en-gb';
+moment.locale('en-gb');
+moment().format('en-gb');
 
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
@@ -82,15 +88,26 @@ export default function Profile({navigation}) {
                 // console.log({item});
                 navigation.navigate('HomeSession', {item, selectedBeach});
               }}>
-              <Card.Title title={item?.Type} />
+              <Card.Title
+                title={
+                  item?.Type === 'surf-club' ? 'Surf Club' : 'Surf Therapy'
+                }
+              />
               <Card.Content>
                 <Paragraph>{item?.Beach}</Paragraph>
-                <Paragraph>{item?.DateTime}</Paragraph>
-                <Paragraph testID={`SessionsListItemVolNum${item.ID}`}>
-                  Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
+                <Paragraph>
+                  {
+                    <Moment element={Text} format="LLLL">
+                      {item?.DateTime}
+                    </Moment>
+                  }
                 </Paragraph>
+                <Subheading testID={`SessionsListItemVolNum${item.ID}`}>
+                  Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
+                </Subheading>
               </Card.Content>
-              <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
+
+              <Card.Cover source={getCoverImage(item?.Beach)} />
             </Card>
           )}
           keyExtractor={(item) => item.ID}></FlatList>

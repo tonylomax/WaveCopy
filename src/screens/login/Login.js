@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, Button, Image, Alert, SafeAreaView} from 'react-native';
-import {TextInput} from 'react-native-paper';
+import {TextInput, Caption, Headline} from 'react-native-paper';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
 import {useDispatch} from 'react-redux';
 import {serializeError} from 'serialize-error';
+import {ConfirmButton} from './../../components';
 
 export default function Home({navigation, setLoggedIn}) {
   const dispatch = useDispatch();
@@ -20,18 +21,15 @@ export default function Home({navigation, setLoggedIn}) {
         <Image
           source={require('../../assets/images/logos/Logo_Square_Blue_Unnamed.png')}
         />
-        <Text style={(FONTS.H1, {color: COLOURS.DEEP_BLUE})}>
-          The Wave Project
-        </Text>
+        <Headline>The Wave Project</Headline>
 
-        <Text style>...coming soon!</Text>
-        <Text>Email</Text>
+        <Caption>Email</Caption>
         <TextInput
           autoCapitalize="none"
           testID="email"
           onChangeText={(inputEmail) => setEmail(inputEmail)}
         />
-        <Text>Password</Text>
+        <Caption>Password</Caption>
         <TextInput
           secureTextEntry={true}
           autoCapitalize="none"
@@ -40,7 +38,7 @@ export default function Home({navigation, setLoggedIn}) {
             setPassword(inputPassword);
           }}
         />
-        <Button
+        <ConfirmButton
           title="Log In"
           testID="submit-login-details"
           onPress={() => {
