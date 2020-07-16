@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  ImageBackground,
 } from 'react-native';
 import {
   ConfirmButton,
@@ -83,6 +84,7 @@ export default function Profile({navigation, route}) {
   });
   const [uploadImg, setUploadImg] = useState();
   const [uploadProgress, setuploadProgress] = useState(0);
+  const [showProgressBar, setshowProgressBar] = useState(false);
   //LOCAL STATE
 
   const getFileLocalPath = (response) => {
@@ -124,39 +126,37 @@ export default function Profile({navigation, route}) {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView testID="profile-scroll-view">
-        <View style={{flex: 1}}>
-          <Image
-            style={{alignSelf: 'center', height: 100}}
+        <View style={{flex: 1, paddingBottom: 10}}>
+          <ImageBackground
+            style={{height: 175, width: '100%'}}
             source={BrightonBeach}
           />
 
-          {/* <ImageConfirmPopup
-            visible={imageConfirmPopup}
-            setVisible={setImageConfirmPopup}
-            imgSource={uploadImg?.uri}
-            yesAction={() => {
-              const task = uploadFile(localFilePath, UID);
-              monitorFileUpload(
-                task,
-                setuploadProgress,
-                newProfilePicUploadComplete,
-                setNewProfilePicUploadComplete,
-              );
-            }}
-          /> */}
           <Portal>
             <Modal
               visible={imageConfirmPopup}
               onDismiss={() => setImageConfirmPopup(false)}>
-              <Card>
-                <Card.Title title="Are you happy with this photo?" />
+              <Card
+                style={{
+                  maxHeight: '75%',
+                  alignItems: 'center',
+                }}>
+                <Card.Title
+                  style={{alignSelf: 'center', margin: 0}}
+                  title="Are you happy with this new profile picture?"
+                />
                 <Card.Content>
                   <Image
-                    style={{height: '25%', width: '25%'}}
+                    style={{
+                      alignSelf: 'center',
+                      height: '50%',
+                      width: '50%',
+                    }}
                     source={{uri: uploadImg?.uri}}></Image>
                   <ConfirmButton
                     title="Yes"
                     onPress={() => {
+                      setshowProgressBar(true);
                       const task = uploadFile(localFilePath, UID);
                       monitorFileUpload(
                         task,
@@ -170,107 +170,145 @@ export default function Profile({navigation, route}) {
                     onPress={() => {
                       setImageConfirmPopup(false);
                     }}></ConfirmButton>
-                  <ProgressBar progress={uploadProgress} />
+                  <ProgressBar
+                    visible={showProgressBar}
+                    progress={uploadProgress}
+                  />
                 </Card.Content>
               </Card>
             </Modal>
           </Portal>
+
+          <Card style={{margin: '2%', maxHeight: 200}}>
+            <Card.Content>
+              <Title style={{alignSelf: 'center'}} testID="firestoreName">
+                {userData?.firstName}{' '}
+              </Title>
+              <Avatar.Image
+                style={{alignSelf: 'center'}}
+                // title="Profle Pic"
+                testID="profilePic"
+                size={100}
+                source={{
+                  uri: profileURL,
+                }}
+              />
+              <TouchableOpacity
+                testID="changeProfilePic"
+                onPress={() => {
+                  console.log('CHANGE PROFILE PIC PRESSED');
+                  imagePicker();
+                }}
+                style={{height: '12%', width: '12%', alignSelf: 'flex-end'}}>
+                <Image
+                  style={{height: '100%', width: '100%', overflow: 'visible'}}
+                  source={Edit_Icon}
+                />
+              </TouchableOpacity>
+            </Card.Content>
+          </Card>
+
+          {/* BIO CARD */}
+          <Card style={{margin: '2%', maxHeight: 400}}>
+            <Card.Content style={{padding: 10}}>
+              {editBio ? (
+                <TextInput
+                  testID="editBio"
+                  onChangeText={(updatedBio) => {
+                    setBio(updatedBio);
+                  }}
+                  autoFocus={true}
+                  defaultValue={userData?.Bio}
+                />
+              ) : (
+                <Paragraph testID="bio">Bio: {bio}</Paragraph>
+              )}
+              <TouchableOpacity
+                testID="editBioButton"
+                onPress={() => {
+                  console.log('EDIT BIO PRESSED');
+
+                  setEditBio((editBio) => !editBio);
+                  if (editBio) {
+                    updateOwnBio(bio, UID);
+                  }
+                }}
+                style={{
+                  minHeight: '15%',
+                  minWidth: '15%',
+                  height: '15%',
+                  width: '15%',
+                  alignSelf: 'flex-end',
+                }}>
+                <Image
+                  style={{height: '100%', width: '100%', overflow: 'visible'}}
+                  source={Edit_Icon}
+                />
+              </TouchableOpacity>
+            </Card.Content>
+            <Card.Content style={{padding: 10}}>
+              {editContactNumber ? (
+                <TextInput
+                  testID="editContactNumber"
+                  onChangeText={(updatedNumber) => {
+                    setContactNumber(updatedNumber);
+                  }}
+                  autoFocus={true}
+                  defaultValue={contactNumber}
+                />
+              ) : (
+                <Paragraph testID="bio">
+                  Contact Number: {contactNumber}
+                </Paragraph>
+              )}
+              <TouchableOpacity
+                testID="editContactNumber"
+                onPress={() => {
+                  setEditContactNumber(
+                    (editContactNumber) => !editContactNumber,
+                  );
+                  if (editContactNumber) {
+                    updateOwnContactNumber(contactNumber, UID);
+                  }
+                }}
+                style={{
+                  height: '15%',
+                  width: '15%',
+                  alignSelf: 'flex-end',
+                  minHeight: '15%',
+                  minWidth: '15%',
+                }}>
+                <Image
+                  style={{height: '100%', width: '100%', overflow: 'visible'}}
+                  source={Edit_Icon}
+                />
+              </TouchableOpacity>
+            </Card.Content>
+          </Card>
+
+          <Card style={{margin: '2%'}}>
+            <Card.Content>
+              <TrainingAccordionMenu training={userData?.Training} />
+
+              <SessionListAccordionMenu
+                sessions={
+                  userData?.Roles?.includes('NationalAdmin')
+                    ? sessions
+                    : mySessions
+                }
+                beaches={beaches}
+                route={route}
+                navigation={navigation}
+              />
+            </Card.Content>
+          </Card>
 
           <ConfirmButton
             testID="signOutButton"
             onPress={() => {
               signOut();
             }}
-            title="signout"
-          />
-          <Title testID="firestoreName">{userData?.firstName} </Title>
-          <Avatar.Image
-            // title="Profle Pic"
-            testID="profilePic"
-            size={100}
-            // style={{height: '10%', width: '10%'}}
-            source={{
-              uri: profileURL,
-            }}
-          />
-
-          <TrainingAccordionMenu training={userData?.Training} />
-
-          <SessionListAccordionMenu
-            sessions={
-              userData?.Roles?.includes('NationalAdmin') ? sessions : mySessions
-            }
-            beaches={beaches}
-            route={route}
-            navigation={navigation}
-          />
-
-          {editBio ? (
-            <TextInput
-              testID="editBio"
-              onChangeText={(updatedBio) => {
-                setBio(updatedBio);
-              }}
-              autoFocus={true}
-              defaultValue={userData?.Bio}
-            />
-          ) : (
-            <Paragraph testID="bio">Bio: {bio}</Paragraph>
-          )}
-
-          <TouchableOpacity
-            testID="editBioButton"
-            onPress={() => {
-              console.log('EDIT BIO PRESSED');
-              setEditBio((editBio) => !editBio);
-            }}
-            style={{height: '15%', width: '15%'}}>
-            <Image style={{height: '25%', width: '25%'}} source={Edit_Icon} />
-          </TouchableOpacity>
-
-          <ConfirmButton
-            testID="confirmBioUpdate"
-            onPress={() => {
-              setEditBio(false);
-              updateOwnBio(bio, UID);
-            }}
-            title="Confirm Bio Update"
-          />
-
-          <ConfirmButton
-            testID="uploadNewProfilePic"
-            title="Upload image"
-            onPress={() => {
-              imagePicker();
-            }}
-            style={{height: '15%', width: '15%'}}
-          />
-          <Image
-            style={{height: '10%', width: '10%'}}
-            source={Edit_Icon}></Image>
-
-          <TouchableOpacity
-            onPress={() => {
-              setEditContactNumber((editContactNumber) => !editContactNumber);
-            }}>
-            {editContactNumber ? (
-              <TextInput
-                onChangeText={(updatedNumber) => {
-                  setContactNumber(updatedNumber);
-                }}
-                autoFocus={true}
-                defaultValue={contactNumber}></TextInput>
-            ) : (
-              <Text>{contactNumber}</Text>
-            )}
-          </TouchableOpacity>
-
-          <ConfirmButton
-            title="Update contact number"
-            onPress={() => {
-              setEditContactNumber(false);
-              updateOwnContactNumber(contactNumber, UID);
-            }}
+            title="Signout"
           />
 
           <ResetPassword authenticatedUser={currentAuthenticatedUser} />
