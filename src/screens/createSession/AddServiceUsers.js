@@ -105,13 +105,15 @@ export default function AddServiceUsers({route, navigation}) {
         <View>
           <List.Item
             title={`${serviceUser?.firstName} ${serviceUser?.lastName}`}
-          />
-          <Button
-            title="Remove"
-            onPress={() => {
-              console.log('clicked on id ', serviceUser?.objectID);
-              removeUser(serviceUser.objectID);
-            }}
+            right={() => (
+              <Button
+                title="remove"
+                onPress={() => {
+                  console.log('clicked on id ', serviceUser?.objectID);
+                  removeUser(serviceUser.objectID);
+                }}
+              />
+            )}
           />
           <Divider />
         </View>

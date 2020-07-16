@@ -125,17 +125,21 @@ export default function ConfirmSession({route, navigation}) {
         dateTimeArray.map((dateTimeOfSession, i) => (
           <Moment
             element={Text}
-            format="Do MMMM YYYY HH:mm"
+            // format="Do MMMM YYYY HH:mm"
+            format="LLLL"
             key={`date-of-session-${i}`}>
             {dateTimeOfSession}
           </Moment>
         ))}
       <Headline>
-        {sessionType} - {location.name}
+        {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'} -{' '}
+        {location.Name}
       </Headline>
       <Divider />
       <Title>Coordinator</Title>
-      <Subheading testID="coordinator-name">{userData?.Name}</Subheading>
+      <Subheading testID="coordinator-name">
+        {userData?.firstName} {userData?.lastName}
+      </Subheading>
       <Caption>Description of session</Caption>
       <TextInput
         testID="description-of-session"
