@@ -10,6 +10,7 @@ import {ChoicePopup, ConfirmPopup, ImageConfirmPopup} from './popups/index';
 import RegisterTabs from './RegisterTabs';
 import LoadingScreen from './LoadingScreen';
 import ResetPassword from './ResetPassword';
+import CurvedTabBar from './CurvedTabBar'
 
 import {
   SessionDetailsAccordionMenu,
@@ -33,4 +34,5 @@ export {
   SessionDetailsAccordionMenu,
   TrainingAccordionMenu,
   SessionListAccordionMenu,
+  CurvedTabBar
 };

@@ -21,11 +21,12 @@ import store from './redux/store/index';
 import {ROLES} from 'constants';
 import WaveTeamProfile from './screens/profile/WaveTeamProfile';
 import ServiceUserProfile from './screens/profile/ServiceUserProfile';
-
 import SessionDetails from './screens/createSession/SessionDetails';
 import AddServiceUsers from './screens/createSession/AddServiceUsers';
 import ConfirmSession from './screens/createSession/ConfirmSession';
 import {HeaderBackButton} from 'react-navigation';
+import {CurvedTabBar} from 'components'
+
 
 const BottomTabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -35,7 +36,10 @@ const EditSessionStack = createStackNavigator();
 
 const AdminTabNavigator = () => (
   <NavigationContainer>
-    <BottomTabs.Navigator>
+    <BottomTabs.Navigator  
+    // tabBar={props => <CurvedTabBar {...props} />}
+    >
+
       <BottomTabs.Screen
         name="Home"
         component={HomeNavigator}
