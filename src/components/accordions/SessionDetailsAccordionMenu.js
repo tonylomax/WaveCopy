@@ -117,7 +117,7 @@ export default function SessionDetailsAccordionMenu({
               <List.Item
                 onPress={() => {
                   if (
-                    roles.some(
+                    roles?.some(
                       () =>
                         userData?.Roles?.includes('SurfLead') ||
                         userData?.Roles?.includes('NationalAdmin') ||
