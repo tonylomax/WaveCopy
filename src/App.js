@@ -25,8 +25,7 @@ import SessionDetails from './screens/createSession/SessionDetails';
 import AddServiceUsers from './screens/createSession/AddServiceUsers';
 import ConfirmSession from './screens/createSession/ConfirmSession';
 import {HeaderBackButton} from 'react-navigation';
-import {CurvedTabBar} from 'components'
-
+import {CurvedTabBar} from 'components';
 
 const BottomTabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -36,10 +35,9 @@ const EditSessionStack = createStackNavigator();
 
 const AdminTabNavigator = () => (
   <NavigationContainer>
-    <BottomTabs.Navigator  
+    <BottomTabs.Navigator
     // tabBar={props => <CurvedTabBar {...props} />}
     >
-
       <BottomTabs.Screen
         name="Home"
         component={HomeNavigator}
@@ -116,7 +114,7 @@ const CreateSessionNavigator = () => (
     <CreateSessionStack.Screen
       name="ConfirmSession"
       component={ConfirmSession}
-      options={{title: 'EDIT PAGE'}}
+      options={{title: 'Confirm Session Details'}}
     />
   </CreateSessionStack.Navigator>
 );
