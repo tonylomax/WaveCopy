@@ -202,7 +202,7 @@ export default function Session({navigation, route}) {
 
           <View>
             <Paragraph style={{alignSelf: 'center'}}>
-              <Moment element={Text} format="DD.MM.YY">
+              <Moment element={Text} format="LLLL">
                 {sessionData?.DateTime}
               </Moment>
             </Paragraph>
