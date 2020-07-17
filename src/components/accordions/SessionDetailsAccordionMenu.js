@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {Text, Alert, View, Linking, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  Alert,
+  View,
+  Linking,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import {List, Divider, Card, Paragraph} from 'react-native-paper';
 import MapView, {Marker} from 'react-native-maps';
 
@@ -169,6 +176,7 @@ export default function SessionDetailsAccordionMenu({
                 right: 0,
                 left: 0,
                 bottom: 0,
+                ...StyleSheet.absoluteFill,
               }}>
               <Marker
                 coordinate={{latitude: 50.8291, longitude: -0.2388}}
