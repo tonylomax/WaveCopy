@@ -85,7 +85,15 @@ export default function Profile({navigation, route}) {
   const [uploadImg, setUploadImg] = useState();
   const [uploadProgress, setuploadProgress] = useState(0);
   const [showProgressBar, setshowProgressBar] = useState(false);
+  const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(
+    false,
+  );
+
   //LOCAL STATE
+  const togglePasswordChangeModal = () =>
+    setChangePasswordModalVisible(
+      (changePasswordModalVisible) => !changePasswordModalVisible,
+    );
 
   const getFileLocalPath = (response) => {
     const {path, uri} = response;
@@ -311,7 +319,25 @@ export default function Profile({navigation, route}) {
             title="Signout"
           />
 
-          <ResetPassword authenticatedUser={currentAuthenticatedUser} />
+          <ConfirmButton
+            title="Change Password"
+            onPress={() => {
+              togglePasswordChangeModal();
+            }}></ConfirmButton>
+
+          <Portal>
+            <Modal
+              visible={changePasswordModalVisible}
+              onDismiss={togglePasswordChangeModal}>
+              <Card>
+                <Card.Title title="Change Password" />
+
+                <Card.Content>
+                  <ResetPassword authenticatedUser={currentAuthenticatedUser} />
+                </Card.Content>
+              </Card>
+            </Modal>
+          </Portal>
         </View>
       </ScrollView>
     </SafeAreaView>
