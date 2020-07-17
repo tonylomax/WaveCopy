@@ -13,6 +13,12 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/Theme.ReactNative.AppCompat.Light.NoActionBar.FullScreen">
+
+      <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyA4DeIeg77gTmYgw_XWkZnU2mlo59Pf7CI"/>
+      <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
       <activity
         android:name=".MainActivity"
         android:label="WaveVolunteerApp"

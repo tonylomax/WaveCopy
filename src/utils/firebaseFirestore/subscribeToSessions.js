@@ -12,6 +12,7 @@ export default (sessionID) => {
           // console.log('session?._data?.Mentors ', session?._data?.Mentors);
           return {
             ID: session?._ref?._documentPath?._parts[1],
+            BeachID: session?._data?.BeachID,
             Beach: session?._data?.Beach,
             DateTime: session?._data?.DateTime,
             Time: session?._data?.Time,

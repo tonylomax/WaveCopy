@@ -46,7 +46,7 @@ export default function Profile({navigation}) {
 
   const getBeach = (beachID) => {
     console.log('all beaches', beaches);
-    beaches.filter((beach) => {
+    return beaches.filter((beach) => {
       console.log(beachID);
       console.log('beachin getbeach', beach);
       return beach.id === beachID;
@@ -82,6 +82,10 @@ export default function Profile({navigation}) {
     }
   }, [userData]);
 
+  useEffect(() => {
+    console.log('sessions in home', sessions);
+  }, [sessions]);
+
   return (
     <SafeAreaView>
       <View>
@@ -107,9 +111,10 @@ export default function Profile({navigation}) {
               id={item.ID}
               testID={`SessionsListItem${item.ID}`}
               onPress={() => {
-                console.log('this is the clikced thing ', item);
-                // const selectedBeach = getBeach(item.Beach);
-                const selectedBeach = item.Beach;
+                console.log('this is the clicked thing ', item);
+                const selectedBeach = getBeach(item.BeachID)[0];
+                console.log('selectedBeach', selectedBeach);
+                // const selectedBeach = item.Beach;
                 // console.log({item});
                 navigation.navigate('HomeSession', {item, selectedBeach});
               }}>

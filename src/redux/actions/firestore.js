@@ -84,7 +84,7 @@ export function getAllBeaches() {
       const id = doc._ref?._documentPath?._parts[1];
       return {...data, id};
     });
-    // console.log('beaches retrieved, ', beaches);
+    console.log('beaches retrieved, ', beaches);
     dispatch({
       type: ACTIONS.GET_ALL_BEACHES,
       data: beaches,
