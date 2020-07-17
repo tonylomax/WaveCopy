@@ -38,9 +38,7 @@ export default function SessionDetails({navigation, route}) {
   // Default state is 0, previous state will not exist.
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
 
-  const [sessionDate, setSessionDate] = useState(
-    new Date().setDate(new Date().getDate() + 7),
-  );
+  const [sessionDate, setSessionDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
   const [sessionTime, setSessionTime] = useState(new Date());
   const [showTimePicker, setShowTimePicker] = useState(Platform.OS === 'ios');

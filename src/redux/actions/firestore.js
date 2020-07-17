@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import {ACTIONS, COLLECTIONS} from 'constants';
 import {updateCurrentSessionAttendees} from 'utils';
+import {sortBy} from 'lodash';
 
 export function updateSessions(sessionsData) {
   console.log('Inside updateSessions data action');
@@ -79,11 +80,12 @@ export function getAllBeaches() {
   return async (dispatch) => {
     // const beaches = [];
     const snapshot = await firestore().collection(COLLECTIONS.BEACHES).get();
-    const beaches = snapshot.docs.map((doc) => {
+    const unorderedBeaches = snapshot.docs.map((doc) => {
       const data = doc.data();
       const id = doc._ref?._documentPath?._parts[1];
       return {...data, id};
     });
+    const beaches = sortBy(unorderedBeaches, 'Name');
     console.log('beaches retrieved, ', beaches);
     dispatch({
       type: ACTIONS.GET_ALL_BEACHES,
