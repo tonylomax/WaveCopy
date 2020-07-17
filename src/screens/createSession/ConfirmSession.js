@@ -7,6 +7,7 @@ import {
   Headline,
   Subheading,
   Caption,
+  Paragraph,
   TextInput,
   IconButton,
   Card,
@@ -138,27 +139,43 @@ export default function ConfirmSession({route, navigation}) {
                 });
             }
           }}></ChoicePopup>
-        <ConfirmButton title="Previous" onPress={() => navigation.goBack()} />
-        <Divider />
-        {dateTimeArray &&
-          dateTimeArray.map((dateTimeOfSession, i) => (
-            <Moment
-              element={Text}
-              // format="Do MMMM YYYY HH:mm"
-              format="LLLL"
-              key={`date-of-session-${i}`}>
-              {dateTimeOfSession}
-            </Moment>
-          ))}
         <Headline>
           {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'} -{' '}
           {location.Name}
         </Headline>
+        <ConfirmButton title="Previous" onPress={() => navigation.goBack()} />
         <Divider />
-        <Title>Coordinator</Title>
-        <Subheading testID="coordinator-name">
-          {userData?.firstName} {userData?.lastName}
-        </Subheading>
+        {dateTimeArray &&
+          dateTimeArray.map((dateTimeOfSession, i) => (
+            <Card style={{padding: '5%', margin: '2%'}}>
+              {dateTimeArray.length > 1 ? (
+                <Card.Title title={`Session ${i + 1}`} />
+              ) : (
+                <Card.Title title="Time and date" />
+              )}
+
+              <Card.Content>
+                <Moment
+                  element={Text}
+                  // format="Do MMMM YYYY HH:mm"
+                  format="LLLL"
+                  key={`date-of-session-${i}`}>
+                  {dateTimeOfSession}
+                </Moment>
+              </Card.Content>
+            </Card>
+          ))}
+
+        <Divider />
+        <Card style={{padding: '5%', margin: '2%'}}>
+          <Card.Title title="Coordinator" />
+          <Card.Content>
+            <Paragraph testID="coordinator-name">
+              {userData?.firstName} {userData?.lastName}
+            </Paragraph>
+          </Card.Content>
+        </Card>
+
         <Card style={{margin: '2%'}} elevation={2}>
           <Card.Title title="Description of session" />
           <Card.Content>
