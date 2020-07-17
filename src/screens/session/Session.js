@@ -236,7 +236,7 @@ export default function Session({navigation, route}) {
 
             {/* Show if session is full */}
             {MaxMentors === selectedSessionMentorsData.length && (
-              <Text> This session is full</Text>
+              <Text>This session is full</Text>
             )}
             {/* Session date/time */}
 
@@ -268,13 +268,13 @@ export default function Session({navigation, route}) {
                 />
               )}
 
-            <Card style={{alignItems: 'center'}}>
+            <Card style={{alignItems: 'center', padding: '2%', margin: '2%'}}>
               <Card.Actions>
                 {/* REGISTER BUTTON */}
                 {(userHasPermission(userData?.Roles) ||
                   sessionLeadID === UID) && (
                   <ConfirmButton
-                    title="Attendance List"
+                    title="Attendance"
                     testID="registerButton"
                     onPress={() => {
                       navigation.navigate('Register', {
