@@ -8,7 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import {useSelector} from 'react-redux';
-import {Title, Card, Paragraph} from 'react-native-paper';
+import {Title, Card, Paragraph, Caption} from 'react-native-paper';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {generateDateTimeArray, generateNumberedArray} from 'utils';
@@ -100,6 +100,10 @@ export default function SessionDetails({navigation, route}) {
         {showDatePicker && (
           <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
             <Card.Title title="Date of Session" />
+            <Caption>
+              If you are creating multiple sessions, select the date of the
+              first session.
+            </Caption>
             <DateTimePicker
               testID="date-of-session"
               value={sessionDate}
@@ -154,7 +158,8 @@ export default function SessionDetails({navigation, route}) {
           </Picker>
         </Card>
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
-          <Card.Title title="Amount of volunteers needed" />
+          <Card.Title title="Number of volunteers" />
+          <Caption>The number of volunteers required for this session.</Caption>
           <Picker
             testID="number-of-volunteers"
             selectedValue={numberOfVolunteers}
@@ -173,6 +178,7 @@ export default function SessionDetails({navigation, route}) {
         {!previousSessionData && (
           <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
             <Card.Title title="Number of repetitions" />
+            <Caption>To create a single session, select 0 repetitions.</Caption>
             <Picker
               testID="number-of-repetitions"
               selectedValue={numberOfRepetitions}
