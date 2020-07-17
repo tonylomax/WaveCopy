@@ -11,4 +11,24 @@ export const Logo_Square_White_Unnamed = require('./images/logos/Logo_Square_Whi
 
 export const BrightonBeach = require('./images/beachImages/BrightonBeach.jpg');
 
+export const Aberavon = require('./images/beachImages/Aberavon.jpg');
+export const Benone = require('./images/beachImages/Benone.jpg');
+export const BigburyBeach = require('./images/beachImages/BigburyBeach.jpg');
+export const Boscombe = require('./images/beachImages/Boscombe.jpg');
+export const Bude = require('./images/beachImages/Bude.jpg');
+export const Croyde = require('./images/beachImages/Croyde.jpg');
+export const Dunbar = require('./images/beachImages/Dunbar.jpg');
+export const EastWittering = require('./images/beachImages/EastWittering.jpg');
 export const FistralBeach = require('./images/beachImages/FistralBeach.jpg');
+export const GoodringtonBeach = require('./images/beachImages/GoodringtonBeach.jpg');
+export const Gwithian = require('./images/beachImages/Gwithian.jpg');
+export const Polzeath = require('./images/beachImages/Polzeath.jpg');
+export const Porthcawl = require('./images/beachImages/Porthcawl.jpg');
+export const Portrush = require('./images/beachImages/Portrush.jpg');
+export const Sandown = require('./images/beachImages/Sandown.jpg');
+export const Shoreham = require('./images/beachImages/Shoreham.jpg');
+export const Sidmouth = require('./images/beachImages/Sidmouth.jpg');
+export const StIves = require('./images/beachImages/StIves.jpg');
+export const TheWave = require('./images/beachImages/TheWave.jpg');
+export const Tynemouth = require('./images/beachImages/Tynemouth.jpg');
+export const Whitby = require('./images/beachImages/Whitby.jpg');

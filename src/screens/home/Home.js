@@ -20,16 +20,23 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
+import {ConfirmButton} from 'components';
 
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
 
   //LOCAL STATE
-  const [visible, setVisible] = useState(false);
+  const [toggleFilter, setToggleFilter] = useState(false);
+
   //LOCAL STATE
 
   //REDUX STATE
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
+  const filteredSessions = useSelector((state) =>
+    state.firestoreReducer.sessionData.filter((session) => {
+      return session.Mentors.length !== session.MaxMentors;
+    }),
+  );
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
   const roleSessions = useSelector(
     (state) => state.firestoreReducer.roleSpecificSessionData,
@@ -37,7 +44,14 @@ export default function Profile({navigation}) {
   const userData = useSelector((state) => state.firestoreReducer.userData);
   //REDUX STATE
 
-  const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
+  const getBeach = (beachID) => {
+    console.log('all beaches', beaches);
+    beaches.filter((beach) => {
+      console.log(beachID);
+      console.log('beachin getbeach', beach);
+      return beach.id === beachID;
+    });
+  };
 
   useEffect(() => {
     let unsubscribeFromSessions = () => {};
@@ -72,10 +86,19 @@ export default function Profile({navigation}) {
     <SafeAreaView>
       <View>
         <Title testID="upcoming-sessions-title">Upcoming sessions</Title>
+        <ConfirmButton
+          title="Filter"
+          onPress={() => {
+            setToggleFilter((toggleFilter) => !toggleFilter);
+          }}></ConfirmButton>
         <FlatList
           testID="SessionsList"
           data={
-            userData?.Roles?.includes('NationalAdmin') ? sessions : roleSessions
+            userData?.Roles?.includes('NationalAdmin')
+              ? toggleFilter
+                ? filteredSessions
+                : sessions
+              : roleSessions
           }
           renderItem={({item}) => (
             <Card
@@ -84,7 +107,9 @@ export default function Profile({navigation}) {
               id={item.ID}
               testID={`SessionsListItem${item.ID}`}
               onPress={() => {
-                const selectedBeach = getBeach(item.ID)[0];
+                console.log('this is the clikced thing ', item);
+                // const selectedBeach = getBeach(item.Beach);
+                const selectedBeach = item.Beach;
                 // console.log({item});
                 navigation.navigate('HomeSession', {item, selectedBeach});
               }}>

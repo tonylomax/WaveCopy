@@ -158,8 +158,8 @@ export default function SessionDetailsAccordionMenu({
             }}
           />
           <Card.Content>
-            <Paragraph>{location?.Address?.SecondLine}</Paragraph>
-            <Paragraph>{location?.Address?.FirstLine}</Paragraph>
+            <Paragraph>{location?.Address?.Firstline}</Paragraph>
+            <Paragraph>{location?.Address?.Secondline}</Paragraph>
             <Paragraph>{location?.Address?.PostCode}</Paragraph>
           </Card.Content>
           <Card.Title title="Parking" />

@@ -114,6 +114,7 @@ export default function Session({navigation, route}) {
   }, [sessionData]);
 
   useEffect(() => {
+    console.log('selected beach', selectedBeach);
     setCoverImage(getCoverImage(selectedBeach));
   }, []);
 

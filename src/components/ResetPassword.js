@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {TextInput, View, Text} from 'react-native';
-import {COLOURS} from 'styles';
+import {View, Text} from 'react-native';
+
 import {ConfirmButton} from 'components';
 import {updatePassword, validatePassword, signOut} from 'utils';
+import {Title, TextInput} from 'react-native-paper';
 
 export default function ResetPassword({authenticatedUser}) {
   const [currentPassword, setCurrentPassword] = useState();
@@ -12,7 +13,7 @@ export default function ResetPassword({authenticatedUser}) {
 
   return (
     <View>
-      <Text> You can change your password </Text>
+      <Title> You can change your password </Title>
       <TextInput
         autoCapitalize="none"
         onChangeText={(currentPasswordInput) =>
