@@ -45,6 +45,17 @@ export default function Profile({navigation}) {
         return new Date(a.DateTime) - new Date(b.DateTime);
       }),
   );
+
+  const filteredRoleSessions = useSelector((state) =>
+    state.firestoreReducer.roleSpecificSessionData
+      .filter((session) => {
+        return session.Mentors.length !== session.MaxMentors;
+      })
+      .sort((a, b) => {
+        return new Date(a.DateTime) - new Date(b.DateTime);
+      }),
+  );
+
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
   const roleSessions = useSelector((state) =>
     state.firestoreReducer.roleSpecificSessionData.sort((a, b) => {
@@ -116,6 +127,8 @@ export default function Profile({navigation}) {
               ? toggleFilter
                 ? filteredSessions
                 : sessions
+              : toggleFilter
+              ? filteredRoleSessions
               : roleSessions
           }
           renderItem={({item}) => (
@@ -127,7 +140,7 @@ export default function Profile({navigation}) {
               onPress={() => {
                 console.log('this is the clicked thing ', item);
                 const selectedBeach = getBeach(item.BeachID)[0];
-                console.log('selectedBeach', selectedBeach);
+                console.log('selectedBeach in home', selectedBeach);
                 // const selectedBeach = item.Beach;
                 // console.log({item});
                 navigation.navigate('HomeSession', {item, selectedBeach});
