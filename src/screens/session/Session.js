@@ -53,7 +53,7 @@ export default function Session({navigation, route}) {
   const {selectedBeach} = route.params;
 
   useEffect(() => {
-    console.log('selectedBeach', selectedBeach);
+    console.log('selectedBeach in session', selectedBeach);
   }, [selectedBeach]);
 
   //REDUX STATE
@@ -202,7 +202,7 @@ export default function Session({navigation, route}) {
 
           <View>
             <Paragraph style={{alignSelf: 'center'}}>
-              <Moment element={Text} format="DD.MM.YY">
+              <Moment element={Text} format="LLLL">
                 {sessionData?.DateTime}
               </Moment>
             </Paragraph>
@@ -236,7 +236,7 @@ export default function Session({navigation, route}) {
 
             {/* Show if session is full */}
             {MaxMentors === selectedSessionMentorsData.length && (
-              <Text> This session is full</Text>
+              <Text>This session is full</Text>
             )}
             {/* Session date/time */}
 
@@ -268,13 +268,13 @@ export default function Session({navigation, route}) {
                 />
               )}
 
-            <Card style={{alignItems: 'center'}}>
+            <Card style={{alignItems: 'center', padding: '2%', margin: '2%'}}>
               <Card.Actions>
                 {/* REGISTER BUTTON */}
                 {(userHasPermission(userData?.Roles) ||
                   sessionLeadID === UID) && (
                   <ConfirmButton
-                    title="Attendance List"
+                    title="Attendance"
                     testID="registerButton"
                     onPress={() => {
                       navigation.navigate('Register', {

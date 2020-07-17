@@ -31,15 +31,36 @@ export default function Profile({navigation}) {
   //LOCAL STATE
 
   //REDUX STATE
-  const sessions = useSelector((state) => state.firestoreReducer.sessionData);
-  const filteredSessions = useSelector((state) =>
-    state.firestoreReducer.sessionData.filter((session) => {
-      return session.Mentors.length !== session.MaxMentors;
+  const sessions = useSelector((state) =>
+    state.firestoreReducer.sessionData.sort((a, b) => {
+      return new Date(a.DateTime) - new Date(b.DateTime);
     }),
   );
+  const filteredSessions = useSelector((state) =>
+    state.firestoreReducer.sessionData
+      .filter((session) => {
+        return session.Mentors.length !== session.MaxMentors;
+      })
+      .sort((a, b) => {
+        return new Date(a.DateTime) - new Date(b.DateTime);
+      }),
+  );
+
+  const filteredRoleSessions = useSelector((state) =>
+    state.firestoreReducer.roleSpecificSessionData
+      .filter((session) => {
+        return session.Mentors.length !== session.MaxMentors;
+      })
+      .sort((a, b) => {
+        return new Date(a.DateTime) - new Date(b.DateTime);
+      }),
+  );
+
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
-  const roleSessions = useSelector(
-    (state) => state.firestoreReducer.roleSpecificSessionData,
+  const roleSessions = useSelector((state) =>
+    state.firestoreReducer.roleSpecificSessionData.sort((a, b) => {
+      return new Date(a.DateTime) - new Date(b.DateTime);
+    }),
   );
   const userData = useSelector((state) => state.firestoreReducer.userData);
   //REDUX STATE
@@ -87,11 +108,15 @@ export default function Profile({navigation}) {
   }, [sessions]);
 
   return (
-    <SafeAreaView>
-      <View>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={{flex: 1, paddingBottom: 10}}>
         <Title testID="upcoming-sessions-title">Upcoming sessions</Title>
         <ConfirmButton
-          title="Filter"
+          title={
+            toggleFilter
+              ? 'Display all sessions'
+              : 'Display only sessions with spaces'
+          }
           onPress={() => {
             setToggleFilter((toggleFilter) => !toggleFilter);
           }}></ConfirmButton>
@@ -102,6 +127,8 @@ export default function Profile({navigation}) {
               ? toggleFilter
                 ? filteredSessions
                 : sessions
+              : toggleFilter
+              ? filteredRoleSessions
               : roleSessions
           }
           renderItem={({item}) => (
@@ -113,7 +140,7 @@ export default function Profile({navigation}) {
               onPress={() => {
                 console.log('this is the clicked thing ', item);
                 const selectedBeach = getBeach(item.BeachID)[0];
-                console.log('selectedBeach', selectedBeach);
+                console.log('selectedBeach in home', selectedBeach);
                 // const selectedBeach = item.Beach;
                 // console.log({item});
                 navigation.navigate('HomeSession', {item, selectedBeach});
