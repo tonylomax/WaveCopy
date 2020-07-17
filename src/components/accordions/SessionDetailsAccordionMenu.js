@@ -34,6 +34,10 @@ export default function SessionDetailsAccordionMenu({
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
 
+  useEffect(() => {
+    console.log('location', location.GivenCoordinates);
+  }, [location]);
+
   return (
     <List.AccordionGroup>
       <List.Accordion
@@ -163,8 +167,8 @@ export default function SessionDetailsAccordionMenu({
           <ScrollView>
             <MapView
               initialRegion={{
-                latitude: 50.8291,
-                longitude: -0.2388,
+                latitude: location?.ResearchedCoordinates?.latitude,
+                longitude: location?.ResearchedCoordinates?.longitude,
                 latitudeDelta: 0.015,
                 longitudeDelta: 0.015,
               }}
@@ -179,15 +183,18 @@ export default function SessionDetailsAccordionMenu({
                 ...StyleSheet.absoluteFill,
               }}>
               <Marker
-                coordinate={{latitude: 50.8291, longitude: -0.2388}}
+                coordinate={{
+                  latitude: location?.ResearchedCoordinates?.latitude,
+                  longitude: location?.ResearchedCoordinates?.longitude,
+                }}
                 title={'Beach'}
                 description={'Cool beach'}
               />
             </MapView>
 
             <Card.Content style={{paddingTop: 400, paddingBottom: 5}}>
-              <Paragraph>{location?.Address?.SecondLine}</Paragraph>
               <Paragraph>{location?.Address?.FirstLine}</Paragraph>
+              <Paragraph>{location?.Address?.SecondLine}</Paragraph>
               <Paragraph>{location?.Address?.PostCode}</Paragraph>
             </Card.Content>
             <Card.Title title="Parking" />

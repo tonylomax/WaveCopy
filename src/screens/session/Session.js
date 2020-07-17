@@ -52,6 +52,10 @@ export default function Session({navigation, route}) {
 
   const {selectedBeach} = route.params;
 
+  useEffect(() => {
+    console.log('selectedBeach', selectedBeach);
+  }, [selectedBeach]);
+
   //REDUX STATE
   // Data on the session
   const sessionData = useSelector(
@@ -116,6 +120,7 @@ export default function Session({navigation, route}) {
   }, [sessionData]);
 
   useEffect(() => {
+    console.log('selected beach IN SESSIONS', selectedBeach);
     setCoverImage(getCoverImage(selectedBeach));
   }, []);
 

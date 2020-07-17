@@ -4,13 +4,17 @@ import store from '../../redux/store';
 import {updateCurrentSession} from '../../redux/';
 
 export default (sessionID) => {
+  console.log('subscribe to sessions running');
   console.log('creating a subscription');
   const subscription = firestore()
     .collection(COLLECTIONS.SESSIONS)
     .doc(sessionID)
     .onSnapshot(
       (singleSessionData) => {
-        console.log('inside on snapshot, received some data');
+        console.log(
+          'inside on snapshot, received some data',
+          singleSessionData,
+        );
         store.dispatch(updateCurrentSession(singleSessionData));
       },
       (error) => {
