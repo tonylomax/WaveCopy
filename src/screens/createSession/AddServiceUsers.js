@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button, TextInput, FlatList} from 'react-native';
-import {Searchbar, List, Card, Title, Divider} from 'react-native-paper';
+import {
+  Searchbar,
+  List,
+  Card,
+  Title,
+  Divider,
+  Paragraph,
+} from 'react-native-paper';
 import {searchFirestoreServiceUsers} from 'utils';
 
 export default function AddServiceUsers({route, navigation}) {
@@ -100,7 +107,6 @@ export default function AddServiceUsers({route, navigation}) {
       )}
 
       <Title testID="currently-added-service-users">Currently Added</Title>
-
       {selectedUsers.map((serviceUser) => (
         <View>
           <List.Item
@@ -129,6 +135,7 @@ export default function AddServiceUsers({route, navigation}) {
           })
         }
       />
+      <Divider />
       <Button title="go back" onPress={() => navigation.goBack()} />
     </View>
   );
