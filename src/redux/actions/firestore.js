@@ -131,3 +131,12 @@ export function clearSelectedSessionAttendees() {
     });
   };
 }
+
+export function getRegions(regions) {
+  return async (dispatch) => {
+    dispatch({
+      type: ACTIONS.GET_ALL_REGIONS,
+      data: regions,
+    });
+  };
+}

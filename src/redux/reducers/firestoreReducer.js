@@ -6,6 +6,7 @@ export const initialState = {
   selectedSessionMentors: [],
   singleBeach: {},
   beaches: [],
+  regions: [],
   selectedSessionSubscribedMentors: [],
   selectedSessionSubscribedAttendees: [],
 };
@@ -51,15 +52,10 @@ export default (state = initialState, action) => {
       const beaches = action.data;
       return {...state, beaches};
 
-    // case ACTIONS.GET_SESSION_ATTENDEES:
-    //   console.log('[Reducer - fireStoreReducer] GET_SESSIONS_ATTENDEES');
-    //   const selectedSessionAttendees = action.data;
-    //   return {...state, selectedSessionAttendees};
-
-    // case ACTIONS.GET_SESSION_MENTORS:
-    //   console.log('[Reducer - fireStoreReducer] GET_SESSION_MENTORS');
-    //   const selectedSessionMentors = action.data;
-    //   return {...state, selectedSessionMentors};
+    case ACTIONS.GET_ALL_REGIONS:
+      console.log('[Reducer - fireStoreReducer] GET_ALL_REGIONS', action);
+      const regions = action.data;
+      return {...state, regions};
 
     case ACTIONS.SUBSCRIBE_TO_SESSION_MENTORS:
       console.log(

@@ -25,6 +25,8 @@ import {
   removeMentorFromSession,
   updateOwnContactNumber,
   updateSessionInFirestore,
+  toggleIsNewUser,
+  retrieveRegions,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -69,4 +71,6 @@ export {
   removeMentorFromSession,
   updateOwnContactNumber,
   userHasPermission,
+  toggleIsNewUser,
+  retrieveRegions,
 };
