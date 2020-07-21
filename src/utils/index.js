@@ -27,6 +27,7 @@ import {
   updateSessionInFirestore,
   toggleIsNewUser,
   retrieveRegions,
+  updateOwnRegion,
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
@@ -73,4 +74,5 @@ export {
   userHasPermission,
   toggleIsNewUser,
   retrieveRegions,
+  updateOwnRegion,
 };

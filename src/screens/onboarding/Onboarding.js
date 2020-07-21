@@ -7,10 +7,11 @@ import {
   updateOwnBio,
   toggleIsNewUser,
   retrieveRegions,
+  updateOwnRegion,
 } from 'utils';
 import {Picker} from '@react-native-community/picker';
 
-import {ConfirmButton} from 'components';
+import {ConfirmButton, LoadingScreen} from 'components';
 
 export default function Onboarding({navigation}) {
   const dispatch = useDispatch();
@@ -19,7 +20,8 @@ export default function Onboarding({navigation}) {
   const [contactNumber, setContactNumber] = useState();
   const [bio, setBio] = useState();
   const [selectedRegion, setSelectedRegion] = useState();
-
+  const [showRegionPicker, setShowRegionPicker] = useState(false);
+  const [loading, setLoading] = useState(false);
   //LOCAL STATE
 
   //REDUX STATE
@@ -41,6 +43,7 @@ export default function Onboarding({navigation}) {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <LoadingScreen visible={loading} />
       <View style={{flex: 1, paddingBottom: 10}}>
         <Title testID="">Welcome to Wave</Title>
         <Paragraph>
@@ -68,6 +71,7 @@ export default function Onboarding({navigation}) {
                 setContactNumber(contactNumberInput);
               }}></TextInput>
             <Caption>Confirm your region</Caption>
+
             <Picker
               selectedValue={selectedRegion}
               onValueChange={(itemValue, itemIndex) =>
@@ -82,9 +86,11 @@ export default function Onboarding({navigation}) {
         <ConfirmButton
           title="Go Home"
           onPress={() => {
+            setLoading(true);
+            toggleIsNewUser(UID);
             updateOwnContactNumber(contactNumber, UID);
             updateOwnBio(bio, UID);
-            toggleIsNewUser(UID);
+            updateOwnRegion(selectedRegion, UID);
           }}></ConfirmButton>
       </View>
     </SafeAreaView>
