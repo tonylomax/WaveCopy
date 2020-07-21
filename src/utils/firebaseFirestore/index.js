@@ -16,8 +16,10 @@ import deleteSession from './deleteSession';
 import removeMentorFromSession from './removeMentorFromSession';
 import updateOwnContactNumber from './updateOwnContactNumber';
 import updateSessionInFirestore from './updateSessionInFirestore';
+import addNotificationToken from './addNotificationToken';
 
 export {
+  addNotificationToken,
   deleteSession,
   updateSessionInFirestore,
   updateOwnBio,
