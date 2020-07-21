@@ -10,6 +10,7 @@ export default (currentUserUID) => {
     .onSnapshot(
       (userData) => {
         const updatedUserData = userData?.data();
+        console.log('updatedUserData', updatedUserData);
         store.dispatch(updateFirestoreUserData(updatedUserData));
       },
       (error) => {
