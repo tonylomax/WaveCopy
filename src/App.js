@@ -189,9 +189,7 @@ const App: () => React$Node = () => {
     messaging()
       .getToken()
       .then((token) => {
-        console.log('got token inside use effect, ', token);
         addNotificationToken(currentAuthenticatedUser.uid, token);
-        console.log('called add notification');
       });
     return () => {
       unsubscribeFromFirebaseAuth();
