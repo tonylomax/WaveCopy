@@ -14,6 +14,7 @@ import {
   subscribeToFirestoreUsers,
   createAuthSubscription,
   userHasPermission,
+  addNotificationToken,
 } from 'utils';
 import {useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
@@ -26,6 +27,7 @@ import AddServiceUsers from './screens/createSession/AddServiceUsers';
 import ConfirmSession from './screens/createSession/ConfirmSession';
 import {HeaderBackButton} from 'react-navigation';
 import {CurvedTabBar} from 'components';
+import messaging from '@react-native-firebase/messaging';
 import Onboarding from './screens/onboarding/Onboarding';
 
 const BottomTabs = createBottomTabNavigator();
@@ -195,8 +197,17 @@ const App: () => React$Node = () => {
 
   useEffect(() => {
     const unsubscribeFromFirebaseAuth = createAuthSubscription();
+    console.log('calling get token ');
+    messaging()
+      .getToken()
+      .then((token) => {
+        addNotificationToken(currentAuthenticatedUser.uid, token);
+      });
     return () => {
       unsubscribeFromFirebaseAuth();
+      messaging().onTokenRefresh((token) => {
+        addNotificationToken(currentAuthenticatedUser.uid, token);
+      });
     };
   }, []);
 

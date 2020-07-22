@@ -25,6 +25,7 @@ import {
   removeMentorFromSession,
   updateOwnContactNumber,
   updateSessionInFirestore,
+  addNotificationToken,
   toggleIsNewUser,
   retrieveRegions,
   updateOwnRegion,
@@ -40,6 +41,7 @@ import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
 import getSessionLeadName from './getSessionLeadName';
 export {
+  addNotificationToken,
   getSessionLeadName,
   updateSessionInFirestore,
   deleteSession,
