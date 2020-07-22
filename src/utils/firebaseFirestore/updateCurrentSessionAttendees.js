@@ -7,6 +7,7 @@ import {
 } from '../../redux/index';
 
 export default updateCurrentSessionAttendees = (attendeesArray, collection) => {
+  const subscribedUserArray = [];
   return attendeesArray?.map((user) => {
     return firestore()
       .collection(collection)
@@ -16,17 +17,19 @@ export default updateCurrentSessionAttendees = (attendeesArray, collection) => {
           console.log(
             `inside on updateCurrentSessionAttendees snapshot, received some data `,
           );
-          let subscribedUserData = {
-            ...subscribedUser._data,
-            id: subscribedUser._ref._documentPath?._parts[1],
+          const subscribedUserData = {
+            ...subscribedUser.data(),
+            id: subscribedUser.id,
           };
-          if (collection === 'Users') {
-            store.dispatch(subscribeToSessionMentors(subscribedUserData));
-          } else {
-            store.dispatch(subscribeToSessionAttendees(subscribedUserData));
-          }
+          subscribedUserArray.push(subscribedUserData);
 
-          console.log('subscribedUserData', subscribedUserData);
+          if (subscribedUserArray.length === attendeesArray.length) {
+            if (collection === 'Users') {
+              store.dispatch(subscribeToSessionMentors(subscribedUserArray));
+            } else {
+              store.dispatch(subscribeToSessionAttendees(subscribedUserArray));
+            }
+          }
         },
         (err) => {
           console.log(err);

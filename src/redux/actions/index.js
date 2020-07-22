@@ -12,6 +12,7 @@ import {
   subscribeToSessionMentors,
   subscribeToSessionAttendees,
   getRegions,
+  clearCurrentSession,
 } from './firestore';
 
 export {
@@ -28,4 +29,5 @@ export {
   subscribeToSessionMentors,
   subscribeToSessionAttendees,
   getRegions,
+  clearCurrentSession,
 };

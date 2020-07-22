@@ -132,6 +132,15 @@ export function clearSelectedSessionAttendees() {
   };
 }
 
+export function clearCurrentSession() {
+  return async (dispatch) => {
+    dispatch({
+      type: ACTIONS.CLEAR_CURRENT_SESSION,
+      data: {},
+    });
+  };
+}
+
 export function getRegions(regions) {
   return async (dispatch) => {
     dispatch({

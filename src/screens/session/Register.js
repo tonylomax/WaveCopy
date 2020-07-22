@@ -5,7 +5,7 @@ import {RegisterTabs} from 'components';
 import {useSelector} from 'react-redux';
 import {markAttendance, subscribeToSessionChanges} from 'utils';
 import {USER_GROUP} from 'constants';
-import {Checkbox, Paragraph, BottomNavigation} from 'react-native-paper';
+import {Checkbox, Paragraph, BottomNavigation, Card} from 'react-native-paper';
 
 export default function Register({navigation, route}) {
   //REDUX STATE
@@ -30,6 +30,10 @@ export default function Register({navigation, route}) {
       unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    console.log('selectedSessionMentorsData', selectedSessionMentorsData);
+  }, [selectedSessionMentorsData]);
 
   return (
     <View>
@@ -71,29 +75,31 @@ export default function Register({navigation, route}) {
       </RegisterTabs>
 
       <RegisterTabs registerTitle="Mentors">
-        {selectedSessionMentorsData?.map((mentor) => {
+        {selectedSessionMentorsData?.map((mentor, i) => {
           const hasPersonAttended = sessionData?.Mentors?.filter((person) => {
             return person.id === mentor.id;
           })[0].Attended;
           return (
-            <>
-              <Paragraph>
-                {mentor?.firstName} {mentor?.lastName}
-              </Paragraph>
-              <Checkbox.Android
-                status={hasPersonAttended ? 'checked' : 'unchecked'}
-                uncheckedColor="black"
-                color="blue"
-                onPress={() => {
-                  markAttendance(
-                    ID,
-                    mentor.id,
-                    sessionData,
-                    USER_GROUP.MENTORS,
-                  );
-                }}
-              />
-            </>
+            <Card key={i}>
+              <Card.Content>
+                <Paragraph>
+                  {mentor?.firstName} {mentor?.lastName}
+                </Paragraph>
+                <Checkbox.Android
+                  status={hasPersonAttended ? 'checked' : 'unchecked'}
+                  uncheckedColor="black"
+                  color="blue"
+                  onPress={() => {
+                    markAttendance(
+                      ID,
+                      mentor.id,
+                      sessionData,
+                      USER_GROUP.MENTORS,
+                    );
+                  }}
+                />
+              </Card.Content>
+            </Card>
           );
         })}
       </RegisterTabs>

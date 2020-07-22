@@ -31,6 +31,9 @@ export default function Profile({navigation}) {
   //LOCAL STATE
 
   //REDUX STATE
+  const selectedSessionMentorsData = useSelector(
+    (state) => state.firestoreReducer.selectedSessionSubscribedMentors,
+  );
   const sessions = useSelector((state) =>
     state.firestoreReducer.sessionData.sort((a, b) => {
       return new Date(a.DateTime) - new Date(b.DateTime);
@@ -45,6 +48,13 @@ export default function Profile({navigation}) {
         return new Date(a.DateTime) - new Date(b.DateTime);
       }),
   );
+
+  useEffect(() => {
+    console.log(
+      'selectedSessionMentorsData in home',
+      selectedSessionMentorsData,
+    );
+  }, [selectedSessionMentorsData]);
 
   const filteredRoleSessions = useSelector((state) =>
     state.firestoreReducer.roleSpecificSessionData
@@ -140,7 +150,7 @@ export default function Profile({navigation}) {
               onPress={() => {
                 // console.log('this is the clicked thing ', item);
                 const selectedBeach = getBeach(item.BeachID)[0];
-                console.log('selectedBeach in home', selectedBeach);
+                // console.log('selectedBeach in home', selectedBeach);
                 // const selectedBeach = item.Beach;
                 // console.log({item});
                 navigation.navigate('HomeSession', {item, selectedBeach});

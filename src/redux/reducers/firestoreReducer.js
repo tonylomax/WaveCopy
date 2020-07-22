@@ -21,8 +21,9 @@ export default (state = initialState, action) => {
 
       return {...state, sessionData};
 
-    // case ACTIONS.SUBSCRIBE_TO_SINGLE_SESSION:
-    //   console.log('[Reducer - fireStoreReducer] SUBSCRIBE_TO_SINGLE_SESSION');
+    case ACTIONS.CLEAR_CURRENT_SESSION:
+      console.log('[Reducer - fireStoreReducer] CLEAR_CURRENT_SESSION');
+      return {...state, singleSession: action.data};
 
     case ACTIONS.UPDATE_CURRENT_SESSION:
       console.log('[Reducer - fireStoreReducer] UPDATE_CURRENT_SESSION');
@@ -63,32 +64,7 @@ export default (state = initialState, action) => {
         action.data,
       );
 
-      let mentorInStore = state.selectedSessionSubscribedMentors.filter(
-        (mentor) => {
-          return mentor.id === action.data.id;
-        },
-      );
-
-      if (mentorInStore.length > 0) {
-        return {
-          ...state,
-          selectedSessionSubscribedMentors: state.selectedSessionSubscribedMentors.map(
-            (mentor) => {
-              if (mentor.id === action.data.id) {
-                return action.data;
-              } else return mentor;
-            },
-          ),
-        };
-      } else {
-        return {
-          ...state,
-          selectedSessionSubscribedMentors: [
-            ...state.selectedSessionSubscribedMentors,
-            action.data,
-          ],
-        };
-      }
+      return {...state, selectedSessionSubscribedMentors: action.data};
 
     case ACTIONS.CLEAR_SUBSCRIBE_TO_SESSION_MENTORS:
       console.log(
@@ -96,43 +72,7 @@ export default (state = initialState, action) => {
         action.data,
       );
 
-      return {
-        ...state,
-        selectedSessionSubscribedMentors: [],
-      };
-
-    case ACTIONS.SUBSCRIBE_TO_SESSION_ATTENDEES:
-      console.log(
-        '[Reducer - fireStoreReducer] SUBSCRIBE_TO_SESSION_ATTENDEES',
-        action.data,
-      );
-
-      let attendeeInStore = state.selectedSessionSubscribedAttendees.filter(
-        (attendee) => {
-          return attendee.id === action.data.id;
-        },
-      );
-
-      if (attendeeInStore.length > 0) {
-        return {
-          ...state,
-          selectedSessionSubscribedAttendees: state.selectedSessionSubscribedAttendees.map(
-            (attendee) => {
-              if (attendee.id === action.data.id) {
-                return action.data;
-              } else return attendee;
-            },
-          ),
-        };
-      } else {
-        return {
-          ...state,
-          selectedSessionSubscribedAttendees: [
-            ...state.selectedSessionSubscribedAttendees,
-            action.data,
-          ],
-        };
-      }
+      return {...state, selectedSessionSubscribedMentors: action.data};
 
     case ACTIONS.CLEAR_SUBSCRIBE_TO_SESSION_ATTENDEES:
       console.log(
