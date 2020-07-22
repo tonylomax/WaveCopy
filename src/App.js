@@ -28,12 +28,24 @@ import ConfirmSession from './screens/createSession/ConfirmSession';
 import {HeaderBackButton} from 'react-navigation';
 import {CurvedTabBar} from 'components';
 import messaging from '@react-native-firebase/messaging';
+import Onboarding from './screens/onboarding/Onboarding';
 
 const BottomTabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const CreateSessionStack = createStackNavigator();
 const EditSessionStack = createStackNavigator();
+const OnboardingStack = createStackNavigator();
+
+const OnboardingNavigator = () => (
+  <NavigationContainer>
+    <OnboardingStack.Navigator>
+      <OnboardingStack.Screen
+        name="Onboarding"
+        component={Onboarding}></OnboardingStack.Screen>
+    </OnboardingStack.Navigator>
+  </NavigationContainer>
+);
 
 const AdminTabNavigator = () => (
   <NavigationContainer>
@@ -209,8 +221,14 @@ const App: () => React$Node = () => {
     }
   }, [currentAuthenticatedUser]);
 
+  useEffect(() => {
+    console.log('userData', userData);
+  }, [userData]);
+
   return isEmpty(currentAuthenticatedUser) ? (
     <Login setLoggedIn={setLoggedIn} />
+  ) : userData.isNewUser ? (
+    <OnboardingNavigator />
   ) : userHasPermission(userData?.Roles) ? (
     <AdminTabNavigator />
   ) : (

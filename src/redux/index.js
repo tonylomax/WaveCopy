@@ -10,6 +10,7 @@ import {
   clearSelectedSessionAttendees,
   subscribeToSessionMentors,
   subscribeToSessionAttendees,
+  getRegions,
 } from './actions';
 
 export {
@@ -24,4 +25,5 @@ export {
   clearSelectedSessionAttendees,
   subscribeToSessionMentors,
   subscribeToSessionAttendees,
+  getRegions,
 };

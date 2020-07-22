@@ -18,6 +18,9 @@ import updateOwnContactNumber from './updateOwnContactNumber';
 import updateSessionInFirestore from './updateSessionInFirestore';
 import addNotificationToken from './addNotificationToken';
 
+import toggleIsNewUser from './toggleIsNewUser';
+import retrieveRegions from './retrieveRegions';
+import updateOwnRegion from './updateOwnRegion';
 export {
   addNotificationToken,
   deleteSession,
@@ -38,4 +41,7 @@ export {
   unassignSessionLead,
   removeMentorFromSession,
   updateOwnContactNumber,
+  toggleIsNewUser,
+  retrieveRegions,
+  updateOwnRegion,
 };
