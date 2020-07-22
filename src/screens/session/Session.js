@@ -52,9 +52,9 @@ export default function Session({navigation, route}) {
 
   const {selectedBeach} = route.params;
 
-  useEffect(() => {
-    console.log('selectedBeach in session', selectedBeach);
-  }, [selectedBeach]);
+  // useEffect(() => {
+  //   console.log('selectedBeach in session', selectedBeach);
+  // }, [selectedBeach]);
 
   //REDUX STATE
   // Data on the session

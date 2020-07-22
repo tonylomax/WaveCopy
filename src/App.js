@@ -15,6 +15,7 @@ import {
   createAuthSubscription,
   userHasPermission,
   addNotificationToken,
+  requestNotificationPermission,
 } from 'utils';
 import {useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
@@ -196,18 +197,34 @@ const App: () => React$Node = () => {
   const userData = useSelector((state) => state.firestoreReducer.userData);
 
   useEffect(() => {
+    if (!isEmpty(currentAuthenticatedUser)) {
+      console.log('REQUESTING PERMISSION');
+      requestNotificationPermission()
+        .then(() => {
+          console.log('calling get token ');
+          messaging()
+            .getToken()
+            .then((token) => {
+              console.log('RETRIEVED TOKEN', token);
+              addNotificationToken(currentAuthenticatedUser.uid, token);
+            })
+            .catch((err) => console.log('Error in getToken', err));
+        })
+        .catch((err) =>
+          console.log('Error in requestNotificationPermission', err),
+        );
+      return () => {
+        messaging().onTokenRefresh((token) => {
+          addNotificationToken(currentAuthenticatedUser.uid, token);
+        });
+      };
+    }
+  }, [currentAuthenticatedUser]);
+
+  useEffect(() => {
     const unsubscribeFromFirebaseAuth = createAuthSubscription();
-    console.log('calling get token ');
-    messaging()
-      .getToken()
-      .then((token) => {
-        addNotificationToken(currentAuthenticatedUser.uid, token);
-      });
     return () => {
       unsubscribeFromFirebaseAuth();
-      messaging().onTokenRefresh((token) => {
-        addNotificationToken(currentAuthenticatedUser.uid, token);
-      });
     };
   }, []);
 
@@ -220,10 +237,6 @@ const App: () => React$Node = () => {
       return () => unsubscribeFromFirestoreUserData();
     }
   }, [currentAuthenticatedUser]);
-
-  useEffect(() => {
-    console.log('userData', userData);
-  }, [userData]);
 
   return isEmpty(currentAuthenticatedUser) ? (
     <Login setLoggedIn={setLoggedIn} />

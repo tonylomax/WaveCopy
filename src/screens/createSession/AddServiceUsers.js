@@ -67,9 +67,9 @@ export default function AddServiceUsers({route, navigation}) {
   };
   const removeUser = (serviceUserID) => {
     const updatedSelectedUsers = selectedUsers.filter((selectedUser) => {
-      console.log({selectedUser});
-      console.log(selectedUser.objectID);
-      console.log(serviceUserID);
+      // console.log({selectedUser});
+      // console.log(selectedUser.objectID);
+      // console.log(serviceUserID);
       return selectedUser.objectID !== serviceUserID;
     });
     setSelectedUsers(updatedSelectedUsers);

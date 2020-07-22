@@ -86,7 +86,7 @@ export function getAllBeaches() {
       return {...data, id};
     });
     const beaches = sortBy(unorderedBeaches, 'Name');
-    console.log('beaches retrieved, ', beaches);
+    // console.log('beaches retrieved, ', beaches);
     dispatch({
       type: ACTIONS.GET_ALL_BEACHES,
       data: beaches,

@@ -8,9 +8,9 @@ import {
   toggleIsNewUser,
   retrieveRegions,
   updateOwnRegion,
+  requestNotificationPermission,
 } from 'utils';
 import {Picker} from '@react-native-community/picker';
-
 import {ConfirmButton, LoadingScreen} from 'components';
 
 export default function Onboarding({navigation}) {
@@ -29,13 +29,13 @@ export default function Onboarding({navigation}) {
   const regions = useSelector((state) => state.firestoreReducer.regions);
   //REDUX STATE
 
-  useEffect(() => {
-    console.log('region in onbordinng', regions);
-  }, [regions]);
+  // useEffect(() => {
+  //   console.log('region in onbordinng', regions);
+  // }, [regions]);
 
-  useEffect(() => {
-    console.log('selectedRegion', selectedRegion);
-  }, [selectedRegion]);
+  // useEffect(() => {
+  //   console.log('selectedRegion', selectedRegion);
+  // }, [selectedRegion]);
 
   useEffect(() => {
     retrieveRegions();
