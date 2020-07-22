@@ -11,6 +11,7 @@ import {
   updateRoleSpecificSessions,
   subscribeToSessionMentors,
   subscribeToSessionAttendees,
+  getRegions,
 } from './firestore';
 
 export {
@@ -26,4 +27,5 @@ export {
   updateRoleSpecificSessions,
   subscribeToSessionMentors,
   subscribeToSessionAttendees,
+  getRegions,
 };

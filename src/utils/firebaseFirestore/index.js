@@ -16,7 +16,9 @@ import deleteSession from './deleteSession';
 import removeMentorFromSession from './removeMentorFromSession';
 import updateOwnContactNumber from './updateOwnContactNumber';
 import updateSessionInFirestore from './updateSessionInFirestore';
-
+import toggleIsNewUser from './toggleIsNewUser';
+import retrieveRegions from './retrieveRegions';
+import updateOwnRegion from './updateOwnRegion';
 export {
   deleteSession,
   updateSessionInFirestore,
@@ -36,4 +38,7 @@ export {
   unassignSessionLead,
   removeMentorFromSession,
   updateOwnContactNumber,
+  toggleIsNewUser,
+  retrieveRegions,
+  updateOwnRegion,
 };
