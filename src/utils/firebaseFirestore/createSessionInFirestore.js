@@ -43,6 +43,7 @@ export default createSessionInFirestore = ({
           CoordinatorName: coordinator,
           RegionID: location.Region,
           GroupID,
+          GroupSessionOrder: i + 1,
           CreatedAt: firestore.FieldValue.serverTimestamp(),
           UpdatedAt: firestore.FieldValue.serverTimestamp(),
           SessionLead: {

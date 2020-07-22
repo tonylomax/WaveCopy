@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 
 export default addNotificationToken = (uid, token) => {
+  console.log('Calling addNotificationToken', uid, token);
   firestore()
     .collection('Users')
     .doc(uid)
@@ -8,5 +9,5 @@ export default addNotificationToken = (uid, token) => {
       tokens: firestore.FieldValue.arrayUnion(token),
     })
     .then(() => console.log('USER TOKEN UPDATED'))
-    .catch((err) => console.log(err));
+    .catch((err) => console.log('error in addNotificationToken', err));
 };

@@ -12,7 +12,7 @@ export default (userRegion) => {
       (roleSpecificSessions) => {
         console.log('inside on snapshot, received some data');
         const sessionsData = roleSpecificSessions.docs.map((session) => {
-          console.log('session in subscriptions', session);
+          // console.log('session in subscriptions', session);
           return {
             ID: session?._ref?._documentPath?._parts[1],
             BeachID: session?._data?.BeachID,

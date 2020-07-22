@@ -34,9 +34,9 @@ export default function SessionDetailsAccordionMenu({
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
 
-  useEffect(() => {
-    console.log('location', location.GivenCoordinates);
-  }, [location]);
+  // useEffect(() => {
+  //   console.log('location', location.GivenCoordinates);
+  // }, [location]);
 
   return (
     <List.AccordionGroup>
@@ -50,12 +50,12 @@ export default function SessionDetailsAccordionMenu({
               <List.Item
                 testID={`session-accordion-mentor${mentor.id}`}
                 onPress={() => {
-                  console.log('mentor in accord', mentor);
-                  console.log(
-                    'route when going to volunteer profile screen ',
-                    route,
-                    route.name,
-                  );
+                  // console.log('mentor in accord', mentor);
+                  // console.log(
+                  //   'route when going to volunteer profile screen ',
+                  //   route,
+                  //   route.name,
+                  // );
                   const routeDestination =
                     route.name === 'HomeSession'
                       ? 'Home Volunteer Profile'

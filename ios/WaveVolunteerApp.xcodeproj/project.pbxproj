@@ -57,7 +57,7 @@
 		00E356EE1AD99517003FC87E /* WaveVolunteerAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WaveVolunteerAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* WaveVolunteerAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WaveVolunteerAppTests.m; sourceTree = "<group>"; };
-		08185F7344B94430B12C6BCE /* Lato-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Light.ttf"; path = "../src/assets/fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
+		08185F7344B94430B12C6BCE /* Lato-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Light.ttf"; path = "../src/assets/fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
 		0A8EF2F926B9BBF20B060592 /* Pods-WaveVolunteerApp-WaveVolunteerAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WaveVolunteerApp-WaveVolunteerAppTests.release.xcconfig"; path = "Target Support Files/Pods-WaveVolunteerApp-WaveVolunteerAppTests/Pods-WaveVolunteerApp-WaveVolunteerAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* WaveVolunteerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaveVolunteerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = WaveVolunteerApp/AppDelegate.h; sourceTree = "<group>"; };
@@ -69,31 +69,31 @@
 		28711BFB3E09AF5E6AEC03C3 /* libPods-WaveVolunteerApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WaveVolunteerApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* WaveVolunteerApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WaveVolunteerApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* WaveVolunteerApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WaveVolunteerApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2F387C29032B457081D5E975 /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-ThinItalic.ttf"; path = "../src/assets/fonts/Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
+		2F387C29032B457081D5E975 /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-ThinItalic.ttf"; path = "../src/assets/fonts/Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
 		5200D9E824A1EE1D00656AF0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		524371C0249B8D7000F5173F /* WaveVolunteerApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = WaveVolunteerApp.entitlements; path = WaveVolunteerApp/WaveVolunteerApp.entitlements; sourceTree = "<group>"; };
 		5AF9C16E3043A3D936A97E63 /* Pods-WaveVolunteerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WaveVolunteerApp.release.xcconfig"; path = "Target Support Files/Pods-WaveVolunteerApp/Pods-WaveVolunteerApp.release.xcconfig"; sourceTree = "<group>"; };
-		5B6D8F170D3545E7956E5A46 /* Lato-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Black.ttf"; path = "../src/assets/fonts/Lato-Black.ttf"; sourceTree = "<group>"; };
-		638AAD178BC34C4E8A06BC53 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BoldItalic.ttf"; path = "../src/assets/fonts/Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
+		5B6D8F170D3545E7956E5A46 /* Lato-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Black.ttf"; path = "../src/assets/fonts/Lato-Black.ttf"; sourceTree = "<group>"; };
+		638AAD178BC34C4E8A06BC53 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BoldItalic.ttf"; path = "../src/assets/fonts/Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
 		65DEBDFF77F064D25B4523AB /* Pods-WaveVolunteerApp-WaveVolunteerAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WaveVolunteerApp-WaveVolunteerAppTests.debug.xcconfig"; path = "Target Support Files/Pods-WaveVolunteerApp-WaveVolunteerAppTests/Pods-WaveVolunteerApp-WaveVolunteerAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		676A4F43064DF21504334A4B /* Pods-WaveVolunteerApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WaveVolunteerApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-WaveVolunteerApp-tvOSTests/Pods-WaveVolunteerApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		850DD04228ACF284D31D93FC /* libPods-WaveVolunteerApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WaveVolunteerApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F79CBFD9C6616EC18E1A1A6 /* Pods-WaveVolunteerApp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WaveVolunteerApp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-WaveVolunteerApp-tvOS/Pods-WaveVolunteerApp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		9C1089CC6C1A83F0465FDAEE /* libPods-WaveVolunteerApp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WaveVolunteerApp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A51701E904D54D6DA8C99CDE /* Lato-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Italic.ttf"; path = "../src/assets/fonts/Lato-Italic.ttf"; sourceTree = "<group>"; };
+		A51701E904D54D6DA8C99CDE /* Lato-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Italic.ttf"; path = "../src/assets/fonts/Lato-Italic.ttf"; sourceTree = "<group>"; };
 		A68C1089C2125D8D277F08A7 /* Pods-WaveVolunteerApp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WaveVolunteerApp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-WaveVolunteerApp-tvOSTests/Pods-WaveVolunteerApp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		A8EBB544B2584445A4B70D75 /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-LightItalic.ttf"; path = "../src/assets/fonts/Lato-LightItalic.ttf"; sourceTree = "<group>"; };
-		AEAFA06D32C44B09B8668F7A /* Lato-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Thin.ttf"; path = "../src/assets/fonts/Lato-Thin.ttf"; sourceTree = "<group>"; };
-		B0FE9699AFC246AEB80ED5FE /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../src/assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
-		B96027DF561C4633AD40B1F6 /* Lato-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Regular.ttf"; path = "../src/assets/fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
+		A8EBB544B2584445A4B70D75 /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-LightItalic.ttf"; path = "../src/assets/fonts/Lato-LightItalic.ttf"; sourceTree = "<group>"; };
+		AEAFA06D32C44B09B8668F7A /* Lato-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Thin.ttf"; path = "../src/assets/fonts/Lato-Thin.ttf"; sourceTree = "<group>"; };
+		B0FE9699AFC246AEB80ED5FE /* Lato-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Bold.ttf"; path = "../src/assets/fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
+		B96027DF561C4633AD40B1F6 /* Lato-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Regular.ttf"; path = "../src/assets/fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
 		C0523C3D13860A675230C1D2 /* Pods-WaveVolunteerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WaveVolunteerApp.debug.xcconfig"; path = "Target Support Files/Pods-WaveVolunteerApp/Pods-WaveVolunteerApp.debug.xcconfig"; sourceTree = "<group>"; };
 		CF8B983371174A7BDD444216 /* Pods-WaveVolunteerApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WaveVolunteerApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-WaveVolunteerApp-tvOS/Pods-WaveVolunteerApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		D01DB19B6215469BB38E2758 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BlackItalic.ttf"; path = "../src/assets/fonts/Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
+		D01DB19B6215469BB38E2758 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BlackItalic.ttf"; path = "../src/assets/fonts/Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
 		DE0C2316A6925151EBCB62B3 /* libPods-WaveVolunteerApp-WaveVolunteerAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WaveVolunteerApp-WaveVolunteerAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E3DEEDDC25924223BB465538 /* AmaticSC-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "AmaticSC-Regular.ttf"; path = "../src/assets/fonts/AmaticSC-Regular.ttf"; sourceTree = "<group>"; };
+		E3DEEDDC25924223BB465538 /* AmaticSC-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AmaticSC-Regular.ttf"; path = "../src/assets/fonts/AmaticSC-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		F00BD1EBF5134C64A63BD951 /* AmaticSC-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "AmaticSC-Bold.ttf"; path = "../src/assets/fonts/AmaticSC-Bold.ttf"; sourceTree = "<group>"; };
+		F00BD1EBF5134C64A63BD951 /* AmaticSC-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AmaticSC-Bold.ttf"; path = "../src/assets/fonts/AmaticSC-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,7 +181,6 @@
 				2F387C29032B457081D5E975 /* Lato-ThinItalic.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -817,7 +816,7 @@
 				CODE_SIGN_ENTITLEMENTS = WaveVolunteerApp/WaveVolunteerApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = 973LY5U9N8;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -826,6 +825,7 @@
 				);
 				INFOPLIST_FILE = WaveVolunteerApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 3.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -850,10 +850,11 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = 973LY5U9N8;
 				INFOPLIST_FILE = WaveVolunteerApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 3.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

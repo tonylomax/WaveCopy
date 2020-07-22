@@ -7,6 +7,10 @@ import {
   userHasPermission,
 } from './auth/index';
 import {
+  addNotificationToken,
+  requestNotificationPermission,
+} from './pushNotifications/index';
+import {
   updateOwnBio,
   updateCurrentSessionAttendees,
   markAttendance,
@@ -25,7 +29,6 @@ import {
   removeMentorFromSession,
   updateOwnContactNumber,
   updateSessionInFirestore,
-  addNotificationToken,
   toggleIsNewUser,
   retrieveRegions,
   updateOwnRegion,
@@ -41,7 +44,6 @@ import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
 import getSessionLeadName from './getSessionLeadName';
 export {
-  addNotificationToken,
   getSessionLeadName,
   updateSessionInFirestore,
   deleteSession,
@@ -77,4 +79,6 @@ export {
   toggleIsNewUser,
   retrieveRegions,
   updateOwnRegion,
+  addNotificationToken,
+  requestNotificationPermission,
 };

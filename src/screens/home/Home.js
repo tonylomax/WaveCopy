@@ -66,10 +66,10 @@ export default function Profile({navigation}) {
   //REDUX STATE
 
   const getBeach = (beachID) => {
-    console.log('all beaches', beaches);
+    // console.log('all beaches', beaches);
     return beaches.filter((beach) => {
-      console.log(beachID);
-      console.log('beachin getbeach', beach);
+      // console.log(beachID);
+      // console.log('beachin getbeach', beach);
       return beach.id === beachID;
     });
   };
@@ -81,14 +81,14 @@ export default function Profile({navigation}) {
     if (!isEmpty(userData)) {
       //If the user is a national admin then set up a subscription too all sessions
       if (userData?.Roles.includes('NationalAdmin')) {
-        console.log('subscribing to all sessions', userData.Region);
-        console.log('current roles', userData.Roles);
+        // console.log('subscribing to all sessions', userData.Region);
+        // console.log('current roles', userData.Roles);
         unsubscribeFromSessions = subscribeToSessions();
       } else {
         // Otherwise set up a subscription to sessions restricted to the users area
 
-        console.log('subscribing to role specific sessions', userData.Region);
-        console.log('current roles', userData.Roles);
+        // console.log('subscribing to role specific sessions', userData.Region);
+        // console.log('current roles', userData.Roles);
         unsubscribeFromRoleSessions = subscribeToRoleSpecificSessionChanges(
           userData.Region,
         );
@@ -103,9 +103,9 @@ export default function Profile({navigation}) {
     }
   }, [userData]);
 
-  useEffect(() => {
-    console.log('sessions in home', sessions);
-  }, [sessions]);
+  // useEffect(() => {
+  //   console.log('sessions in home', sessions);
+  // }, [sessions]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -138,7 +138,7 @@ export default function Profile({navigation}) {
               id={item.ID}
               testID={`SessionsListItem${item.ID}`}
               onPress={() => {
-                console.log('this is the clicked thing ', item);
+                // console.log('this is the clicked thing ', item);
                 const selectedBeach = getBeach(item.BeachID)[0];
                 console.log('selectedBeach in home', selectedBeach);
                 // const selectedBeach = item.Beach;

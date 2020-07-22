@@ -16,10 +16,10 @@ export default function SessionListAccordionMenu({
 }) {
   const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
 
-  useEffect(() => {
-    console.log('route in sessionlist accordion menu', route);
-    console.log('route name in sessionlist accordion menu', route?.name);
-  }, [route]);
+  // useEffect(() => {
+  //   console.log('route in sessionlist accordion menu', route);
+  //   console.log('route name in sessionlist accordion menu', route?.name);
+  // }, [route]);
 
   return (
     <ScrollView>
@@ -45,7 +45,7 @@ export default function SessionListAccordionMenu({
                           onPress={() => {
                             if (!(IS_IN_PAST || route.name !== 'Profile')) {
                               const selectedBeach = getBeach(session.ID)[0];
-                              console.log('selectedBeach', selectedBeach);
+                              // console.log('selectedBeach', selectedBeach);
                               if (route.name === 'Profile') {
                                 navigation.navigate('ProfileSession', {
                                   session,
