@@ -46,30 +46,32 @@ export default function Register({navigation, route}) {
       </Moment>
 
       <RegisterTabs registerTitle="Attendees">
-        {selectedSessionAttendeesData.map((attendee) => {
+        {selectedSessionAttendeesData.map((attendee, i) => {
           //Retrieve the bool value that shows whether the person has attended the session
           const hasPersonAttended = sessionData?.Attendees?.filter((person) => {
             return person?.id === attendee?.id;
           })[0]?.Attended;
           return (
-            <>
-              <Paragraph>
-                {attendee?.firstName} {attendee?.lastName}{' '}
-              </Paragraph>
-              <Checkbox.Android
-                status={hasPersonAttended ? 'checked' : 'unchecked'}
-                uncheckedColor="black"
-                color="blue"
-                onPress={() => {
-                  markAttendance(
-                    ID,
-                    attendee.id,
-                    sessionData,
-                    USER_GROUP.ATTENDEES,
-                  );
-                }}
-              />
-            </>
+            <Card key={i}>
+              <Card.Content>
+                <Paragraph>
+                  {attendee?.firstName} {attendee?.lastName}{' '}
+                </Paragraph>
+                <Checkbox.Android
+                  status={hasPersonAttended ? 'checked' : 'unchecked'}
+                  uncheckedColor="black"
+                  color="blue"
+                  onPress={() => {
+                    markAttendance(
+                      ID,
+                      attendee.id,
+                      sessionData,
+                      USER_GROUP.ATTENDEES,
+                    );
+                  }}
+                />
+              </Card.Content>
+            </Card>
           );
         })}
       </RegisterTabs>

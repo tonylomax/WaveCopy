@@ -66,6 +66,14 @@ export default (state = initialState, action) => {
 
       return {...state, selectedSessionSubscribedMentors: action.data};
 
+    case ACTIONS.SUBSCRIBE_TO_SESSION_ATTENDEES:
+      console.log(
+        '[Reducer - fireStoreReducer] SUBSCRIBE_TO_SESSION_ATTENDEES',
+        action.data,
+      );
+
+      return {...state, selectedSessionSubscribedAttendees: action.data};
+
     case ACTIONS.CLEAR_SUBSCRIBE_TO_SESSION_MENTORS:
       console.log(
         '[Reducer - fireStoreReducer] CLEAR_SUBSCRIBE_TO_SESSION_MENTORS',
