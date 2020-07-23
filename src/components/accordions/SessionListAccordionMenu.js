@@ -1,6 +1,6 @@
 import {ScrollView, View} from 'react-native';
-import React, {useEffect} from 'react';
-import {List, Card, Paragraph, Title} from 'react-native-paper';
+import React, {useEffect, useState} from 'react';
+import {List, Card, Paragraph, Title, Caption} from 'react-native-paper';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
@@ -16,18 +16,25 @@ export default function SessionListAccordionMenu({
 }) {
   const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
 
-  // useEffect(() => {
-  //   console.log('route in sessionlist accordion menu', route);
-  //   console.log('route name in sessionlist accordion menu', route?.name);
-  // }, [route]);
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <ScrollView>
       <View style={{flex: 1, marginBottom: '17.5%'}}>
-        <List.AccordionGroup>
+        <List.Section>
+          {/* <List.AccordionGroup> */}
           <List.Accordion
+            expanded={sessions.length > 0 ? expanded : false}
+            theme={{
+              colors: {
+                text: sessions.length > 0 ? 'black' : 'grey',
+              },
+            }}
+            onPress={() => {
+              setExpanded((expanded) => !expanded);
+            }}
             testID="sessionlist-accordian"
-            title={'Sessions'}
+            title={sessions.length > 0 ? 'Sessions' : 'No Sessions'}
             id="1">
             {sessions
               ?.sort((a, b) => {
@@ -82,7 +89,8 @@ export default function SessionListAccordionMenu({
                 );
               })}
           </List.Accordion>
-        </List.AccordionGroup>
+          {/* </List.AccordionGroup> */}
+        </List.Section>
       </View>
     </ScrollView>
   );
