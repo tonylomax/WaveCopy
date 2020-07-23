@@ -11,7 +11,7 @@ export default async function signOut() {
     store.dispatch(updateRoleSpecificSessions([]));
     store.dispatch(updateSessions([]));
     store.dispatch(updateFirestoreUserData({}));
-    return await auth()
+    auth()
       .signOut()
       .then(() => {
         console.log('User signed out!');
