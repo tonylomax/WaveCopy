@@ -49,11 +49,7 @@ export default function SessionDetailsAccordionMenu({
         onPress={() => {
           setMentorsExpanded((mentorsExpanded) => !mentorsExpanded);
         }}
-        title={
-          mentors.length > 0
-            ? `Mentors (${mentors?.length || 0}/${numberOfMentors})`
-            : 'No Mentors'
-        }
+        title={`Mentors (${mentors?.length || 0}/${numberOfMentors})`}
         testID="mentors-accordian"
         id="1">
         {mentors?.length > 0 &&
