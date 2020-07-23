@@ -124,7 +124,6 @@ export default function AddServiceUsers({route, navigation}) {
           <Divider />
         </View>
       ))}
-      <Button title="Previous" onPress={() => navigation.goBack()} />
       <Divider />
       <Button
         testID="continue-to-review-created-session-page"

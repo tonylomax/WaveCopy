@@ -35,7 +35,6 @@ const BottomTabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const CreateSessionStack = createStackNavigator();
-const EditSessionStack = createStackNavigator();
 const OnboardingStack = createStackNavigator();
 
 const OnboardingNavigator = () => (
@@ -106,9 +105,22 @@ const HomeNavigator = () => (
       name="Home ServiceUser Profile"
       component={ServiceUserProfile}></HomeStack.Screen>
     <HomeStack.Screen
-      name="HomeEditSession"
-      component={EditSessionNavigator}
-      options={{title: 'Edit session'}}></HomeStack.Screen>
+      name="SessionDetails"
+      options={({navigation}) => ({
+        title: 'Edit session',
+      })}
+      component={SessionDetails}
+    />
+    <HomeStack.Screen
+      name="AddServiceUsers"
+      component={AddServiceUsers}
+      options={{title: 'Edit service users'}}
+    />
+    <HomeStack.Screen
+      name="ConfirmSession"
+      component={ConfirmSession}
+      options={{title: 'Confirm Edited Session Details'}}
+    />
   </HomeStack.Navigator>
 );
 
@@ -134,33 +146,6 @@ const CreateSessionNavigator = () => (
   </CreateSessionStack.Navigator>
 );
 
-const EditSessionNavigator = ({route}) => {
-  const {params} = route;
-  useEffect(() => {
-    console.log(params);
-  }, []);
-  // console.log('came into edit session', route.name);
-  return (
-    <EditSessionStack.Navigator>
-      <EditSessionStack.Screen
-        name="SessionDetails"
-        component={SessionDetails}
-        initialParams={params}
-      />
-      <EditSessionStack.Screen
-        name="AddServiceUsers"
-        component={AddServiceUsers}
-        navigationOptions
-      />
-      <EditSessionStack.Screen
-        name="ConfirmSession"
-        component={ConfirmSession}
-        options={{title: 'EDIT PAGE'}}
-      />
-    </EditSessionStack.Navigator>
-  );
-};
-
 const ProfileNavigator = () => (
   <ProfileStack.Navigator>
     <ProfileStack.Screen
@@ -179,11 +164,22 @@ const ProfileNavigator = () => (
       name="Profile ServiceUser Profile"
       component={ServiceUserProfile}></ProfileStack.Screen>
     <ProfileStack.Screen
-      name="ProfileEditSession"
+      name="SessionDetails"
       options={({navigation}) => ({
         title: 'Edit session',
       })}
-      component={EditSessionNavigator}></ProfileStack.Screen>
+      component={SessionDetails}
+    />
+    <ProfileStack.Screen
+      name="AddServiceUsers"
+      component={AddServiceUsers}
+      options={{title: 'Edit service users'}}
+    />
+    <ProfileStack.Screen
+      name="ConfirmSession"
+      component={ConfirmSession}
+      options={{title: 'Confirm Edited Session Details'}}
+    />
   </ProfileStack.Navigator>
 );
 

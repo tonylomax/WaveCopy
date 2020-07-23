@@ -75,15 +75,12 @@ export default function ConfirmSession({route, navigation}) {
     <SafeAreaView>
       <ScrollView>
         <Image style={{alignSelf: 'center', height: 150}} source={CoverImage} />
-        {previousSessionData && (
-          <ConfirmButton
-            testID="confirm-session-details"
-            title="Confirm"
-            onPress={() => setVisible((visible) => !visible)}></ConfirmButton>
-        )}
 
         <ChoicePopup
           testID="choicePopup"
+          choiceText={`${
+            previousSessionData ? 'Submit edited session' : 'Confirm session'
+          }`}
           visible={visible}
           setVisible={setVisible}
           yesAction={() => {
@@ -143,7 +140,6 @@ export default function ConfirmSession({route, navigation}) {
           {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'} -{' '}
           {location.Name}
         </Headline>
-        <ConfirmButton title="Previous" onPress={() => navigation.goBack()} />
         <Divider />
         {dateTimeArray &&
           dateTimeArray.map((dateTimeOfSession, i) => (
