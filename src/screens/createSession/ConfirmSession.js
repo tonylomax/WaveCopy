@@ -1,6 +1,6 @@
 // TO DO - merge this with session/EditSession.js
-import React, {useState, useEffect} from 'react';
-import {View, Text, Image, SafeAreaView, Alert} from 'react-native';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
+import {View, Text, Image, SafeAreaView, Alert, Button} from 'react-native';
 import {
   Title,
   Divider,
@@ -41,12 +41,17 @@ export default function ConfirmSession({route, navigation}) {
     previousSessionData,
     previouslySelectedMentors,
     previousSessionID,
+    editedDescriptionOfSession,
   } = route.params;
 
   //LOCAL STATE
   const [visible, setVisible] = useState(false);
   const [descriptionOfSession, setDescriptionOfSession] = useState(
-    previousSessionData?.Description || '',
+    editedDescriptionOfSession && editedDescriptionOfSession.length > 0
+      ? editedDescriptionOfSession
+      : previousSessionData?.Description
+      ? previousSessionData?.Description
+      : '',
   );
   const [CoverImage, setCoverImage] = useState();
   //LOCAL STATE
@@ -71,19 +76,33 @@ export default function ConfirmSession({route, navigation}) {
     });
   }, []);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <Button
+          onPress={() => {
+            console.log({descriptionOfSession});
+            navigation.navigate('AddServiceUsers', {
+              editedDescriptionOfSession: descriptionOfSession,
+            });
+          }}
+          title="Back"
+        />
+      ),
+    });
+    return () => {};
+  }, [descriptionOfSession]);
+
   return (
     <SafeAreaView>
       <ScrollView>
         <Image style={{alignSelf: 'center', height: 150}} source={CoverImage} />
-        {previousSessionData && (
-          <ConfirmButton
-            testID="confirm-session-details"
-            title="Confirm"
-            onPress={() => setVisible((visible) => !visible)}></ConfirmButton>
-        )}
 
         <ChoicePopup
           testID="choicePopup"
+          choiceText={`${
+            previousSessionData ? 'Submit edited session' : 'Confirm session'
+          }`}
           visible={visible}
           setVisible={setVisible}
           yesAction={() => {
@@ -143,7 +162,6 @@ export default function ConfirmSession({route, navigation}) {
           {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'} -{' '}
           {location.Name}
         </Headline>
-        <ConfirmButton title="Previous" onPress={() => navigation.goBack()} />
         <Divider />
         {dateTimeArray &&
           dateTimeArray.map((dateTimeOfSession, i) => (
@@ -191,6 +209,8 @@ export default function ConfirmSession({route, navigation}) {
           selectedUsers={selectedUsers}
           numberOfMentors={numberOfVolunteers}
           mentors={previouslySelectedMentors || []}
+          route={route}
+          navigation={navigation}
         />
       </ScrollView>
     </SafeAreaView>
