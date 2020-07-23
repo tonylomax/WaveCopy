@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   Alert,
@@ -33,16 +33,28 @@ export default function SessionDetailsAccordionMenu({
 }) {
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const UID = useSelector((state) => state.authenticationReducer.userState.uid);
-
-  // useEffect(() => {
-  //   console.log('location', location.GivenCoordinates);
-  // }, [location]);
+  const [mentorsExpanded, setMentorsExpanded] = useState(false);
+  const [attendeesExpanded, setAttendeesExpanded] = useState(false);
 
   return (
-    <List.AccordionGroup>
+    // <List.AccordionGroup>
+    <List.Section>
       <List.Accordion
+        expanded={mentors.length > 0 ? mentorsExpanded : false}
+        theme={{
+          colors: {
+            text: mentors.length > 0 ? 'black' : 'grey',
+          },
+        }}
+        onPress={() => {
+          setMentorsExpanded((mentorsExpanded) => !mentorsExpanded);
+        }}
+        title={
+          mentors.length > 0
+            ? `Mentors (${mentors?.length || 0}/${numberOfMentors})`
+            : 'No Mentors'
+        }
         testID="mentors-accordian"
-        title={`Mentors (${mentors?.length || 0}/${numberOfMentors})`}
         id="1">
         {mentors?.length > 0 &&
           mentors?.map((mentor, i) => (
@@ -50,12 +62,6 @@ export default function SessionDetailsAccordionMenu({
               <List.Item
                 testID={`session-accordion-mentor${mentor.id}`}
                 onPress={() => {
-                  // console.log('mentor in accord', mentor);
-                  // console.log(
-                  //   'route when going to volunteer profile screen ',
-                  //   route,
-                  //   route.name,
-                  // );
                   const routeDestination =
                     route.name === 'HomeSession'
                       ? 'Home Volunteer Profile'
@@ -121,7 +127,20 @@ export default function SessionDetailsAccordionMenu({
           ))}
       </List.Accordion>
       <List.Accordion
-        title={`Attendees (${selectedUsers?.length})`}
+        expanded={selectedUsers.length > 0 ? attendeesExpanded : false}
+        theme={{
+          colors: {
+            text: selectedUsers.length > 0 ? 'black' : 'grey',
+          },
+        }}
+        onPress={() => {
+          setAttendeesExpanded((attendeesExpanded) => !attendeesExpanded);
+        }}
+        title={
+          mentors.length > 0
+            ? `Attendees (${selectedUsers?.length})`
+            : 'No Attendees'
+        }
         id="2"
         testID="attendees-accordian">
         {selectedUsers.length > 0 &&
@@ -208,6 +227,7 @@ export default function SessionDetailsAccordionMenu({
           </ScrollView>
         </Card>
       </List.Accordion>
-    </List.AccordionGroup>
+    </List.Section>
+    // </List.AccordionGroup>
   );
 }
