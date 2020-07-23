@@ -93,36 +93,45 @@ const StandardTabNavigator = () => (
   </NavigationContainer>
 );
 
-const HomeNavigator = () => (
-  <HomeStack.Navigator>
-    <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
-    <HomeStack.Screen name="HomeSession" component={Session}></HomeStack.Screen>
-    <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
-    <HomeStack.Screen
-      name="Home Volunteer Profile"
-      component={WaveTeamProfile}></HomeStack.Screen>
-    <HomeStack.Screen
-      name="Home ServiceUser Profile"
-      component={ServiceUserProfile}></HomeStack.Screen>
-    <HomeStack.Screen
-      name="SessionDetails"
-      options={({navigation}) => ({
-        title: 'Edit session',
-      })}
-      component={SessionDetails}
-    />
-    <HomeStack.Screen
-      name="AddServiceUsers"
-      component={AddServiceUsers}
-      options={{title: 'Edit service users'}}
-    />
-    <HomeStack.Screen
-      name="ConfirmSession"
-      component={ConfirmSession}
-      options={{title: 'Confirm Edited Session Details'}}
-    />
-  </HomeStack.Navigator>
-);
+const HomeNavigator = () => {
+  const [selectedServiceUsers, setSelectedServiceUsers] = useState([]);
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
+      <HomeStack.Screen
+        name="HomeSession"
+        component={Session}></HomeStack.Screen>
+      <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
+      <HomeStack.Screen
+        name="Home Volunteer Profile"
+        component={WaveTeamProfile}></HomeStack.Screen>
+      <HomeStack.Screen
+        name="Home ServiceUser Profile"
+        component={ServiceUserProfile}></HomeStack.Screen>
+      <HomeStack.Screen
+        initialParams={{
+          setSelectedServiceUsers,
+          selectedServiceUsers,
+        }}
+        name="SessionDetails"
+        options={({navigation}) => ({
+          title: 'Edit session',
+        })}
+        component={SessionDetails}
+      />
+      <HomeStack.Screen
+        name="AddServiceUsers"
+        component={AddServiceUsers}
+        options={{title: 'Edit service users'}}
+      />
+      <HomeStack.Screen
+        name="ConfirmSession"
+        component={ConfirmSession}
+        options={{title: 'Confirm Edited Session Details'}}
+      />
+    </HomeStack.Navigator>
+  );
+};
 
 const CreateSessionNavigator = () => (
   <CreateSessionStack.Navigator>

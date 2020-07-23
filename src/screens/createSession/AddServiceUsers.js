@@ -11,12 +11,9 @@ import {
 import {searchFirestoreServiceUsers} from 'utils';
 
 export default function AddServiceUsers({route, navigation}) {
-  const {previouslySelectedAttendees} = route.params;
+  const {selectedServiceUsers, setSelectedServiceUsers} = route.params;
 
   //LOCAL STATE
-  const [selectedUsers, setSelectedUsers] = useState(
-    previouslySelectedAttendees || [],
-  );
   const [searchTerm, setSearchTerm] = useState('');
   const [typing, setTyping] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState(0);
@@ -54,11 +51,13 @@ export default function AddServiceUsers({route, navigation}) {
   const addUser = (item) => {
     console.log('adding item', item);
     // Add the user if they have not already been selected
-    const found = selectedUsers.some((user) => {
-      return user.objectID === item.objectID;
+    const found = selectedServiceUsers.some((user) => {
+      return user.objectID === item.objectID || user.id === item.objectID;
     });
     if (!found) {
-      setSelectedUsers((currentlySelected) => currentlySelected.concat(item));
+      setSelectedServiceUsers((currentlySelected) =>
+        currentlySelected.concat(item),
+      );
     }
     setLoading(false);
     setTyping(false);
@@ -66,19 +65,22 @@ export default function AddServiceUsers({route, navigation}) {
     setSearchResults([]);
   };
   const removeUser = (serviceUserID) => {
-    const updatedSelectedUsers = selectedUsers.filter((selectedUser) => {
+    const updatedSelectedUsers = selectedServiceUsers.filter((selectedUser) => {
       // console.log({selectedUser});
       // console.log(selectedUser.objectID);
       // console.log(serviceUserID);
-      return selectedUser.objectID !== serviceUserID;
+      return (
+        selectedUser.objectID !== serviceUserID &&
+        selectedUser.id !== serviceUserID
+      );
     });
-    setSelectedUsers(updatedSelectedUsers);
+    setSelectedServiceUsers(updatedSelectedUsers);
   };
 
   useEffect(() => {
-    console.log(selectedUsers);
+    console.log({selectedServiceUsers});
     return () => {};
-  }, [selectedUsers]);
+  }, [selectedServiceUsers]);
   return (
     <View>
       <Searchbar
@@ -107,7 +109,7 @@ export default function AddServiceUsers({route, navigation}) {
       )}
 
       <Title testID="currently-added-service-users">Currently Added</Title>
-      {selectedUsers.map((serviceUser) => (
+      {selectedServiceUsers.map((serviceUser) => (
         <View>
           <List.Item
             title={`${serviceUser?.firstName} ${serviceUser?.lastName}`}
@@ -115,8 +117,14 @@ export default function AddServiceUsers({route, navigation}) {
               <Button
                 title="remove"
                 onPress={() => {
-                  console.log('clicked on id ', serviceUser?.objectID);
-                  removeUser(serviceUser.objectID);
+                  console.log(
+                    'clicked on id ',
+                    serviceUser?.objectID || serviceUser?.id,
+                  );
+                  const idToRemove = serviceUser?.objectID
+                    ? serviceUser?.objectID
+                    : serviceUser?.id;
+                  removeUser(idToRemove);
                 }}
               />
             )}
@@ -130,7 +138,7 @@ export default function AddServiceUsers({route, navigation}) {
         title="Continue"
         onPress={() =>
           navigation.push('ConfirmSession', {
-            selectedUsers,
+            selectedServiceUsers,
             ...route.params,
           })
         }

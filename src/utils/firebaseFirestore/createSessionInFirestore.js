@@ -6,7 +6,7 @@ export default createSessionInFirestore = ({
   sessionType,
   location,
   numberOfVolunteers,
-  selectedUsers,
+  selectedServiceUsers,
   dateTimeArray,
   descriptionOfSession,
   coordinator,
@@ -14,7 +14,7 @@ export default createSessionInFirestore = ({
 }) => {
   return new Promise((resolve, reject) => {
     const updatedAttendees = [];
-    selectedUsers.map((user) => {
+    selectedServiceUsers.map((user) => {
       updatedAttendees.push({
         id: user.objectID,
         Attended: false,

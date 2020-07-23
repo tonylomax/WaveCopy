@@ -36,7 +36,7 @@ export default function ConfirmSession({route, navigation}) {
     sessionType,
     location,
     numberOfVolunteers,
-    selectedUsers,
+    selectedServiceUsers,
     dateTimeArray,
     previousSessionData,
     previouslySelectedMentors,
@@ -93,7 +93,7 @@ export default function ConfirmSession({route, navigation}) {
                 sessionType,
                 location,
                 numberOfVolunteers,
-                selectedUsers,
+                selectedServiceUsers,
                 dateTimeArray,
                 descriptionOfSession,
                 coordinator: userData?.Name || '',
@@ -114,7 +114,7 @@ export default function ConfirmSession({route, navigation}) {
                 sessionType,
                 location,
                 numberOfVolunteers,
-                selectedUsers,
+                selectedServiceUsers,
                 dateTimeArray,
                 descriptionOfSession,
                 coordinator: userData?.Name || '',
@@ -184,7 +184,7 @@ export default function ConfirmSession({route, navigation}) {
         </Card>
         <SessionDetailsAccordionMenu
           location={location}
-          selectedUsers={selectedUsers}
+          selectedUsers={selectedServiceUsers}
           numberOfMentors={numberOfVolunteers}
           mentors={previouslySelectedMentors || []}
         />
