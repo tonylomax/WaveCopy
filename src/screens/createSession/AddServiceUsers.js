@@ -50,7 +50,7 @@ export default function AddServiceUsers({route, navigation}) {
           setLoading(false);
           setSearchResults(realSearchResults.hits);
         });
-      }, 1000);
+      }, 300);
       setTypingTimeout(newTimeout);
     }
   };
