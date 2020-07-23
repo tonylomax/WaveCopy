@@ -50,15 +50,7 @@ export default function SessionDetailsAccordionMenu({
               <List.Item
                 testID={`session-accordion-mentor${mentor.id}`}
                 onPress={() => {
-                  // console.log('mentor in accord', mentor);
-                  // console.log(
-                  //   'route when going to volunteer profile screen ',
-                  //   route,
-                  //   route.name,
-                  // );
-                  if (route.name === 'ConfirmSession') {
-                    console.log('do nothing');
-                  } else {
+                  if (route.name !== 'ConfirmSession') {
                     const routeDestination =
                       route.name === 'HomeSession'
                         ? 'Home Volunteer Profile'

@@ -87,6 +87,7 @@ export default function AddServiceUsers({route, navigation}) {
         <Button
           onPress={() => {
             console.log({editedDescriptionOfSession});
+            console.log({selectedUsers});
             navigation.navigate('SessionDetails', {
               selectedUsers,
               editedDescriptionOfSession,
@@ -97,7 +98,7 @@ export default function AddServiceUsers({route, navigation}) {
       ),
     });
     return () => {};
-  }, [editedDescriptionOfSession]);
+  }, [editedDescriptionOfSession, selectedUsers]);
 
   useEffect(() => {
     console.log({editedDescriptionOfSession});
