@@ -40,7 +40,9 @@ export default function SessionDetails({navigation, route}) {
   // Default state is 0, previous state will not exist.
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
 
-  const [sessionDate, setSessionDate] = useState(new Date());
+  const [sessionDate, setSessionDate] = useState(
+    new Date().setDate(new Date().getDate() + 7),
+  );
   const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
   const [sessionTime, setSessionTime] = useState(new Date());
   const [showTimePicker, setShowTimePicker] = useState(Platform.OS === 'ios');
@@ -113,7 +115,7 @@ export default function SessionDetails({navigation, route}) {
               is24Hour={true}
               display="default"
               onChange={onChangeDate}
-              minimumDate={new Date()}
+              minimumDate={new Date().setDate(new Date().getDate() + 7)}
             />
           </Card>
         )}
