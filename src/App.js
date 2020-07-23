@@ -205,7 +205,7 @@ const App: () => React$Node = () => {
           messaging()
             .getToken()
             .then((token) => {
-              console.log('RETRIEVED TOKEN', token);
+              console.log('RETRIEVED TOKEN');
               addNotificationToken(currentAuthenticatedUser.uid, token);
             })
             .catch((err) => console.log('Error in getToken', err));
@@ -229,7 +229,7 @@ const App: () => React$Node = () => {
   }, []);
 
   useEffect(() => {
-    console.log('currentAuthenticatedUser is ', currentAuthenticatedUser);
+    console.log('currentAuthenticatedUser is ', currentAuthenticatedUser.email);
     if (!isEmpty(currentAuthenticatedUser)) {
       const unsubscribeFromFirestoreUserData = subscribeToFirestoreUsers(
         currentAuthenticatedUser.uid,

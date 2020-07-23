@@ -11,7 +11,7 @@ import store from './src/redux/store';
 import React from 'react';
 import messaging from '@react-native-firebase/messaging';
 
-console.disableYellowBox = true;
+console.disableYellowBox = false;
 
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
   console.log('Message handled in the background!', remoteMessage);

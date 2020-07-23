@@ -11,10 +11,7 @@ export default (sessionID) => {
     .doc(sessionID)
     .onSnapshot(
       (singleSessionData) => {
-        console.log(
-          'inside on snapshot, received some data',
-          singleSessionData,
-        );
+        console.log('inside on snapshot, received some data');
         store.dispatch(updateCurrentSession(singleSessionData));
       },
       (error) => {

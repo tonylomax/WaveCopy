@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 
 export default addNotificationToken = (uid, token) => {
-  console.log('Calling addNotificationToken', uid, token);
+  console.log('Calling addNotificationToken');
   firestore()
     .collection('Users')
     .doc(uid)

@@ -5,7 +5,7 @@ import {RegisterTabs} from 'components';
 import {useSelector} from 'react-redux';
 import {markAttendance, subscribeToSessionChanges} from 'utils';
 import {USER_GROUP} from 'constants';
-import {Checkbox, Paragraph, BottomNavigation} from 'react-native-paper';
+import {Checkbox, Paragraph, BottomNavigation, Card} from 'react-native-paper';
 
 export default function Register({navigation, route}) {
   //REDUX STATE
@@ -31,6 +31,10 @@ export default function Register({navigation, route}) {
     };
   }, []);
 
+  useEffect(() => {
+    console.log('selectedSessionMentorsData', selectedSessionMentorsData);
+  }, [selectedSessionMentorsData]);
+
   return (
     <View>
       <Text>Attendee Register</Text>
@@ -42,58 +46,62 @@ export default function Register({navigation, route}) {
       </Moment>
 
       <RegisterTabs registerTitle="Attendees">
-        {selectedSessionAttendeesData.map((attendee) => {
+        {selectedSessionAttendeesData.map((attendee, i) => {
           //Retrieve the bool value that shows whether the person has attended the session
           const hasPersonAttended = sessionData?.Attendees?.filter((person) => {
             return person?.id === attendee?.id;
           })[0]?.Attended;
           return (
-            <>
-              <Paragraph>
-                {attendee?.firstName} {attendee?.lastName}{' '}
-              </Paragraph>
-              <Checkbox.Android
-                status={hasPersonAttended ? 'checked' : 'unchecked'}
-                uncheckedColor="black"
-                color="blue"
-                onPress={() => {
-                  markAttendance(
-                    ID,
-                    attendee.id,
-                    sessionData,
-                    USER_GROUP.ATTENDEES,
-                  );
-                }}
-              />
-            </>
+            <Card key={i}>
+              <Card.Content>
+                <Paragraph>
+                  {attendee?.firstName} {attendee?.lastName}{' '}
+                </Paragraph>
+                <Checkbox.Android
+                  status={hasPersonAttended ? 'checked' : 'unchecked'}
+                  uncheckedColor="black"
+                  color="blue"
+                  onPress={() => {
+                    markAttendance(
+                      ID,
+                      attendee.id,
+                      sessionData,
+                      USER_GROUP.ATTENDEES,
+                    );
+                  }}
+                />
+              </Card.Content>
+            </Card>
           );
         })}
       </RegisterTabs>
 
       <RegisterTabs registerTitle="Mentors">
-        {selectedSessionMentorsData?.map((mentor) => {
+        {selectedSessionMentorsData?.map((mentor, i) => {
           const hasPersonAttended = sessionData?.Mentors?.filter((person) => {
             return person.id === mentor.id;
           })[0].Attended;
           return (
-            <>
-              <Paragraph>
-                {mentor?.firstName} {mentor?.lastName}
-              </Paragraph>
-              <Checkbox.Android
-                status={hasPersonAttended ? 'checked' : 'unchecked'}
-                uncheckedColor="black"
-                color="blue"
-                onPress={() => {
-                  markAttendance(
-                    ID,
-                    mentor.id,
-                    sessionData,
-                    USER_GROUP.MENTORS,
-                  );
-                }}
-              />
-            </>
+            <Card key={i}>
+              <Card.Content>
+                <Paragraph>
+                  {mentor?.firstName} {mentor?.lastName}
+                </Paragraph>
+                <Checkbox.Android
+                  status={hasPersonAttended ? 'checked' : 'unchecked'}
+                  uncheckedColor="black"
+                  color="blue"
+                  onPress={() => {
+                    markAttendance(
+                      ID,
+                      mentor.id,
+                      sessionData,
+                      USER_GROUP.MENTORS,
+                    );
+                  }}
+                />
+              </Card.Content>
+            </Card>
           );
         })}
       </RegisterTabs>

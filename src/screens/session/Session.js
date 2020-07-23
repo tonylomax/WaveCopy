@@ -26,6 +26,7 @@ import {
   getAllSessionMentors,
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
+  clearCurrentSession,
 } from '../../redux/';
 import {
   subscribeToSessionChanges,
@@ -61,6 +62,10 @@ export default function Session({navigation, route}) {
   const sessionData = useSelector(
     (state) => state.firestoreReducer.singleSession,
   );
+
+  const sessionDataMentors = useSelector(
+    (state) => state.firestoreReducer.singleSession.Mentors,
+  );
   const selectedSessionAttendeesData = useSelector(
     (state) => state.firestoreReducer.selectedSessionSubscribedAttendees,
   );
@@ -90,9 +95,9 @@ export default function Session({navigation, route}) {
   //LOCAL STATE
 
   useEffect(() => {
-    console.log('sessionData', sessionData);
-    console.log('MENTORS', Mentors);
-
+    console.log('sessionData', sessionData.Mentors);
+    // console.log('MENTORS', Mentors);
+    console.log('selectedSessionMentorsData', selectedSessionMentorsData);
     // Set up subscription for all the data relating to the mentors in a session
     const mentorsUnsubscribers = updateCurrentSessionAttendees(
       sessionData?.Mentors,
@@ -114,21 +119,25 @@ export default function Session({navigation, route}) {
         console.log('service user unsubscribe called');
         unsubscribe();
       });
-      dispatch(clearSelectedSessionMentors());
-      dispatch(clearSelectedSessionAttendees());
     };
-  }, [sessionData]);
+  }, [sessionDataMentors]);
 
   useEffect(() => {
-    console.log('selected beach IN SESSIONS', selectedBeach);
+    console.log('selected beach IN SESSIONS');
     setCoverImage(getCoverImage(selectedBeach));
   }, []);
 
   useEffect(() => {
     // Set up subscription for all the session data
+
     const unsubscribe = subscribeToSessionChanges(ID);
 
     return () => {
+      console.log('CALLING clearSelectedSessionMentors');
+      dispatch(clearSelectedSessionMentors());
+      dispatch(clearSelectedSessionAttendees());
+      dispatch(clearCurrentSession());
+      console.log('FINISHED CALLING clearSelectedSessionMentors');
       unsubscribe();
     };
   }, []);
@@ -137,7 +146,7 @@ export default function Session({navigation, route}) {
     const SURFLEAD = selectedSessionMentorsData?.filter(
       (mentor) => mentor.id === sessionLeadID,
     );
-    console.log('SURFLEAD', SURFLEAD);
+
     setSurfLead(SURFLEAD[0]);
   }, [selectedSessionMentorsData, sessionData]);
 
