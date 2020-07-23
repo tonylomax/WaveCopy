@@ -50,17 +50,13 @@ export default function SessionDetailsAccordionMenu({
               <List.Item
                 testID={`session-accordion-mentor${mentor.id}`}
                 onPress={() => {
-                  // console.log('mentor in accord', mentor);
-                  // console.log(
-                  //   'route when going to volunteer profile screen ',
-                  //   route,
-                  //   route.name,
-                  // );
-                  const routeDestination =
-                    route.name === 'HomeSession'
-                      ? 'Home Volunteer Profile'
-                      : 'Profile Volunteer Profile';
-                  navigation.navigate(routeDestination, {mentor});
+                  if (route.name !== 'ConfirmSession') {
+                    const routeDestination =
+                      route.name === 'HomeSession'
+                        ? 'Home Volunteer Profile'
+                        : 'Profile Volunteer Profile';
+                    navigation.navigate(routeDestination, {mentor});
+                  }
                 }}
                 key={`mentor-${i + 1}`}
                 title={`${i + 1}. ${mentor?.firstName} ${mentor?.lastName}`}
@@ -129,7 +125,9 @@ export default function SessionDetailsAccordionMenu({
             <View>
               <List.Item
                 onPress={() => {
-                  if (
+                  if (route.name === 'ConfirmSession') {
+                    console.log('do nothing');
+                  } else if (
                     roles?.some(
                       () =>
                         userData?.Roles?.includes('SurfLead') ||

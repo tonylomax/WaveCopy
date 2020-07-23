@@ -184,11 +184,7 @@ export default function Session({navigation, route}) {
               <TouchableOpacity
                 style={{}}
                 onPress={() => {
-                  const nextScreen =
-                    route.name === 'HomeSession'
-                      ? 'HomeEditSession'
-                      : 'ProfileEditSession';
-                  navigation.push(nextScreen, {
+                  navigation.push('SessionDetails', {
                     previousSessionData: sessionData,
                     previouslySelectedAttendees: selectedSessionAttendeesData,
                     previouslySelectedMentors: selectedSessionMentorsData,

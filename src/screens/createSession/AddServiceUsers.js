@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useLayoutEffect} from 'react';
 import {View, Text, Button, TextInput, FlatList} from 'react-native';
 import {
   Searchbar,
@@ -11,7 +11,10 @@ import {
 import {searchFirestoreServiceUsers} from 'utils';
 
 export default function AddServiceUsers({route, navigation}) {
-  const {previouslySelectedAttendees} = route.params;
+  const {
+    previouslySelectedAttendees,
+    editedDescriptionOfSession,
+  } = route.params;
 
   //LOCAL STATE
   const [selectedUsers, setSelectedUsers] = useState(
@@ -47,7 +50,7 @@ export default function AddServiceUsers({route, navigation}) {
           setLoading(false);
           setSearchResults(realSearchResults.hits);
         });
-      }, 1000);
+      }, 300);
       setTypingTimeout(newTimeout);
     }
   };
@@ -55,7 +58,7 @@ export default function AddServiceUsers({route, navigation}) {
     console.log('adding item', item);
     // Add the user if they have not already been selected
     const found = selectedUsers.some((user) => {
-      return user.objectID === item.objectID;
+      return user.objectID === item.objectID || user.id === item.objectID;
     });
     if (!found) {
       setSelectedUsers((currentlySelected) => currentlySelected.concat(item));
@@ -70,15 +73,37 @@ export default function AddServiceUsers({route, navigation}) {
       // console.log({selectedUser});
       // console.log(selectedUser.objectID);
       // console.log(serviceUserID);
-      return selectedUser.objectID !== serviceUserID;
+      return (
+        selectedUser.objectID !== serviceUserID &&
+        selectedUser.id !== serviceUserID
+      );
     });
     setSelectedUsers(updatedSelectedUsers);
   };
 
-  useEffect(() => {
-    console.log(selectedUsers);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <Button
+          onPress={() => {
+            console.log({editedDescriptionOfSession});
+            console.log({selectedUsers});
+            navigation.navigate('SessionDetails', {
+              selectedUsers,
+              editedDescriptionOfSession,
+            });
+          }}
+          title="Back"
+        />
+      ),
+    });
     return () => {};
-  }, [selectedUsers]);
+  }, [editedDescriptionOfSession, selectedUsers]);
+
+  useEffect(() => {
+    console.log({editedDescriptionOfSession});
+  }, []);
+
   return (
     <View>
       <Searchbar
@@ -116,7 +141,7 @@ export default function AddServiceUsers({route, navigation}) {
                 title="remove"
                 onPress={() => {
                   console.log('clicked on id ', serviceUser?.objectID);
-                  removeUser(serviceUser.objectID);
+                  removeUser(serviceUser.objectID || serviceUser.id);
                 }}
               />
             )}
@@ -124,17 +149,18 @@ export default function AddServiceUsers({route, navigation}) {
           <Divider />
         </View>
       ))}
-      <Button title="Previous" onPress={() => navigation.goBack()} />
       <Divider />
       <Button
         testID="continue-to-review-created-session-page"
         title="Continue"
-        onPress={() =>
+        onPress={() => {
+          console.log({editedDescriptionOfSession});
           navigation.push('ConfirmSession', {
             selectedUsers,
             ...route.params,
-          })
-        }
+            editedDescriptionOfSession,
+          });
+        }}
       />
     </View>
   );

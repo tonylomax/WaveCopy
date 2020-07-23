@@ -24,7 +24,9 @@ export default function SessionDetails({navigation, route}) {
   const previousSessionID = route?.params?.previousSessionID;
   const previouslySelectedAttendees =
     route?.params?.previouslySelectedAttendees;
+  const selectedUsers = route?.params?.selectedUsers;
   const previouslySelectedMentors = route?.params?.previouslySelectedMentors;
+  const editedDescriptionOfSession = route?.params?.editedDescriptionOfSession;
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
 
   const [sessionType, setSessionType] = useState(
@@ -204,15 +206,19 @@ export default function SessionDetails({navigation, route}) {
               sessionTime,
               numberOfRepetitions,
             );
+            console.log({editedDescriptionOfSession});
             navigation.push('AddServiceUsers', {
               sessionType,
               location,
               numberOfVolunteers,
               dateTimeArray,
               previousSessionData,
-              previouslySelectedAttendees,
+              previouslySelectedAttendees: selectedUsers
+                ? selectedUsers
+                : previouslySelectedAttendees,
               previouslySelectedMentors,
               previousSessionID,
+              editedDescriptionOfSession,
             });
           }}
         />

@@ -8,6 +8,7 @@ export default function ChoicePopup({
   testID,
   yesAction,
   noAction,
+  choiceText,
 }) {
   return (
     <View testID={testID} style={styles.centeredView}>
@@ -20,7 +21,9 @@ export default function ChoicePopup({
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Pick A Choice</Text>
+            <Text style={styles.modalText}>
+              {choiceText ? choiceText : 'Pick A Choice'}
+            </Text>
             <ConfirmButton
               testID="yesButtonChoicePopup"
               title="Yes"
