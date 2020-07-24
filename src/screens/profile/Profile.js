@@ -304,7 +304,7 @@ export default function Profile({navigation, route}) {
                     ? sessions
                     : mySessions
                 }
-                beaches={beaches}
+                // beaches={beaches}
                 route={route}
                 navigation={navigation}
               />

@@ -14,12 +14,12 @@ export default function TrainingAccordionMenu({training}) {
     // <List.AccordionGroup>
     <List.Accordion
       testID="training-accordian"
-      title={training.length > 0 ? 'Training' : 'No Training'}
+      title={training?.length > 0 ? 'Training' : 'No Training'}
       id="1"
-      expanded={training.length > 0 ? expanded : false}
+      expanded={training?.length > 0 ? expanded : false}
       theme={{
         colors: {
-          text: training.length > 0 ? 'black' : 'grey',
+          text: training?.length > 0 ? 'black' : 'grey',
         },
       }}
       onPress={() => {

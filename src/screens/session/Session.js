@@ -95,7 +95,11 @@ export default function Session({navigation, route}) {
   //LOCAL STATE
 
   useEffect(() => {
-    console.log('sessionData', sessionData.Mentors);
+    setCoverImage(getCoverImage(selectedBeach));
+  }, []);
+
+  useEffect(() => {
+    // console.log('sessionData', sessionData);
     // console.log('MENTORS', Mentors);
     console.log('selectedSessionMentorsData', selectedSessionMentorsData);
     // Set up subscription for all the data relating to the mentors in a session
@@ -122,10 +126,9 @@ export default function Session({navigation, route}) {
     };
   }, [sessionDataMentors]);
 
-  useEffect(() => {
-    console.log('selected beach IN SESSIONS');
-    setCoverImage(getCoverImage(selectedBeach));
-  }, []);
+  // useEffect(() => {
+
+  // }, []);
 
   useEffect(() => {
     // Set up subscription for all the session data

@@ -24,7 +24,7 @@ import {
 } from '../assets/';
 
 export default getCoverImage = (location) => {
-  // console.log(location);
+  // console.log('location', location);
   const coverImage = location?.CoverImage ? location?.CoverImage : location;
   // console.log('cover image', coverImage);
   switch (coverImage) {

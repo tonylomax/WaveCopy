@@ -52,7 +52,7 @@ export default function WaveTeamProfile({route, navigation}) {
       <TrainingAccordionMenu training={mentor.Training}></TrainingAccordionMenu>
       <SessionListAccordionMenu
         sessions={allSessions}
-        beaches={beaches}
+        // beaches={beaches}
         navigation={navigation}
         route={route}></SessionListAccordionMenu>
     </View>
