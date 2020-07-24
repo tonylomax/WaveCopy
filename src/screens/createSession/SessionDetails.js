@@ -208,12 +208,7 @@ export default function SessionDetails({navigation, route}) {
               numberOfRepetitions,
             );
             console.log({editedDescriptionOfSession});
-            console.log('numberOfVolunteers', numberOfVolunteers);
-            console.log(
-              'previouslySelectedMentors',
-              previouslySelectedMentors.length,
-            );
-            if (previouslySelectedMentors.length > numberOfVolunteers) {
+            if (previouslySelectedMentors?.length > numberOfVolunteers) {
               Alert.alert(
                 'The maximum number of volunteers cannot be more than the current number of volunteers, remove some volunteers and then reduce required number of volunteers.',
               );

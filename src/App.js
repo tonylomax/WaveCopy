@@ -98,8 +98,11 @@ const StandardTabNavigator = () => (
 
 const HomeNavigator = ({navigation}) => {
   useEffect(() => {
+    const state = navigation.dangerouslyGetState();
+    console.log('state in profilenavigator', state);
     const unsubscribe = navigation.addListener('tabPress', (e) => {
       e.preventDefault();
+      // Alert.alert('Pressed');
       console.log('target in home', e);
 
       navigation.dispatch(
@@ -169,6 +172,45 @@ const CreateSessionNavigator = () => (
 );
 
 const ProfileNavigator = ({navigation}) => {
+  useEffect(() => {
+    const state = navigation.dangerouslyGetState();
+    console.log('state in profilenavigator', state);
+
+    const unsubscribe = navigation.addListener('tabPress', (e) => {
+      e.preventDefault();
+      console.log('target in profile', e);
+      if (state.index === 2) {
+        Alert.alert(
+          'Your changes won"t be saved"',
+          'Are you sure you want to discard your changes',
+          [
+            {
+              text: 'Yes',
+              onPress: () =>
+                navigation.dispatch(
+                  CommonActions.navigate({
+                    name: 'Profile',
+                  }),
+                ),
+            },
+            {
+              text: 'No',
+              onPress: () => console.log('No'),
+            },
+          ],
+          {cancelable: false},
+        );
+      } else {
+        navigation.dispatch(
+          CommonActions.navigate({
+            name: 'Profile',
+          }),
+        );
+      }
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen

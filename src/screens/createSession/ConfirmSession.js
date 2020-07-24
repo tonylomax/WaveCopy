@@ -90,8 +90,24 @@ export default function ConfirmSession({route, navigation}) {
         />
       ),
     });
+
     return () => {};
   }, [descriptionOfSession]);
+
+  React.useEffect(() => {
+    parent = navigation.dangerouslyGetParent();
+    state = navigation.dangerouslyGetState();
+    console.log('state in confirm session', state);
+    let unsubscribe;
+    // if ((state.index = 4)) {
+    unsubscribe = parent.addListener('tabPress', (e) => {
+      e.preventDefault();
+      console.log('EVENT IN CONFIRMSESSION', e);
+    });
+    // }
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <SafeAreaView>
