@@ -18,6 +18,10 @@ import {
   MIN_NUMBER_OF_REPETITIONS,
   MAX_NUMBER_OF_REPETITIONS,
 } from 'constants';
+import moment from 'moment';
+import 'moment/src/locale/en-gb';
+moment.locale('en-gb');
+moment().format('en-gb');
 
 export default function SessionDetails({navigation, route}) {
   const previousSessionData = route?.params?.previousSessionData;
@@ -32,15 +36,17 @@ export default function SessionDetails({navigation, route}) {
   const [sessionType, setSessionType] = useState(
     previousSessionData?.Type || 'surf-club',
   );
-  const [location, setLocation] = useState(beaches[0]);
+  const [location, setLocation] = useState();
 
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(
     previousSessionData?.MaxMentors || 1,
   );
   // Default state is 0, previous state will not exist.
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
-
-  const [sessionDate, setSessionDate] = useState(new Date());
+  // new Date().setDate(new Date().getDate() + 7),
+  const [sessionDate, setSessionDate] = useState(
+    moment(new Date()).add(7, 'days').toDate(),
+  );
   const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
   const [sessionTime, setSessionTime] = useState(new Date());
   const [showTimePicker, setShowTimePicker] = useState(Platform.OS === 'ios');
@@ -68,7 +74,7 @@ export default function SessionDetails({navigation, route}) {
         (beach) => beach.Name === previousSessionData?.Beach,
       );
       setLocation(beaches[prevBeachIndex]);
-    }
+    } else setLocation(beaches[0]);
   }, []);
 
   return (
