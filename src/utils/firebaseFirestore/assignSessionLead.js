@@ -18,20 +18,20 @@ export default assignSessionLead = async (sessionID, mentorID, userID) => {
         const sessionRegion = sessionData.region;
         const sessionCoordinatorID = sessionData.CoordinatorID;
 
-        const mentorInSession = sessionData.Mentors.findIndex((mentor) => {
+        const mentorInSession = sessionData.mentors.findIndex((mentor) => {
           return mentor.id === mentorID;
         });
         if (mentorInSession < 0) {
           throw 'Mentor not in this session';
         }
-        if (sessionData?.SessionLead?.id !== '') {
+        if (sessionData?.sessionLead?.id !== '') {
           throw 'Already a session lead assigned';
         }
         if (roles.includes('NationalAdmin')) {
           transaction.update(sessionDocRef, {
-            SessionLead: {
+            sessionLead: {
               id: mentorID,
-              CreatedAt: firestore.FieldValue.serverTimestamp(),
+              createdAt: firestore.FieldValue.serverTimestamp(),
             },
           });
         } else if (
@@ -39,9 +39,9 @@ export default assignSessionLead = async (sessionID, mentorID, userID) => {
           region === sessionRegion
         ) {
           transaction.update(sessionDocRef, {
-            SessionLead: {
+            sessionLead: {
               id: mentorID,
-              CreatedAt: firestore.FieldValue.serverTimestamp(),
+              createdAt: firestore.FieldValue.serverTimestamp(),
             },
           });
         } else if (
@@ -49,9 +49,9 @@ export default assignSessionLead = async (sessionID, mentorID, userID) => {
           sessionCoordinatorID === userID
         ) {
           transaction.update(sessionDocRef, {
-            SessionLead: {
+            sessionLead: {
               id: mentorID,
-              CreatedAt: firestore.FieldValue.serverTimestamp(),
+              createdAt: firestore.FieldValue.serverTimestamp(),
             },
           });
         } else {

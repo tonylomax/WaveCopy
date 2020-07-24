@@ -12,8 +12,8 @@ export default retrieveRegions = () => {
       regions.forEach((region) => {
         console.log('region', region.id, region.data());
         updatedRegions.push({
-          Name: region.data().Name,
-          ID: region.id,
+          name: region.data().name,
+          id: region.id,
         });
       });
       return updatedRegions;

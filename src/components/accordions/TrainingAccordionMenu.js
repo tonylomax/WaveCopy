@@ -29,16 +29,16 @@ export default function TrainingAccordionMenu({training}) {
         return (
           <List.Item
             key={i}
-            // title={trainingInstance.Name}
+            // title={trainingInstance.name}
             description={() => {
               return (
                 <Card>
-                  <Card.Title title={trainingInstance.Name} />
+                  <Card.Title title={trainingInstance.name} />
                   <Card.Content>
                     <Paragraph>Completed: </Paragraph>
                     <Paragraph>
                       <Moment element={Text} format="MMMM YYYY">
-                        {trainingInstance.DateCompleted}
+                        {trainingInstance.dateCompleted}
                       </Moment>
                     </Paragraph>
                   </Card.Content>

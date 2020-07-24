@@ -25,7 +25,7 @@ export default function Onboarding({navigation}) {
   //LOCAL STATE
 
   //REDUX STATE
-  const UID = useSelector((state) => state.authenticationReducer.userState.uid);
+  const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   const regions = useSelector((state) => state.firestoreReducer.regions);
   //REDUX STATE
 
@@ -78,7 +78,7 @@ export default function Onboarding({navigation}) {
                 setSelectedRegion(itemValue)
               }>
               {regions.map((region) => (
-                <Picker.Item label={region.Name} value={region.ID} />
+                <Picker.Item label={region.name} value={region.id} />
               ))}
             </Picker>
           </Card.Content>
@@ -87,10 +87,10 @@ export default function Onboarding({navigation}) {
           title="Go Home"
           onPress={() => {
             setLoading(true);
-            toggleIsNewUser(UID);
-            updateOwnContactNumber(contactNumber, UID);
-            updateOwnBio(bio, UID);
-            updateOwnRegion(selectedRegion, UID);
+            toggleIsNewUser(uid);
+            updateOwnContactNumber(contactNumber, uid);
+            updateOwnBio(bio, uid);
+            updateOwnRegion(selectedRegion, uid);
           }}></ConfirmButton>
       </View>
     </SafeAreaView>

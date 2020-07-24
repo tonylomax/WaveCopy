@@ -16,25 +16,25 @@ export default unassignSessionLead = async (sessionID, mentorID, userID) => {
         const userData = await userDocRef.get();
         const {roles, region} = userData.data();
 
-        const mentorInSession = sessionData.Mentors.findIndex((mentor) => {
+        const mentorInSession = sessionData.mentors.findIndex((mentor) => {
           return mentor.id === mentorID;
         });
 
-        if (sessionData?.SessionLead?.id === '') {
+        if (sessionData?.sessionLead?.id === '') {
           throw 'Mentor has not been set';
         }
 
         if (mentorInSession < 0) {
           throw 'Mentor not in this session';
         }
-        if (sessionData?.SessionLead?.id !== mentorID) {
+        if (sessionData?.sessionLead?.id !== mentorID) {
           throw 'This mentor is not the current session lead';
         }
         if (roles.includes('NationalAdmin')) {
           transaction.update(sessionDocRef, {
-            SessionLead: {
+            sessionLead: {
               id: '',
-              CreatedAt: firestore.FieldValue.serverTimestamp(),
+              createdAt: firestore.FieldValue.serverTimestamp(),
             },
           });
         } else if (
@@ -42,9 +42,9 @@ export default unassignSessionLead = async (sessionID, mentorID, userID) => {
           region === sessionRegion
         ) {
           transaction.update(sessionDocRef, {
-            SessionLead: {
+            sessionLead: {
               id: '',
-              CreatedAt: firestore.FieldValue.serverTimestamp(),
+              createdAt: firestore.FieldValue.serverTimestamp(),
             },
           });
         } else if (
@@ -52,9 +52,9 @@ export default unassignSessionLead = async (sessionID, mentorID, userID) => {
           sessionCoordinatorID === userID
         ) {
           transaction.update(sessionDocRef, {
-            SessionLead: {
+            sessionLead: {
               id: '',
-              CreatedAt: firestore.FieldValue.serverTimestamp(),
+              createdAt: firestore.FieldValue.serverTimestamp(),
             },
           });
         } else {

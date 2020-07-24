@@ -28,17 +28,17 @@ export default createSessionInFirestore = ({
       .update({
         attendees: updatedAttendees,
         maxMentors: numberOfVolunteers,
-        //   Mentors: [], can't be updated from this view
-        beach: location.Name,
+        //   mentors: [], can't be updated from this view
+        beach: location.name,
         beachID: location.id,
         type: sessionType,
         description: descriptionOfSession,
         dateTime: dateTimeArray[0].format(),
         coordinatorID: uid,
         coordinatorName: coordinator,
-        regionID: location.Region,
+        regionID: location.region,
         updatedAt: firestore.FieldValue.serverTimestamp(),
-        // Surf lead ID
+        // Surf lead id
       })
       .then((session) => {
         console.log('Session updated!', session);

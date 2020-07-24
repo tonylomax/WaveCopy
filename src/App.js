@@ -238,7 +238,7 @@ const App: () => React$Node = () => {
     <Login setLoggedIn={setLoggedIn} />
   ) : userData.isNewUser ? (
     <OnboardingNavigator />
-  ) : userHasPermission(userData?.Roles) ? (
+  ) : userHasPermission(userData?.roles) ? (
     <AdminTabNavigator />
   ) : (
     <StandardTabNavigator />

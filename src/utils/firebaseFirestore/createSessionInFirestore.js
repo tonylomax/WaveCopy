@@ -17,7 +17,7 @@ export default createSessionInFirestore = ({
     selectedUsers.map((user) => {
       updatedAttendees.push({
         id: user.objectID,
-        Attended: false,
+        attended: false,
       });
     });
     console.log('location', location.id);
@@ -34,7 +34,7 @@ export default createSessionInFirestore = ({
           attendees: updatedAttendees,
           maxMentors: numberOfVolunteers,
           mentors: [],
-          beach: location.Name,
+          beach: location.name,
           beachID: location.id,
           type: sessionType,
           description: descriptionOfSession,
@@ -50,7 +50,7 @@ export default createSessionInFirestore = ({
             id: '',
             createdAt: firestore.FieldValue.serverTimestamp(),
           },
-          // Surf lead ID
+          // Surf lead id
         })
         .then((session) => {
           console.log('Session added!', session);

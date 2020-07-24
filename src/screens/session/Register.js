@@ -21,12 +21,12 @@ export default function Register({navigation, route}) {
   //REDUX STATE
 
   //PROPS
-  const {ID} = route.params;
+  const {id} = route.params;
 
   useEffect(() => {
-    const unsubscribe = subscribeToSessionChanges(ID);
+    const unsubscribe = subscribeToSessionChanges(id);
     return () => {
-      console.log(`unsubscribing from session ${ID} changes`);
+      console.log(`unsubscribing from session ${id} changes`);
       unsubscribe();
     };
   }, []);
@@ -39,18 +39,18 @@ export default function Register({navigation, route}) {
     <View>
       <Text>Attendee Register</Text>
       <Text>
-        {sessionData?.Type} - {sessionData?.Beach}
+        {sessionData?.type} - {sessionData?.beach}
       </Text>
       <Moment element={Text} format="DD.MM.YY">
-        {sessionData?.DateTime}
+        {sessionData?.dateTime}
       </Moment>
 
       <RegisterTabs registerTitle="Attendees">
         {selectedSessionAttendeesData.map((attendee, i) => {
           //Retrieve the bool value that shows whether the person has attended the session
-          const hasPersonAttended = sessionData?.Attendees?.filter((person) => {
+          const hasPersonAttended = sessionData?.attendees?.filter((person) => {
             return person?.id === attendee?.id;
-          })[0]?.Attended;
+          })[0]?.attended;
           return (
             <Card key={i}>
               <Card.Content>
@@ -63,7 +63,7 @@ export default function Register({navigation, route}) {
                   color="blue"
                   onPress={() => {
                     markAttendance(
-                      ID,
+                      id,
                       attendee.id,
                       sessionData,
                       USER_GROUP.ATTENDEES,
@@ -78,9 +78,9 @@ export default function Register({navigation, route}) {
 
       <RegisterTabs registerTitle="Mentors">
         {selectedSessionMentorsData?.map((mentor, i) => {
-          const hasPersonAttended = sessionData?.Mentors?.filter((person) => {
+          const hasPersonAttended = sessionData?.mentors?.filter((person) => {
             return person.id === mentor.id;
-          })[0].Attended;
+          })[0].attended;
           return (
             <Card key={i}>
               <Card.Content>
@@ -93,7 +93,7 @@ export default function Register({navigation, route}) {
                   color="blue"
                   onPress={() => {
                     markAttendance(
-                      ID,
+                      id,
                       mentor.id,
                       sessionData,
                       USER_GROUP.MENTORS,

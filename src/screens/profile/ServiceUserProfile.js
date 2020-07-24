@@ -19,11 +19,11 @@ export default function ServiceUserProfile({route}) {
       <Text>Medical requirements </Text>
       <TouchableOpacity
         onPress={async () => {
-          await Linking.openURL(`tel:${serviceUser?.Number}`).catch((err) => {
+          await Linking.openURL(`tel:${serviceUser?.number}`).catch((err) => {
             console.log(err);
           });
         }}>
-        <Text>Emergency contacts: {serviceUser?.Number} </Text>
+        <Text>Emergency contacts: {serviceUser?.number} </Text>
       </TouchableOpacity>
 
       <CallPerson title="Call Parent"></CallPerson>
