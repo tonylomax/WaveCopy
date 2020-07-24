@@ -4,7 +4,7 @@ export default updateOwnContactNumber = async (newNumber, uid) => {
   await firestore()
     .collection('Users')
     .doc(uid)
-    .update({ContactNumber: newNumber})
+    .update({contactNumber: newNumber})
     .then(() => console.log('USER CONTACT NUMBER UPDATED'))
     .catch((err) => console.log(err));
 };

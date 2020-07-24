@@ -100,7 +100,7 @@ export default function Profile({navigation}) {
         // console.log('subscribing to role specific sessions', userData.Region);
         // console.log('current roles', userData.Roles);
         unsubscribeFromRoleSessions = subscribeToRoleSpecificSessionChanges(
-          userData.Region,
+          userData.region,
         );
       }
       // Get the latest beach information

@@ -12,10 +12,10 @@ export default assignSessionLead = async (sessionID, mentorID, userID) => {
       return transaction.get(sessionDocRef).then(async (sessionDoc) => {
         // Check if the session lead id has been set.
         const userData = await userDocRef.get();
-        const {Roles, Region} = userData.data();
+        const {roles, region} = userData.data();
 
         const sessionData = sessionDoc.data();
-        const sessionRegion = sessionData.Region;
+        const sessionRegion = sessionData.region;
         const sessionCoordinatorID = sessionData.CoordinatorID;
 
         const mentorInSession = sessionData.Mentors.findIndex((mentor) => {
@@ -27,7 +27,7 @@ export default assignSessionLead = async (sessionID, mentorID, userID) => {
         if (sessionData?.SessionLead?.id !== '') {
           throw 'Already a session lead assigned';
         }
-        if (Roles.includes('NationalAdmin')) {
+        if (roles.includes('NationalAdmin')) {
           transaction.update(sessionDocRef, {
             SessionLead: {
               id: mentorID,
@@ -35,8 +35,8 @@ export default assignSessionLead = async (sessionID, mentorID, userID) => {
             },
           });
         } else if (
-          Roles.includes('RegionalManager') &&
-          Region === sessionRegion
+          roles.includes('RegionalManager') &&
+          region === sessionRegion
         ) {
           transaction.update(sessionDocRef, {
             SessionLead: {
@@ -45,7 +45,7 @@ export default assignSessionLead = async (sessionID, mentorID, userID) => {
             },
           });
         } else if (
-          Roles.includes('Coordinator') &&
+          roles.includes('Coordinator') &&
           sessionCoordinatorID === userID
         ) {
           transaction.update(sessionDocRef, {

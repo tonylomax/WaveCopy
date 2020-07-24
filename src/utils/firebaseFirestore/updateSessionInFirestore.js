@@ -18,7 +18,7 @@ export default createSessionInFirestore = ({
     selectedUsers.map((user) => {
       updatedAttendees.push({
         id: user.objectID || user.id,
-        Attended: false,
+        attended: false,
       });
     });
     console.log('location', location.id);
@@ -26,18 +26,18 @@ export default createSessionInFirestore = ({
       .collection('Sessions')
       .doc(sessionID)
       .update({
-        Attendees: updatedAttendees,
-        MaxMentors: numberOfVolunteers,
+        attendees: updatedAttendees,
+        maxMentors: numberOfVolunteers,
         //   Mentors: [], can't be updated from this view
-        Beach: location.Name,
-        BeachID: location.id,
-        Type: sessionType,
-        Description: descriptionOfSession,
-        DateTime: dateTimeArray[0].format(),
-        CoordinatorID: uid,
-        CoordinatorName: coordinator,
-        RegionID: location.Region,
-        UpdatedAt: firestore.FieldValue.serverTimestamp(),
+        beach: location.Name,
+        beachID: location.id,
+        type: sessionType,
+        description: descriptionOfSession,
+        dateTime: dateTimeArray[0].format(),
+        coordinatorID: uid,
+        coordinatorName: coordinator,
+        regionID: location.Region,
+        updatedAt: firestore.FieldValue.serverTimestamp(),
         // Surf lead ID
       })
       .then((session) => {

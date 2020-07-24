@@ -21,34 +21,34 @@ export default createSessionInFirestore = ({
       });
     });
     console.log('location', location.id);
-    let GroupID = '';
+    let groupID = '';
     if (dateTimeArray.length > 1) {
       console.log('about to generate multi sessions');
-      GroupID = uuidv1();
-      console.log(GroupID);
+      groupID = uuidv1();
+      console.log(groupID);
     }
     dateTimeArray.map((sessionDate, i) => {
       firestore()
         .collection('Sessions')
         .add({
-          Attendees: updatedAttendees,
-          MaxMentors: numberOfVolunteers,
-          Mentors: [],
-          Beach: location.Name,
-          BeachID: location.id,
-          Type: sessionType,
-          Description: descriptionOfSession,
-          DateTime: sessionDate.format(),
-          CoordinatorID: uid,
-          CoordinatorName: coordinator,
-          RegionID: location.Region,
-          GroupID,
-          GroupSessionOrder: i + 1,
-          CreatedAt: firestore.FieldValue.serverTimestamp(),
-          UpdatedAt: firestore.FieldValue.serverTimestamp(),
-          SessionLead: {
+          attendees: updatedAttendees,
+          maxMentors: numberOfVolunteers,
+          mentors: [],
+          beach: location.Name,
+          beachID: location.id,
+          type: sessionType,
+          description: descriptionOfSession,
+          dateTime: sessionDate.format(),
+          coordinatorID: uid,
+          coordinatorName: coordinator,
+          regionID: location.region,
+          groupID,
+          groupSessionOrder: i + 1,
+          createdAt: firestore.FieldValue.serverTimestamp(),
+          updatedAt: firestore.FieldValue.serverTimestamp(),
+          sessionLead: {
             id: '',
-            CreatedAt: firestore.FieldValue.serverTimestamp(),
+            createdAt: firestore.FieldValue.serverTimestamp(),
           },
           // Surf lead ID
         })
