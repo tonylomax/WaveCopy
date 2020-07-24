@@ -18,7 +18,7 @@ export default assignSessionLead = async (sessionID, mentorID, userID) => {
         const sessionRegion = sessionData.region;
         const sessionCoordinatorID = sessionData.CoordinatorID;
 
-        const mentorInSession = sessionData.mentors.findIndex((mentor) => {
+        const mentorInSession = sessionData?.mentors?.findIndex((mentor) => {
           return mentor.id === mentorID;
         });
         if (mentorInSession < 0) {

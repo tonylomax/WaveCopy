@@ -18,6 +18,7 @@ export default function (sessionID, userID) {
         const {roles, region} = userData.data();
 
         const sessionData = sessionDoc.data();
+        console.log('deleting session', sessionData);
         const sessionCoordinatorID = sessionData.CoordinatorID;
         const sessionRegion = sessionData.region;
 

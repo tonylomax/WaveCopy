@@ -16,7 +16,7 @@ export default unassignSessionLead = async (sessionID, mentorID, userID) => {
         const userData = await userDocRef.get();
         const {roles, region} = userData.data();
 
-        const mentorInSession = sessionData.mentors.findIndex((mentor) => {
+        const mentorInSession = sessionData?.mentors?.findIndex((mentor) => {
           return mentor.id === mentorID;
         });
 

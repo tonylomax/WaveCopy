@@ -60,11 +60,11 @@ export default function Session({navigation, route}) {
   //REDUX STATE
   // Data on the session
   const sessionData = useSelector(
-    (state) => state.firestoreReducer.singleSession,
+    (state) => state.firestoreReducer?.singleSession,
   );
 
   const sessionDataMentors = useSelector(
-    (state) => state.firestoreReducer.singleSession.mentors,
+    (state) => state.firestoreReducer?.singleSession?.mentors,
   );
   const selectedSessionAttendeesData = useSelector(
     (state) => state.firestoreReducer.selectedSessionSubscribedAttendees,
@@ -95,7 +95,7 @@ export default function Session({navigation, route}) {
   //LOCAL STATE
 
   useEffect(() => {
-    console.log('sessionData', sessionData.mentors);
+    console.log('sessionData', sessionData?.mentors);
     // console.log('MENTORS', Mentors);
     console.log('selectedSessionMentorsData', selectedSessionMentorsData);
     // Set up subscription for all the data relating to the mentors in a session
@@ -151,6 +151,7 @@ export default function Session({navigation, route}) {
   }, [selectedSessionMentorsData, sessionData]);
 
   useEffect(() => {
+    console.log({sessionData});
     (async () => {
       setCoordinator(await retrieveCoordinatorData(sessionData?.CoordinatorID));
     })();
@@ -337,9 +338,10 @@ export default function Session({navigation, route}) {
                 console.log('deleting session');
                 deleteSession(id, uid)
                   .then((res) => {
-                    console.log(res);
+                    console.log('deleted session res', res);
                     const RouteDestination =
                       route.name === 'HomeSession' ? 'Home' : 'Profile';
+                    console.log('route destination ', RouteDestination);
                     navigation.dispatch(
                       CommonActions.reset({
                         index: 0,
@@ -347,7 +349,7 @@ export default function Session({navigation, route}) {
                       }),
                     );
                   })
-                  .catch((err) => console.log(err));
+                  .catch((err) => console.log('error deleting session', err));
               }}></ChoicePopup>
           </View>
         </View>

@@ -35,6 +35,10 @@ export default function SessionDetailsAccordionMenu({
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   const [mentorsExpanded, setMentorsExpanded] = useState(false);
   const [attendeesExpanded, setAttendeesExpanded] = useState(false);
+  useEffect(() => {
+    console.log({mentors});
+    return () => {};
+  }, [mentors]);
 
   return (
     // <List.AccordionGroup>
@@ -135,7 +139,7 @@ export default function SessionDetailsAccordionMenu({
           setAttendeesExpanded((attendeesExpanded) => !attendeesExpanded);
         }}
         title={
-          mentors.length > 0
+          selectedUsers.length > 0
             ? `Attendees (${selectedUsers?.length})`
             : 'No Attendees'
         }
