@@ -22,7 +22,11 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
-import {CommonActions} from '@react-navigation/native';
+import {
+  CommonActions,
+  useNavigationState,
+  useIsFocused,
+} from '@react-navigation/native';
 import {
   createSessionInFirestore,
   getCoverImage,
@@ -90,6 +94,7 @@ export default function ConfirmSession({route, navigation}) {
         />
       ),
     });
+
     return () => {};
   }, [descriptionOfSession]);
 
@@ -107,7 +112,7 @@ export default function ConfirmSession({route, navigation}) {
           setVisible={setVisible}
           yesAction={() => {
             console.log('creating a session');
-            console.log(userData);
+            // console.log(userData);
             console.log('previous session data', previousSessionID);
             console.log(previousSessionID);
             if (!previousSessionID) {

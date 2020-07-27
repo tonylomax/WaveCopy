@@ -36,7 +36,7 @@ export default function SessionDetailsAccordionMenu({
   const [mentorsExpanded, setMentorsExpanded] = useState(false);
   const [attendeesExpanded, setAttendeesExpanded] = useState(false);
   useEffect(() => {
-    console.log({mentors});
+    // console.log({mentors});
     return () => {};
   }, [mentors]);
 

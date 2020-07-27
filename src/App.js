@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Button} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
-import {NavigationContainer} from '@react-navigation/native';
+import {Alert} from 'react-native';
+import {
+  NavigationContainer,
+  useNavigationState,
+} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import 'react-native-gesture-handler';
@@ -30,12 +32,15 @@ import {HeaderBackButton} from 'react-navigation';
 import {CurvedTabBar} from 'components';
 import messaging from '@react-native-firebase/messaging';
 import Onboarding from './screens/onboarding/Onboarding';
+import {CommonActions} from '@react-navigation/native';
 
 const BottomTabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const CreateSessionStack = createStackNavigator();
 const OnboardingStack = createStackNavigator();
+
+let homeStackIndex;
 
 const OnboardingNavigator = () => (
   <NavigationContainer>
@@ -47,33 +52,37 @@ const OnboardingNavigator = () => (
   </NavigationContainer>
 );
 
-const AdminTabNavigator = () => (
-  <NavigationContainer>
-    <BottomTabs.Navigator
-    // tabBar={props => <CurvedTabBar {...props} />}
-    >
-      <BottomTabs.Screen
-        name="Home"
-        component={HomeNavigator}
-        options={{
-          tabBarTestID: 'navigate-to-home-button',
-        }}
-      />
+const AdminTabNavigator = () => {
+  return (
+    <NavigationContainer>
+      <BottomTabs.Navigator
+        lazy={false}
+        // tabBar={props => <CurvedTabBar {...props} />}
+      >
+        <BottomTabs.Screen
+          name="Home"
+          component={HomeNavigator}
+          options={{
+            tabBarTestID: 'navigate-to-home-button',
+          }}
+        />
 
-      <BottomTabs.Screen
-        name="Session"
-        component={CreateSessionNavigator}
-        options={{tabBarTestID: 'navigate-to-create-session'}}
-      />
+        <BottomTabs.Screen
+          name="Session"
+          component={CreateSessionNavigator}
+          options={{tabBarTestID: 'navigate-to-create-session'}}
+        />
 
-      <BottomTabs.Screen
-        name="Profile"
-        component={ProfileNavigator}
-        options={{tabBarTestID: 'navigate-to-profile-button'}}
-      />
-    </BottomTabs.Navigator>
-  </NavigationContainer>
-);
+        <BottomTabs.Screen
+          name="Profile"
+          component={ProfileNavigator}
+          options={{tabBarTestID: 'navigate-to-profile-button'}}
+          s
+        />
+      </BottomTabs.Navigator>
+    </NavigationContainer>
+  );
+};
 
 const StandardTabNavigator = () => (
   <NavigationContainer>
@@ -93,36 +102,58 @@ const StandardTabNavigator = () => (
   </NavigationContainer>
 );
 
-const HomeNavigator = () => (
-  <HomeStack.Navigator>
-    <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
-    <HomeStack.Screen name="HomeSession" component={Session}></HomeStack.Screen>
-    <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
-    <HomeStack.Screen
-      name="Home Volunteer Profile"
-      component={WaveTeamProfile}></HomeStack.Screen>
-    <HomeStack.Screen
-      name="Home ServiceUser Profile"
-      component={ServiceUserProfile}></HomeStack.Screen>
-    <HomeStack.Screen
-      name="SessionDetails"
-      options={({navigation}) => ({
-        title: 'Edit session',
-      })}
-      component={SessionDetails}
-    />
-    <HomeStack.Screen
-      name="AddServiceUsers"
-      component={AddServiceUsers}
-      options={{title: 'Edit service users'}}
-    />
-    <HomeStack.Screen
-      name="ConfirmSession"
-      component={ConfirmSession}
-      options={{title: 'Confirm Edited Session Details'}}
-    />
-  </HomeStack.Navigator>
-);
+const HomeNavigator = ({navigation, route}) => {
+  const state = useNavigationState((state) => state);
+
+  useEffect(() => {
+    homeStackIndex = route?.state?.index || state.index;
+    const unsubscribeTabPressInHomeNav = navigation.addListener(
+      'tabPress',
+      (e) => {
+        e.preventDefault();
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'Home'}],
+          }),
+        );
+      },
+    );
+    return unsubscribeTabPressInHomeNav;
+  }, [navigation, state, route]);
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
+      <HomeStack.Screen
+        name="HomeSession"
+        component={Session}></HomeStack.Screen>
+      <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
+      <HomeStack.Screen
+        name="Home Volunteer Profile"
+        component={WaveTeamProfile}></HomeStack.Screen>
+      <HomeStack.Screen
+        name="Home ServiceUser Profile"
+        component={ServiceUserProfile}></HomeStack.Screen>
+      <HomeStack.Screen
+        name="SessionDetails"
+        options={({navigation}) => ({
+          title: 'Edit session',
+        })}
+        component={SessionDetails}
+      />
+      <HomeStack.Screen
+        name="AddServiceUsers"
+        component={AddServiceUsers}
+        options={{title: 'Edit service users'}}
+      />
+      <HomeStack.Screen
+        name="ConfirmSession"
+        component={ConfirmSession}
+        options={{title: 'Confirm Edited Session Details'}}
+      />
+    </HomeStack.Navigator>
+  );
+};
 
 const CreateSessionNavigator = () => (
   <CreateSessionStack.Navigator>
@@ -146,42 +177,82 @@ const CreateSessionNavigator = () => (
   </CreateSessionStack.Navigator>
 );
 
-const ProfileNavigator = () => (
-  <ProfileStack.Navigator>
-    <ProfileStack.Screen
-      name="Profile"
-      component={Profile}></ProfileStack.Screen>
-    <ProfileStack.Screen
-      name="ProfileSession"
-      component={Session}></ProfileStack.Screen>
-    <ProfileStack.Screen
-      name="Register"
-      component={Register}></ProfileStack.Screen>
-    <ProfileStack.Screen
-      name="Profile Volunteer Profile"
-      component={WaveTeamProfile}></ProfileStack.Screen>
-    <ProfileStack.Screen
-      name="Profile ServiceUser Profile"
-      component={ServiceUserProfile}></ProfileStack.Screen>
-    <ProfileStack.Screen
-      name="SessionDetails"
-      options={({navigation}) => ({
-        title: 'Edit session',
-      })}
-      component={SessionDetails}
-    />
-    <ProfileStack.Screen
-      name="AddServiceUsers"
-      component={AddServiceUsers}
-      options={{title: 'Edit service users'}}
-    />
-    <ProfileStack.Screen
-      name="ConfirmSession"
-      component={ConfirmSession}
-      options={{title: 'Confirm Edited Session Details'}}
-    />
-  </ProfileStack.Navigator>
-);
+const ProfileNavigator = ({navigation, route}) => {
+  useEffect(() => {
+    const unsubscribeTabPressInProfileNav = navigation.addListener(
+      'tabPress',
+      (e) => {
+        e.preventDefault();
+        if (homeStackIndex > 1) {
+          Alert.alert(
+            'Your changes won"t be saved"',
+            'Are you sure you want to discard your changes',
+            [
+              {
+                text: 'Yes',
+                onPress: () =>
+                  navigation.dispatch(
+                    CommonActions.navigate({
+                      name: 'Profile',
+                    }),
+                  ),
+              },
+              {
+                text: 'No',
+                onPress: () => console.log('No'),
+              },
+            ],
+            {cancelable: false},
+          );
+        } else {
+          navigation.dispatch(
+            CommonActions.navigate({
+              name: 'Profile',
+            }),
+          );
+        }
+      },
+    );
+    return unsubscribeTabPressInProfileNav;
+  }, [navigation, route]);
+
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name="Profile"
+        component={Profile}></ProfileStack.Screen>
+      <ProfileStack.Screen
+        name="ProfileSession"
+        component={Session}></ProfileStack.Screen>
+      <ProfileStack.Screen
+        name="Register"
+        component={Register}></ProfileStack.Screen>
+      <ProfileStack.Screen
+        name="Profile Volunteer Profile"
+        component={WaveTeamProfile}></ProfileStack.Screen>
+      <ProfileStack.Screen
+        name="Profile ServiceUser Profile"
+        component={ServiceUserProfile}></ProfileStack.Screen>
+      <ProfileStack.Screen
+        name="SessionDetails"
+        options={({navigation}) => ({
+          title: 'Edit session',
+        })}
+        component={SessionDetails}
+      />
+      <ProfileStack.Screen
+        name="AddServiceUsers"
+        component={AddServiceUsers}
+        options={{title: 'Edit service users'}}
+      />
+      <ProfileStack.Screen
+        name="ConfirmSession"
+        component={ConfirmSession}
+        options={{title: 'Confirm Edited Session Details'}}
+      />
+    </ProfileStack.Navigator>
+  );
+};
 
 const App: () => React$Node = () => {
   const [loggedIn, setLoggedIn] = useState(false);
