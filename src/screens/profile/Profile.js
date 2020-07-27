@@ -131,17 +131,6 @@ export default function Profile({navigation, route}) {
     });
   };
 
-  React.useEffect(() => {
-    // parent = navigation.dangerouslyGetParent();
-    // state = navigation.dangerouslyGetState();
-    // // console.log('state in profile', state);
-    // const unsubscribe = parent.addListener('tabPress', (e) => {
-    //   // e.preventDefault();
-    //   console.log('EVENT IN PROFILE', e);
-    // });
-    // return unsubscribe;
-  }, [navigation]);
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView testID="profile-scroll-view">
