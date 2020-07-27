@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Alert} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import {
   NavigationContainer,
-  getFocusedRouteNameFromRoute,
+  useNavigationState,
 } from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -41,6 +40,8 @@ const ProfileStack = createStackNavigator();
 const CreateSessionStack = createStackNavigator();
 const OnboardingStack = createStackNavigator();
 
+let homeStackIndex;
+
 const OnboardingNavigator = () => (
   <NavigationContainer>
     <OnboardingStack.Navigator>
@@ -51,15 +52,12 @@ const OnboardingNavigator = () => (
   </NavigationContainer>
 );
 
-const AdminTabNavigator = ({route}) => {
-  React.useLayoutEffect(() => {
-    // const routeName = getFocusedRouteNameFromRoute(route);
-  }, [route]);
-
+const AdminTabNavigator = () => {
   return (
     <NavigationContainer>
       <BottomTabs.Navigator
-      // tabBar={props => <CurvedTabBar {...props} />}
+        lazy={false}
+        // tabBar={props => <CurvedTabBar {...props} />}
       >
         <BottomTabs.Screen
           name="Home"
@@ -79,6 +77,7 @@ const AdminTabNavigator = ({route}) => {
           name="Profile"
           component={ProfileNavigator}
           options={{tabBarTestID: 'navigate-to-profile-button'}}
+          s
         />
       </BottomTabs.Navigator>
     </NavigationContainer>
@@ -103,24 +102,25 @@ const StandardTabNavigator = () => (
   </NavigationContainer>
 );
 
-const HomeNavigator = ({navigation}) => {
+const HomeNavigator = ({navigation, route}) => {
+  const state = useNavigationState((state) => state);
+
   useEffect(() => {
-    const state = navigation.dangerouslyGetState();
-    console.log('state in homenavigator', state);
-    const unsubscribe = navigation.addListener('tabPress', (e) => {
-      e.preventDefault();
-      console.log('target in home', e);
-
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{name: 'Home'}],
-        }),
-      );
-    });
-
-    return unsubscribe;
-  }, [navigation]);
+    homeStackIndex = route?.state?.index || state.index;
+    const unsubscribeTabPressInHomeNav = navigation.addListener(
+      'tabPress',
+      (e) => {
+        e.preventDefault();
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'Home'}],
+          }),
+        );
+      },
+    );
+    return unsubscribeTabPressInHomeNav;
+  }, [navigation, state, route]);
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
@@ -177,46 +177,44 @@ const CreateSessionNavigator = () => (
   </CreateSessionStack.Navigator>
 );
 
-const ProfileNavigator = ({navigation}) => {
+const ProfileNavigator = ({navigation, route}) => {
   useEffect(() => {
-    const profileNavigatorState = navigation.dangerouslyGetState();
-
-    console.log('state in profilenavigator', profileNavigatorState);
-
-    const unsubscribe = navigation.addListener('tabPress', (e) => {
-      e.preventDefault();
-      console.log('target in profile', e);
-      if (state.index === 2) {
-        Alert.alert(
-          'Your changes won"t be saved"',
-          'Are you sure you want to discard your changes',
-          [
-            {
-              text: 'Yes',
-              onPress: () =>
-                navigation.dispatch(
-                  CommonActions.navigate({
-                    name: 'Profile',
-                  }),
-                ),
-            },
-            {
-              text: 'No',
-              onPress: () => console.log('No'),
-            },
-          ],
-          {cancelable: false},
-        );
-      } else {
-        navigation.dispatch(
-          CommonActions.navigate({
-            name: 'Profile',
-          }),
-        );
-      }
-    });
-    return unsubscribe;
-  }, [navigation]);
+    const unsubscribeTabPressInProfileNav = navigation.addListener(
+      'tabPress',
+      (e) => {
+        e.preventDefault();
+        if (homeStackIndex > 1) {
+          Alert.alert(
+            'Your changes won"t be saved"',
+            'Are you sure you want to discard your changes',
+            [
+              {
+                text: 'Yes',
+                onPress: () =>
+                  navigation.dispatch(
+                    CommonActions.navigate({
+                      name: 'Profile',
+                    }),
+                  ),
+              },
+              {
+                text: 'No',
+                onPress: () => console.log('No'),
+              },
+            ],
+            {cancelable: false},
+          );
+        } else {
+          navigation.dispatch(
+            CommonActions.navigate({
+              name: 'Profile',
+            }),
+          );
+        }
+      },
+    );
+    return unsubscribeTabPressInProfileNav;
+  }, [navigation, route]);
 
   return (
     <ProfileStack.Navigator>

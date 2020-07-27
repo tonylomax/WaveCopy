@@ -22,7 +22,11 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
-import {CommonActions, useNavigationState} from '@react-navigation/native';
+import {
+  CommonActions,
+  useNavigationState,
+  useIsFocused,
+} from '@react-navigation/native';
 import {
   createSessionInFirestore,
   getCoverImage,
@@ -93,25 +97,6 @@ export default function ConfirmSession({route, navigation}) {
 
     return () => {};
   }, [descriptionOfSession]);
-
-  const state = useNavigationState((state) => state);
-
-  console.log('state in confirm session', state);
-
-  React.useEffect(() => {
-    // parent = navigation.dangerouslyGetParent();
-    // state = navigation.dangerouslyGetState();
-    // console.log('state in confirm session', state);
-    // console.log('parent in confirm session', parent);
-    // let unsubscribe;
-    // // if ((state.index = 4)) {
-    // unsubscribe = parent.addListener('tabPress', (e) => {
-    //   e.preventDefault();
-    //   console.log('EVENT IN CONFIRMSESSION', e);
-    // });
-    // }
-    // return unsubscribe;
-  }, [navigation]);
 
   return (
     <SafeAreaView>
