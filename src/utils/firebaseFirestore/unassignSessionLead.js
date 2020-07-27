@@ -10,51 +10,51 @@ export default unassignSessionLead = async (sessionID, mentorID, userID) => {
       return transaction.get(sessionDocRef).then(async (sessionDoc) => {
         // Check if the session lead id has been set.
         const sessionData = sessionDoc.data();
-        const sessionRegion = sessionData.Region;
-        const sessionCoordinatorID = sessionData.CoordinatorID;
+        const sessionRegion = sessionData.region;
+        const sessionCoordinatorID = sessionData.coordinatorID;
 
         const userData = await userDocRef.get();
-        const {Roles, Region} = userData.data();
+        const {roles, region} = userData.data();
 
-        const mentorInSession = sessionData.Mentors.findIndex((mentor) => {
+        const mentorInSession = sessionData?.mentors?.findIndex((mentor) => {
           return mentor.id === mentorID;
         });
 
-        if (sessionData?.SessionLead?.id === '') {
+        if (sessionData?.sessionLead?.id === '') {
           throw 'Mentor has not been set';
         }
 
         if (mentorInSession < 0) {
           throw 'Mentor not in this session';
         }
-        if (sessionData?.SessionLead?.id !== mentorID) {
+        if (sessionData?.sessionLead?.id !== mentorID) {
           throw 'This mentor is not the current session lead';
         }
-        if (Roles.includes('NationalAdmin')) {
+        if (roles.includes('NationalAdmin')) {
           transaction.update(sessionDocRef, {
-            SessionLead: {
+            sessionLead: {
               id: '',
-              CreatedAt: firestore.FieldValue.serverTimestamp(),
+              createdAt: firestore.FieldValue.serverTimestamp(),
             },
           });
         } else if (
-          Roles.includes('RegionalManager') &&
-          Region === sessionRegion
+          roles.includes('RegionalManager') &&
+          region === sessionRegion
         ) {
           transaction.update(sessionDocRef, {
-            SessionLead: {
+            sessionLead: {
               id: '',
-              CreatedAt: firestore.FieldValue.serverTimestamp(),
+              createdAt: firestore.FieldValue.serverTimestamp(),
             },
           });
         } else if (
-          Roles.includes('Coordinator') &&
+          roles.includes('Coordinator') &&
           sessionCoordinatorID === userID
         ) {
           transaction.update(sessionDocRef, {
-            SessionLead: {
+            sessionLead: {
               id: '',
-              CreatedAt: firestore.FieldValue.serverTimestamp(),
+              createdAt: firestore.FieldValue.serverTimestamp(),
             },
           });
         } else {

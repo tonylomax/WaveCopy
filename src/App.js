@@ -236,9 +236,9 @@ const App: () => React$Node = () => {
 
   return isEmpty(currentAuthenticatedUser) ? (
     <Login setLoggedIn={setLoggedIn} />
-  ) : userData.isNewUser ? (
+  ) : userData?.isNewUser ? (
     <OnboardingNavigator />
-  ) : userHasPermission(userData?.Roles) ? (
+  ) : userHasPermission(userData?.roles) ? (
     <AdminTabNavigator />
   ) : (
     <StandardTabNavigator />

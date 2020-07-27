@@ -7,7 +7,7 @@ moment().format('en-gb');
 export default removeMentorFromSession = async (
   sessionID,
   userID,
-  UID,
+  uid,
   sessionleadID,
 ) => {
   const sessionReference = firestore().doc(`Sessions/${sessionID}`);
@@ -19,19 +19,19 @@ export default removeMentorFromSession = async (
       );
       const newMentors = sessionData
         .data()
-        .Mentors.filter((mentor) => mentor.id !== userID);
+        .mentors.filter((mentor) => mentor.id !== userID);
 
       if (!sessionData.exists) {
         throw 'Session does not exist!';
       }
-      if (userID === UID) {
+      if (userID === uid) {
         throw 'You cannot remove yourself as a mentor, please contact the coordinator to remove you';
       }
       if (sessionleadID === userID) {
         throw 'Remove this person from session lead before you remove them from session';
       } else {
         removeMentorFromSessionTransaction.update(sessionReference, {
-          Mentors: newMentors,
+          mentors: newMentors,
         });
       }
     })

@@ -36,16 +36,18 @@ export default function Profile({navigation}) {
   );
   const sessions = useSelector((state) =>
     state.firestoreReducer.sessionData.sort((a, b) => {
-      return new Date(a.DateTime) - new Date(b.DateTime);
+      return new Date(a.dateTime) - new Date(b.dateTime);
     }),
   );
   const filteredSessions = useSelector((state) =>
     state.firestoreReducer.sessionData
       .filter((session) => {
-        return session.Mentors.length !== session.MaxMentors;
+        console.log({session});
+        console.log('session menotrs filtered', session.mentors);
+        return session.mentors.length !== session.maxMentors;
       })
       .sort((a, b) => {
-        return new Date(a.DateTime) - new Date(b.DateTime);
+        return new Date(a.dateTime) - new Date(b.dateTime);
       }),
   );
 
@@ -59,17 +61,18 @@ export default function Profile({navigation}) {
   const filteredRoleSessions = useSelector((state) =>
     state.firestoreReducer.roleSpecificSessionData
       .filter((session) => {
-        return session.Mentors.length !== session.MaxMentors;
+        console.log('session menotrs role specific ', session.mentors);
+        return session.mentors.length !== session.maxMentors;
       })
       .sort((a, b) => {
-        return new Date(a.DateTime) - new Date(b.DateTime);
+        return new Date(a.dateTime) - new Date(b.dateTime);
       }),
   );
 
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
   const roleSessions = useSelector((state) =>
     state.firestoreReducer.roleSpecificSessionData.sort((a, b) => {
-      return new Date(a.DateTime) - new Date(b.DateTime);
+      return new Date(a.dateTime) - new Date(b.dateTime);
     }),
   );
   const userData = useSelector((state) => state.firestoreReducer.userData);
@@ -90,17 +93,12 @@ export default function Profile({navigation}) {
     // Check to see if there is user data
     if (!isEmpty(userData)) {
       //If the user is a national admin then set up a subscription too all sessions
-      if (userData?.Roles.includes('NationalAdmin')) {
-        // console.log('subscribing to all sessions', userData.Region);
-        // console.log('current roles', userData.Roles);
+      if (userData?.roles.includes('NationalAdmin')) {
         unsubscribeFromSessions = subscribeToSessions();
       } else {
         // Otherwise set up a subscription to sessions restricted to the users area
-
-        // console.log('subscribing to role specific sessions', userData.Region);
-        // console.log('current roles', userData.Roles);
         unsubscribeFromRoleSessions = subscribeToRoleSpecificSessionChanges(
-          userData.Region,
+          userData.region,
         );
       }
       // Get the latest beach information
@@ -133,7 +131,7 @@ export default function Profile({navigation}) {
         <FlatList
           testID="SessionsList"
           data={
-            userData?.Roles?.includes('NationalAdmin')
+            userData?.roles?.includes('NationalAdmin')
               ? toggleFilter
                 ? filteredSessions
                 : sessions
@@ -145,39 +143,39 @@ export default function Profile({navigation}) {
             <Card
               style={{padding: '5%', margin: '2%'}}
               elevation={2}
-              id={item.ID}
-              testID={`SessionsListItem${item.ID}`}
+              id={item.id}
+              testID={`SessionsListItem${item.id}`}
               onPress={() => {
                 // console.log('this is the clicked thing ', item);
-                const selectedBeach = getBeach(item.BeachID)[0];
+                const selectedBeach = getBeach(item.beachID)[0];
                 // console.log('selectedBeach in home', selectedBeach);
-                // const selectedBeach = item.Beach;
+                // const selectedBeach = item.beach;
                 // console.log({item});
                 navigation.navigate('HomeSession', {item, selectedBeach});
               }}>
               <Card.Title
                 title={
-                  item?.Type === 'surf-club' ? 'Surf Club' : 'Surf Therapy'
+                  item?.type === 'surf-club' ? 'Surf Club' : 'Surf Therapy'
                 }
               />
               <Card.Content>
-                <Paragraph>{item?.Beach}</Paragraph>
+                <Paragraph>{item?.beach}</Paragraph>
                 <Paragraph>
                   {
                     <Moment element={Text} format="LLLL">
-                      {item?.DateTime}
+                      {item?.dateTime}
                     </Moment>
                   }
                 </Paragraph>
-                <Subheading testID={`SessionsListItemVolNum${item.ID}`}>
-                  Volunteers: {item?.Mentors?.length}/{item?.MaxMentors}
+                <Subheading testID={`SessionsListItemVolNum${item.id}`}>
+                  Volunteers: {item?.mentors?.length}/{item?.maxMentors}
                 </Subheading>
               </Card.Content>
 
-              <Card.Cover source={getCoverImage(item?.Beach)} />
+              <Card.Cover source={getCoverImage(item?.beach)} />
             </Card>
           )}
-          keyExtractor={(item) => item.ID}></FlatList>
+          keyExtractor={(item) => item.id}></FlatList>
       </View>
     </SafeAreaView>
   );

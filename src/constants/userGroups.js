@@ -1,4 +1,4 @@
 export const USER_GROUP = {
-  MENTORS: 'Mentors',
-  ATTENDEES: 'Attendees',
+  MENTORS: 'mentors',
+  ATTENDEES: 'attendees',
 };

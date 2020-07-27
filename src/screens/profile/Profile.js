@@ -46,7 +46,7 @@ moment().format('en-gb');
 export default function Profile({navigation, route}) {
   //REDUX STATE
   const userData = useSelector((state) => state.firestoreReducer.userData);
-  const UID = useSelector((state) => state.authenticationReducer.userState.uid);
+  const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   const currentAuthenticatedUser = useSelector(
     (state) => state.authenticationReducer.userState,
   );
@@ -55,7 +55,7 @@ export default function Profile({navigation, route}) {
   // Finds all sessions that you are signed up for
   const mySessions = useSelector((state) =>
     state.firestoreReducer.roleSpecificSessionData.filter((session) =>
-      session?.Mentors.some((mentor) => mentor.id === UID),
+      session?.mentors.some((mentor) => mentor.id === uid),
     ),
   );
 
@@ -63,8 +63,8 @@ export default function Profile({navigation, route}) {
   //REDUX STATE
 
   //LOCAL STATE
-  const [bio, setBio] = useState(userData?.Bio);
-  const [contactNumber, setContactNumber] = useState(userData?.ContactNumber);
+  const [bio, setBio] = useState(userData?.bio);
+  const [contactNumber, setContactNumber] = useState(userData?.contactNumber);
   const [profileURL, setProfileURL] = useState();
   const [editBio, setEditBio] = useState(false);
   const [editContactNumber, setEditContactNumber] = useState(false);
@@ -101,7 +101,7 @@ export default function Profile({navigation, route}) {
   };
 
   useEffect(() => {
-    getImageDownloadURI(UID).then((url) => {
+    getImageDownloadURI(uid).then((url) => {
       setProfileURL(url);
     });
   }, [newProfilePicUploadComplete]);
@@ -165,7 +165,7 @@ export default function Profile({navigation, route}) {
                     title="Yes"
                     onPress={() => {
                       setshowProgressBar(true);
-                      const task = uploadFile(localFilePath, UID);
+                      const task = uploadFile(localFilePath, uid);
                       monitorFileUpload(
                         task,
                         setuploadProgress,
@@ -226,7 +226,7 @@ export default function Profile({navigation, route}) {
                     setBio(updatedBio);
                   }}
                   autoFocus={true}
-                  defaultValue={userData?.Bio}
+                  defaultValue={userData?.bio}
                 />
               ) : (
                 <Paragraph testID="bio">Bio: {bio}</Paragraph>
@@ -238,7 +238,7 @@ export default function Profile({navigation, route}) {
 
                   setEditBio((editBio) => !editBio);
                   if (editBio) {
-                    updateOwnBio(bio, UID);
+                    updateOwnBio(bio, uid);
                   }
                 }}
                 style={{
@@ -276,7 +276,7 @@ export default function Profile({navigation, route}) {
                     (editContactNumber) => !editContactNumber,
                   );
                   if (editContactNumber) {
-                    updateOwnContactNumber(contactNumber, UID);
+                    updateOwnContactNumber(contactNumber, uid);
                   }
                 }}
                 style={{
@@ -296,11 +296,11 @@ export default function Profile({navigation, route}) {
 
           <Card style={{margin: '2%'}}>
             <Card.Content>
-              <TrainingAccordionMenu training={userData?.Training} />
+              <TrainingAccordionMenu training={userData?.training} />
 
               <SessionListAccordionMenu
                 sessions={
-                  userData?.Roles?.includes('NationalAdmin')
+                  userData?.roles?.includes('NationalAdmin')
                     ? sessions
                     : mySessions
                 }

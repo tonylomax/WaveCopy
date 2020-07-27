@@ -34,12 +34,12 @@ export default function SessionDetails({navigation, route}) {
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
 
   const [sessionType, setSessionType] = useState(
-    previousSessionData?.Type || 'surf-club',
+    previousSessionData?.type || 'surf-club',
   );
   const [location, setLocation] = useState();
 
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(
-    previousSessionData?.MaxMentors || 1,
+    previousSessionData?.maxMentors || 1,
   );
   // Default state is 0, previous state will not exist.
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
@@ -65,13 +65,13 @@ export default function SessionDetails({navigation, route}) {
   useEffect(() => {
     console.log('beaches', beaches);
     console.log(previousSessionData);
-    if (previousSessionData?.DateTime) {
-      setSessionDate(new Date(previousSessionData?.DateTime));
-      setSessionTime(new Date(previousSessionData?.DateTime));
+    if (previousSessionData?.dateTime) {
+      setSessionDate(new Date(previousSessionData?.dateTime));
+      setSessionTime(new Date(previousSessionData?.dateTime));
     }
-    if (previousSessionData?.Beach) {
+    if (previousSessionData?.beach) {
       const prevBeachIndex = beaches.findIndex(
-        (beach) => beach.Name === previousSessionData?.Beach,
+        (beach) => beach.name === previousSessionData?.beach,
       );
       setLocation(beaches[prevBeachIndex]);
     } else setLocation(beaches[0]);
@@ -150,17 +150,17 @@ export default function SessionDetails({navigation, route}) {
           <Card.Title title="Location of session" />
           <Picker
             testID="location-of-session"
-            selectedValue={location?.Name}
+            selectedValue={location?.name}
             onValueChange={(itemValue, itemIndex) => {
               const ValueToAdd = beaches[itemIndex];
               setLocation(ValueToAdd);
             }}>
             {beaches?.map((beach) => (
               <Picker.Item
-                label={beach?.Name}
-                value={beach?.Name}
-                id={beach?.Name}
-                key={beach?.Name}
+                label={beach?.name}
+                value={beach?.name}
+                id={beach?.name}
+                key={beach?.name}
               />
             ))}
           </Picker>
