@@ -59,10 +59,7 @@ export default (state = initialState, action) => {
       return {...state, regions};
 
     case ACTIONS.SUBSCRIBE_TO_SESSION_MENTORS:
-      console.log(
-        '[Reducer - fireStoreReducer] SUBSCRIBE_TO_SESSION_MENTORS',
-        action.data,
-      );
+      console.log('[Reducer - fireStoreReducer] SUBSCRIBE_TO_SESSION_MENTORS');
 
       return {...state, selectedSessionSubscribedMentors: action.data};
 
@@ -77,7 +74,6 @@ export default (state = initialState, action) => {
     case ACTIONS.CLEAR_SUBSCRIBE_TO_SESSION_MENTORS:
       console.log(
         '[Reducer - fireStoreReducer] CLEAR_SUBSCRIBE_TO_SESSION_MENTORS',
-        action.data,
       );
 
       return {...state, selectedSessionSubscribedMentors: action.data};
@@ -85,7 +81,6 @@ export default (state = initialState, action) => {
     case ACTIONS.CLEAR_SUBSCRIBE_TO_SESSION_ATTENDEES:
       console.log(
         '[Reducer - fireStoreReducer] CLEAR_SUBSCRIBE_TO_SESSION_ATTENDEES',
-        action.data,
       );
 
       return {

@@ -42,8 +42,8 @@ export default function Profile({navigation}) {
   const filteredSessions = useSelector((state) =>
     state.firestoreReducer.sessionData
       .filter((session) => {
-        console.log({session});
-        console.log('session menotrs filtered', session.mentors);
+        // console.log({session});
+        // console.log('session menotrs filtered', session.mentors);
         return session.mentors.length !== session.maxMentors;
       })
       .sort((a, b) => {
@@ -51,12 +51,12 @@ export default function Profile({navigation}) {
       }),
   );
 
-  useEffect(() => {
-    console.log(
-      'selectedSessionMentorsData in home',
-      selectedSessionMentorsData,
-    );
-  }, [selectedSessionMentorsData]);
+  // useEffect(() => {
+  //   console.log(
+  //     'selectedSessionMentorsData in home',
+  //     selectedSessionMentorsData,
+  //   );
+  // }, [selectedSessionMentorsData]);
 
   const filteredRoleSessions = useSelector((state) =>
     state.firestoreReducer.roleSpecificSessionData
@@ -79,12 +79,7 @@ export default function Profile({navigation}) {
   //REDUX STATE
 
   const getBeach = (beachID) => {
-    // console.log('all beaches', beaches);
-    return beaches.filter((beach) => {
-      // console.log(beachID);
-      // console.log('beachin getbeach', beach);
-      return beach.id === beachID;
-    });
+    return beaches.find((beach) => beach.id === beachID);
   };
 
   useEffect(() => {
@@ -147,10 +142,11 @@ export default function Profile({navigation}) {
               testID={`SessionsListItem${item.id}`}
               onPress={() => {
                 // console.log('this is the clicked thing ', item);
-                const selectedBeach = getBeach(item.beachID)[0];
+                const selectedBeach = getBeach(item.beachID);
                 // console.log('selectedBeach in home', selectedBeach);
-                // const selectedBeach = item.beach;
-                // console.log({item});
+                // const selectedBeach = item.Beach;
+
+                // console.log('selectedBeach in home', selectedBeach);
                 navigation.navigate('HomeSession', {item, selectedBeach});
               }}>
               <Card.Title

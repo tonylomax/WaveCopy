@@ -6,6 +6,7 @@ import {
   ScrollView,
   Button,
   Platform,
+  Alert,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {Title, Card, Paragraph, Caption} from 'react-native-paper';
@@ -63,7 +64,7 @@ export default function SessionDetails({navigation, route}) {
   };
 
   useEffect(() => {
-    console.log('beaches', beaches);
+    // console.log('beaches', beaches);
     console.log(previousSessionData);
     if (previousSessionData?.dateTime) {
       setSessionDate(new Date(previousSessionData?.dateTime));
@@ -213,19 +214,24 @@ export default function SessionDetails({navigation, route}) {
               numberOfRepetitions,
             );
             console.log({editedDescriptionOfSession});
-            navigation.push('AddServiceUsers', {
-              sessionType,
-              location,
-              numberOfVolunteers,
-              dateTimeArray,
-              previousSessionData,
-              previouslySelectedAttendees: selectedUsers
-                ? selectedUsers
-                : previouslySelectedAttendees,
-              previouslySelectedMentors,
-              previousSessionID,
-              editedDescriptionOfSession,
-            });
+            if (previouslySelectedMentors?.length > numberOfVolunteers) {
+              Alert.alert(
+                'The maximum number of volunteers cannot be more than the current number of volunteers, remove some volunteers and then reduce required number of volunteers.',
+              );
+            } else
+              navigation.push('AddServiceUsers', {
+                sessionType,
+                location,
+                numberOfVolunteers,
+                dateTimeArray,
+                previousSessionData,
+                previouslySelectedAttendees: selectedUsers
+                  ? selectedUsers
+                  : previouslySelectedAttendees,
+                previouslySelectedMentors,
+                previousSessionID,
+                editedDescriptionOfSession,
+              });
           }}
         />
       </ScrollView>
