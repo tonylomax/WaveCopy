@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
+import {firebase} from '@react-native-firebase/functions';
+
 import {
   View,
   Text,
   Image,
-  Button,
   Alert,
   TouchableOpacity,
   ImageBackground,
@@ -39,7 +40,7 @@ import {
   getSessionLeadName,
   getCoverImage,
 } from 'utils';
-import {Card, Title, Divider, Paragraph} from 'react-native-paper';
+import {Card, Title, Divider, Paragraph, Button} from 'react-native-paper';
 import {COLLECTIONS} from 'constants';
 import {startCase} from 'lodash';
 
@@ -207,6 +208,14 @@ export default function Session({navigation, route}) {
           </ImageBackground>
 
           <View>
+            <Button
+              onPress={() => {
+                firebase.functions().httpsCallable('notifySessionAttendees')({
+                  sessionID: sessionData?.id,
+                });
+              }}>
+              Notify mentors of session
+            </Button>
             <Paragraph style={{alignSelf: 'center'}}>
               <Moment element={Text} format="LLLL">
                 {sessionData?.dateTime}
