@@ -24,8 +24,8 @@ import {
 } from '../assets/';
 
 export default getCoverImage = (location) => {
-  // console.log('location', location);
-  const coverImage = location?.CoverImage ? location?.CoverImage : location;
+  // console.log(location);
+  const coverImage = location?.coverImage ? location?.coverImage : location;
   // console.log('cover image', coverImage);
   switch (coverImage) {
     case 'BrightonBeach':
@@ -33,6 +33,7 @@ export default getCoverImage = (location) => {
       // console.log('brighton');
       return BrightonBeach;
       break;
+    case 'Newquay':
     case 'FistralBeach':
     case 'Fistral Beach':
       // console.log('fistral');

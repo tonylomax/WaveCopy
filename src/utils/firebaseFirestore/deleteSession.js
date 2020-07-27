@@ -15,23 +15,24 @@ export default function (sessionID, userID) {
       console.log('running the transaction');
       return transaction.get(sessionDocRef).then(async function (sessionDoc) {
         const userData = await userDocRef.get();
-        const {Roles, Region} = userData.data();
+        const {roles, region} = userData.data();
 
         const sessionData = sessionDoc.data();
+        console.log('deleting session', sessionData);
         const sessionCoordinatorID = sessionData.CoordinatorID;
-        const sessionRegion = sessionData.Region;
+        const sessionRegion = sessionData.region;
 
-        if (Roles.includes('NationalAdmin')) {
+        if (roles.includes('NationalAdmin')) {
           console.log('deleting because youre a national admin');
           transaction.delete(sessionDocRef);
         } else if (
-          Roles.includes('RegionalManager') &&
-          Region === sessionRegion
+          roles.includes('RegionalManager') &&
+          region === sessionRegion
         ) {
           console.log('deleting because youre a regional manager');
           transaction.delete(sessionDocRef);
         } else if (
-          Roles.includes('Coordinator') &&
+          roles.includes('Coordinator') &&
           sessionCoordinatorID === userID
         ) {
           console.log('deleting because youre a coordinator');

@@ -14,20 +14,20 @@ export default signupForSession = async (sessionID, userID) => {
         if (!sessionData.exists) {
           throw 'Session does not exist!';
         } else if (
-          sessionData.data().Mentors.filter((mentor) => mentor.id === userID)
+          sessionData.data().mentors.filter((mentor) => mentor.id === userID)
             .length > 0
         ) {
           throw 'You are already in this session';
         } else if (
-          sessionData.data().Mentors.length >= sessionData.data().MaxMentors
+          sessionData.data().mentors.length >= sessionData.data().maxMentors
         ) {
           throw 'Session is full!';
         } else {
           signupTransaction.update(sessionReference, {
-            Mentors: [
-              ...sessionData.data().Mentors,
+            mentors: [
+              ...sessionData.data().mentors,
               {
-                Attended: false,
+                attended: false,
                 id: userID,
                 signupAt: moment(new Date()).format('DD-MM-YYYY hh:mm:ss'),
               },

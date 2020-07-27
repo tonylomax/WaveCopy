@@ -18,10 +18,10 @@ export default removeSelfFromSession = async (
       );
       const newMentors = sessionData
         .data()
-        .Mentors.filter((mentor) => mentor.id !== userID);
+        .mentors.filter((mentor) => mentor.id !== userID);
 
       const hoursUntilSession = moment
-        .duration(moment(sessionData.data().DateTime).diff(new Date()))
+        .duration(moment(sessionData.data().dateTime).diff(new Date()))
         .asHours();
 
       if (!sessionData.exists) {
@@ -29,7 +29,7 @@ export default removeSelfFromSession = async (
       } else if (hoursUntilSession <= 48) {
         throw 'It is less than 48 hours till this session begins, please contact the coordinator directly to request removal from session';
       } else if (
-        sessionData.data().Mentors.filter((mentor) => mentor.id === userID)
+        sessionData.data().mentors.filter((mentor) => mentor.id === userID)
           .length !== 1
       ) {
         throw 'You are not signed up for this session';
@@ -37,7 +37,7 @@ export default removeSelfFromSession = async (
         throw 'You are set as the session lead for this session, if you wish to leave please contact the coordinator to remove you';
       } else {
         removeFromSessionTransaction.update(sessionReference, {
-          Mentors: newMentors,
+          mentors: newMentors,
         });
       }
     })

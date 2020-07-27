@@ -32,9 +32,13 @@ export default function SessionDetailsAccordionMenu({
   roles,
 }) {
   const userData = useSelector((state) => state.firestoreReducer.userData);
-  const UID = useSelector((state) => state.authenticationReducer.userState.uid);
+  const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   const [mentorsExpanded, setMentorsExpanded] = useState(false);
   const [attendeesExpanded, setAttendeesExpanded] = useState(false);
+  useEffect(() => {
+    // console.log({mentors});
+    return () => {};
+  }, [mentors]);
 
   return (
     // <List.AccordionGroup>
@@ -71,10 +75,10 @@ export default function SessionDetailsAccordionMenu({
               />
               {roles?.some(
                 () =>
-                  userData?.Roles?.includes('SurfLead') ||
-                  userData?.Roles?.includes('NationalAdmin') ||
-                  userData?.Roles?.includes('Coordinator') ||
-                  sessionLead?.id === UID,
+                  userData?.roles?.includes('SurfLead') ||
+                  userData?.roles?.includes('NationalAdmin') ||
+                  userData?.roles?.includes('Coordinator') ||
+                  sessionLead?.id === uid,
               ) && (
                 <View>
                   <CloseButton
@@ -83,7 +87,7 @@ export default function SessionDetailsAccordionMenu({
                       removeMentorFromSession(
                         sessionID,
                         mentor.id,
-                        UID,
+                        uid,
                         sessionLead?.id,
                       )
                         .then((result) => {
@@ -99,7 +103,7 @@ export default function SessionDetailsAccordionMenu({
                     <CloseButton
                       title="Remove as Lead"
                       onPress={() => {
-                        unassignSessionLead(sessionID, mentor.id, UID).catch(
+                        unassignSessionLead(sessionID, mentor.id, uid).catch(
                           (err) => {
                             console.log('ERROR OUTSIDE TRANSACTION ', err);
                             Alert.alert(err);
@@ -109,7 +113,7 @@ export default function SessionDetailsAccordionMenu({
                   ) : (
                     <AddButton
                       onPress={() => {
-                        assignSessionLead(sessionID, mentor.id, UID).catch(
+                        assignSessionLead(sessionID, mentor.id, uid).catch(
                           (err) => {
                             console.log('ERROR OUTSIDE TRANSACTION ', err);
                             Alert.alert(err);
@@ -135,7 +139,7 @@ export default function SessionDetailsAccordionMenu({
           setAttendeesExpanded((attendeesExpanded) => !attendeesExpanded);
         }}
         title={
-          mentors.length > 0
+          selectedUsers.length > 0
             ? `Attendees (${selectedUsers?.length})`
             : 'No Attendees'
         }
@@ -151,10 +155,10 @@ export default function SessionDetailsAccordionMenu({
                   } else if (
                     roles?.some(
                       () =>
-                        userData?.Roles?.includes('SurfLead') ||
-                        userData?.Roles?.includes('NationalAdmin') ||
-                        userData?.Roles?.includes('Coordinator') ||
-                        sessionLead?.id === UID,
+                        userData?.roles?.includes('SurfLead') ||
+                        userData?.roles?.includes('NationalAdmin') ||
+                        userData?.roles?.includes('Coordinator') ||
+                        sessionLead?.id === uid,
                     )
                   ) {
                     console.log('route  in profile on click', route);
@@ -186,8 +190,8 @@ export default function SessionDetailsAccordionMenu({
           <ScrollView>
             <MapView
               initialRegion={{
-                latitude: location?.ResearchedCoordinates?.latitude,
-                longitude: location?.ResearchedCoordinates?.longitude,
+                latitude: location?.researchedCoordinates?.latitude,
+                longitude: location?.researchedCoordinates?.longitude,
                 latitudeDelta: 0.015,
                 longitudeDelta: 0.015,
               }}
@@ -203,8 +207,8 @@ export default function SessionDetailsAccordionMenu({
               }}>
               <Marker
                 coordinate={{
-                  latitude: location?.ResearchedCoordinates?.latitude,
-                  longitude: location?.ResearchedCoordinates?.longitude,
+                  latitude: location?.researchedCoordinates?.latitude,
+                  longitude: location?.researchedCoordinates?.longitude,
                 }}
                 title={'Beach'}
                 description={'Cool beach'}
@@ -212,17 +216,17 @@ export default function SessionDetailsAccordionMenu({
             </MapView>
 
             <Card.Content style={{paddingTop: 400, paddingBottom: 5}}>
-              <Paragraph>{location?.Address?.FirstLine}</Paragraph>
-              <Paragraph>{location?.Address?.SecondLine}</Paragraph>
-              <Paragraph>{location?.Address?.PostCode}</Paragraph>
+              <Paragraph>{location?.address?.firstLine}</Paragraph>
+              <Paragraph>{location?.address?.secondLine}</Paragraph>
+              <Paragraph>{location?.address?.postCode}</Paragraph>
             </Card.Content>
             <Card.Title title="Parking" />
             <Card.Content>
-              <Paragraph>{location?.Parking}</Paragraph>
+              <Paragraph>{location?.parking}</Paragraph>
             </Card.Content>
             <Card.Title title="Toilets" />
             <Card.Content>
-              <Paragraph>{location?.Toilets}</Paragraph>
+              <Paragraph>{location?.toilets}</Paragraph>
             </Card.Content>
           </ScrollView>
         </Card>

@@ -46,7 +46,7 @@ import {startCase} from 'lodash';
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
   // If coming from home, there is an item field,
-  const {ID, AttendeesIDandAttendance, Mentors, MaxMentors} = route?.params
+  const {id, attendeesIDandAttendance, mentors, maxMentors} = route?.params
     ?.item
     ? route?.params?.item
     : route?.params?.session;
@@ -60,11 +60,11 @@ export default function Session({navigation, route}) {
   //REDUX STATE
   // Data on the session
   const sessionData = useSelector(
-    (state) => state.firestoreReducer.singleSession,
+    (state) => state.firestoreReducer?.singleSession,
   );
 
   const sessionDataMentors = useSelector(
-    (state) => state.firestoreReducer.singleSession.Mentors,
+    (state) => state.firestoreReducer?.singleSession?.mentors,
   );
   const selectedSessionAttendeesData = useSelector(
     (state) => state.firestoreReducer.selectedSessionSubscribedAttendees,
@@ -75,11 +75,11 @@ export default function Session({navigation, route}) {
   );
 
   const sessionLeadID = useSelector(
-    (state) => state.firestoreReducer?.singleSession?.SessionLead?.id,
+    (state) => state.firestoreReducer?.singleSession?.sessionLead?.id,
   );
 
   // Current Auth User
-  const UID = useSelector((state) => state.authenticationReducer.userState.uid);
+  const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
 
@@ -88,9 +88,9 @@ export default function Session({navigation, route}) {
   const [visible, setVisible] = useState(false);
   const [surfLead, setSurfLead] = useState();
   const IS_ADMIN =
-    userData?.Roles?.includes('SurfLead') ||
-    userData?.Roles?.includes('NationalAdmin') ||
-    userData?.Roles?.includes('Coordinator');
+    userData?.roles?.includes('SurfLead') ||
+    userData?.roles?.includes('NationalAdmin') ||
+    userData?.roles?.includes('Coordinator');
   const [CoverImage, setCoverImage] = useState();
   //LOCAL STATE
 
@@ -100,16 +100,17 @@ export default function Session({navigation, route}) {
 
   useEffect(() => {
     // console.log('sessionData', sessionData);
+    console.log('sessionData', sessionData?.mentors);
     // console.log('MENTORS', Mentors);
     console.log('selectedSessionMentorsData', selectedSessionMentorsData);
     // Set up subscription for all the data relating to the mentors in a session
     const mentorsUnsubscribers = updateCurrentSessionAttendees(
-      sessionData?.Mentors,
+      sessionData?.mentors,
       COLLECTIONS.USERS,
     );
     // Set up subscription for all the data relating to the attendees in a session
     const serviceUsersUnsubscribers = updateCurrentSessionAttendees(
-      sessionData?.Attendees,
+      sessionData?.attendees,
       COLLECTIONS.TEST_SERVICE_USERS,
     );
 
@@ -133,7 +134,7 @@ export default function Session({navigation, route}) {
   useEffect(() => {
     // Set up subscription for all the session data
 
-    const unsubscribe = subscribeToSessionChanges(ID);
+    const unsubscribe = subscribeToSessionChanges(id);
 
     return () => {
       console.log('CALLING clearSelectedSessionMentors');
@@ -154,13 +155,14 @@ export default function Session({navigation, route}) {
   }, [selectedSessionMentorsData, sessionData]);
 
   useEffect(() => {
+    console.log({sessionData});
     (async () => {
       setCoordinator(await retrieveCoordinatorData(sessionData?.CoordinatorID));
     })();
   }, [sessionData]);
 
-  const leaveSession = (ID, UID, sessionLeadID) => {
-    removeSelfFromSession(ID, UID, sessionLeadID)
+  const leaveSession = (id, uid, sessionLeadID) => {
+    removeSelfFromSession(id, uid, sessionLeadID)
       .then((result) => {
         console.log('Session remove done');
         // navigation.goBack();
@@ -191,7 +193,7 @@ export default function Session({navigation, route}) {
                     previousSessionData: sessionData,
                     previouslySelectedAttendees: selectedSessionAttendeesData,
                     previouslySelectedMentors: selectedSessionMentorsData,
-                    previousSessionID: ID,
+                    previousSessionID: id,
                   });
                 }}>
                 <Image
@@ -211,7 +213,7 @@ export default function Session({navigation, route}) {
           <View>
             <Paragraph style={{alignSelf: 'center'}}>
               <Moment element={Text} format="LLLL">
-                {sessionData?.DateTime}
+                {sessionData?.dateTime}
               </Moment>
             </Paragraph>
             <Divider
@@ -225,8 +227,8 @@ export default function Session({navigation, route}) {
 
             {/* Session beach  */}
             <Paragraph style={{alignSelf: 'center'}}>
-              {startCase(sessionData?.Type?.replace(/-/gi, ' '))}-
-              {sessionData?.Beach?.replace(/-/gi, ' ')}
+              {startCase(sessionData?.type?.replace(/-/gi, ' '))}-
+              {sessionData?.beach?.replace(/-/gi, ' ')}
             </Paragraph>
 
             {/* Cover coordinator */}
@@ -239,11 +241,11 @@ export default function Session({navigation, route}) {
             </Title>
 
             {/* Session description */}
-            <Paragraph>{sessionData?.Description}</Paragraph>
+            <Paragraph>{sessionData?.description}</Paragraph>
             {/* Session Accordion menu for attendees */}
 
             {/* Show if session is full */}
-            {MaxMentors === selectedSessionMentorsData.length && (
+            {maxMentors === selectedSessionMentorsData.length && (
               <Text>This session is full</Text>
             )}
             {/* Session date/time */}
@@ -251,7 +253,7 @@ export default function Session({navigation, route}) {
             {/* Session Lead */}
             {!sessionLeadID || sessionLeadID === '' ? (
               <Text>No session lead</Text>
-            ) : sessionLeadID === UID ? (
+            ) : sessionLeadID === uid ? (
               <Text>You are the session lead</Text>
             ) : (
               <Text>
@@ -261,17 +263,17 @@ export default function Session({navigation, route}) {
 
             {selectedSessionAttendeesData &&
               selectedBeach &&
-              MaxMentors > 0 &&
+              maxMentors > 0 &&
               selectedSessionMentorsData && (
                 <SessionDetailsAccordionMenu
                   selectedUsers={selectedSessionAttendeesData}
-                  numberOfMentors={MaxMentors}
+                  numberOfMentors={maxMentors}
                   location={selectedBeach}
                   mentors={selectedSessionMentorsData}
                   navigation={navigation}
                   route={route}
-                  sessionLead={sessionData?.SessionLead}
-                  sessionID={ID}
+                  sessionLead={sessionData?.sessionLead}
+                  sessionID={id}
                   roles={roles}
                 />
               )}
@@ -279,21 +281,21 @@ export default function Session({navigation, route}) {
             <Card style={{alignItems: 'center', padding: '2%', margin: '2%'}}>
               <Card.Actions>
                 {/* REGISTER BUTTON */}
-                {(userHasPermission(userData?.Roles) ||
-                  sessionLeadID === UID) && (
+                {(userHasPermission(userData?.roles) ||
+                  sessionLeadID === uid) && (
                   <ConfirmButton
                     title="Attendance"
                     testID="registerButton"
                     onPress={() => {
                       navigation.navigate('Register', {
-                        ID,
+                        id,
                       });
                     }}>
                     Register
                   </ConfirmButton>
                 )}
                 {/* DElETE SESSION */}
-                {userHasPermission(userData?.Roles) && (
+                {userHasPermission(userData?.roles) && (
                   <ConfirmButton
                     title="Delete session"
                     testID="delete-session-button"
@@ -306,21 +308,21 @@ export default function Session({navigation, route}) {
                 {/* LEAVE/SIGNUP */}
                 {/* Only show if signup button if user is in the session, otherwise show signup button */}
                 {selectedSessionMentorsData.filter(
-                  (mentor) => mentor.id === UID,
+                  (mentor) => mentor.id === uid,
                 ).length >= 1 ? (
                   <ConfirmButton
                     testID="leaveSessionButton"
                     title="Leave session"
                     onPress={() => {
-                      leaveSession(ID, UID, sessionLeadID);
+                      leaveSession(id, uid, sessionLeadID);
                     }}></ConfirmButton>
                 ) : (
                   <ConfirmButton
                     testID="signupButton"
                     title="Sign Up"
-                    disabled={MaxMentors === selectedSessionMentorsData.length}
+                    disabled={maxMentors === selectedSessionMentorsData.length}
                     onPress={() => {
-                      signupForSession(ID, UID)
+                      signupForSession(id, uid)
                         .then((result) => {
                           console.log('Session signup done ');
                         })
@@ -338,11 +340,12 @@ export default function Session({navigation, route}) {
               setVisible={setVisible}
               yesAction={() => {
                 console.log('deleting session');
-                deleteSession(ID, UID)
+                deleteSession(id, uid)
                   .then((res) => {
-                    console.log(res);
+                    console.log('deleted session res', res);
                     const RouteDestination =
                       route.name === 'HomeSession' ? 'Home' : 'Profile';
+                    console.log('route destination ', RouteDestination);
                     navigation.dispatch(
                       CommonActions.reset({
                         index: 0,
@@ -350,7 +353,7 @@ export default function Session({navigation, route}) {
                       }),
                     );
                   })
-                  .catch((err) => console.log(err));
+                  .catch((err) => console.log('error deleting session', err));
               }}></ChoicePopup>
           </View>
         </View>

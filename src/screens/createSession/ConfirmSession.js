@@ -22,7 +22,7 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
-import {CommonActions} from '@react-navigation/native';
+import {CommonActions, useNavigationState} from '@react-navigation/native';
 import {
   createSessionInFirestore,
   getCoverImage,
@@ -49,8 +49,8 @@ export default function ConfirmSession({route, navigation}) {
   const [descriptionOfSession, setDescriptionOfSession] = useState(
     editedDescriptionOfSession && editedDescriptionOfSession.length > 0
       ? editedDescriptionOfSession
-      : previousSessionData?.Description
-      ? previousSessionData?.Description
+      : previousSessionData?.description
+      ? previousSessionData?.description
       : '',
   );
   const [CoverImage, setCoverImage] = useState();
@@ -94,19 +94,23 @@ export default function ConfirmSession({route, navigation}) {
     return () => {};
   }, [descriptionOfSession]);
 
-  React.useEffect(() => {
-    parent = navigation.dangerouslyGetParent();
-    state = navigation.dangerouslyGetState();
-    console.log('state in confirm session', state);
-    let unsubscribe;
-    // if ((state.index = 4)) {
-    unsubscribe = parent.addListener('tabPress', (e) => {
-      e.preventDefault();
-      console.log('EVENT IN CONFIRMSESSION', e);
-    });
-    // }
+  const state = useNavigationState((state) => state);
 
-    return unsubscribe;
+  console.log('state in confirm session', state);
+
+  React.useEffect(() => {
+    // parent = navigation.dangerouslyGetParent();
+    // state = navigation.dangerouslyGetState();
+    // console.log('state in confirm session', state);
+    // console.log('parent in confirm session', parent);
+    // let unsubscribe;
+    // // if ((state.index = 4)) {
+    // unsubscribe = parent.addListener('tabPress', (e) => {
+    //   e.preventDefault();
+    //   console.log('EVENT IN CONFIRMSESSION', e);
+    // });
+    // }
+    // return unsubscribe;
   }, [navigation]);
 
   return (
@@ -123,7 +127,7 @@ export default function ConfirmSession({route, navigation}) {
           setVisible={setVisible}
           yesAction={() => {
             console.log('creating a session');
-            console.log(userData);
+            // console.log(userData);
             console.log('previous session data', previousSessionID);
             console.log(previousSessionID);
             if (!previousSessionID) {
@@ -134,7 +138,7 @@ export default function ConfirmSession({route, navigation}) {
                 selectedUsers,
                 dateTimeArray,
                 descriptionOfSession,
-                coordinator: userData?.Name || '',
+                coordinator: userData?.firstName ? `${userData.firstName}` : '',
                 uid,
               })
                 .then(() => {
@@ -155,7 +159,7 @@ export default function ConfirmSession({route, navigation}) {
                 selectedUsers,
                 dateTimeArray,
                 descriptionOfSession,
-                coordinator: userData?.Name || '',
+                coordinator: userData?.firstName ? `${userData.firstName}` : '',
                 uid,
                 sessionID: previousSessionID,
               })
@@ -176,7 +180,7 @@ export default function ConfirmSession({route, navigation}) {
           }}></ChoicePopup>
         <Headline>
           {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'} -{' '}
-          {location.Name}
+          {location.name}
         </Headline>
         <Divider />
         {dateTimeArray &&

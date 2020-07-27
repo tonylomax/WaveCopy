@@ -45,11 +45,11 @@ export default function SessionListAccordionMenu({
             id="1">
             {sessions
               ?.sort((a, b) => {
-                return new Date(a.DateTime) - new Date(b.DateTime);
+                return new Date(a.dateTime) - new Date(b.dateTime);
               })
               .map((session, i) => {
                 const IS_IN_PAST =
-                  moment(session?.DateTime).diff(new Date()) < 0;
+                  moment(session?.dateTime).diff(new Date()) < 0;
                 return (
                   <List.Item
                     key={i}
@@ -58,7 +58,7 @@ export default function SessionListAccordionMenu({
                         <Card
                           onPress={() => {
                             if (!(IS_IN_PAST || route.name !== 'Profile')) {
-                              const selectedBeach = getBeach(session.BeachID);
+                              const selectedBeach = getBeach(session.beachID);
                               console.log(
                                 'selectedBeach in profile',
                                 selectedBeach,
@@ -78,18 +78,18 @@ export default function SessionListAccordionMenu({
                             marginBottom: '2%',
                           }}>
                           <Title style={{alignSelf: 'center'}}>
-                            {startCase(session?.Type?.replace(/-/gi, ' '))}-
-                            {session?.Beach?.replace(/-/gi, ' ')}
+                            {startCase(session?.type?.replace(/-/gi, ' '))}-
+                            {session?.beach?.replace(/-/gi, ' ')}
                           </Title>
                           <Card.Content
-                            testID={`ProfileSessionsListItem${session.ID}`}
-                            id={session.ID}>
+                            testID={`ProfileSessionsListItem${session.id}`}
+                            id={session.id}>
                             <Moment element={Paragraph} format="LLLL">
-                              {session?.DateTime}
+                              {session?.dateTime}
                             </Moment>
                             <Paragraph>
-                              Volunteers: {session?.Mentors?.length}/
-                              {session?.MaxMentors}
+                              Volunteers: {session?.mentors?.length}/
+                              {session?.maxMentors}
                             </Paragraph>
                           </Card.Content>
                         </Card>

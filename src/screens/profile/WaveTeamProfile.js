@@ -22,7 +22,7 @@ export default function WaveTeamProfile({route, navigation}) {
   // const volunteerSessions = useSelector((state) =>
   //   state.firestoreReducer[sessionData].filter((session) => {
   //     console.log('firestore reducer in volunteer sessions', {session});
-  //     return session?.Mentors?.some(
+  //     return session?.mentors?.some(
   //       (filteredMentor) => filteredMentor.id === mentor.id,
   //     );
   //   }),
@@ -45,11 +45,11 @@ export default function WaveTeamProfile({route, navigation}) {
       <Text>
         {mentor.firstName} {mentor.lastName}
         {', '}
-        {moment().diff(mentor.DateOfBirth, 'years')}
+        {moment().diff(mentor.dateOfBirth, 'years')}
       </Text>
-      <Text>{mentor.ContactNumber} </Text>
+      <Text>{mentor.contactNumber} </Text>
 
-      <TrainingAccordionMenu training={mentor.Training}></TrainingAccordionMenu>
+      <TrainingAccordionMenu training={mentor.training}></TrainingAccordionMenu>
       <SessionListAccordionMenu
         sessions={allSessions}
         // beaches={beaches}

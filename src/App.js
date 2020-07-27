@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Alert} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  getFocusedRouteNameFromRoute,
+} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import 'react-native-gesture-handler';
@@ -48,7 +51,11 @@ const OnboardingNavigator = () => (
   </NavigationContainer>
 );
 
-const AdminTabNavigator = () => {
+const AdminTabNavigator = ({route}) => {
+  React.useLayoutEffect(() => {
+    // const routeName = getFocusedRouteNameFromRoute(route);
+  }, [route]);
+
   return (
     <NavigationContainer>
       <BottomTabs.Navigator
@@ -99,10 +106,9 @@ const StandardTabNavigator = () => (
 const HomeNavigator = ({navigation}) => {
   useEffect(() => {
     const state = navigation.dangerouslyGetState();
-    console.log('state in profilenavigator', state);
+    console.log('state in homenavigator', state);
     const unsubscribe = navigation.addListener('tabPress', (e) => {
       e.preventDefault();
-      // Alert.alert('Pressed');
       console.log('target in home', e);
 
       navigation.dispatch(
@@ -173,8 +179,9 @@ const CreateSessionNavigator = () => (
 
 const ProfileNavigator = ({navigation}) => {
   useEffect(() => {
-    const state = navigation.dangerouslyGetState();
-    console.log('state in profilenavigator', state);
+    const profileNavigatorState = navigation.dangerouslyGetState();
+
+    console.log('state in profilenavigator', profileNavigatorState);
 
     const unsubscribe = navigation.addListener('tabPress', (e) => {
       e.preventDefault();
@@ -302,9 +309,9 @@ const App: () => React$Node = () => {
 
   return isEmpty(currentAuthenticatedUser) ? (
     <Login setLoggedIn={setLoggedIn} />
-  ) : userData.isNewUser ? (
+  ) : userData?.isNewUser ? (
     <OnboardingNavigator />
-  ) : userHasPermission(userData?.Roles) ? (
+  ) : userHasPermission(userData?.roles) ? (
     <AdminTabNavigator />
   ) : (
     <StandardTabNavigator />
