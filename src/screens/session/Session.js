@@ -336,7 +336,7 @@ export default function Session({navigation, route}) {
                 {(userHasPermission(userData?.roles) ||
                   sessionLeadID === uid) && (
                   <ConfirmButton
-                    title="Attendance"
+                    title="Attendance List"
                     testID="registerButton"
                     onPress={() => {
                       navigation.navigate('Register', {

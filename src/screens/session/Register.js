@@ -37,7 +37,7 @@ export default function Register({navigation, route}) {
 
   return (
     <View>
-      <Text>Attendee Register</Text>
+      <Text>Attendance List</Text>
       <Text>
         {sessionData?.type} - {sessionData?.beach}
       </Text>
@@ -45,7 +45,7 @@ export default function Register({navigation, route}) {
         {sessionData?.dateTime}
       </Moment>
 
-      <RegisterTabs registerTitle="Attendees">
+      <RegisterTabs registerTitle="Surfers">
         {selectedSessionAttendeesData.map((attendee, i) => {
           //Retrieve the bool value that shows whether the person has attended the session
           const hasPersonAttended = sessionData?.attendees?.filter((person) => {

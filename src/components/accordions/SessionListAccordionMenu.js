@@ -12,9 +12,9 @@ import {startCase} from 'lodash';
 
 export default function SessionListAccordionMenu({
   sessions,
-
   navigation,
   route,
+  title,
 }) {
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
 
@@ -41,7 +41,7 @@ export default function SessionListAccordionMenu({
               setExpanded((expanded) => !expanded);
             }}
             testID="sessionlist-accordian"
-            title={sessions.length > 0 ? 'Sessions' : 'No Sessions'}
+            title={sessions.length > 0 ? title : `${title} (No Sessions)`}
             id="1">
             {sessions
               ?.sort((a, b) => {
