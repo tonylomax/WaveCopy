@@ -40,7 +40,11 @@ export default function ResetPassword({authenticatedUser}) {
           if (newPasswordValid && newPassword === confirmNewPassword) {
             updatePassword(authenticatedUser, currentPassword, newPassword)
               .then(() => {
-                signOut();
+                signOut().then(() => {
+                  dispatch(updateRoleSpecificSessions([]));
+                  dispatch(updateSessions([]));
+                  dispatch(updateFirestoreUserData({}));
+                });
               })
               .catch((err) => {
                 const serializedResult = serializeError(err);

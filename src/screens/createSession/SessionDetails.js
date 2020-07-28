@@ -138,7 +138,7 @@ export default function SessionDetails({navigation, route}) {
                 setShowDatePicker(false);
               }
             }}
-            title={`${showDatePicker ? 'Close date picker' : 'Change'}`}
+            title={`${showDatePicker ? 'Close' : 'Change'}`}
           />
           <Card.Title title="Date of Session" />
           <Moment element={Subheading} format="LL">

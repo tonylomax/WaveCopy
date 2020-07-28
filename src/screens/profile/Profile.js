@@ -42,8 +42,14 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
+import {
+  updateRoleSpecificSessions,
+  updateSessions,
+  updateFirestoreUserData,
+} from '../../redux/';
 
 export default function Profile({navigation, route}) {
+  const dispatch = useDispatch();
   //REDUX STATE
   const userData = useSelector((state) => state.firestoreReducer.userData);
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
@@ -314,7 +320,11 @@ export default function Profile({navigation, route}) {
           <ConfirmButton
             testID="signOutButton"
             onPress={() => {
-              signOut();
+              signOut().then(() => {
+                dispatch(updateRoleSpecificSessions([]));
+                dispatch(updateSessions([]));
+                dispatch(updateFirestoreUserData({}));
+              });
             }}
             title="Signout"
           />
