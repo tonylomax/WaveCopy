@@ -9,7 +9,7 @@ export default (sessionID) => {
     .collection(COLLECTIONS.SESSIONS)
     .onSnapshot(
       (sessionData) => {
-        console.log(sessionData);
+        // console.log(sessionData);
 
         const sessionsData = sessionData.docs.map((session) => {
           return {

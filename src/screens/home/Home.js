@@ -42,8 +42,8 @@ export default function Profile({navigation}) {
   const filteredSessions = useSelector((state) =>
     state.firestoreReducer.sessionData
       .filter((session) => {
-        console.log({session});
-        console.log('session menotrs filtered', session.mentors);
+        // console.log({session});
+        // console.log('session menotrs filtered', session.mentors);
         return session.mentors.length !== session.maxMentors;
       })
       .sort((a, b) => {
@@ -106,9 +106,9 @@ export default function Profile({navigation}) {
     }
   }, [userData]);
 
-  useEffect(() => {
-    console.log('sessions in home', sessions);
-  }, [sessions]);
+  // useEffect(() => {
+  //   console.log('sessions in home', sessions);
+  // }, [sessions]);
 
   return (
     <SafeAreaView style={{flex: 1}}>

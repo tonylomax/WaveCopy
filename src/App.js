@@ -52,7 +52,7 @@ const OnboardingNavigator = () => (
   </NavigationContainer>
 );
 
-const AdminTabNavigator = () => {
+const AdminTabNavigator = ({navigation}) => {
   return (
     <NavigationContainer>
       <BottomTabs.Navigator
@@ -106,7 +106,17 @@ const HomeNavigator = ({navigation, route}) => {
   const state = useNavigationState((state) => state);
 
   useEffect(() => {
-    homeStackIndex = route?.state?.index || state.index;
+    if (
+      state.history.some((history) => {
+        const historyString = history.key;
+        return historyString.includes('Profile');
+      })
+    ) {
+      homeStackIndex = 0;
+    } else {
+      homeStackIndex = route?.state?.index || state.index;
+    }
+    console.log('homeStackIndex', homeStackIndex);
     const unsubscribeTabPressInHomeNav = navigation.addListener(
       'tabPress',
       (e) => {
@@ -178,12 +188,14 @@ const CreateSessionNavigator = () => (
 );
 
 const ProfileNavigator = ({navigation, route}) => {
+  const state = useNavigationState((state) => state);
+
   useEffect(() => {
     const unsubscribeTabPressInProfileNav = navigation.addListener(
       'tabPress',
       (e) => {
         e.preventDefault();
-        if (homeStackIndex > 1) {
+        if (homeStackIndex > 2) {
           Alert.alert(
             'Your changes won"t be saved"',
             'Are you sure you want to discard your changes',
