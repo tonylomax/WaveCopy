@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
+import {firebase} from '@react-native-firebase/functions';
+const functions = firebase.functions();
 import {
   View,
   Text,
   Image,
-  Button,
   Alert,
   TouchableOpacity,
   ImageBackground,
@@ -21,6 +22,11 @@ import {useSelector, useDispatch} from 'react-redux';
 import {CommonActions} from '@react-navigation/native';
 import {serializeError} from 'serialize-error';
 import Moment from 'react-moment';
+import moment from 'moment';
+import 'moment/src/locale/en-gb';
+moment.locale('en-gb');
+moment().format('en-gb');
+
 import {
   getAllSessionAttendees,
   getAllSessionMentors,
@@ -39,7 +45,7 @@ import {
   getSessionLeadName,
   getCoverImage,
 } from 'utils';
-import {Card, Title, Divider, Paragraph} from 'react-native-paper';
+import {Card, Title, Divider, Paragraph, Button} from 'react-native-paper';
 import {COLLECTIONS} from 'constants';
 import {startCase} from 'lodash';
 
@@ -92,6 +98,7 @@ export default function Session({navigation, route}) {
     userData?.roles?.includes('NationalAdmin') ||
     userData?.roles?.includes('Coordinator');
   const [CoverImage, setCoverImage] = useState();
+  const [daysUntilSession, setDaysUntilSession] = useState(0);
   //LOCAL STATE
 
   useEffect(() => {
@@ -147,6 +154,7 @@ export default function Session({navigation, route}) {
   }, []);
 
   useEffect(() => {
+    setDaysUntilSession(moment(sessionData.dateTime).diff(new Date(), 'days'));
     const SURFLEAD = selectedSessionMentorsData?.filter(
       (mentor) => mentor.id === sessionLeadID,
     );
@@ -211,6 +219,50 @@ export default function Session({navigation, route}) {
           </ImageBackground>
 
           <View>
+            {(userHasPermission(userData?.roles) || sessionLeadID === uid) &&
+              daysUntilSession < 2 &&
+              daysUntilSession >= 0 &&
+              sessionData?.maxMentors - sessionDataMentors?.length > 0 && (
+                <ConfirmButton
+                  onPress={() => {
+                    const sendNotificationToAllMentorsInSameRegionAsSession = functions.httpsCallable(
+                      'sendNotificationToAllMentorsInSameRegionAsSession',
+                    );
+                    console.log(
+                      sendNotificationToAllMentorsInSameRegionAsSession,
+                    );
+                    sendNotificationToAllMentorsInSameRegionAsSession({
+                      sessionData,
+                    })
+                      .then(function (result) {
+                        // Read result of the Cloud Function.
+                        console.log(result);
+                        // Note it actually gives you the number of devices it's sent to, but
+                        // I think mentors is clearer.
+                        Alert.alert(
+                          `Sent to ${result?.data?.successCount} mentors`,
+                        );
+                      })
+                      .catch(function (error) {
+                        // Getting the Error details.
+                        console.log('error back from the function', error);
+                        Alert(
+                          'There was an error sending your notifications, please try again later.',
+                          error,
+                        );
+                        const code = error.code;
+                        console.log({code});
+                        const message = error.message;
+                        console.log({message});
+                        const details = error.details;
+                        console.log({details});
+                        // ...
+                      });
+                  }}
+                  title="Notify mentors of session"
+                />
+              )}
+
             <Paragraph style={{alignSelf: 'center'}}>
               <Moment element={Text} format="LLLL">
                 {sessionData?.dateTime}

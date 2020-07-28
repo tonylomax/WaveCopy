@@ -10,6 +10,7 @@ export default (sessionID) => {
     .onSnapshot(
       (sessionData) => {
         // console.log('sessionData', sessionData);
+
         const sessionsData = sessionData.docs.map((session) => {
           return {
             id: session?._ref?._documentPath?._parts[1],
