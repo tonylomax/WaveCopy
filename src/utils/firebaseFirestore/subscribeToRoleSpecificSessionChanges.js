@@ -7,7 +7,7 @@ export default (userRegion) => {
   console.log('creating a subscription role role based sessions');
   return firestore()
     .collection(COLLECTIONS.SESSIONS)
-    .where('RegionID', '==', userRegion)
+    .where('regionID', '==', userRegion)
     .onSnapshot(
       (roleSpecificSessions) => {
         console.log('inside on snapshot, received some data');
