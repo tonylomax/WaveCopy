@@ -44,7 +44,6 @@ export default function SessionDetails({navigation, route}) {
   );
   // Default state is 0, previous state will not exist.
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
-  // new Date().setDate(new Date().getDate() + 7),
   const [sessionDate, setSessionDate] = useState(
     moment(new Date()).add(7, 'days').toDate(),
   );
