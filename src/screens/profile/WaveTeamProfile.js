@@ -54,7 +54,8 @@ export default function WaveTeamProfile({route, navigation}) {
         sessions={allSessions}
         // beaches={beaches}
         navigation={navigation}
-        route={route}></SessionListAccordionMenu>
+        route={route}
+        title={'Sessions'}></SessionListAccordionMenu>
     </View>
   );
 }
