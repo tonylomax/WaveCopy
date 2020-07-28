@@ -35,9 +35,9 @@ export default function Profile({navigation}) {
     (state) => state.firestoreReducer.selectedSessionSubscribedMentors,
   );
   const sessions = useSelector((state) =>
-    state.firestoreReducer.sessionData.sort((a, b) => {
-      return new Date(a.dateTime) - new Date(b.dateTime);
-    }),
+    state.firestoreReducer.sessionData
+      .filter((session) => session.dateTime >= moment(new Date()).format())
+      .sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime)),
   );
   const filteredSessions = useSelector((state) =>
     state.firestoreReducer.sessionData
@@ -50,13 +50,6 @@ export default function Profile({navigation}) {
         return new Date(a.dateTime) - new Date(b.dateTime);
       }),
   );
-
-  useEffect(() => {
-    console.log(
-      'selectedSessionMentorsData in home',
-      selectedSessionMentorsData,
-    );
-  }, [selectedSessionMentorsData]);
 
   const filteredRoleSessions = useSelector((state) =>
     state.firestoreReducer.roleSpecificSessionData
@@ -141,12 +134,7 @@ export default function Profile({navigation}) {
               id={item.id}
               testID={`SessionsListItem${item.id}`}
               onPress={() => {
-                // console.log('this is the clicked thing ', item);
                 const selectedBeach = getBeach(item.beachID);
-                // console.log('selectedBeach in home', selectedBeach);
-                // const selectedBeach = item.Beach;
-
-                // console.log('selectedBeach in home', selectedBeach);
                 navigation.navigate('HomeSession', {item, selectedBeach});
               }}>
               <Card.Title
