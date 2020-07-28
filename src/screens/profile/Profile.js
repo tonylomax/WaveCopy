@@ -52,11 +52,40 @@ export default function Profile({navigation, route}) {
   );
 
   const sessions = useSelector((state) => state.firestoreReducer.sessionData);
+
+  const pastSessions = useSelector((state) =>
+    state.firestoreReducer.sessionData.filter(
+      (session) => session.dateTime < moment(new Date()).format(),
+    ),
+  );
+
+  const upcomingSessions = useSelector((state) =>
+    state.firestoreReducer.sessionData.filter(
+      (session) => session.dateTime >= moment(new Date()).format(),
+    ),
+  );
+
   // Finds all sessions that you are signed up for
   const mySessions = useSelector((state) =>
     state.firestoreReducer.roleSpecificSessionData.filter((session) =>
       session?.mentors.some((mentor) => mentor.id === uid),
     ),
+  );
+
+  const myPastSessions = useSelector((state) =>
+    state.firestoreReducer.roleSpecificSessionData
+      .filter((session) => session.dateTime < moment(new Date()).format())
+      .filter((session) =>
+        session?.mentors.some((mentor) => mentor.id === uid),
+      ),
+  );
+
+  const myUpcomingSessions = useSelector((state) =>
+    state.firestoreReducer.roleSpecificSessionData
+      .filter((session) => session.dateTime >= moment(new Date()).format())
+      .filter((session) =>
+        session?.mentors.some((mentor) => mentor.id === uid),
+      ),
   );
 
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
@@ -301,12 +330,23 @@ export default function Profile({navigation, route}) {
               <SessionListAccordionMenu
                 sessions={
                   userData?.roles?.includes('NationalAdmin')
-                    ? sessions
-                    : mySessions
+                    ? upcomingSessions
+                    : myUpcomingSessions
                 }
-                // beaches={beaches}
                 route={route}
                 navigation={navigation}
+                title={'Upcoming Sessions'}
+              />
+
+              <SessionListAccordionMenu
+                sessions={
+                  userData?.roles?.includes('NationalAdmin')
+                    ? pastSessions
+                    : myPastSessions
+                }
+                route={route}
+                navigation={navigation}
+                title={'Past Sessions'}
               />
             </Card.Content>
           </Card>
