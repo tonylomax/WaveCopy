@@ -135,8 +135,8 @@ export default function Session({navigation, route}) {
   }, [sessionDataMentors]);
 
   // useEffect(() => {
-
-  // }, []);
+  //   console.log('userData', userData.roles);
+  // }, userData);
 
   useEffect(() => {
     // Set up subscription for all the session data
@@ -189,33 +189,35 @@ export default function Session({navigation, route}) {
             style={{height: 175, width: '100%'}}
             source={CoverImage}>
             {/* Edit session button */}
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row-reverse',
-              }}>
-              <TouchableOpacity
-                style={{}}
-                onPress={() => {
-                  navigation.push('SessionDetails', {
-                    previousSessionData: sessionData,
-                    previouslySelectedAttendees: selectedSessionAttendeesData,
-                    previouslySelectedMentors: selectedSessionMentorsData,
-                    previousSessionID: id,
-                  });
+            {(userHasPermission(userData?.roles) || sessionLeadID === uid) && (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row-reverse',
                 }}>
-                <Image
-                  style={{
-                    height: 50,
-                    width: 50,
-                    overflow: 'visible',
-                    tintColor: 'white',
-                    marginRight: '1%',
-                    marginTop: '10%',
-                  }}
-                  source={Edit_Icon}></Image>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  style={{}}
+                  onPress={() => {
+                    navigation.push('SessionDetails', {
+                      previousSessionData: sessionData,
+                      previouslySelectedAttendees: selectedSessionAttendeesData,
+                      previouslySelectedMentors: selectedSessionMentorsData,
+                      previousSessionID: id,
+                    });
+                  }}>
+                  <Image
+                    style={{
+                      height: 50,
+                      width: 50,
+                      overflow: 'visible',
+                      tintColor: 'white',
+                      marginRight: '1%',
+                      marginTop: '10%',
+                    }}
+                    source={Edit_Icon}></Image>
+                </TouchableOpacity>
+              </View>
+            )}
           </ImageBackground>
 
           <View>
