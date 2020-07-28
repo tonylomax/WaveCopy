@@ -246,6 +246,10 @@ export default function Session({navigation, route}) {
                       .catch(function (error) {
                         // Getting the Error details.
                         console.log('error back from the function', error);
+                        Alert(
+                          'There was an error sending your notifications, please try again later.',
+                          error,
+                        );
                         const code = error.code;
                         console.log({code});
                         const message = error.message;
