@@ -140,8 +140,8 @@ export default function SessionDetailsAccordionMenu({
         }}
         title={
           selectedUsers.length > 0
-            ? `Attendees (${selectedUsers?.length})`
-            : 'No Attendees'
+            ? `Surfers (${selectedUsers?.length})`
+            : 'No Surfers'
         }
         id="2"
         testID="attendees-accordian">
