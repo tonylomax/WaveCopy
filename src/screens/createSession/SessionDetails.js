@@ -99,21 +99,24 @@ export default function SessionDetails({navigation, route}) {
       <ScrollView testID="session-details-scroll-view">
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
           <Card.Title title="Type of Session" />
-          <Subheading>
-            {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'}
-          </Subheading>
-
-          <Button
-            title={`${showSessionType ? 'Close' : 'Change'}`}
-            onPress={() => {
-              if (!showSessionType) {
-                closeAllExcept(setShowSessionType);
-              } else {
-                setShowSessionType(false);
-              }
-            }}
-          />
-          {showSessionType && (
+          {Platform.OS === 'ios' && (
+            <Subheading>
+              {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'}
+            </Subheading>
+          )}
+          {Platform.OS === 'ios' && (
+            <Button
+              title={`${showSessionType ? 'Close' : 'Change'}`}
+              onPress={() => {
+                if (!showSessionType) {
+                  closeAllExcept(setShowSessionType);
+                } else {
+                  setShowSessionType(false);
+                }
+              }}
+            />
+          )}
+          {(showSessionType || Platform.OS === 'android') && (
             <Picker
               testID="type-of-session"
               selectedValue={sessionType}
@@ -171,7 +174,7 @@ export default function SessionDetails({navigation, route}) {
           />
           <Card.Title title="Time of Session" />
           <Moment element={Subheading} format="HH:mm">
-            {sessionDate}
+            {sessionTime}
           </Moment>
           {showTimePicker && (
             <DateTimePicker
@@ -186,19 +189,21 @@ export default function SessionDetails({navigation, route}) {
         </Card>
 
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
-          <Button
-            onPress={() => {
-              if (!showLocationPicker) {
-                closeAllExcept(setShowLocationPicker);
-              } else {
-                setShowLocationPicker(false);
-              }
-            }}
-            title={`${showLocationPicker ? 'Close' : 'Change'}`}
-          />
+          {Platform.OS === 'ios' && (
+            <Button
+              onPress={() => {
+                if (!showLocationPicker) {
+                  closeAllExcept(setShowLocationPicker);
+                } else {
+                  setShowLocationPicker(false);
+                }
+              }}
+              title={`${showLocationPicker ? 'Close' : 'Change'}`}
+            />
+          )}
           <Card.Title title="Location of session" />
-          <Subheading>{location?.name}</Subheading>
-          {showLocationPicker && (
+          {Platform.OS === 'ios' && <Subheading>{location?.name}</Subheading>}
+          {(showLocationPicker || Platform.OS === 'android') && (
             <Picker
               testID="location-of-session"
               selectedValue={location?.name}
@@ -218,21 +223,25 @@ export default function SessionDetails({navigation, route}) {
           )}
         </Card>
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
-          <Button
-            onPress={() => {
-              if (!showNumberOfVolunteersPicker) {
-                closeAllExcept(setShowNumberOfVolunteersPicker);
-              } else {
-                setShowNumberOfVolunteersPicker(false);
-              }
-            }}
-            title={`${showNumberOfVolunteersPicker ? 'Close' : 'Change'}`}
-          />
+          {Platform.OS === 'ios' && (
+            <Button
+              onPress={() => {
+                if (!showNumberOfVolunteersPicker) {
+                  closeAllExcept(setShowNumberOfVolunteersPicker);
+                } else {
+                  setShowNumberOfVolunteersPicker(false);
+                }
+              }}
+              title={`${showNumberOfVolunteersPicker ? 'Close' : 'Change'}`}
+            />
+          )}
           <Card.Title title="Number of volunteers" />
-          <Subheading>{numberOfVolunteers}</Subheading>
+          {Platform.OS === 'ios' && (
+            <Subheading>{numberOfVolunteers}</Subheading>
+          )}
           <Caption>The number of volunteers required for this session.</Caption>
 
-          {showNumberOfVolunteersPicker && (
+          {(showNumberOfVolunteersPicker || Platform.OS === 'android') && (
             <Picker
               testID="number-of-volunteers"
               selectedValue={numberOfVolunteers}
@@ -251,19 +260,24 @@ export default function SessionDetails({navigation, route}) {
 
         {!previousSessionData && (
           <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
-            <Button
-              onPress={() => {
-                if (!showNumberOfRepetitions) {
-                  closeAllExcept(setShowNumberOfRepetitions);
-                } else {
-                  setShowNumberOfRepetitions(false);
-                }
-              }}
-              title={`${showNumberOfRepetitions ? 'Close' : 'Change'}`}
-            />
+            {Platform.OS === 'ios' && (
+              <Button
+                onPress={() => {
+                  if (!showNumberOfRepetitions) {
+                    closeAllExcept(setShowNumberOfRepetitions);
+                  } else {
+                    setShowNumberOfRepetitions(false);
+                  }
+                }}
+                title={`${showNumberOfRepetitions ? 'Close' : 'Change'}`}
+              />
+            )}
             <Card.Title title="Number of repetitions" />
+            {Platform.OS === 'ios' && (
+              <Subheading>{numberOfRepetitions}</Subheading>
+            )}
             <Caption>To create a single session, select 0 repetitions.</Caption>
-            {showNumberOfRepetitions && (
+            {(showNumberOfRepetitions || Platform.OS === 'android') && (
               <Picker
                 testID="number-of-repetitions"
                 selectedValue={numberOfRepetitions}
