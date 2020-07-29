@@ -9,15 +9,19 @@ export default theme = {
     accent: CustomColours.GREY,
     background: CustomColours.WHITE,
     surface: CustomColours.WHITE,
-    text: CustomColours.BLACK,
+    text: CustomColours.DEEP_BLUE,
     disabled: CustomColours.GREY,
     placeholder: CustomColours.BLACK,
     backdrop: CustomColours.GREY,
+    tertiary: CustomColours.LIME_GREEN,
   },
   fonts: {
     regular: CustomFonts.LatoBlack,
     medium: CustomFonts.AmaticSCBold,
     light: CustomFonts.LatoLight,
     thin: CustomFonts.LatoThin,
+    button: CustomFonts.LatoBlack,
   },
+
+  maxWidth: 250,
 };

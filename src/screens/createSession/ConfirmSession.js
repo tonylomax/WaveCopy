@@ -106,7 +106,9 @@ export default function ConfirmSession({route, navigation}) {
         <ChoicePopup
           testID="choicePopup"
           choiceText={`${
-            previousSessionData ? 'Submit edited session' : 'Confirm session'
+            previousSessionData
+              ? 'Would you like to save your changes?'
+              : 'Confirm session'
           }`}
           visible={visible}
           setVisible={setVisible}

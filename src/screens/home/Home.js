@@ -106,11 +106,7 @@ export default function Profile({navigation}) {
       <View style={{flex: 1, paddingBottom: 10}}>
         <Title testID="upcoming-sessions-title">Upcoming sessions</Title>
         <ConfirmButton
-          title={
-            toggleFilter
-              ? 'Display all sessions'
-              : 'Display only sessions with spaces'
-          }
+          title={toggleFilter ? 'All sessions' : 'Sessions with spaces'}
           onPress={() => {
             setToggleFilter((toggleFilter) => !toggleFilter);
           }}></ConfirmButton>

@@ -19,6 +19,7 @@ import {
   MIN_NUMBER_OF_REPETITIONS,
   MAX_NUMBER_OF_REPETITIONS,
 } from 'constants';
+import {ConfirmButton} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
@@ -115,7 +116,7 @@ export default function SessionDetails({navigation, route}) {
             </Subheading>
           )}
           {Platform.OS === 'ios' && (
-            <Button
+            <ConfirmButton
               title={`${showSessionType ? 'Close' : 'Change'}`}
               onPress={() => {
                 if (!showSessionType) {
@@ -140,7 +141,7 @@ export default function SessionDetails({navigation, route}) {
         </Card>
 
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
-          <Button
+          <ConfirmButton
             onPress={() => {
               if (!showDatePicker) {
                 closeAllExcept(setShowDatePicker);
@@ -172,7 +173,7 @@ export default function SessionDetails({navigation, route}) {
         </Card>
 
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
-          <Button
+          <ConfirmButton
             onPress={() => {
               if (!showTimePicker) {
                 closeAllExcept(setShowTimePicker);
@@ -200,7 +201,7 @@ export default function SessionDetails({navigation, route}) {
 
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
           {Platform.OS === 'ios' && (
-            <Button
+            <ConfirmButton
               onPress={() => {
                 if (!showLocationPicker) {
                   closeAllExcept(setShowLocationPicker);
@@ -234,7 +235,7 @@ export default function SessionDetails({navigation, route}) {
         </Card>
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
           {Platform.OS === 'ios' && (
-            <Button
+            <ConfirmButton
               onPress={() => {
                 if (!showNumberOfVolunteersPicker) {
                   closeAllExcept(setShowNumberOfVolunteersPicker);
@@ -271,7 +272,7 @@ export default function SessionDetails({navigation, route}) {
         {!previousSessionData && (
           <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
             {Platform.OS === 'ios' && (
-              <Button
+              <ConfirmButton
                 onPress={() => {
                   if (!showNumberOfRepetitions) {
                     // WARNING THIS MAY NEED TO BE REMOVED
@@ -312,7 +313,7 @@ export default function SessionDetails({navigation, route}) {
           </Card>
         )}
 
-        <Button
+        <ConfirmButton
           testID="continue-to-select-service-users"
           title="Continue"
           onPress={() => {

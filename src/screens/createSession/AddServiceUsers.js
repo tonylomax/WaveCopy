@@ -10,6 +10,7 @@ import {
 } from 'react-native-paper';
 import Highlighter from 'react-native-highlight-words';
 import {searchFirestoreServiceUsers} from 'utils';
+import {ConfirmButton, CloseButton} from 'components';
 
 export default function AddServiceUsers({route, navigation}) {
   const {
@@ -85,7 +86,7 @@ export default function AddServiceUsers({route, navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Button
+        <ConfirmButton
           onPress={() => {
             console.log({editedDescriptionOfSession});
             console.log({selectedUsers});
@@ -127,7 +128,10 @@ export default function AddServiceUsers({route, navigation}) {
                     />
                   }
                   right={() => (
-                    <Button onPress={() => addUser(item)} title="Add user" />
+                    <ConfirmButton
+                      onPress={() => addUser(item)}
+                      title="Add user"
+                    />
                   )}
                 />
                 <Divider />
@@ -144,7 +148,7 @@ export default function AddServiceUsers({route, navigation}) {
           <List.Item
             title={`${serviceUser?.firstName} ${serviceUser?.lastName}`}
             right={() => (
-              <Button
+              <CloseButton
                 title="remove"
                 onPress={() => {
                   console.log('clicked on id ', serviceUser?.objectID);
@@ -157,7 +161,7 @@ export default function AddServiceUsers({route, navigation}) {
         </View>
       ))}
       <Divider />
-      <Button
+      <ConfirmButton
         testID="continue-to-review-created-session-page"
         title="Continue"
         onPress={() => {

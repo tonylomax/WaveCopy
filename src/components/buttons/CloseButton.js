@@ -1,10 +1,25 @@
 import React from 'react';
-import {Image} from 'react-native';
-import {Button} from 'react-native-paper';
+import CustomColours from '../../styles/colours';
+import {Button, useTheme} from 'react-native-paper';
 
 export default function CloseButton({title, onPress, testID}) {
+  const {colors, maxWidth, fonts} = useTheme();
+
   return (
-    <Button testID={testID} onPress={onPress}>
+    <Button
+      maxWidth={maxWidth}
+      theme={{
+        fonts: {
+          medium: fonts.button,
+        },
+      }}
+      style={{
+        alignSelf: 'center',
+        backgroundColor: colors.backdrop,
+      }}
+      mode="contained"
+      testID={testID}
+      onPress={onPress}>
       {title}
     </Button>
   );
