@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {
   ConfirmButton,
+  CloseButton,
   ImageConfirmPopup,
   TrainingAccordionMenu,
   SessionListAccordionMenu,
@@ -208,11 +209,11 @@ export default function Profile({navigation, route}) {
                         setNewProfilePicUploadComplete,
                       ).then(() => setImageConfirmPopup(false));
                     }}></ConfirmButton>
-                  <ConfirmButton
+                  <CloseButton
                     title="No"
                     onPress={() => {
                       setImageConfirmPopup(false);
-                    }}></ConfirmButton>
+                    }}></CloseButton>
                   <ProgressBar
                     visible={showProgressBar}
                     progress={uploadProgress}
@@ -357,7 +358,7 @@ export default function Profile({navigation, route}) {
             </Card.Content>
           </Card>
 
-          <ConfirmButton
+          <CloseButton
             testID="signOutButton"
             onPress={() => {
               signOut().then(() => {

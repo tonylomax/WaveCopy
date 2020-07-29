@@ -1,6 +1,6 @@
 import React from 'react';
 import {Alert, Modal, StyleSheet, Text, View} from 'react-native';
-import {ConfirmButton} from 'components';
+import {ConfirmButton, CloseButton} from 'components';
 
 export default function ChoicePopup({
   visible,
@@ -31,11 +31,11 @@ export default function ChoicePopup({
                 if (yesAction) yesAction();
                 setVisible(false);
               }}></ConfirmButton>
-            <ConfirmButton
+            <CloseButton
               title="No"
               onPress={() => {
                 setVisible(false);
-              }}></ConfirmButton>
+              }}></CloseButton>
           </View>
         </View>
       </Modal>

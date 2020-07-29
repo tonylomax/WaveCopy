@@ -20,4 +20,6 @@ export default theme = {
     light: CustomFonts.LatoLight,
     thin: CustomFonts.LatoThin,
   },
+
+  maxWidth: 250,
 };

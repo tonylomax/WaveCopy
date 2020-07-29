@@ -14,6 +14,7 @@ import {
 import {
   SessionDetailsAccordionMenu,
   ConfirmButton,
+  CloseButton,
   ChoicePopup,
   LoadingScreen,
 } from 'components';
@@ -348,16 +349,6 @@ export default function Session({navigation, route}) {
                     Register
                   </ConfirmButton>
                 )}
-                {/* DElETE SESSION */}
-                {userHasPermission(userData?.roles) && (
-                  <ConfirmButton
-                    title="Delete session"
-                    testID="delete-session-button"
-                    onPress={() => setVisible((visible) => !visible)}>
-                    Register
-                  </ConfirmButton>
-                )}
-                {/* Popup to confirm delete session */}
 
                 {/* LEAVE/SIGNUP */}
                 {/* Only show if signup button if user is in the session, otherwise show signup button */}
@@ -385,10 +376,21 @@ export default function Session({navigation, route}) {
                         });
                     }}></ConfirmButton>
                 )}
+                {/* DElETE SESSION */}
+                {userHasPermission(userData?.roles) && (
+                  <CloseButton
+                    title="Delete session"
+                    testID="delete-session-button"
+                    onPress={() => setVisible((visible) => !visible)}>
+                    Register
+                  </CloseButton>
+                )}
+                {/* Popup to confirm delete session */}
               </Card.Actions>
             </Card>
 
             <ChoicePopup
+              choiceText={'Are you sure you want to delete this session?'}
               testID="choicePopup"
               visible={visible}
               setVisible={setVisible}

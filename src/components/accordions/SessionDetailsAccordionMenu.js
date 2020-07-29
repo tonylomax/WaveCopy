@@ -10,7 +10,7 @@ import {
 import {List, Divider, Card, Paragraph} from 'react-native-paper';
 import MapView, {Marker} from 'react-native-maps';
 
-import {AddButton, CloseButton} from 'components';
+import {ConfirmButton, CloseButton} from 'components';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   assignSessionLead,
@@ -111,7 +111,7 @@ export default function SessionDetailsAccordionMenu({
                         );
                       }}></CloseButton>
                   ) : (
-                    <AddButton
+                    <ConfirmButton
                       onPress={() => {
                         assignSessionLead(sessionID, mentor.id, uid).catch(
                           (err) => {
@@ -120,7 +120,7 @@ export default function SessionDetailsAccordionMenu({
                           },
                         );
                       }}
-                      title="Add as Lead"></AddButton>
+                      title="Add as Lead"></ConfirmButton>
                   )}
                 </View>
               )}
@@ -141,7 +141,7 @@ export default function SessionDetailsAccordionMenu({
         title={
           selectedUsers.length > 0
             ? `Surfers (${selectedUsers?.length})`
-            : 'No Surfers'
+            : 'No Attendees'
         }
         id="2"
         testID="attendees-accordian">
