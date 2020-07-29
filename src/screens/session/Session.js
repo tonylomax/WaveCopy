@@ -407,7 +407,7 @@ export default function Session({navigation, route}) {
                 onDismiss={toggleDeleteSessionModal}>
                 <Card>
                   <Card.Title
-                    titleStyle={{alignSelf: 'center'}}
+                    titleStyle={{alignSelf: 'center', fontSize: 18}}
                     title="Are you sure you want to delete this session?"
                   />
                   <Card.Content>

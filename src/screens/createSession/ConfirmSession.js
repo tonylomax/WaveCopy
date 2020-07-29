@@ -13,6 +13,7 @@ import {
   Card,
   Portal,
   Modal,
+  useTheme,
 } from 'react-native-paper';
 import {
   ConfirmButton,
@@ -38,6 +39,7 @@ import {useSelector} from 'react-redux';
 import {ScrollView} from 'react-native-gesture-handler';
 
 export default function ConfirmSession({route, navigation}) {
+  const {fonts} = useTheme();
   const {
     sessionType,
     location,

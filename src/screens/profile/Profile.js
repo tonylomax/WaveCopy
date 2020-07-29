@@ -179,7 +179,10 @@ export default function Profile({navigation, route}) {
               onDismiss={() => setImageConfirmPopup(false)}>
               <Card>
                 <Card.Title
-                  titleStyle={{alignSelf: 'center'}}
+                  titleStyle={{
+                    alignSelf: 'center',
+                    fontSize: 18,
+                  }}
                   title="Are you happy with this new profile picture?"
                 />
                 <Card.Content>
