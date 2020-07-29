@@ -5,9 +5,17 @@ import {RegisterTabs} from 'components';
 import {useSelector} from 'react-redux';
 import {markAttendance, subscribeToSessionChanges} from 'utils';
 import {USER_GROUP} from 'constants';
-import {Checkbox, Paragraph, BottomNavigation, Card} from 'react-native-paper';
+import {
+  Checkbox,
+  Paragraph,
+  BottomNavigation,
+  Card,
+  useTheme,
+} from 'react-native-paper';
 
 export default function Register({navigation, route}) {
+  const {colors} = useTheme();
+
   //REDUX STATE
   const sessionData = useSelector(
     (state) => state.firestoreReducer.singleSession,
@@ -60,7 +68,7 @@ export default function Register({navigation, route}) {
                 <Checkbox.Android
                   status={hasPersonAttended ? 'checked' : 'unchecked'}
                   uncheckedColor="black"
-                  color="blue"
+                  color={colors.primary}
                   onPress={() => {
                     markAttendance(
                       id,
@@ -90,7 +98,7 @@ export default function Register({navigation, route}) {
                 <Checkbox.Android
                   status={hasPersonAttended ? 'checked' : 'unchecked'}
                   uncheckedColor="black"
-                  color="blue"
+                  color={colors.primary}
                   onPress={() => {
                     markAttendance(
                       id,

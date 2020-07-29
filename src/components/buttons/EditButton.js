@@ -1,10 +1,6 @@
 import React from 'react';
-import {Button} from 'react-native';
+import {Button} from 'react-native-paper';
 
 export default function EditButton({title, onPress}) {
-  return (
-    <Button title={title} onPress={onPress}>
-      Button
-    </Button>
-  );
+  return <Button onPress={onPress}>{title}</Button>;
 }

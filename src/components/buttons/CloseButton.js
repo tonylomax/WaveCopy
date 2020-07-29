@@ -1,10 +1,11 @@
 import React from 'react';
-import {Button, Image} from 'react-native';
+import {Image} from 'react-native';
+import {Button} from 'react-native-paper';
 
-export default function CloseButto({title, onPress, testID}) {
+export default function CloseButton({title, onPress, testID}) {
   return (
-    <Button testID={testID} title={title} onPress={onPress}>
-      Button
+    <Button testID={testID} onPress={onPress}>
+      {title}
     </Button>
   );
 }

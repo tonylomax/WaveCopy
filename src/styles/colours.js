@@ -6,4 +6,5 @@ module.exports = {
   LEMON: '#F2EAA7',
   MINT: '#6FACAE',
   WHITE: '#FFFFFF',
+  BLACK: '#000000',
 };

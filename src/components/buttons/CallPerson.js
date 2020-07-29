@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button} from 'react-native';
+import {Button} from 'react-native-paper';
 
 export default function CallPerson({title, onPress}) {
-  return <Button title={title} onPress={onPress}></Button>;
+  return <Button onPress={onPress}>{title}</Button>;
 }

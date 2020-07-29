@@ -163,9 +163,9 @@ export default function Session({navigation, route}) {
   }, [selectedSessionMentorsData, sessionData]);
 
   useEffect(() => {
-    console.log({sessionData});
+    console.log('sessionData', sessionData);
     (async () => {
-      setCoordinator(await retrieveCoordinatorData(sessionData?.CoordinatorID));
+      setCoordinator(await retrieveCoordinatorData(sessionData?.coordinatorID));
     })();
   }, [sessionData]);
 
