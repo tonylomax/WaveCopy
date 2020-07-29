@@ -7,13 +7,15 @@ export default function CloseButton({title, onPress, testID}) {
 
   return (
     <Button
-      color={colors.backdrop}
-      style={{alignSelf: 'center'}}
       maxWidth={maxWidth}
       theme={{
         fonts: {
           medium: fonts.button,
         },
+      }}
+      style={{
+        alignSelf: 'center',
+        backgroundColor: colors.backdrop,
       }}
       mode="contained"
       testID={testID}

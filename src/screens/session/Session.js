@@ -378,7 +378,7 @@ export default function Session({navigation, route}) {
                 {/* DElETE SESSION */}
                 {userHasPermission(userData?.roles) && (
                   <CloseButton
-                    title="Delete session"
+                    title="Delete"
                     testID="delete-session-button"
                     onPress={() => setVisible((visible) => !visible)}>
                     Register
