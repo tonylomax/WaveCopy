@@ -14,7 +14,7 @@ export default function ConfirmButton({title, onPress, testID, disabled}) {
       elevation={1}
       labelStyle={{color: colors.primary, fontSize: 36}}
       style={{
-        borderStyle: 1,
+        // borderStyle: 1,
         alignSelf: 'center',
         shadowRadius: 0,
         shadowOpacity: 0,
