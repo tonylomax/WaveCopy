@@ -4,5 +4,5 @@ module.exports = {
   },
   LatoBlack: {fontFamily: 'Lato-Black'},
   LatoLight: {fontFamily: 'Lato-Light'},
-  LatoThin: {fontFamily: 'Lato-Thin'},
+  LatoThin: {fontFamily: 'Lato'},
 };

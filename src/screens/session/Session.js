@@ -262,7 +262,7 @@ export default function Session({navigation, route}) {
                         // ...
                       });
                   }}
-                  title="Notify mentors of session"
+                  title="Notify mentors"
                 />
               )}
 
