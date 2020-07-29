@@ -97,6 +97,10 @@ export default function Profile({navigation}) {
     }
   }, [userData]);
 
+  // useEffect(() => {
+  //   console.log('sessions in home', sessions);
+  // }, [sessions]);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, paddingBottom: 10}}>
