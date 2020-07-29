@@ -29,7 +29,7 @@ import SessionDetails from './screens/createSession/SessionDetails';
 import AddServiceUsers from './screens/createSession/AddServiceUsers';
 import ConfirmSession from './screens/createSession/ConfirmSession';
 import {HeaderBackButton} from 'react-navigation';
-import {CurvedTabBar} from 'components';
+import {CurvedTabBar, BackButton} from 'components';
 import messaging from '@react-native-firebase/messaging';
 import Onboarding from './screens/onboarding/Onboarding';
 import {CommonActions} from '@react-navigation/native';
@@ -136,18 +136,33 @@ const HomeNavigator = ({navigation, route}) => {
       <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
       <HomeStack.Screen
         name="HomeSession"
-        component={Session}></HomeStack.Screen>
-      <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
+        component={Session}
+        options={({navigation}) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+        })}></HomeStack.Screen>
+      <HomeStack.Screen
+        name="Register"
+        component={Register}
+        options={({navigation}) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+        })}></HomeStack.Screen>
       <HomeStack.Screen
         name="Home Volunteer Profile"
-        component={WaveTeamProfile}></HomeStack.Screen>
+        component={WaveTeamProfile}
+        options={({navigation}) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+        })}></HomeStack.Screen>
       <HomeStack.Screen
         name="Home ServiceUser Profile"
-        component={ServiceUserProfile}></HomeStack.Screen>
+        component={ServiceUserProfile}
+        options={({navigation}) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+        })}></HomeStack.Screen>
       <HomeStack.Screen
         name="SessionDetails"
         options={({navigation}) => ({
           title: 'Edit session',
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
         })}
         component={SessionDetails}
       />
@@ -182,7 +197,14 @@ const CreateSessionNavigator = () => (
     <CreateSessionStack.Screen
       name="ConfirmSession"
       component={ConfirmSession}
-      options={{title: 'Confirm Session Details'}}
+      options={{
+        title: 'Confirm Session Details',
+        // headerStyle: {
+        // backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        // },
+        // headerTintColor: '#ffffff',
+        // headerLeft: ()=>
+      }}
     />
   </CreateSessionStack.Navigator>
 );
@@ -238,17 +260,27 @@ const ProfileNavigator = ({navigation, route}) => {
         component={Session}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="Register"
-        component={Register}></ProfileStack.Screen>
+        component={Register}
+        options={({navigation}) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+        })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="Profile Volunteer Profile"
-        component={WaveTeamProfile}></ProfileStack.Screen>
+        component={WaveTeamProfile}
+        options={({navigation}) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+        })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="Profile ServiceUser Profile"
-        component={ServiceUserProfile}></ProfileStack.Screen>
+        component={ServiceUserProfile}
+        options={({navigation}) => ({
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+        })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="SessionDetails"
         options={({navigation}) => ({
           title: 'Edit session',
+          headerLeft: () => <BackButton onPress={navigation.goBack()} />,
         })}
         component={SessionDetails}
       />

@@ -12,11 +12,7 @@ import {
   IconButton,
   Card,
 } from 'react-native-paper';
-import {
-  ConfirmButton,
-  ChoicePopup,
-  SessionDetailsAccordionMenu,
-} from 'components';
+import {BackButton, ChoicePopup, SessionDetailsAccordionMenu} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
@@ -71,9 +67,8 @@ export default function ConfirmSession({route, navigation}) {
       headerRight: () => (
         <IconButton
           icon="check"
-          size={35}
+          size={36}
           testID="confirm-session-details"
-          // title="Confirm"
           onPress={() => setVisible((visible) => !visible)}
         />
       ),
@@ -83,14 +78,13 @@ export default function ConfirmSession({route, navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Button
+        <BackButton
           onPress={() => {
             console.log({descriptionOfSession});
             navigation.navigate('AddServiceUsers', {
               editedDescriptionOfSession: descriptionOfSession,
             });
           }}
-          title="Back"
         />
       ),
     });
