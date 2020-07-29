@@ -1,10 +1,11 @@
 import React from 'react';
-import {Button, useTheme} from 'react-native-paper';
-export default function ConfirmButton({title, onPress, testID, disabled}) {
+import {IconButton, useTheme} from 'react-native-paper';
+export default function BackButton({title, onPress, testID, disabled}) {
   const {maxWidth, colors, fonts} = useTheme();
   return (
-    <Button
-      color={colors.surface}
+    <IconButton
+      color={colors.primary}
+      size={36}
       icon="arrow-left"
       theme={{
         fonts: {
@@ -12,7 +13,6 @@ export default function ConfirmButton({title, onPress, testID, disabled}) {
         },
       }}
       elevation={1}
-      labelStyle={{color: colors.primary, fontSize: 36}}
       style={{
         // borderStyle: 1,
         alignSelf: 'center',
@@ -23,6 +23,6 @@ export default function ConfirmButton({title, onPress, testID, disabled}) {
       mode="contained"
       disabled={disabled}
       testID={testID}
-      onPress={onPress}></Button>
+      onPress={onPress}></IconButton>
   );
 }
