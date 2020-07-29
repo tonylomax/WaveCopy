@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import {useSelector} from 'react-redux';
-import {Title, Card, Paragraph, Caption} from 'react-native-paper';
+import {Title, Card, Paragraph, Caption, Subheading} from 'react-native-paper';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {generateDateTimeArray, generateNumberedArray} from 'utils';
@@ -19,6 +19,7 @@ import {
   MIN_NUMBER_OF_REPETITIONS,
   MAX_NUMBER_OF_REPETITIONS,
 } from 'constants';
+import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
@@ -47,9 +48,15 @@ export default function SessionDetails({navigation, route}) {
   const [sessionDate, setSessionDate] = useState(
     moment(new Date()).add(7, 'days').toDate(),
   );
-  const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
+  [showSessionType, setShowSessionType] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [sessionTime, setSessionTime] = useState(new Date());
-  const [showTimePicker, setShowTimePicker] = useState(Platform.OS === 'ios');
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  [showLocationPicker, setShowLocationPicker] = useState(false);
+  [showNumberOfVolunteersPicker, setShowNumberOfVolunteersPicker] = useState(
+    false,
+  );
+  [showNumberOfRepetitions, setShowNumberOfRepetitions] = useState(false);
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || sessionDate;
@@ -60,6 +67,16 @@ export default function SessionDetails({navigation, route}) {
     const currentTime = selectedTime || sessionTime;
     setShowTimePicker(Platform.OS === 'ios');
     setSessionTime(currentTime);
+  };
+
+  const closeAllExcept = (exceptThis) => {
+    setShowSessionType(false);
+    setShowDatePicker(false);
+    setShowTimePicker(false);
+    setShowLocationPicker(false);
+    setShowNumberOfVolunteersPicker(false);
+    setShowNumberOfRepetitions(false);
+    exceptThis(true);
   };
 
   useEffect(() => {
@@ -80,38 +97,58 @@ export default function SessionDetails({navigation, route}) {
   return (
     <SafeAreaView>
       <ScrollView testID="session-details-scroll-view">
-        {previousSessionData ? (
-          <Title>Editing session</Title>
-        ) : (
-          <Title testID="create-session-title">Create a session</Title>
-        )}
-
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
           <Card.Title title="Type of Session" />
-          <Picker
-            testID="type-of-session"
-            selectedValue={sessionType}
-            onValueChange={(itemValue, itemIndex) => setSessionType(itemValue)}>
-            <Picker.Item label="Surf club" value="surf-club" />
-            <Picker.Item label="Surf therapy" value="surf-therapy" />
-          </Picker>
-        </Card>
-        <View>
-          {Platform.OS === 'android' && (
+          {Platform.OS === 'ios' && (
+            <Subheading>
+              {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'}
+            </Subheading>
+          )}
+          {Platform.OS === 'ios' && (
             <Button
-              onPress={() => setShowDatePicker((current) => !current)}
-              title="Show date picker!"
+              title={`${showSessionType ? 'Close' : 'Change'}`}
+              onPress={() => {
+                if (!showSessionType) {
+                  closeAllExcept(setShowSessionType);
+                } else {
+                  setShowSessionType(false);
+                }
+              }}
             />
           )}
-        </View>
+          {(showSessionType || Platform.OS === 'android') && (
+            <Picker
+              testID="type-of-session"
+              selectedValue={sessionType}
+              onValueChange={(itemValue, itemIndex) =>
+                setSessionType(itemValue)
+              }>
+              <Picker.Item label="Surf club" value="surf-club" />
+              <Picker.Item label="Surf therapy" value="surf-therapy" />
+            </Picker>
+          )}
+        </Card>
 
-        {showDatePicker && (
-          <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
-            <Card.Title title="Date of Session" />
-            <Caption>
-              If you are creating multiple sessions, select the date of the
-              first session.
-            </Caption>
+        <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+          <Button
+            onPress={() => {
+              if (!showDatePicker) {
+                closeAllExcept(setShowDatePicker);
+              } else {
+                setShowDatePicker(false);
+              }
+            }}
+            title={`${showDatePicker ? 'Close' : 'Change'}`}
+          />
+          <Card.Title title="Date of Session" />
+          <Moment element={Subheading} format="LL">
+            {sessionDate}
+          </Moment>
+          <Caption>
+            If you are creating multiple sessions, select the date of the first
+            session.
+          </Caption>
+          {showDatePicker && (
             <DateTimePicker
               testID="date-of-session"
               value={sessionDate}
@@ -121,20 +158,25 @@ export default function SessionDetails({navigation, route}) {
               onChange={onChangeDate}
               minimumDate={new Date()}
             />
-          </Card>
-        )}
-        <View>
-          {Platform.OS === 'android' && (
-            <Button
-              onPress={() => setShowTimePicker((current) => !current)}
-              title="Show time picker!"
-            />
           )}
-        </View>
+        </Card>
 
-        {showTimePicker && (
-          <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
-            <Card.Title title="Time of Session" />
+        <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+          <Button
+            onPress={() => {
+              if (!showTimePicker) {
+                closeAllExcept(setShowTimePicker);
+              } else {
+                setShowTimePicker(false);
+              }
+            }}
+            title={`${showTimePicker ? 'Close' : 'Change'}`}
+          />
+          <Card.Title title="Time of Session" />
+          <Moment element={Subheading} format="HH:mm">
+            {sessionTime}
+          </Moment>
+          {showTimePicker && (
             <DateTimePicker
               testID="time-of-session"
               value={sessionTime}
@@ -143,63 +185,113 @@ export default function SessionDetails({navigation, route}) {
               display="default"
               onChange={onChangeTime}
             />
-          </Card>
-        )}
+          )}
+        </Card>
 
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+          {Platform.OS === 'ios' && (
+            <Button
+              onPress={() => {
+                if (!showLocationPicker) {
+                  closeAllExcept(setShowLocationPicker);
+                } else {
+                  setShowLocationPicker(false);
+                }
+              }}
+              title={`${showLocationPicker ? 'Close' : 'Change'}`}
+            />
+          )}
           <Card.Title title="Location of session" />
-          <Picker
-            testID="location-of-session"
-            selectedValue={location?.name}
-            onValueChange={(itemValue, itemIndex) => {
-              const ValueToAdd = beaches[itemIndex];
-              setLocation(ValueToAdd);
-            }}>
-            {beaches?.map((beach) => (
-              <Picker.Item
-                label={beach?.name}
-                value={beach?.name}
-                id={beach?.name}
-                key={beach?.name}
-              />
-            ))}
-          </Picker>
+          {Platform.OS === 'ios' && <Subheading>{location?.name}</Subheading>}
+          {(showLocationPicker || Platform.OS === 'android') && (
+            <Picker
+              testID="location-of-session"
+              selectedValue={location?.name}
+              onValueChange={(itemValue, itemIndex) => {
+                const ValueToAdd = beaches[itemIndex];
+                setLocation(ValueToAdd);
+              }}>
+              {beaches?.map((beach) => (
+                <Picker.Item
+                  label={beach?.name}
+                  value={beach?.name}
+                  id={beach?.name}
+                  key={beach?.name}
+                />
+              ))}
+            </Picker>
+          )}
         </Card>
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+          {Platform.OS === 'ios' && (
+            <Button
+              onPress={() => {
+                if (!showNumberOfVolunteersPicker) {
+                  closeAllExcept(setShowNumberOfVolunteersPicker);
+                } else {
+                  setShowNumberOfVolunteersPicker(false);
+                }
+              }}
+              title={`${showNumberOfVolunteersPicker ? 'Close' : 'Change'}`}
+            />
+          )}
           <Card.Title title="Number of volunteers" />
+          {Platform.OS === 'ios' && (
+            <Subheading>{numberOfVolunteers}</Subheading>
+          )}
           <Caption>The number of volunteers required for this session.</Caption>
-          <Picker
-            testID="number-of-volunteers"
-            selectedValue={numberOfVolunteers}
-            onValueChange={(itemValue, itemIndex) =>
-              setNumberOfVolunteers(itemValue)
-            }>
-            {generateNumberedArray(
-              MIN_NUMBER_OF_VOLUNTEERS,
-              MAX_NUMBER_OF_VOLUNTEERS,
-            ).map((n) => (
-              <Picker.Item label={n.toString()} value={n} key={n} />
-            ))}
-          </Picker>
-        </Card>
 
-        {!previousSessionData && (
-          <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
-            <Card.Title title="Number of repetitions" />
-            <Caption>To create a single session, select 0 repetitions.</Caption>
+          {(showNumberOfVolunteersPicker || Platform.OS === 'android') && (
             <Picker
-              testID="number-of-repetitions"
-              selectedValue={numberOfRepetitions}
+              testID="number-of-volunteers"
+              selectedValue={numberOfVolunteers}
               onValueChange={(itemValue, itemIndex) =>
-                setNumberOfRepetitions(itemValue)
+                setNumberOfVolunteers(itemValue)
               }>
               {generateNumberedArray(
-                MIN_NUMBER_OF_REPETITIONS,
-                MAX_NUMBER_OF_REPETITIONS,
+                MIN_NUMBER_OF_VOLUNTEERS,
+                MAX_NUMBER_OF_VOLUNTEERS,
               ).map((n) => (
                 <Picker.Item label={n.toString()} value={n} key={n} />
               ))}
             </Picker>
+          )}
+        </Card>
+
+        {!previousSessionData && (
+          <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+            {Platform.OS === 'ios' && (
+              <Button
+                onPress={() => {
+                  if (!showNumberOfRepetitions) {
+                    closeAllExcept(setShowNumberOfRepetitions);
+                  } else {
+                    setShowNumberOfRepetitions(false);
+                  }
+                }}
+                title={`${showNumberOfRepetitions ? 'Close' : 'Change'}`}
+              />
+            )}
+            <Card.Title title="Number of repetitions" />
+            {Platform.OS === 'ios' && (
+              <Subheading>{numberOfRepetitions}</Subheading>
+            )}
+            <Caption>To create a single session, select 0 repetitions.</Caption>
+            {(showNumberOfRepetitions || Platform.OS === 'android') && (
+              <Picker
+                testID="number-of-repetitions"
+                selectedValue={numberOfRepetitions}
+                onValueChange={(itemValue, itemIndex) =>
+                  setNumberOfRepetitions(itemValue)
+                }>
+                {generateNumberedArray(
+                  MIN_NUMBER_OF_REPETITIONS,
+                  MAX_NUMBER_OF_REPETITIONS,
+                ).map((n) => (
+                  <Picker.Item label={n.toString()} value={n} key={n} />
+                ))}
+              </Picker>
+            )}
           </Card>
         )}
 
