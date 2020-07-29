@@ -42,7 +42,7 @@ export default function Profile({navigation}) {
   const filteredSessions = useSelector((state) =>
     state.firestoreReducer.sessionData
       .filter((session) => {
-        return session.mentors.length !== session.maxMentors;
+        return session?.mentors?.length !== session.maxMentors;
       })
       .sort((a, b) => {
         return new Date(a.dateTime) - new Date(b.dateTime);
@@ -53,7 +53,7 @@ export default function Profile({navigation}) {
     state.firestoreReducer.roleSpecificSessionData
       .filter((session) => {
         console.log('session menotrs role specific ', session.mentors);
-        return session.mentors.length !== session.maxMentors;
+        return session?.mentors?.length !== session.maxMentors;
       })
       .sort((a, b) => {
         return new Date(a.dateTime) - new Date(b.dateTime);

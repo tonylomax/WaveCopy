@@ -7,6 +7,7 @@ export default (searchTerm) => {
   return new Promise(async (resolve, reject) => {
     try {
       const hits = await index.search(searchTerm);
+      console.log(hits);
       resolve(hits);
     } catch (err) {
       reject(err);
