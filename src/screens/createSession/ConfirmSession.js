@@ -113,10 +113,12 @@ export default function ConfirmSession({route, navigation}) {
 
         <Portal>
           <Modal
+            style={{alignContent: 'center'}}
             visible={confirmSessionModalVisible}
             onDismiss={toggleConfirmSessionModal}>
             <Card>
               <Card.Title
+                titleStyle={{alignSelf: 'center'}}
                 title={`${
                   previousSessionData
                     ? 'Would you like to save your changes?'

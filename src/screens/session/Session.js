@@ -406,7 +406,10 @@ export default function Session({navigation, route}) {
                 visible={deleteSessionModalVisible}
                 onDismiss={toggleDeleteSessionModal}>
                 <Card>
-                  <Card.Title title="Are you sure you want to delete this session?" />
+                  <Card.Title
+                    titleStyle={{alignSelf: 'center'}}
+                    title="Are you sure you want to delete this session?"
+                  />
                   <Card.Content>
                     <ConfirmButton
                       title="Yes"

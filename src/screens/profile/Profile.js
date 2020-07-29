@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useMemo} from 'react';
 import {
   View,
-  Text,
   SafeAreaView,
   TouchableOpacity,
   Image,
@@ -11,7 +10,6 @@ import {
 import {
   ConfirmButton,
   CloseButton,
-  ImageConfirmPopup,
   TrainingAccordionMenu,
   SessionListAccordionMenu,
 } from 'components';
@@ -141,7 +139,6 @@ export default function Profile({navigation, route}) {
       setProfileURL(url);
     });
   }, [newProfilePicUploadComplete]);
-  const getBeach = (beachID) => beaches.filter((beach) => (beach.id = beachID));
 
   // Could be imported as a component
   const imagePicker = () => {
@@ -180,23 +177,19 @@ export default function Profile({navigation, route}) {
             <Modal
               visible={imageConfirmPopup}
               onDismiss={() => setImageConfirmPopup(false)}>
-              <Card
-                style={{
-                  maxHeight: '75%',
-                  alignItems: 'center',
-                }}>
+              <Card>
                 <Card.Title
-                  style={{alignSelf: 'center', margin: 0}}
+                  titleStyle={{alignSelf: 'center'}}
                   title="Are you happy with this new profile picture?"
                 />
                 <Card.Content>
-                  <Image
-                    style={{
-                      alignSelf: 'center',
-                      height: '50%',
-                      width: '50%',
-                    }}
-                    source={{uri: uploadImg?.uri}}></Image>
+                  <Avatar.Image
+                    style={{alignSelf: 'center'}}
+                    testID="profilePic"
+                    size={100}
+                    source={{uri: uploadImg?.uri}}
+                  />
+
                   <ConfirmButton
                     title="Yes"
                     onPress={() => {
@@ -207,7 +200,11 @@ export default function Profile({navigation, route}) {
                         setuploadProgress,
                         newProfilePicUploadComplete,
                         setNewProfilePicUploadComplete,
-                      ).then(() => setImageConfirmPopup(false));
+                      ).then(() => {
+                        setshowProgressBar(false);
+                        setuploadProgress(0);
+                        setImageConfirmPopup(false);
+                      });
                     }}></ConfirmButton>
                   <CloseButton
                     title="No"
@@ -215,6 +212,7 @@ export default function Profile({navigation, route}) {
                       setImageConfirmPopup(false);
                     }}></CloseButton>
                   <ProgressBar
+                    style={{marginTop: '2.5%'}}
                     visible={showProgressBar}
                     progress={uploadProgress}
                   />
