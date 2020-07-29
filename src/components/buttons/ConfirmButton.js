@@ -5,6 +5,7 @@ export default function ConfirmButton({title, onPress, testID, disabled}) {
   const {maxWidth} = useTheme();
   return (
     <Button
+      style={{alignSelf: 'center'}}
       maxWidth={maxWidth}
       mode="contained"
       disabled={disabled}

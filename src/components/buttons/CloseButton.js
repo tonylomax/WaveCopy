@@ -7,6 +7,7 @@ export default function CloseButton({title, onPress, testID}) {
 
   return (
     <Button
+      style={{alignSelf: 'center'}}
       maxWidth={maxWidth}
       theme={{colors: {primary: CustomColours.GREY}}}
       mode="contained"

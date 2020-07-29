@@ -287,13 +287,12 @@ export default function Session({navigation, route}) {
             </Paragraph>
 
             {/* Cover coordinator */}
-            <Title style={{alignSelf: 'center'}}>
-              Coordinator{'\n'}
-              <Paragraph>
-                {' '}
-                {coordinator?.firstName} {coordinator?.lastName}
-              </Paragraph>
-            </Title>
+
+            <Title style={{alignSelf: 'center'}}>Coordinator</Title>
+            <Paragraph style={{alignSelf: 'center'}}>
+              {' '}
+              {coordinator?.firstName} {coordinator?.lastName}
+            </Paragraph>
 
             {/* Session description */}
             <Paragraph>{sessionData?.description}</Paragraph>

@@ -10,7 +10,7 @@ import {
 } from 'react-native-paper';
 import Highlighter from 'react-native-highlight-words';
 import {searchFirestoreServiceUsers} from 'utils';
-import {ConfirmButton} from 'components';
+import {ConfirmButton, CloseButton} from 'components';
 
 export default function AddServiceUsers({route, navigation}) {
   const {
@@ -148,7 +148,7 @@ export default function AddServiceUsers({route, navigation}) {
           <List.Item
             title={`${serviceUser?.firstName} ${serviceUser?.lastName}`}
             right={() => (
-              <ConfirmButton
+              <CloseButton
                 title="remove"
                 onPress={() => {
                   console.log('clicked on id ', serviceUser?.objectID);
