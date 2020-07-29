@@ -86,13 +86,21 @@ export default function SessionDetails({navigation, route}) {
       setSessionDate(new Date(previousSessionData?.dateTime));
       setSessionTime(new Date(previousSessionData?.dateTime));
     }
-    if (previousSessionData?.beach) {
-      const prevBeachIndex = beaches.findIndex(
-        (beach) => beach.name === previousSessionData?.beach,
-      );
-      setLocation(beaches[prevBeachIndex]);
-    } else setLocation(beaches[0]);
   }, []);
+
+  useEffect(() => {
+    if (beaches) {
+      if (previousSessionData?.beach) {
+        const prevBeachIndex = beaches.findIndex(
+          (beach) => beach.name === previousSessionData?.beach,
+        );
+        setLocation(beaches[prevBeachIndex]);
+      } else setLocation(beaches[0]);
+    }
+    // if (!location) {
+    //   setLocation(beaches[0]);
+    // }
+  }, [beaches]);
 
   return (
     <SafeAreaView>

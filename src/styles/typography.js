@@ -1,8 +1,8 @@
 module.exports = {
-  H1: {
+  AmaticSCBold: {
     fontFamily: 'AmaticSC-Bold',
   },
-  BODY: {
-    fontFamily: 'Lato-Black',
-  },
+  LatoBlack: {fontFamily: 'Lato-Black'},
+  LatoLight: {fontFamily: 'Lato-Light'},
+  LatoThin: {fontFamily: 'Lato-Thin'},
 };
