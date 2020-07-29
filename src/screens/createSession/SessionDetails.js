@@ -96,7 +96,9 @@ export default function SessionDetails({navigation, route}) {
 
   return (
     <SafeAreaView>
-      <ScrollView testID="session-details-scroll-view">
+      <ScrollView
+        testID="session-details-scroll-view"
+        ref={(scrollView) => (this.scrollView = scrollView)}>
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
           <Card.Title title="Type of Session" />
           {Platform.OS === 'ios' && (
@@ -264,7 +266,14 @@ export default function SessionDetails({navigation, route}) {
               <Button
                 onPress={() => {
                   if (!showNumberOfRepetitions) {
+                    // WARNING THIS MAY NEED TO BE REMOVED
+                    // Close all the pickers except the number of reps picker and scroll to bottom after react has
+                    // re-rendered the scroll view.
                     closeAllExcept(setShowNumberOfRepetitions);
+                    setTimeout(() => {
+                      this.scrollView.scrollToEnd();
+                    }, 0);
+                    // WARNING THIS MAY NEED TO BE REMOVED
                   } else {
                     setShowNumberOfRepetitions(false);
                   }
