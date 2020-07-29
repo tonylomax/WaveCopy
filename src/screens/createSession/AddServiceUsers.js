@@ -8,6 +8,7 @@ import {
   Divider,
   Paragraph,
 } from 'react-native-paper';
+import Highlighter from 'react-native-highlight-words';
 import {searchFirestoreServiceUsers} from 'utils';
 
 export default function AddServiceUsers({route, navigation}) {
@@ -118,7 +119,13 @@ export default function AddServiceUsers({route, navigation}) {
             return (
               <View>
                 <List.Item
-                  title={`${item?.firstName} ${item?.lastName}`}
+                  title={
+                    <Highlighter
+                      highlightStyle={{backgroundColor: '#F2EAA7'}}
+                      searchWords={[searchTerm]}
+                      textToHighlight={`${item?.firstName} ${item?.lastName}`}
+                    />
+                  }
                   right={() => (
                     <Button onPress={() => addUser(item)} title="Add user" />
                   )}
