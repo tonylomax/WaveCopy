@@ -275,7 +275,7 @@ export default function Session({navigation, route}) {
                         // ...
                       });
                   }}
-                  title="Notify mentors of session"
+                  title="Notify mentors"
                 />
               )}
 
@@ -391,7 +391,7 @@ export default function Session({navigation, route}) {
                 {/* DElETE SESSION */}
                 {userHasPermission(userData?.roles) && (
                   <CloseButton
-                    title="Delete session"
+                    title="Delete"
                     testID="delete-session-button"
                     onPress={() => toggleDeleteSessionModal()}>
                     Register

@@ -3,13 +3,20 @@ import CustomColours from '../../styles/colours';
 import {Button, useTheme} from 'react-native-paper';
 
 export default function CloseButton({title, onPress, testID}) {
-  const {colours, maxWidth} = useTheme();
+  const {colors, maxWidth, fonts} = useTheme();
 
   return (
     <Button
-      style={{alignSelf: 'center'}}
       maxWidth={maxWidth}
-      theme={{colors: {primary: CustomColours.GREY}}}
+      theme={{
+        fonts: {
+          medium: fonts.button,
+        },
+      }}
+      style={{
+        alignSelf: 'center',
+        backgroundColor: colors.backdrop,
+      }}
       mode="contained"
       testID={testID}
       onPress={onPress}>
