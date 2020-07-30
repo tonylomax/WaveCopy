@@ -6,11 +6,11 @@ import {
   CloseButton,
 } from './buttons/index';
 import {PersonCardSession} from './cards/index';
-import {ChoicePopup, ConfirmPopup, ImageConfirmPopup} from './popups/index';
+import {ConfirmPopup, ImageConfirmPopup} from './popups/index';
 import RegisterTabs from './RegisterTabs';
 import LoadingScreen from './LoadingScreen';
 import ResetPassword from './ResetPassword';
-import CurvedTabBar from './CurvedTabBar'
+import CurvedTabBar from './CurvedTabBar';
 
 import {
   SessionDetailsAccordionMenu,
@@ -27,12 +27,11 @@ export {
   PersonCardSession,
   RegisterTabs,
   LoadingScreen,
-  ChoicePopup,
   ConfirmPopup,
   ImageConfirmPopup,
   ResetPassword,
   SessionDetailsAccordionMenu,
   TrainingAccordionMenu,
   SessionListAccordionMenu,
-  CurvedTabBar
+  CurvedTabBar,
 };

@@ -15,7 +15,6 @@ import {
   SessionDetailsAccordionMenu,
   ConfirmButton,
   CloseButton,
-  ChoicePopup,
   LoadingScreen,
 } from 'components';
 import {Edit_Icon} from 'assets';
@@ -46,7 +45,15 @@ import {
   getSessionLeadName,
   getCoverImage,
 } from 'utils';
-import {Card, Title, Divider, Paragraph, Button} from 'react-native-paper';
+import {
+  Card,
+  Title,
+  Divider,
+  Paragraph,
+  Button,
+  Portal,
+  Modal,
+} from 'react-native-paper';
 import {COLLECTIONS} from 'constants';
 import {startCase} from 'lodash';
 
@@ -100,6 +107,16 @@ export default function Session({navigation, route}) {
     userData?.roles?.includes('Coordinator');
   const [CoverImage, setCoverImage] = useState();
   const [daysUntilSession, setDaysUntilSession] = useState(0);
+
+  const [deleteSessionModalVisible, setDeleteSessionModalVisible] = useState(
+    false,
+  );
+
+  const toggleDeleteSessionModal = () =>
+    setDeleteSessionModalVisible(
+      (deleteSessionModalVisible) => !deleteSessionModalVisible,
+    );
+
   //LOCAL STATE
 
   useEffect(() => {
@@ -135,10 +152,6 @@ export default function Session({navigation, route}) {
     };
   }, [sessionDataMentors]);
 
-  // useEffect(() => {
-  //   console.log('userData', userData.roles);
-  // }, userData);
-
   useEffect(() => {
     // Set up subscription for all the session data
 
@@ -155,7 +168,7 @@ export default function Session({navigation, route}) {
   }, []);
 
   useEffect(() => {
-    setDaysUntilSession(moment(sessionData.dateTime).diff(new Date(), 'days'));
+    setDaysUntilSession(moment(sessionData?.dateTime).diff(new Date(), 'days'));
     const SURFLEAD = selectedSessionMentorsData?.filter(
       (mentor) => mentor.id === sessionLeadID,
     );
@@ -380,7 +393,7 @@ export default function Session({navigation, route}) {
                   <CloseButton
                     title="Delete"
                     testID="delete-session-button"
-                    onPress={() => setVisible((visible) => !visible)}>
+                    onPress={() => toggleDeleteSessionModal()}>
                     Register
                   </CloseButton>
                 )}
@@ -388,28 +401,46 @@ export default function Session({navigation, route}) {
               </Card.Actions>
             </Card>
 
-            <ChoicePopup
-              choiceText={'Are you sure you want to delete this session?'}
-              testID="choicePopup"
-              visible={visible}
-              setVisible={setVisible}
-              yesAction={() => {
-                console.log('deleting session');
-                deleteSession(id, uid)
-                  .then((res) => {
-                    console.log('deleted session res', res);
-                    const RouteDestination =
-                      route.name === 'HomeSession' ? 'Home' : 'Profile';
-                    console.log('route destination ', RouteDestination);
-                    navigation.dispatch(
-                      CommonActions.reset({
-                        index: 0,
-                        routes: [{name: RouteDestination}],
-                      }),
-                    );
-                  })
-                  .catch((err) => console.log('error deleting session', err));
-              }}></ChoicePopup>
+            <Portal>
+              <Modal
+                visible={deleteSessionModalVisible}
+                onDismiss={toggleDeleteSessionModal}>
+                <Card>
+                  <Card.Title
+                    titleStyle={{alignSelf: 'center', fontSize: 18}}
+                    title="Are you sure you want to delete this session?"
+                  />
+                  <Card.Content>
+                    <ConfirmButton
+                      title="Yes"
+                      onPress={() => {
+                        console.log('deleting session');
+                        deleteSession(id, uid)
+                          .then((res) => {
+                            console.log('deleted session res', res);
+                            const RouteDestination =
+                              route.name === 'HomeSession' ? 'Home' : 'Profile';
+                            console.log('route destination ', RouteDestination);
+                            navigation.dispatch(
+                              CommonActions.reset({
+                                index: 0,
+                                routes: [{name: RouteDestination}],
+                              }),
+                            );
+                          })
+                          .catch((err) =>
+                            console.log('error deleting session', err),
+                          );
+                      }}></ConfirmButton>
+                    <CloseButton
+                      title="No"
+                      onPress={() => {
+                        toggleDeleteSessionModal();
+                      }}></CloseButton>
+                  </Card.Content>
+                </Card>
+              </Modal>
+            </Portal>
           </View>
         </View>
       </ScrollView>
