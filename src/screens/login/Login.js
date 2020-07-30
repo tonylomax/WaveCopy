@@ -5,7 +5,7 @@ import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
 import {useDispatch} from 'react-redux';
 import {serializeError} from 'serialize-error';
-import {ConfirmButton} from './../../components';
+import {ConfirmButton, LoadingScreen} from './../../components';
 
 export default function Home({navigation, setLoggedIn}) {
   const dispatch = useDispatch();
@@ -13,10 +13,13 @@ export default function Home({navigation, setLoggedIn}) {
   //LOCAL STATE
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [loading, setLoading] = useState(false);
   //LOCAL STATE
 
   return (
     <SafeAreaView>
+      <LoadingScreen visible={loading} />
+
       <View>
         <Image
           source={require('../../assets/images/logos/Logo_Square_Blue_Unnamed.png')}
@@ -42,6 +45,7 @@ export default function Home({navigation, setLoggedIn}) {
           title="Log In"
           testID="submit-login-details"
           onPress={() => {
+            setLoading(true);
             loginWithEmail(email, password, setLoggedIn).then((result) => {
               const serializedResult = serializeError(result);
               console.log('message', serializedResult.message);

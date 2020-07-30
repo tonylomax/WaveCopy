@@ -21,7 +21,7 @@ export default function Onboarding({navigation}) {
   const [bio, setBio] = useState();
   const [selectedRegion, setSelectedRegion] = useState();
   const [showRegionPicker, setShowRegionPicker] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   //LOCAL STATE
 
   //REDUX STATE
