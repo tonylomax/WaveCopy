@@ -108,9 +108,9 @@ export default function Session({navigation, route}) {
 
   useEffect(() => {
     // console.log('sessionData', sessionData);
-    console.log('sessionData', sessionData?.mentors);
+    // console.log('sessionData', sessionData?.mentors);
     // console.log('MENTORS', Mentors);
-    console.log('selectedSessionMentorsData', selectedSessionMentorsData);
+    // console.log('selectedSessionMentorsData', selectedSessionMentorsData);
     // Set up subscription for all the data relating to the mentors in a session
     const mentorsUnsubscribers = updateCurrentSessionAttendees(
       sessionData?.mentors,
@@ -164,7 +164,7 @@ export default function Session({navigation, route}) {
   }, [selectedSessionMentorsData, sessionData]);
 
   useEffect(() => {
-    console.log('sessionData', sessionData);
+    // console.log('sessionData', sessionData);
     (async () => {
       setCoordinator(await retrieveCoordinatorData(sessionData?.coordinatorID));
     })();

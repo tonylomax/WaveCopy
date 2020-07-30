@@ -12,6 +12,7 @@ import {
   subscribeToSessionAttendees,
   getRegions,
   clearCurrentSession,
+  updateHomeIndex,
 } from './actions';
 
 export {
@@ -28,4 +29,5 @@ export {
   subscribeToSessionAttendees,
   getRegions,
   clearCurrentSession,
+  updateHomeIndex,
 };

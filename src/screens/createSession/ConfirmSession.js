@@ -31,6 +31,7 @@ import {
   createSessionInFirestore,
   getCoverImage,
   updateSessionInFirestore,
+  setHomeIndex,
 } from 'utils';
 import {useSelector} from 'react-redux';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -113,6 +114,7 @@ export default function ConfirmSession({route, navigation}) {
           visible={visible}
           setVisible={setVisible}
           yesAction={() => {
+            setHomeIndex(0);
             console.log('creating a session');
             // console.log(userData);
             console.log('previous session data', previousSessionID);
