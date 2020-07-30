@@ -171,9 +171,12 @@ const HomeNavigator = ({navigation, route}) => {
         name="Home ServiceUser Profile"
         component={ServiceUserProfile}
         options={({navigation}) => ({
-          headerTitle: 'Surfer profile',
+          headerTitle: '',
+          headerTransparent: true,
           headerTitleStyle: {textAlign: 'center'},
-          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerLeft: () => (
+            <BackButton isLight={true} onPress={() => navigation.goBack()} />
+          ),
           headerRight: () => <View />,
         })}></HomeStack.Screen>
       <HomeStack.Screen
@@ -336,9 +339,12 @@ const ProfileNavigator = ({navigation, route}) => {
         name="Profile ServiceUser Profile"
         component={ServiceUserProfile}
         options={({navigation}) => ({
-          headerTitle: 'Surfer profile',
+          headerTitle: '',
+          headerTransparent: true,
           headerTitleStyle: {textAlign: 'center'},
-          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerLeft: () => (
+            <BackButton isLight={true} onPress={() => navigation.goBack()} />
+          ),
           headerRight: () => <View />,
         })}></ProfileStack.Screen>
       <ProfileStack.Screen

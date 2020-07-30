@@ -14,6 +14,7 @@ export default theme = {
     placeholder: CustomColours.BLACK,
     backdrop: CustomColours.GREY,
     tertiary: CustomColours.LIME_GREEN,
+    dark_second: CustomColours.DARK_GREY,
   },
   fonts: {
     regular: CustomFonts.LatoBlack,
