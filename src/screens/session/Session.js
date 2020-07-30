@@ -46,7 +46,14 @@ import {
   getSessionLeadName,
   getCoverImage,
 } from 'utils';
-import {Card, Title, Divider, Paragraph, Button} from 'react-native-paper';
+import {
+  Card,
+  Title,
+  Divider,
+  Paragraph,
+  Button,
+  IconButton,
+} from 'react-native-paper';
 import {COLLECTIONS} from 'constants';
 import {startCase} from 'lodash';
 
@@ -168,6 +175,29 @@ export default function Session({navigation, route}) {
     (async () => {
       setCoordinator(await retrieveCoordinatorData(sessionData?.coordinatorID));
     })();
+    if (userHasPermission(userData?.roles) || sessionLeadID === uid) {
+      navigation.setOptions({
+        headerRight: () => (
+          <IconButton
+            icon="square-edit-outline"
+            size={36}
+            onPress={() => {
+              console.log('navigating to session details');
+              console.log({sessionData});
+              console.log({selectedSessionAttendeesData});
+              console.log({selectedSessionMentorsData});
+              console.log({id});
+              console.log('route name ', route.name);
+              navigation.push('SessionDetails', {
+                previousSessionData: sessionData,
+                previouslySelectedAttendees: selectedSessionAttendeesData,
+                previouslySelectedMentors: selectedSessionMentorsData,
+                previousSessionID: id,
+              });
+            }}></IconButton>
+        ),
+      });
+    }
   }, [sessionData]);
 
   const leaveSession = (id, uid, sessionLeadID) => {
@@ -190,35 +220,6 @@ export default function Session({navigation, route}) {
             style={{height: 175, width: '100%'}}
             source={CoverImage}>
             {/* Edit session button */}
-            {(userHasPermission(userData?.roles) || sessionLeadID === uid) && (
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row-reverse',
-                }}>
-                <TouchableOpacity
-                  style={{}}
-                  onPress={() => {
-                    navigation.push('SessionDetails', {
-                      previousSessionData: sessionData,
-                      previouslySelectedAttendees: selectedSessionAttendeesData,
-                      previouslySelectedMentors: selectedSessionMentorsData,
-                      previousSessionID: id,
-                    });
-                  }}>
-                  <Image
-                    style={{
-                      height: 50,
-                      width: 50,
-                      overflow: 'visible',
-                      tintColor: 'white',
-                      marginRight: '1%',
-                      marginTop: '10%',
-                    }}
-                    source={Edit_Icon}></Image>
-                </TouchableOpacity>
-              </View>
-            )}
           </ImageBackground>
 
           <View>

@@ -138,14 +138,11 @@ const HomeNavigator = ({navigation, route}) => {
         name="HomeSession"
         component={Session}
         options={({navigation}) => ({
-          headerShown: true,
-          headerTransparent: true,
           headerTitleStyle: {
             alignSelf: 'center',
             backgroundColor: 'transparent',
           },
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
-          headerRight: () => <View />,
           headerTitle: 'Session',
         })}></HomeStack.Screen>
       <HomeStack.Screen
@@ -292,13 +289,13 @@ const ProfileNavigator = ({navigation, route}) => {
       <ProfileStack.Screen
         name="ProfileSession"
         component={Session}
-        options={{
+        options={({navigation}) => ({
           title: 'Session',
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
           // headerTitleStyle: {alignSelf: 'center', textAlign: 'center', flex: 1},
           // headerTitleAlign: 'center',
           // headerTitleStyle: {textAlign: 'center'},
-          headerRight: () => <View />,
-        }}></ProfileStack.Screen>
+        })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="Register"
         component={Register}
