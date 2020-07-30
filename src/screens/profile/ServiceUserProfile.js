@@ -58,6 +58,7 @@ export default function ServiceUserProfile({route}) {
         </TouchableOpacity>
 
         <CallPerson
+          disabled={serviceUser?.number ? false : true}
           onPress={async () => {
             await Linking.openURL(`tel:${serviceUser?.number}`).catch((err) => {
               console.log(err);
