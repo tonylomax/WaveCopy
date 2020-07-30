@@ -1,6 +1,15 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Linking} from 'react-native';
-import {CallPerson} from 'components';
+import {
+  View,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  Linking,
+  ImageBackground,
+} from 'react-native';
+import {Title, Paragraph, Surface, Subheading} from 'react-native-paper';
+import {CallPerson, SurferAvatar} from 'components';
+import {coverWave} from '../../assets/';
 
 export default function ServiceUserProfile({route}) {
   const {serviceUser, roles} = route.params;
@@ -8,25 +17,55 @@ export default function ServiceUserProfile({route}) {
   console.log('serviceUser in serviceuser profile', serviceUser);
 
   return (
-    <View>
-      <Text>
-        {serviceUser?.firstName} {serviceUser?.lastName}
-      </Text>
-      <Text>Age:</Text>
-      <Text>Reason for referral: </Text>
-      <Text>Triggers: </Text>
-      <Text>Reactions </Text>
-      <Text>Medical requirements </Text>
-      <TouchableOpacity
-        onPress={async () => {
-          await Linking.openURL(`tel:${serviceUser?.number}`).catch((err) => {
-            console.log(err);
-          });
+    <SafeAreaView>
+      <ImageBackground style={{height: 175, width: '100%'}} source={coverWave}>
+        {/* Edit session button */}
+      </ImageBackground>
+      <SurferAvatar
+        label={`${serviceUser?.firstName.charAt(
+          0,
+        )}${serviceUser?.lastName.charAt(0)}`}
+      />
+      <View
+        style={{
+          paddingTop: '20%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyItems: 'center',
         }}>
-        <Text>Emergency contacts: {serviceUser?.number} </Text>
-      </TouchableOpacity>
+        <Title>
+          {serviceUser?.firstName} {serviceUser?.lastName}{' '}
+          {serviceUser?.age && `, ${serviceUser.age}`}
+        </Title>
+        <Subheading>Reason for referral </Subheading>
 
-      <CallPerson title="Call Parent"></CallPerson>
-    </View>
+        <Subheading>Triggers </Subheading>
+
+        <Subheading>Reactions </Subheading>
+
+        <Subheading>Medical requirements </Subheading>
+
+        <Subheading>Emergency contacts</Subheading>
+        <TouchableOpacity
+          onPress={async () => {
+            await Linking.openURL(`tel:${serviceUser?.number}`).catch((err) => {
+              console.log(err);
+            });
+          }}>
+          <Paragraph>
+            {serviceUser?.number ? serviceUser?.number : 'No number'}
+          </Paragraph>
+        </TouchableOpacity>
+
+        <CallPerson
+          disabled={serviceUser?.number ? false : true}
+          onPress={async () => {
+            await Linking.openURL(`tel:${serviceUser?.number}`).catch((err) => {
+              console.log(err);
+            });
+          }}
+          title="Call Parent"></CallPerson>
+      </View>
+    </SafeAreaView>
   );
 }

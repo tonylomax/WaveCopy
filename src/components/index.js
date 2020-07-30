@@ -12,7 +12,7 @@ import RegisterTabs from './RegisterTabs';
 import LoadingScreen from './LoadingScreen';
 import ResetPassword from './ResetPassword';
 import CurvedTabBar from './CurvedTabBar';
-
+import SurferAvatar from './SurferAvatar';
 import {
   SessionDetailsAccordionMenu,
   TrainingAccordionMenu,
@@ -20,6 +20,7 @@ import {
 } from './accordions/index';
 
 export {
+  SurferAvatar,
   BackButton,
   ConfirmButton,
   AddButton,
