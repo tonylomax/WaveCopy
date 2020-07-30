@@ -4,7 +4,7 @@ export default function BackButton({title, onPress, testID, disabled}) {
   const {maxWidth, colors, fonts} = useTheme();
   return (
     <IconButton
-      color={colors.primary}
+      color={colors.background}
       size={36}
       icon="arrow-left"
       theme={{

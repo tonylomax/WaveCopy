@@ -26,7 +26,7 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
-
+import {coverWave} from '../../assets/';
 import {
   getAllSessionAttendees,
   getAllSessionMentors,
@@ -122,7 +122,7 @@ export default function Session({navigation, route}) {
   //LOCAL STATE
 
   useEffect(() => {
-    setCoverImage(getCoverImage(selectedBeach));
+    setCoverImage(coverWave);
   }, []);
 
   useEffect(() => {
@@ -187,6 +187,7 @@ export default function Session({navigation, route}) {
       navigation.setOptions({
         headerRight: () => (
           <IconButton
+            color="white"
             icon="square-edit-outline"
             size={36}
             onPress={() => {

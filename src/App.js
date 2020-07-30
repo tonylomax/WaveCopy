@@ -138,12 +138,15 @@ const HomeNavigator = ({navigation, route}) => {
         name="HomeSession"
         component={Session}
         options={({navigation}) => ({
+          headerShown: true,
+          headerTransparent: true,
           headerTitleStyle: {
+            color: 'white',
             alignSelf: 'center',
             backgroundColor: 'transparent',
           },
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
-          headerTitle: 'Session',
+          headerTitle: '',
         })}></HomeStack.Screen>
       <HomeStack.Screen
         name="Register"
@@ -194,8 +197,14 @@ const HomeNavigator = ({navigation, route}) => {
         name="ConfirmSession"
         component={ConfirmSession}
         options={{
+          headerShown: true,
+          headerTransparent: true,
+          headerTitleStyle: {
+            color: 'white',
+            alignSelf: 'center',
+            backgroundColor: 'transparent',
+          },
           title: 'Confirm Edit',
-          headerTitleStyle: {textAlign: 'center'},
         }}
       />
     </HomeStack.Navigator>
@@ -225,13 +234,14 @@ const CreateSessionNavigator = () => (
       name="ConfirmSession"
       component={ConfirmSession}
       options={{
+        headerShown: true,
+        headerTransparent: true,
+        headerTitleStyle: {
+          color: 'white',
+          alignSelf: 'center',
+          textAlign: 'center',
+        },
         title: 'Confirm Session',
-        headerTitleStyle: {textAlign: 'center'},
-        // headerStyle: {
-        // backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        // },
-        // headerTintColor: '#ffffff',
-        // headerLeft: ()=>
       }}
     />
   </CreateSessionStack.Navigator>
@@ -290,6 +300,13 @@ const ProfileNavigator = ({navigation, route}) => {
         name="ProfileSession"
         component={Session}
         options={({navigation}) => ({
+          headerShown: true,
+          headerTransparent: true,
+          headerTitleStyle: {
+            color: 'white',
+            alignSelf: 'center',
+            backgroundColor: 'transparent',
+          },
           title: 'Session',
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
           headerTitleAlign: 'center',
@@ -342,8 +359,14 @@ const ProfileNavigator = ({navigation, route}) => {
         name="ConfirmSession"
         component={ConfirmSession}
         options={{
+          headerShown: true,
+          headerTransparent: true,
+          headerTitleStyle: {
+            color: 'white',
+            alignSelf: 'center',
+            backgroundColor: 'transparent',
+          },
           title: 'Confirm Edit',
-          headerTitleStyle: {textAlign: 'center'},
           headerRight: () => <View />,
         }}
       />
