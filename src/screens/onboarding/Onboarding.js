@@ -87,10 +87,10 @@ export default function Onboarding({navigation}) {
           title="Go Home"
           onPress={() => {
             setLoading(true);
-            toggleIsNewUser(uid);
             updateOwnContactNumber(contactNumber, uid);
             updateOwnBio(bio, uid);
             updateOwnRegion(selectedRegion, uid);
+            toggleIsNewUser(uid);
           }}></ConfirmButton>
       </View>
     </SafeAreaView>
