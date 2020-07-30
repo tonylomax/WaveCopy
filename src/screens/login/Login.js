@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, Button, Image, Alert, SafeAreaView} from 'react-native';
-import {TextInput, Caption, Headline} from 'react-native-paper';
+import {TextInput, Caption, useTheme} from 'react-native-paper';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
-import {useDispatch} from 'react-redux';
+
 import {serializeError} from 'serialize-error';
 import {ConfirmButton} from './../../components';
+import {Logo_Square_White_Named} from 'assets';
 
 export default function Home({navigation, setLoggedIn}) {
-  const dispatch = useDispatch();
+  const {buttonTopMargin} = useTheme();
 
   //LOCAL STATE
   const [email, setEmail] = useState();
@@ -16,21 +17,35 @@ export default function Home({navigation, setLoggedIn}) {
   //LOCAL STATE
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1, backgroundColor: COLOURS.DEEP_BLUE}}>
       <View>
         <Image
-          source={require('../../assets/images/logos/Logo_Square_Blue_Unnamed.png')}
+          style={{
+            alignSelf: 'center',
+            tintColor: 'white',
+            marginTop: 70,
+          }}
+          source={Logo_Square_White_Named}
         />
-        <Headline>The Wave Project</Headline>
 
         <Caption>Email</Caption>
         <TextInput
+          mode="outlined"
+          style={{maxWidth: '90%', minWidth: '90%', alignSelf: 'center'}}
+          placeholder="Email"
           autoCapitalize="none"
           testID="email"
           onChangeText={(inputEmail) => setEmail(inputEmail)}
         />
         <Caption>Password</Caption>
         <TextInput
+          mode="outlined"
+          style={{
+            maxWidth: '90%',
+            minWidth: '90%',
+            alignSelf: 'center',
+          }}
+          placeholder="Password"
           secureTextEntry={true}
           autoCapitalize="none"
           testID="password"
@@ -39,6 +54,7 @@ export default function Home({navigation, setLoggedIn}) {
           }}
         />
         <ConfirmButton
+          style={{marginTop: 50}}
           title="Log In"
           testID="submit-login-details"
           onPress={() => {
