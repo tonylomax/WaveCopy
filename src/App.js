@@ -145,7 +145,9 @@ const HomeNavigator = ({navigation, route}) => {
             alignSelf: 'center',
             backgroundColor: 'transparent',
           },
-          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerLeft: () => (
+            <BackButton isLight={true} onPress={() => navigation.goBack()} />
+          ),
           headerTitle: '',
         })}></HomeStack.Screen>
       <HomeStack.Screen
@@ -204,7 +206,7 @@ const HomeNavigator = ({navigation, route}) => {
             alignSelf: 'center',
             backgroundColor: 'transparent',
           },
-          title: 'Confirm Edit',
+          title: '',
         }}
       />
     </HomeStack.Navigator>
@@ -241,7 +243,7 @@ const CreateSessionNavigator = () => (
           alignSelf: 'center',
           textAlign: 'center',
         },
-        title: 'Confirm Session',
+        title: '',
       }}
     />
   </CreateSessionStack.Navigator>
@@ -307,8 +309,10 @@ const ProfileNavigator = ({navigation, route}) => {
             alignSelf: 'center',
             backgroundColor: 'transparent',
           },
-          title: 'Session',
-          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          title: '',
+          headerLeft: () => (
+            <BackButton isLight={true} onPress={() => navigation.goBack()} />
+          ),
           headerTitleAlign: 'center',
         })}></ProfileStack.Screen>
       <ProfileStack.Screen
@@ -366,7 +370,7 @@ const ProfileNavigator = ({navigation, route}) => {
             alignSelf: 'center',
             backgroundColor: 'transparent',
           },
-          title: 'Confirm Edit',
+          title: '',
           headerRight: () => <View />,
         }}
       />

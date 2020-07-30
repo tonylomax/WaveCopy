@@ -93,7 +93,7 @@ export default function ConfirmSession({route, navigation}) {
         <IconButton
           color="white"
           icon="check"
-          size={36}
+          size={40}
           testID="confirm-session-details"
           onPress={() => setVisible((visible) => !visible)}
           onPress={() => toggleConfirmSessionModal()}
@@ -106,6 +106,7 @@ export default function ConfirmSession({route, navigation}) {
     navigation.setOptions({
       headerLeft: () => (
         <BackButton
+          isLight={true}
           onPress={() => {
             console.log({descriptionOfSession});
             navigation.navigate('AddServiceUsers', {

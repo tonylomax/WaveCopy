@@ -1,11 +1,17 @@
 import React from 'react';
 import {IconButton, useTheme} from 'react-native-paper';
-export default function BackButton({title, onPress, testID, disabled}) {
+export default function BackButton({
+  title,
+  onPress,
+  testID,
+  disabled,
+  isLight,
+}) {
   const {maxWidth, colors, fonts} = useTheme();
   return (
     <IconButton
-      color={colors.background}
-      size={36}
+      color={isLight ? colors.background : colors.primary}
+      size={40}
       icon="arrow-left"
       theme={{
         fonts: {
