@@ -11,9 +11,10 @@ export default theme = {
     surface: CustomColours.WHITE,
     text: CustomColours.DEEP_BLUE,
     disabled: CustomColours.GREY,
-    placeholder: CustomColours.BLACK,
+    placeholder: CustomColours.GREY,
     backdrop: CustomColours.GREY,
     tertiary: CustomColours.LIME_GREEN,
+    dark_second: CustomColours.DARK_GREY,
   },
   fonts: {
     regular: CustomFonts.LatoBlack,
@@ -22,6 +23,6 @@ export default theme = {
     thin: CustomFonts.LatoThin,
     button: CustomFonts.LatoBlack,
   },
-
+  buttonTopMargin: 50,
   maxWidth: 250,
 };

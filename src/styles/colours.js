@@ -7,4 +7,5 @@ module.exports = {
   MINT: '#6FACAE',
   WHITE: '#FFFFFF',
   BLACK: '#000000',
+  DARK_GREY: '#727272',
 };

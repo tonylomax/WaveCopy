@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "start": "react-native start",
+    "ios": "react-native run-ios --simulator='iPhone 5s'",
+    "start": "react-native start ",
     "test": "jest ",
     "lint": "eslint .",
     "detox-build": "detox build -c android & detox build -c ios",

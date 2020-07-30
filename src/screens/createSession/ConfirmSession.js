@@ -1,6 +1,14 @@
 // TO DO - merge this with session/EditSession.js
 import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {View, Text, Image, SafeAreaView, Alert, Button} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ImageBackground,
+  SafeAreaView,
+  Alert,
+  Button,
+} from 'react-native';
 import {
   Title,
   Divider,
@@ -19,6 +27,8 @@ import {
   ConfirmButton,
   CloseButton,
   SessionDetailsAccordionMenu,
+  BackButton,
+  ChoicePopup,
 } from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
@@ -34,10 +44,11 @@ import {
   createSessionInFirestore,
   getCoverImage,
   updateSessionInFirestore,
+  setHomeIndex,
 } from 'utils';
 import {useSelector} from 'react-redux';
 import {ScrollView} from 'react-native-gesture-handler';
-
+import {coverWave} from '../../assets/';
 export default function ConfirmSession({route, navigation}) {
   const {fonts} = useTheme();
   const {
@@ -77,13 +88,15 @@ export default function ConfirmSession({route, navigation}) {
   //REDUX STATE
 
   useEffect(() => {
-    setCoverImage(getCoverImage(location));
+    setCoverImage(coverWave);
     navigation.setOptions({
       headerRight: () => (
         <IconButton
+          color="white"
           icon="check"
-          size={35}
+          size={40}
           testID="confirm-session-details"
+          onPress={() => setVisible((visible) => !visible)}
           onPress={() => toggleConfirmSessionModal()}
         />
       ),
@@ -93,14 +106,14 @@ export default function ConfirmSession({route, navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Button
+        <BackButton
+          isLight={true}
           onPress={() => {
             console.log({descriptionOfSession});
             navigation.navigate('AddServiceUsers', {
               editedDescriptionOfSession: descriptionOfSession,
             });
           }}
-          title="Back"
         />
       ),
     });
@@ -111,8 +124,11 @@ export default function ConfirmSession({route, navigation}) {
   return (
     <SafeAreaView>
       <ScrollView>
-        <Image style={{alignSelf: 'center', height: 150}} source={CoverImage} />
-
+        <ImageBackground
+          style={{height: 175, width: '100%'}}
+          source={CoverImage}>
+          {/* Edit session button */}
+        </ImageBackground>
         <Portal>
           <Modal
             style={{alignContent: 'center'}}

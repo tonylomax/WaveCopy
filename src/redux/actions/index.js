@@ -15,6 +15,8 @@ import {
   clearCurrentSession,
 } from './firestore';
 
+import {updateHomeIndex} from './navigation';
+
 export {
   clearSelectedSessionMentors,
   setCurrentAuthenticatedUser,
@@ -30,4 +32,5 @@ export {
   subscribeToSessionAttendees,
   getRegions,
   clearCurrentSession,
+  updateHomeIndex,
 };

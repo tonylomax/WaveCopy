@@ -10,7 +10,7 @@ import {
 } from 'react-native-paper';
 import Highlighter from 'react-native-highlight-words';
 import {searchFirestoreServiceUsers} from 'utils';
-import {ConfirmButton, CloseButton} from 'components';
+import {ConfirmButton, CloseButton, BackButton} from 'components';
 
 export default function AddServiceUsers({route, navigation}) {
   const {
@@ -86,7 +86,7 @@ export default function AddServiceUsers({route, navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <ConfirmButton
+        <BackButton
           onPress={() => {
             console.log({editedDescriptionOfSession});
             console.log({selectedUsers});
@@ -95,7 +95,6 @@ export default function AddServiceUsers({route, navigation}) {
               editedDescriptionOfSession,
             });
           }}
-          title="Back"
         />
       ),
     });
