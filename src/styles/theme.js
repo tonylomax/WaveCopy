@@ -17,7 +17,7 @@ export default theme = {
   },
   fonts: {
     regular: CustomFonts.LatoBlack,
-    medium: CustomFonts.AmaticSCBold,
+    medium: CustomFonts.LatoBlack,
     light: CustomFonts.LatoLight,
     thin: CustomFonts.LatoThin,
     button: CustomFonts.LatoBlack,
