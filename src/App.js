@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, View} from 'react-native';
 import {
   NavigationContainer,
   useNavigationState,
@@ -29,7 +29,7 @@ import SessionDetails from './screens/createSession/SessionDetails';
 import AddServiceUsers from './screens/createSession/AddServiceUsers';
 import ConfirmSession from './screens/createSession/ConfirmSession';
 import {HeaderBackButton} from 'react-navigation';
-import {CurvedTabBar} from 'components';
+import {CurvedTabBar, BackButton} from 'components';
 import messaging from '@react-native-firebase/messaging';
 import Onboarding from './screens/onboarding/Onboarding';
 
@@ -106,30 +106,78 @@ const HomeNavigator = ({navigation, route}) => {
       <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
       <HomeStack.Screen
         name="HomeSession"
-        component={Session}></HomeStack.Screen>
-      <HomeStack.Screen name="Register" component={Register}></HomeStack.Screen>
+        component={Session}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTransparent: true,
+          headerTitleStyle: {
+            color: 'white',
+            alignSelf: 'center',
+            backgroundColor: 'transparent',
+          },
+          headerLeft: () => (
+            <BackButton isLight={true} onPress={() => navigation.goBack()} />
+          ),
+          headerTitle: '',
+        })}></HomeStack.Screen>
+      <HomeStack.Screen
+        name="Register"
+        component={Register}
+        options={({navigation}) => ({
+          headerTitleStyle: {textAlign: 'center'},
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
+        })}></HomeStack.Screen>
       <HomeStack.Screen
         name="Home Volunteer Profile"
-        component={WaveTeamProfile}></HomeStack.Screen>
+        component={WaveTeamProfile}
+        options={({navigation}) => ({
+          headerTitle: 'Volunteer profile',
+          headerTitleStyle: {textAlign: 'center'},
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
+        })}></HomeStack.Screen>
       <HomeStack.Screen
         name="Home ServiceUser Profile"
-        component={ServiceUserProfile}></HomeStack.Screen>
+        component={ServiceUserProfile}
+        options={({navigation}) => ({
+          headerTitle: 'Surfer profile',
+          headerTitleStyle: {textAlign: 'center'},
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
+        })}></HomeStack.Screen>
       <HomeStack.Screen
         name="SessionDetails"
         options={({navigation}) => ({
           title: 'Edit session',
+          headerTitleStyle: {textAlign: 'center'},
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
         })}
         component={SessionDetails}
       />
       <HomeStack.Screen
         name="AddServiceUsers"
         component={AddServiceUsers}
-        options={{title: 'Edit service users'}}
+        options={{
+          title: 'Edit service users',
+          headerTitleStyle: {textAlign: 'center'},
+          headerRight: () => <View />,
+        }}
       />
       <HomeStack.Screen
         name="ConfirmSession"
         component={ConfirmSession}
-        options={{title: 'Confirm Edited Session Details'}}
+        options={{
+          headerShown: true,
+          headerTransparent: true,
+          headerTitleStyle: {
+            color: 'white',
+            alignSelf: 'center',
+            backgroundColor: 'transparent',
+          },
+          title: '',
+        }}
       />
     </HomeStack.Navigator>
   );
@@ -142,17 +190,31 @@ const CreateSessionNavigator = () => (
       component={SessionDetails}
       options={{
         title: 'Session Details',
+        headerTitleStyle: {textAlign: 'center'},
       }}
     />
     <CreateSessionStack.Screen
       name="AddServiceUsers"
       component={AddServiceUsers}
-      options={{title: 'Add service users'}}
+      options={{
+        title: 'Add service users',
+        headerTitleStyle: {textAlign: 'center'},
+        headerRight: () => <View />,
+      }}
     />
     <CreateSessionStack.Screen
       name="ConfirmSession"
       component={ConfirmSession}
-      options={{title: 'Confirm Session Details'}}
+      options={{
+        headerShown: true,
+        headerTransparent: true,
+        headerTitleStyle: {
+          color: 'white',
+          alignSelf: 'center',
+          textAlign: 'center',
+        },
+        title: '',
+      }}
     />
   </CreateSessionStack.Navigator>
 );
@@ -162,35 +224,85 @@ const ProfileNavigator = ({navigation, route}) => {
     <ProfileStack.Navigator>
       <ProfileStack.Screen
         name="Profile"
-        component={Profile}></ProfileStack.Screen>
+        component={Profile}
+        options={{
+          headerTitleStyle: {textAlign: 'center'},
+        }}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="ProfileSession"
-        component={Session}></ProfileStack.Screen>
+        component={Session}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTransparent: true,
+          headerTitleStyle: {
+            color: 'white',
+            alignSelf: 'center',
+            backgroundColor: 'transparent',
+          },
+          title: '',
+          headerLeft: () => (
+            <BackButton isLight={true} onPress={() => navigation.goBack()} />
+          ),
+          headerTitleAlign: 'center',
+        })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="Register"
-        component={Register}></ProfileStack.Screen>
+        component={Register}
+        options={({navigation}) => ({
+          headerTitleStyle: {textAlign: 'center'},
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
+        })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="Profile Volunteer Profile"
-        component={WaveTeamProfile}></ProfileStack.Screen>
+        component={WaveTeamProfile}
+        options={({navigation}) => ({
+          headerTitle: 'Volunteer profile',
+          headerTitleStyle: {textAlign: 'center'},
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
+        })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="Profile ServiceUser Profile"
-        component={ServiceUserProfile}></ProfileStack.Screen>
+        component={ServiceUserProfile}
+        options={({navigation}) => ({
+          headerTitle: 'Surfer profile',
+          headerTitleStyle: {textAlign: 'center'},
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
+        })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="SessionDetails"
         options={({navigation}) => ({
           title: 'Edit session',
+          headerTitleStyle: {textAlign: 'center'},
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
         })}
         component={SessionDetails}
       />
       <ProfileStack.Screen
         name="AddServiceUsers"
         component={AddServiceUsers}
-        options={{title: 'Edit service users'}}
+        options={{
+          title: 'Edit service users',
+          headerTitleStyle: {textAlign: 'center'},
+          headerRight: () => <View />,
+        }}
       />
       <ProfileStack.Screen
         name="ConfirmSession"
         component={ConfirmSession}
-        options={{title: 'Confirm Edited Session Details'}}
+        options={{
+          headerShown: true,
+          headerTransparent: true,
+          headerTitleStyle: {
+            color: 'white',
+            alignSelf: 'center',
+            backgroundColor: 'transparent',
+          },
+          title: '',
+          headerRight: () => <View />,
+        }}
       />
     </ProfileStack.Navigator>
   );

@@ -4,6 +4,7 @@ import {
   EditButton,
   CallPerson,
   CloseButton,
+  BackButton,
 } from './buttons/index';
 import {PersonCardSession} from './cards/index';
 import {ConfirmPopup, ImageConfirmPopup} from './popups/index';
@@ -19,6 +20,7 @@ import {
 } from './accordions/index';
 
 export {
+  BackButton,
   ConfirmButton,
   AddButton,
   EditButton,

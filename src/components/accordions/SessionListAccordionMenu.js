@@ -67,6 +67,7 @@ export default function SessionListAccordionMenu({
                                 navigation.navigate('ProfileSession', {
                                   session,
                                   selectedBeach,
+                                  navigation,
                                 });
                               }
                             }
