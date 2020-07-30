@@ -132,9 +132,12 @@ const HomeNavigator = ({navigation, route}) => {
         name="Home Volunteer Profile"
         component={WaveTeamProfile}
         options={({navigation}) => ({
-          headerTitle: 'Volunteer profile',
+          headerTitle: '',
+          headerTransparent: true,
           headerTitleStyle: {textAlign: 'center'},
-          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerLeft: () => (
+            <BackButton isLight={true} onPress={() => navigation.goBack()} />
+          ),
           headerRight: () => <View />,
         })}></HomeStack.Screen>
       <HomeStack.Screen
@@ -260,9 +263,12 @@ const ProfileNavigator = ({navigation, route}) => {
         name="Profile Volunteer Profile"
         component={WaveTeamProfile}
         options={({navigation}) => ({
-          headerTitle: 'Volunteer profile',
+          headerTitle: '',
+          headerTransparent: true,
           headerTitleStyle: {textAlign: 'center'},
-          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerLeft: () => (
+            <BackButton isLight={true} onPress={() => navigation.goBack()} />
+          ),
           headerRight: () => <View />,
         })}></ProfileStack.Screen>
       <ProfileStack.Screen
