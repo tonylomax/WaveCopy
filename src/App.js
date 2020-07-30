@@ -138,8 +138,12 @@ const HomeNavigator = ({navigation, route}) => {
         name="HomeSession"
         component={Session}
         options={({navigation}) => ({
-          // headerTitleStyle: {textAlign: 'center'},
-          headerTitleStyle: {alignSelf: 'center'},
+          headerShown: true,
+          headerTransparent: true,
+          headerTitleStyle: {
+            alignSelf: 'center',
+            backgroundColor: 'transparent',
+          },
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
           headerRight: () => <View />,
           headerTitle: 'Session',
