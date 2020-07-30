@@ -21,7 +21,7 @@ export default function Onboarding({navigation}) {
   const [bio, setBio] = useState();
   const [selectedRegion, setSelectedRegion] = useState();
   const [showRegionPicker, setShowRegionPicker] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   //LOCAL STATE
 
   //REDUX STATE
@@ -87,10 +87,10 @@ export default function Onboarding({navigation}) {
           title="Go Home"
           onPress={() => {
             setLoading(true);
-            toggleIsNewUser(uid);
             updateOwnContactNumber(contactNumber, uid);
             updateOwnBio(bio, uid);
             updateOwnRegion(selectedRegion, uid);
+            toggleIsNewUser(uid);
           }}></ConfirmButton>
       </View>
     </SafeAreaView>
