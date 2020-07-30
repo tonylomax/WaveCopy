@@ -12,7 +12,11 @@ import {useSelector} from 'react-redux';
 import {Title, Card, Paragraph, Caption, Subheading} from 'react-native-paper';
 import {Picker} from '@react-native-community/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {generateDateTimeArray, generateNumberedArray} from 'utils';
+import {
+  generateDateTimeArray,
+  generateNumberedArray,
+  setHomeIndex,
+} from 'utils';
 import {
   MIN_NUMBER_OF_VOLUNTEERS,
   MAX_NUMBER_OF_VOLUNTEERS,
@@ -25,6 +29,7 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
+import {useNavigationState} from '@react-navigation/native';
 
 export default function SessionDetails({navigation, route}) {
   const previousSessionData = route?.params?.previousSessionData;
@@ -102,6 +107,13 @@ export default function SessionDetails({navigation, route}) {
     //   setLocation(beaches[0]);
     // }
   }, [beaches]);
+
+  const navState = useNavigationState((state) => state);
+
+  useEffect(() => {
+    console.log('navState', navState);
+    setHomeIndex(navState.index);
+  }, [navState]);
 
   return (
     <SafeAreaView>

@@ -34,6 +34,7 @@ import {
   createSessionInFirestore,
   getCoverImage,
   updateSessionInFirestore,
+  setHomeIndex,
 } from 'utils';
 import {useSelector} from 'react-redux';
 import {ScrollView} from 'react-native-gesture-handler';

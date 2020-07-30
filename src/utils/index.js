@@ -43,6 +43,7 @@ import generateDateTimeArray from './time/repetitionDatesArray';
 import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
 import getSessionLeadName from './getSessionLeadName';
+import setHomeIndex from './setHomeIndex';
 export {
   getSessionLeadName,
   updateSessionInFirestore,
@@ -81,4 +82,5 @@ export {
   updateOwnRegion,
   addNotificationToken,
   requestNotificationPermission,
+  setHomeIndex,
 };
