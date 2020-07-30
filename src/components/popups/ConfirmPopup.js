@@ -2,7 +2,7 @@ import React from 'react';
 import {Alert, Modal, StyleSheet, Text, View} from 'react-native';
 import {ConfirmButton} from 'components';
 
-export default function ChoicePopup({visible, setVisible}) {
+export default function ConfirmPopup({visible, setVisible}) {
   return (
     <View style={styles.centeredView}>
       <Modal

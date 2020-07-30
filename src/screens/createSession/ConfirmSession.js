@@ -11,8 +11,17 @@ import {
   TextInput,
   IconButton,
   Card,
+  Portal,
+  Modal,
+  useTheme,
 } from 'react-native-paper';
-import {BackButton, ChoicePopup, SessionDetailsAccordionMenu} from 'components';
+import {
+  ConfirmButton,
+  CloseButton,
+  SessionDetailsAccordionMenu,
+  BackButton,
+  ChoicePopup,
+} from 'components';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
@@ -32,6 +41,7 @@ import {useSelector} from 'react-redux';
 import {ScrollView} from 'react-native-gesture-handler';
 
 export default function ConfirmSession({route, navigation}) {
+  const {fonts} = useTheme();
   const {
     sessionType,
     location,
@@ -45,7 +55,6 @@ export default function ConfirmSession({route, navigation}) {
   } = route.params;
 
   //LOCAL STATE
-  const [visible, setVisible] = useState(false);
   const [descriptionOfSession, setDescriptionOfSession] = useState(
     editedDescriptionOfSession && editedDescriptionOfSession.length > 0
       ? editedDescriptionOfSession
@@ -54,6 +63,14 @@ export default function ConfirmSession({route, navigation}) {
       : '',
   );
   const [CoverImage, setCoverImage] = useState();
+  const [confirmSessionModalVisible, setConfirmSessionModalVisible] = useState(
+    false,
+  );
+
+  const toggleConfirmSessionModal = () =>
+    setConfirmSessionModalVisible(
+      (confirmSessionModalVisible) => !confirmSessionModalVisible,
+    );
   //LOCAL STATE
 
   //REDUX STATE
@@ -70,6 +87,7 @@ export default function ConfirmSession({route, navigation}) {
           size={36}
           testID="confirm-session-details"
           onPress={() => setVisible((visible) => !visible)}
+          onPress={() => toggleConfirmSessionModal()}
         />
       ),
     });
@@ -97,68 +115,90 @@ export default function ConfirmSession({route, navigation}) {
       <ScrollView>
         <Image style={{alignSelf: 'center', height: 150}} source={CoverImage} />
 
-        <ChoicePopup
-          testID="choicePopup"
-          choiceText={`${
-            previousSessionData
-              ? 'Would you like to save your changes?'
-              : 'Confirm session'
-          }`}
-          visible={visible}
-          setVisible={setVisible}
-          yesAction={() => {
-            console.log('creating a session');
-            // console.log(userData);
-            console.log('previous session data', previousSessionID);
-            console.log(previousSessionID);
-            if (!previousSessionID) {
-              createSessionInFirestore({
-                sessionType,
-                location,
-                numberOfVolunteers,
-                selectedUsers,
-                dateTimeArray,
-                descriptionOfSession,
-                coordinator: userData?.firstName ? `${userData.firstName}` : '',
-                uid,
-              })
-                .then(() => {
-                  console.log('session created');
-                  navigation.dispatch(
-                    CommonActions.reset({
-                      index: 0,
-                      routes: [{name: 'Home'}],
-                    }),
-                  );
-                })
-                .catch((err) => console.log(err));
-            } else {
-              updateSessionInFirestore({
-                sessionType,
-                location,
-                numberOfVolunteers,
-                selectedUsers,
-                dateTimeArray,
-                descriptionOfSession,
-                coordinator: userData?.firstName ? `${userData.firstName}` : '',
-                uid,
-                sessionID: previousSessionID,
-              })
-                .then(() => {
-                  navigation.dispatch(
-                    CommonActions.reset({
-                      index: 0,
-                      routes: [{name: 'Home'}],
-                    }),
-                  );
-                })
-                .catch((err) => {
-                  console.log(err);
-                  //Needs testing, err may need serializing
-                  // Alert.alert(err);
-                });
-            }
-          }}></ChoicePopup>
+        <Portal>
+          <Modal
+            style={{alignContent: 'center'}}
+            visible={confirmSessionModalVisible}
+            onDismiss={toggleConfirmSessionModal}>
+            <Card>
+              <Card.Title
+                titleStyle={{alignSelf: 'center'}}
+                title={`${
+                  previousSessionData
+                    ? 'Would you like to save your changes?'
+                    : 'Confirm session'
+                }`}
+              />
+              <Card.Content>
+                <ConfirmButton
+                  title="Yes"
+                  onPress={() => {
+                    console.log('creating a session');
+                    // console.log(userData);
+                    console.log('previous session data', previousSessionID);
+                    console.log(previousSessionID);
+                    if (!previousSessionID) {
+                      createSessionInFirestore({
+                        sessionType,
+                        location,
+                        numberOfVolunteers,
+                        selectedUsers,
+                        dateTimeArray,
+                        descriptionOfSession,
+                        coordinator: userData?.firstName
+                          ? `${userData.firstName}`
+                          : '',
+                        uid,
+                      })
+                        .then(() => {
+                          console.log('session created');
+                          navigation.dispatch(
+                            CommonActions.reset({
+                              index: 0,
+                              routes: [{name: 'Home'}],
+                            }),
+                          );
+                        })
+                        .catch((err) => console.log(err));
+                    } else {
+                      updateSessionInFirestore({
+                        sessionType,
+                        location,
+                        numberOfVolunteers,
+                        selectedUsers,
+                        dateTimeArray,
+                        descriptionOfSession,
+                        coordinator: userData?.firstName
+                          ? `${userData.firstName}`
+                          : '',
+                        uid,
+                        sessionID: previousSessionID,
+                      })
+                        .then(() => {
+                          navigation.dispatch(
+                            CommonActions.reset({
+                              index: 0,
+                              routes: [{name: 'Home'}],
+                            }),
+                          );
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                          //Needs testing, err may need serializing
+                          // Alert.alert(err);
+                        });
+                    }
+                  }}></ConfirmButton>
+                <CloseButton
+                  title="No"
+                  onPress={() => {
+                    toggleConfirmSessionModal();
+                  }}></CloseButton>
+              </Card.Content>
+            </Card>
+          </Modal>
+        </Portal>
+
         <Headline>
           {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'} -{' '}
           {location.name}
