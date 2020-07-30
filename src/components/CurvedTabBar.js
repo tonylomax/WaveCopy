@@ -1,17 +1,10 @@
-import React, {useEffect} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Dimensions,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  Alert,
-} from 'react-native';
+import React, {useState} from 'react';
+import {View, Dimensions, TouchableOpacity, Image, Alert} from 'react-native';
+import {Card, Portal, Modal, useTheme} from 'react-native-paper';
 import Svg, {Path} from 'react-native-svg';
 import {Profile_Icon, Create_Session_Icon, Settings_Icon} from 'assets';
 import {CommonActions} from '@react-navigation/native';
+import {ConfirmButton, CloseButton} from 'components';
 
 import {useSelector} from 'react-redux';
 const WIDTH = Dimensions.get('screen').width;
@@ -24,10 +17,14 @@ const imageURI = {
 
 export default function CurvedTabBar({state, descriptors, navigation}) {
   const homeIndex = useSelector((state) => state.navigationReducer.index);
+  const [discardChangesModalVisible, setDiscardChangesModalVisible] = useState(
+    false,
+  );
 
-  useEffect(() => {
-    console.log('homeIndex', homeIndex);
-  }, [homeIndex]);
+  const toggleDiscardChangesModal = () =>
+    setDiscardChangesModalVisible(
+      (discardChangesModalVisible) => !discardChangesModalVisible,
+    );
 
   return (
     <View
@@ -44,6 +41,38 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
         style={{position: 'absolute', bottom: -50}}>
         <Path d="M0 50C180.5 -41.5 565.5 85 699 0V205H0V50Z" fill="#ffffff" />
       </Svg>
+
+      <Portal>
+        <Modal
+          style={{alignContent: 'center'}}
+          visible={discardChangesModalVisible}
+          onDismiss={toggleDiscardChangesModal}>
+          <Card>
+            <Card.Title
+              titleStyle={{alignSelf: 'center', fontSize: 16}}
+              title={'Are you sure you want to discard your changes?'}
+            />
+            <Card.Content>
+              <ConfirmButton
+                title="Yes"
+                onPress={() => {
+                  toggleDiscardChangesModal();
+                  navigation.dispatch(
+                    CommonActions.reset({
+                      index: 2,
+                      routes: [{name: 'Profile'}],
+                    }),
+                  );
+                }}></ConfirmButton>
+              <CloseButton
+                title="No"
+                onPress={() => {
+                  toggleDiscardChangesModal();
+                }}></CloseButton>
+            </Card.Content>
+          </Card>
+        </Modal>
+      </Portal>
 
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
@@ -77,26 +106,8 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
             //When navigating away from the stack, check the home stack index to see if the user is on a page
             // that has unsaved changes, if they are, throw an alert.
           } else if (homeIndex >= 2) {
-            Alert.alert(
-              'Your changes won"t be saved"',
-              'Are you sure you want to discard your changes',
-              [
-                {
-                  text: 'Yes',
-                  onPress: () =>
-                    navigation.dispatch(
-                      CommonActions.navigate({
-                        name: 'Profile',
-                      }),
-                    ),
-                },
-                {
-                  text: 'No',
-                  onPress: () => console.log('No'),
-                },
-              ],
-              {cancelable: false},
-            );
+            // Open the modal to confirm the navigation away from home
+            toggleDiscardChangesModal();
             //Otherwise navigate normally
           } else if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name);
