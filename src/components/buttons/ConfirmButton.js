@@ -1,7 +1,13 @@
 import React from 'react';
 import {Button, useTheme} from 'react-native-paper';
 
-export default function ConfirmButton({title, onPress, testID, disabled}) {
+export default function ConfirmButton({
+  title,
+  onPress,
+  testID,
+  disabled,
+  style,
+}) {
   const {maxWidth, colors, fonts} = useTheme();
   return (
     <Button
@@ -13,6 +19,7 @@ export default function ConfirmButton({title, onPress, testID, disabled}) {
       style={{
         alignSelf: 'center',
         backgroundColor: colors.tertiary,
+        marginTop: style?.marginTop,
       }}
       maxWidth={maxWidth}
       mode="contained"
