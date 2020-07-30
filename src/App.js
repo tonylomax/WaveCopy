@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, View} from 'react-native';
 import {
   NavigationContainer,
   useNavigationState,
@@ -138,8 +138,11 @@ const HomeNavigator = ({navigation, route}) => {
         name="HomeSession"
         component={Session}
         options={({navigation}) => ({
-          headerTitleStyle: {textAlign: 'center'},
+          // headerTitleStyle: {textAlign: 'center'},
+          headerTitleStyle: {alignSelf: 'center'},
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
+          headerTitle: 'Session',
         })}></HomeStack.Screen>
       <HomeStack.Screen
         name="Register"
@@ -147,20 +150,25 @@ const HomeNavigator = ({navigation, route}) => {
         options={({navigation}) => ({
           headerTitleStyle: {textAlign: 'center'},
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
         })}></HomeStack.Screen>
       <HomeStack.Screen
         name="Home Volunteer Profile"
         component={WaveTeamProfile}
         options={({navigation}) => ({
+          headerTitle: 'Volunteer profile',
           headerTitleStyle: {textAlign: 'center'},
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
         })}></HomeStack.Screen>
       <HomeStack.Screen
         name="Home ServiceUser Profile"
         component={ServiceUserProfile}
         options={({navigation}) => ({
+          headerTitle: 'Surfer profile',
           headerTitleStyle: {textAlign: 'center'},
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
         })}></HomeStack.Screen>
       <HomeStack.Screen
         name="SessionDetails"
@@ -168,6 +176,7 @@ const HomeNavigator = ({navigation, route}) => {
           title: 'Edit session',
           headerTitleStyle: {textAlign: 'center'},
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
         })}
         component={SessionDetails}
       />
@@ -177,14 +186,14 @@ const HomeNavigator = ({navigation, route}) => {
         options={{
           title: 'Edit service users',
           headerTitleStyle: {textAlign: 'center'},
+          headerRight: () => <View />,
         }}
       />
       <HomeStack.Screen
         name="ConfirmSession"
         component={ConfirmSession}
         options={{
-          title: 'Confirm Edited Session Details',
-          headerTitleStyle: {textAlign: 'center'},
+          title: 'Confirm Edit',
           headerTitleStyle: {textAlign: 'center'},
         }}
       />
@@ -208,13 +217,14 @@ const CreateSessionNavigator = () => (
       options={{
         title: 'Add service users',
         headerTitleStyle: {textAlign: 'center'},
+        headerRight: () => <View />,
       }}
     />
     <CreateSessionStack.Screen
       name="ConfirmSession"
       component={ConfirmSession}
       options={{
-        title: 'Confirm Session Details',
+        title: 'Confirm Session',
         headerTitleStyle: {textAlign: 'center'},
         // headerStyle: {
         // backgroundColor: 'rgba(255, 255, 255, 0.1)',
@@ -279,7 +289,11 @@ const ProfileNavigator = ({navigation, route}) => {
         name="ProfileSession"
         component={Session}
         options={{
-          headerTitleStyle: {textAlign: 'center'},
+          title: 'Session',
+          // headerTitleStyle: {alignSelf: 'center', textAlign: 'center', flex: 1},
+          // headerTitleAlign: 'center',
+          // headerTitleStyle: {textAlign: 'center'},
+          headerRight: () => <View />,
         }}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="Register"
@@ -287,20 +301,25 @@ const ProfileNavigator = ({navigation, route}) => {
         options={({navigation}) => ({
           headerTitleStyle: {textAlign: 'center'},
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
         })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="Profile Volunteer Profile"
         component={WaveTeamProfile}
         options={({navigation}) => ({
+          headerTitle: 'Volunteer profile',
           headerTitleStyle: {textAlign: 'center'},
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
         })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="Profile ServiceUser Profile"
         component={ServiceUserProfile}
         options={({navigation}) => ({
+          headerTitle: 'Surfer profile',
           headerTitleStyle: {textAlign: 'center'},
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
+          headerRight: () => <View />,
         })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="SessionDetails"
@@ -317,14 +336,16 @@ const ProfileNavigator = ({navigation, route}) => {
         options={{
           title: 'Edit service users',
           headerTitleStyle: {textAlign: 'center'},
+          headerRight: () => <View />,
         }}
       />
       <ProfileStack.Screen
         name="ConfirmSession"
         component={ConfirmSession}
         options={{
-          title: 'Confirm Edited Session Details',
+          title: 'Confirm Edit',
           headerTitleStyle: {textAlign: 'center'},
+          headerRight: () => <View />,
         }}
       />
     </ProfileStack.Navigator>
