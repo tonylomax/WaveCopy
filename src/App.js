@@ -292,9 +292,7 @@ const ProfileNavigator = ({navigation, route}) => {
         options={({navigation}) => ({
           title: 'Session',
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
-          // headerTitleStyle: {alignSelf: 'center', textAlign: 'center', flex: 1},
-          // headerTitleAlign: 'center',
-          // headerTitleStyle: {textAlign: 'center'},
+          headerTitleAlign: 'center',
         })}></ProfileStack.Screen>
       <ProfileStack.Screen
         name="Register"
@@ -327,7 +325,7 @@ const ProfileNavigator = ({navigation, route}) => {
         options={({navigation}) => ({
           title: 'Edit session',
           headerTitleStyle: {textAlign: 'center'},
-          headerLeft: () => <BackButton onPress={navigation.goBack()} />,
+          headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
         })}
         component={SessionDetails}
       />
