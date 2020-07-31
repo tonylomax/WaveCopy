@@ -66,6 +66,7 @@ export default function WaveTeamProfile({route, navigation}) {
         style={{height: 175, width: '100%'}}
         source={coverWave}></ImageBackground>
       <VolunteerAvatar
+        profilePicture={true}
         source={{
           uri: profileURL,
         }}

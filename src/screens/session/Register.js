@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import Moment from 'react-moment';
-import {RegisterTabs} from 'components';
+import {RegisterTabs, SurferAvatar, VolunteerAvatar} from 'components';
 import {useSelector} from 'react-redux';
 import {markAttendance, subscribeToSessionChanges} from 'utils';
 import {USER_GROUP} from 'constants';
@@ -11,6 +11,10 @@ import {
   BottomNavigation,
   Card,
   useTheme,
+  Surface,
+  Title,
+  Divider,
+  Subheading,
 } from 'react-native-paper';
 
 export default function Register({navigation, route}) {
@@ -44,15 +48,49 @@ export default function Register({navigation, route}) {
   }, [selectedSessionMentorsData]);
 
   return (
-    <View>
-      <Text>Attendance List</Text>
-      <Text>
-        {sessionData?.type} - {sessionData?.beach}
-      </Text>
-      <Moment element={Text} format="DD.MM.YY">
-        {sessionData?.dateTime}
-      </Moment>
+    <ScrollView>
+      <Surface
+        style={{
+          padding: 80,
+          width: '100%',
+        }}>
+        <Title style={{textAlign: 'center'}}>Attendance List</Title>
 
+        <Divider
+          style={{
+            margin: 20,
+          }}></Divider>
+        <Subheading style={{textAlign: 'center'}}>
+          {sessionData?.type === 'surf-club' ? 'Surf Club' : 'Surf Therapy'} -{' '}
+          {sessionData?.beach}
+        </Subheading>
+        <Moment
+          style={{textAlign: 'center'}}
+          element={Paragraph}
+          format="DD.MM.YY">
+          {sessionData?.dateTime}
+        </Moment>
+      </Surface>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}>
+        <Paragraph
+          style={{
+            marginLeft: 80,
+          }}>
+          Name
+        </Paragraph>
+        <Paragraph
+          style={{
+            marginLeft: 'auto',
+          }}>
+          Present
+        </Paragraph>
+      </View>
       <RegisterTabs registerTitle="Surfers">
         {selectedSessionAttendeesData.map((attendee, i) => {
           //Retrieve the bool value that shows whether the person has attended the session
@@ -62,22 +100,41 @@ export default function Register({navigation, route}) {
           return (
             <Card key={i}>
               <Card.Content>
-                <Paragraph>
-                  {attendee?.firstName} {attendee?.lastName}{' '}
-                </Paragraph>
-                <Checkbox.Android
-                  status={hasPersonAttended ? 'checked' : 'unchecked'}
-                  uncheckedColor="black"
-                  color={colors.primary}
-                  onPress={() => {
-                    markAttendance(
-                      id,
-                      attendee.id,
-                      sessionData,
-                      USER_GROUP.ATTENDEES,
-                    );
-                  }}
-                />
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <SurferAvatar
+                    label={`${attendee?.firstName.charAt(
+                      0,
+                    )}${attendee?.lastName.charAt(0)}`}
+                  />
+
+                  <Paragraph>
+                    {attendee?.firstName} {attendee?.lastName}{' '}
+                  </Paragraph>
+                  <View
+                    style={{
+                      marginLeft: 'auto',
+                    }}>
+                    <Checkbox.Android
+                      status={hasPersonAttended ? 'checked' : 'unchecked'}
+                      uncheckedColor="black"
+                      color={colors.primary}
+                      onPress={() => {
+                        markAttendance(
+                          id,
+                          attendee.id,
+                          sessionData,
+                          USER_GROUP.ATTENDEES,
+                        );
+                      }}
+                    />
+                  </View>
+                </View>
               </Card.Content>
             </Card>
           );
@@ -92,27 +149,38 @@ export default function Register({navigation, route}) {
           return (
             <Card key={i}>
               <Card.Content>
-                <Paragraph>
-                  {mentor?.firstName} {mentor?.lastName}
-                </Paragraph>
-                <Checkbox.Android
-                  status={hasPersonAttended ? 'checked' : 'unchecked'}
-                  uncheckedColor="black"
-                  color={colors.primary}
-                  onPress={() => {
-                    markAttendance(
-                      id,
-                      mentor.id,
-                      sessionData,
-                      USER_GROUP.MENTORS,
-                    );
-                  }}
-                />
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <VolunteerAvatar />
+                  <Paragraph>
+                    {mentor?.firstName} {mentor?.lastName}
+                  </Paragraph>
+                  <View style={{marginLeft: 'auto'}}>
+                    <Checkbox.Android
+                      status={hasPersonAttended ? 'checked' : 'unchecked'}
+                      uncheckedColor="black"
+                      color={colors.primary}
+                      onPress={() => {
+                        markAttendance(
+                          id,
+                          mentor.id,
+                          sessionData,
+                          USER_GROUP.MENTORS,
+                        );
+                      }}
+                    />
+                  </View>
+                </View>
               </Card.Content>
             </Card>
           );
         })}
       </RegisterTabs>
-    </View>
+    </ScrollView>
   );
 }
