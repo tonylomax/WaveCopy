@@ -15,6 +15,7 @@ import {
   Title,
   Divider,
   Subheading,
+  List,
 } from 'react-native-paper';
 
 export default function Register({navigation, route}) {
@@ -72,7 +73,7 @@ export default function Register({navigation, route}) {
           {sessionData?.dateTime}
         </Moment>
       </Surface>
-      <View
+      {/* <View
         style={{
           display: 'flex',
           flexDirection: 'row',
@@ -92,121 +93,112 @@ export default function Register({navigation, route}) {
           }}>
           Present
         </Paragraph>
-      </View>
-      <RegisterTabs registerTitle="Surfers">
-        {selectedSessionAttendeesData.map((attendee, i) => {
-          //Retrieve the bool value that shows whether the person has attended the session
-          const hasPersonAttended = sessionData?.attendees?.filter((person) => {
-            return person?.id === attendee?.id;
-          })[0]?.attended;
-          return (
-            <Card key={i}>
-              <Card.Content>
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                  }}>
-                  <SurferAvatar
-                    label={`${attendee?.firstName.charAt(
-                      0,
-                    )}${attendee?.lastName.charAt(0)}`}
-                  />
+      </View> */}
+      <List.AccordionGroup>
+        <List.Accordion title="Surfers" id="1">
+          {selectedSessionAttendeesData.map((attendee, i) => {
+            //Retrieve the bool value that shows whether the person has attended the session
+            const hasPersonAttended = sessionData?.attendees?.filter(
+              (person) => {
+                return person?.id === attendee?.id;
+              },
+            )[0]?.attended;
+            return (
+              <List.Item
+                description={() => (
+                  <Card key={i}>
+                    <Card.Content>
+                      <View
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'flex-start',
+                        }}>
+                        <SurferAvatar
+                          label={`${attendee?.firstName.charAt(
+                            0,
+                          )}${attendee?.lastName.charAt(0)}`}
+                        />
 
-                  <Paragraph>
-                    {attendee?.firstName} {attendee?.lastName}{' '}
-                  </Paragraph>
-                  <View
-                    style={{
-                      marginLeft: 'auto',
-                    }}>
-                    <Checkbox.Android
-                      status={hasPersonAttended ? 'checked' : 'unchecked'}
-                      uncheckedColor="black"
-                      color={colors.primary}
-                      onPress={() => {
-                        markAttendance(
-                          id,
-                          attendee.id,
-                          sessionData,
-                          USER_GROUP.ATTENDEES,
-                        );
-                      }}
-                    />
-                  </View>
-                </View>
-              </Card.Content>
-            </Card>
-          );
-        })}
-      </RegisterTabs>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}>
-        <Paragraph
-          style={{
-            marginLeft: 80,
-          }}>
-          Name
-        </Paragraph>
-        <Paragraph
-          style={{
-            marginLeft: 'auto',
-            marginRight: 10,
-          }}>
-          Present
-        </Paragraph>
-      </View>
-      <RegisterTabs registerTitle="Mentors">
-        {selectedSessionMentorsData?.map((mentor, i) => {
-          const hasPersonAttended = sessionData?.mentors?.filter((person) => {
-            return person.id === mentor.id;
-          })[0].attended;
-          return (
-            <Card key={i}>
-              <Card.Content>
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                  }}>
-                  <VolunteerAvatar
-                    label={`${mentor?.firstName.charAt(
-                      0,
-                    )}${mentor?.lastName.charAt(0)}`}
-                  />
-                  <Paragraph>
-                    {mentor?.firstName} {mentor?.lastName}
-                  </Paragraph>
-                  <View style={{marginLeft: 'auto'}}>
-                    <Checkbox.Android
-                      status={hasPersonAttended ? 'checked' : 'unchecked'}
-                      uncheckedColor="black"
-                      color={colors.primary}
-                      onPress={() => {
-                        markAttendance(
-                          id,
-                          mentor.id,
-                          sessionData,
-                          USER_GROUP.MENTORS,
-                        );
-                      }}
-                    />
-                  </View>
-                </View>
-              </Card.Content>
-            </Card>
-          );
-        })}
-      </RegisterTabs>
+                        <Paragraph>
+                          {attendee?.firstName} {attendee?.lastName}{' '}
+                        </Paragraph>
+                        <View
+                          style={{
+                            marginLeft: 'auto',
+                          }}>
+                          <Checkbox.Android
+                            status={hasPersonAttended ? 'checked' : 'unchecked'}
+                            uncheckedColor="black"
+                            color={colors.primary}
+                            onPress={() => {
+                              markAttendance(
+                                id,
+                                attendee.id,
+                                sessionData,
+                                USER_GROUP.ATTENDEES,
+                              );
+                            }}
+                          />
+                        </View>
+                      </View>
+                    </Card.Content>
+                  </Card>
+                )}
+              />
+            );
+          })}
+        </List.Accordion>
+        <List.Accordion title="Mentors" id="2">
+          {selectedSessionMentorsData?.map((mentor, i) => {
+            console.log({mentor});
+            const hasPersonAttended = sessionData?.mentors?.filter((person) => {
+              return person.id === mentor.id;
+            })[0].attended;
+            <List.Item
+              title="hello"
+              description={() => (
+                <Card key={i}>
+                  <Card.Content>
+                    <View
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                      }}>
+                      <VolunteerAvatar
+                        label={`${mentor?.firstName.charAt(
+                          0,
+                        )}${mentor?.lastName.charAt(0)}`}
+                      />
+                      <Paragraph>
+                        {mentor?.firstName} {mentor?.lastName}
+                      </Paragraph>
+                      <View style={{marginLeft: 'auto'}}>
+                        <Checkbox.Android
+                          status={hasPersonAttended ? 'checked' : 'unchecked'}
+                          uncheckedColor="black"
+                          color={colors.primary}
+                          onPress={() => {
+                            markAttendance(
+                              id,
+                              mentor.id,
+                              sessionData,
+                              USER_GROUP.MENTORS,
+                            );
+                          }}
+                        />
+                      </View>
+                    </View>
+                  </Card.Content>
+                </Card>
+              )}
+            />;
+          })}
+        </List.Accordion>
+      </List.AccordionGroup>
     </ScrollView>
   );
 }
