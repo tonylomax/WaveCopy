@@ -20,12 +20,12 @@ export default function WaveTeamProfile({route, navigation}) {
   const {mentor} = route.params;
   const [region, setRegion] = useState('');
   const [profileURL, setProfileURL] = useState();
-  const {roles} = useSelector((state) => state.authenticationReducer.roles);
-  const regions = useSelector((state) => state.firestoreReducer.regions);
-  const beaches = useSelector((state) => state.firestoreReducer.beaches);
+  const {roles} = useSelector((state) => state?.authenticationReducer?.roles);
+  const regions = useSelector((state) => state?.firestoreReducer?.regions);
+  const beaches = useSelector((state) => state?.firestoreReducer?.beaches);
   // Find sessions that a volunteer is signed up for
   const volunteerSessions = useSelector((state) =>
-    state.firestoreReducer[sessionData].filter((session) => {
+    state?.firestoreReducer[sessionData]?.filter((session) => {
       console.log('firestore reducer in volunteer sessions', {session});
       return session?.mentors?.some(
         (filteredMentor) => filteredMentor.id === mentor.id,
@@ -54,7 +54,7 @@ export default function WaveTeamProfile({route, navigation}) {
   }, [mentor]);
 
   useEffect(() => {
-    if (!regions || regions.length === 0) {
+    if (!regions || regions?.length === 0) {
       retrieveRegions();
     }
   }, [regions]);
