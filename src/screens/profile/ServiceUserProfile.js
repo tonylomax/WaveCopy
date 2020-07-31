@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Linking,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import {Title, Paragraph, Surface, Subheading} from 'react-native-paper';
 import {CallPerson, SurferAvatar} from 'components';
@@ -17,7 +18,7 @@ export default function ServiceUserProfile({route}) {
   console.log('serviceUser in serviceuser profile', serviceUser);
 
   return (
-    <SafeAreaView>
+    <ScrollView>
       <ImageBackground style={{height: 175, width: '100%'}} source={coverWave}>
         {/* Edit session button */}
       </ImageBackground>
@@ -66,6 +67,6 @@ export default function ServiceUserProfile({route}) {
           }}
           title="Call Parent"></CallPerson>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }

@@ -1,24 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, ImageBackground} from 'react-native';
-import {useSelector} from 'react-redux';
-
-import Moment from 'react-moment';
-import moment from 'moment';
-import {TrainingAccordionMenu, SessionListAccordionMenu} from 'components';
-import 'moment/src/locale/en-gb';
 import {
-  Title,
-  Paragraph,
-  Surface,
-  Subheading,
-  Avatar,
-} from 'react-native-paper';
-import {VolunteerAvatar} from 'components';
-import {coverWave} from '../../assets/';
-import {getImageDownloadURI, retrieveRegions} from 'utils';
-
+  View,
+  ImageBackground,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import {useSelector} from 'react-redux';
+import moment from 'moment';
 moment.locale('en-gb');
 moment().format('en-gb');
+import {TrainingAccordionMenu, SessionListAccordionMenu} from 'components';
+import 'moment/src/locale/en-gb';
+import {Title, Paragraph, Subheading} from 'react-native-paper';
+import {VolunteerAvatar, ConfirmButton} from 'components';
+import {coverWave} from '../../assets/';
+import {getImageDownloadURI, retrieveRegions} from 'utils';
 
 export default function WaveTeamProfile({route, navigation}) {
   const {mentor} = route.params;
@@ -30,17 +26,18 @@ export default function WaveTeamProfile({route, navigation}) {
   const [profileURL, setProfileURL] = useState();
   const sessionData = IS_ADMIN ? 'sessionData' : 'roleSpecificSessionData';
   // Find sessions that a volunteer is signed up for
-  // const volunteerSessions = useSelector((state) =>
-  //   state.firestoreReducer[sessionData].filter((session) => {
-  //     console.log('firestore reducer in volunteer sessions', {session});
-  //     return session?.mentors?.some(
-  //       (filteredMentor) => filteredMentor.id === mentor.id,
-  //     );
-  //   }),
-  // );
+  const volunteerSessions = useSelector((state) =>
+    state.firestoreReducer[sessionData].filter((session) => {
+      console.log('firestore reducer in volunteer sessions', {session});
+      return session?.mentors?.some(
+        (filteredMentor) => filteredMentor.id === mentor.id,
+      );
+    }),
+  );
   const allSessions = useSelector(
     (state) => state.firestoreReducer.sessionData,
   );
+  const [region, setRegion] = useState('');
   useEffect(() => {
     console.log({allSessions});
     console.log({mentor});
@@ -69,10 +66,8 @@ export default function WaveTeamProfile({route, navigation}) {
     }
   }, [regions]);
 
-  const [region, setRegion] = useState('');
-
   return (
-    <View>
+    <ScrollView>
       {/* Place holder for profile pic */}
       <ImageBackground
         style={{height: 175, width: '100%'}}
@@ -96,67 +91,24 @@ export default function WaveTeamProfile({route, navigation}) {
           {moment().diff(mentor.dateOfBirth, 'years') > 0 &&
             moment().diff(mentor.dateOfBirth, 'years')}
         </Title>
-        <Paragraph>
-          {mentor.contactNumber ? mentor.contactNumber : 'No contact number'}{' '}
-        </Paragraph>
+        <ConfirmButton
+          title={
+            mentor.contactNumber ? mentor.contactNumber : 'No contact number'
+          }
+          icon="phone"
+          disabled={mentor.contactNumber ? false : true}></ConfirmButton>
+
         <Subheading>Volunteering area</Subheading>
         <Paragraph>{region ? region : 'Unknown Region'}</Paragraph>
       </View>
 
       <TrainingAccordionMenu training={mentor.training}></TrainingAccordionMenu>
       <SessionListAccordionMenu
-        sessions={allSessions}
-        // beaches={beaches}
+        sessions={volunteerSessions}
+        beaches={beaches}
         navigation={navigation}
         route={route}
         title={'Sessions'}></SessionListAccordionMenu>
-    </View>
+    </ScrollView>
   );
 }
-
-//   return (
-//     <SafeAreaView>
-
-//       <View
-//         style={{
-//           paddingTop: '20%',
-//           display: 'flex',
-//           alignItems: 'center',
-//           justifyItems: 'center',
-//         }}>
-//         <Title>
-//           {serviceUser?.firstName} {serviceUser?.lastName}{' '}
-//           {serviceUser?.age && `, ${serviceUser.age}`}
-//         </Title>
-//         <Subheading>Reason for referral </Subheading>
-
-//         <Subheading>Triggers </Subheading>
-
-//         <Subheading>Reactions </Subheading>
-
-//         <Subheading>Medical requirements </Subheading>
-
-//         <Subheading>Emergency contacts</Subheading>
-//         <TouchableOpacity
-//           onPress={async () => {
-//             await Linking.openURL(`tel:${serviceUser?.number}`).catch((err) => {
-//               console.log(err);
-//             });
-//           }}>
-//           <Paragraph>
-//             {serviceUser?.number ? serviceUser?.number : 'No number'}
-//           </Paragraph>
-//         </TouchableOpacity>
-
-//         <CallPerson
-//           disabled={serviceUser?.number ? false : true}
-//           onPress={async () => {
-//             await Linking.openURL(`tel:${serviceUser?.number}`).catch((err) => {
-//               console.log(err);
-//             });
-//           }}
-//           title="Call Parent"></CallPerson>
-//       </View>
-//     </SafeAreaView>
-//   );
-// }

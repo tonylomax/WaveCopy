@@ -7,10 +7,12 @@ export default function ConfirmButton({
   testID,
   disabled,
   style,
+  icon,
 }) {
   const {maxWidth, colors, fonts} = useTheme();
   return (
     <Button
+      icon={icon}
       theme={{
         fonts: {
           medium: fonts.button,
