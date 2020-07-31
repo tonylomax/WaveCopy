@@ -22,7 +22,8 @@ export default function VolunteerAvatar({label, source, profilePicture}) {
     );
   } else {
     return (
-      <Avatar.Image
+      <Avatar.Text
+        label={label}
         source={source}
         size={60}
         color={colors.dark_second}

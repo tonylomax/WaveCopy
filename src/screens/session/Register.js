@@ -51,7 +51,8 @@ export default function Register({navigation, route}) {
     <ScrollView>
       <Surface
         style={{
-          padding: 80,
+          paddingTop: 80,
+          paddingBottom: 30,
           width: '100%',
         }}>
         <Title style={{textAlign: 'center'}}>Attendance List</Title>
@@ -87,6 +88,7 @@ export default function Register({navigation, route}) {
         <Paragraph
           style={{
             marginLeft: 'auto',
+            marginRight: 10,
           }}>
           Present
         </Paragraph>
@@ -140,7 +142,27 @@ export default function Register({navigation, route}) {
           );
         })}
       </RegisterTabs>
-
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}>
+        <Paragraph
+          style={{
+            marginLeft: 80,
+          }}>
+          Name
+        </Paragraph>
+        <Paragraph
+          style={{
+            marginLeft: 'auto',
+            marginRight: 10,
+          }}>
+          Present
+        </Paragraph>
+      </View>
       <RegisterTabs registerTitle="Mentors">
         {selectedSessionMentorsData?.map((mentor, i) => {
           const hasPersonAttended = sessionData?.mentors?.filter((person) => {
@@ -156,7 +178,11 @@ export default function Register({navigation, route}) {
                     alignItems: 'center',
                     justifyContent: 'flex-start',
                   }}>
-                  <VolunteerAvatar />
+                  <VolunteerAvatar
+                    label={`${mentor?.firstName.charAt(
+                      0,
+                    )}${mentor?.lastName.charAt(0)}`}
+                  />
                   <Paragraph>
                     {mentor?.firstName} {mentor?.lastName}
                   </Paragraph>
