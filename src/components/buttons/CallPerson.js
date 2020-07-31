@@ -6,6 +6,7 @@ export default function CallPerson({title, onPress, disabled}) {
   return (
     <View style={{padding: 10}}>
       <ConfirmButton
+        icon="phone"
         onPress={onPress}
         title={title}
         disabled={disabled}></ConfirmButton>

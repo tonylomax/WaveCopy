@@ -222,225 +222,222 @@ export default function Session({navigation, route}) {
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <ScrollView bounces={false}>
+      <View>
+        <ImageBackground
+          style={{height: 175, width: '100%'}}
+          source={CoverImage}>
+          {/* Edit session button */}
+        </ImageBackground>
+
         <View>
-          <ImageBackground
-            style={{height: 175, width: '100%'}}
-            source={CoverImage}>
-            {/* Edit session button */}
-          </ImageBackground>
-
-          <View>
-            {(userHasPermission(userData?.roles) || sessionLeadID === uid) &&
-              daysUntilSession < 2 &&
-              daysUntilSession >= 0 &&
-              sessionData?.maxMentors - sessionDataMentors?.length > 0 && (
-                <ConfirmButton
-                  onPress={() => {
-                    const sendNotificationToAllMentorsInSameRegionAsSession = functions.httpsCallable(
-                      'sendNotificationToAllMentorsInSameRegionAsSession',
-                    );
-                    console.log(
-                      sendNotificationToAllMentorsInSameRegionAsSession,
-                    );
-                    sendNotificationToAllMentorsInSameRegionAsSession({
-                      sessionData,
+          {(userHasPermission(userData?.roles) || sessionLeadID === uid) &&
+            daysUntilSession < 2 &&
+            daysUntilSession >= 0 &&
+            sessionData?.maxMentors - sessionDataMentors?.length > 0 && (
+              <ConfirmButton
+                onPress={() => {
+                  const sendNotificationToAllMentorsInSameRegionAsSession = functions.httpsCallable(
+                    'sendNotificationToAllMentorsInSameRegionAsSession',
+                  );
+                  console.log(
+                    sendNotificationToAllMentorsInSameRegionAsSession,
+                  );
+                  sendNotificationToAllMentorsInSameRegionAsSession({
+                    sessionData,
+                  })
+                    .then(function (result) {
+                      // Read result of the Cloud Function.
+                      console.log(result);
+                      // Note it actually gives you the number of devices it's sent to, but
+                      // I think mentors is clearer.
+                      Alert.alert(
+                        `Sent to ${result?.data?.successCount} mentors`,
+                      );
                     })
-                      .then(function (result) {
-                        // Read result of the Cloud Function.
-                        console.log(result);
-                        // Note it actually gives you the number of devices it's sent to, but
-                        // I think mentors is clearer.
-                        Alert.alert(
-                          `Sent to ${result?.data?.successCount} mentors`,
-                        );
+                    .catch(function (error) {
+                      // Getting the Error details.
+                      console.log('error back from the function', error);
+                      Alert(
+                        'There was an error sending your notifications, please try again later.',
+                        error,
+                      );
+                      const code = error.code;
+                      console.log({code});
+                      const message = error.message;
+                      console.log({message});
+                      const details = error.details;
+                      console.log({details});
+                      // ...
+                    });
+                }}
+                title="Notify mentors"
+              />
+            )}
+
+          <Paragraph style={{alignSelf: 'center'}}>
+            <Moment element={Text} format="LLLL">
+              {sessionData?.dateTime}
+            </Moment>
+          </Paragraph>
+          <Divider
+            style={{
+              width: '50%',
+              alignSelf: 'center',
+              borderWidth: 1,
+              borderRadius: 10,
+            }}
+          />
+
+          {/* Session beach  */}
+          <Paragraph style={{alignSelf: 'center'}}>
+            {startCase(sessionData?.type?.replace(/-/gi, ' '))}-
+            {sessionData?.beach?.replace(/-/gi, ' ')}
+          </Paragraph>
+
+          {/* Cover coordinator */}
+
+          <Title style={{alignSelf: 'center'}}>Coordinator</Title>
+          <Paragraph style={{alignSelf: 'center'}}>
+            {' '}
+            {coordinator?.firstName} {coordinator?.lastName}
+          </Paragraph>
+
+          {/* Session description */}
+          <Paragraph>{sessionData?.description}</Paragraph>
+          {/* Session Accordion menu for attendees */}
+
+          {/* Show if session is full */}
+          {maxMentors === selectedSessionMentorsData.length && (
+            <Text>This session is full</Text>
+          )}
+          {/* Session date/time */}
+
+          {/* Session Lead */}
+          {!sessionLeadID || sessionLeadID === '' ? (
+            <Text>No session lead</Text>
+          ) : sessionLeadID === uid ? (
+            <Text>You are the session lead</Text>
+          ) : (
+            <Text>
+              {surfLead?.firstName} {surfLead?.lastName} is the session lead
+            </Text>
+          )}
+
+          {selectedSessionAttendeesData &&
+            selectedBeach &&
+            maxMentors > 0 &&
+            selectedSessionMentorsData && (
+              <SessionDetailsAccordionMenu
+                selectedUsers={selectedSessionAttendeesData}
+                numberOfMentors={maxMentors}
+                location={selectedBeach}
+                mentors={selectedSessionMentorsData}
+                navigation={navigation}
+                route={route}
+                sessionLead={sessionData?.sessionLead}
+                sessionID={id}
+                roles={roles}
+              />
+            )}
+
+          <Card style={{alignItems: 'center', padding: '2%', margin: '2%'}}>
+            <Card.Actions>
+              {/* REGISTER BUTTON */}
+              {(userHasPermission(userData?.roles) ||
+                sessionLeadID === uid) && (
+                <ConfirmButton
+                  title="Attendance List"
+                  testID="registerButton"
+                  onPress={() => {
+                    navigation.navigate('Register', {
+                      id,
+                    });
+                  }}>
+                  Register
+                </ConfirmButton>
+              )}
+
+              {/* LEAVE/SIGNUP */}
+              {/* Only show if signup button if user is in the session, otherwise show signup button */}
+              {selectedSessionMentorsData.filter((mentor) => mentor.id === uid)
+                .length >= 1 ? (
+                <ConfirmButton
+                  testID="leaveSessionButton"
+                  title="Leave session"
+                  onPress={() => {
+                    leaveSession(id, uid, sessionLeadID);
+                  }}></ConfirmButton>
+              ) : (
+                <ConfirmButton
+                  testID="signupButton"
+                  title="Sign Up"
+                  disabled={maxMentors === selectedSessionMentorsData.length}
+                  onPress={() => {
+                    signupForSession(id, uid)
+                      .then((result) => {
+                        console.log('Session signup done ');
                       })
-                      .catch(function (error) {
-                        // Getting the Error details.
-                        console.log('error back from the function', error);
-                        Alert(
-                          'There was an error sending your notifications, please try again later.',
-                          error,
-                        );
-                        const code = error.code;
-                        console.log({code});
-                        const message = error.message;
-                        console.log({message});
-                        const details = error.details;
-                        console.log({details});
-                        // ...
+                      .catch((err) => {
+                        console.log('ERROR: ', err);
                       });
-                  }}
-                  title="Notify mentors"
-                />
+                  }}></ConfirmButton>
               )}
-
-            <Paragraph style={{alignSelf: 'center'}}>
-              <Moment element={Text} format="LLLL">
-                {sessionData?.dateTime}
-              </Moment>
-            </Paragraph>
-            <Divider
-              style={{
-                width: '50%',
-                alignSelf: 'center',
-                borderWidth: 1,
-                borderRadius: 10,
-              }}
-            />
-
-            {/* Session beach  */}
-            <Paragraph style={{alignSelf: 'center'}}>
-              {startCase(sessionData?.type?.replace(/-/gi, ' '))}-
-              {sessionData?.beach?.replace(/-/gi, ' ')}
-            </Paragraph>
-
-            {/* Cover coordinator */}
-
-            <Title style={{alignSelf: 'center'}}>Coordinator</Title>
-            <Paragraph style={{alignSelf: 'center'}}>
-              {' '}
-              {coordinator?.firstName} {coordinator?.lastName}
-            </Paragraph>
-
-            {/* Session description */}
-            <Paragraph>{sessionData?.description}</Paragraph>
-            {/* Session Accordion menu for attendees */}
-
-            {/* Show if session is full */}
-            {maxMentors === selectedSessionMentorsData.length && (
-              <Text>This session is full</Text>
-            )}
-            {/* Session date/time */}
-
-            {/* Session Lead */}
-            {!sessionLeadID || sessionLeadID === '' ? (
-              <Text>No session lead</Text>
-            ) : sessionLeadID === uid ? (
-              <Text>You are the session lead</Text>
-            ) : (
-              <Text>
-                {surfLead?.firstName} {surfLead?.lastName} is the session lead
-              </Text>
-            )}
-
-            {selectedSessionAttendeesData &&
-              selectedBeach &&
-              maxMentors > 0 &&
-              selectedSessionMentorsData && (
-                <SessionDetailsAccordionMenu
-                  selectedUsers={selectedSessionAttendeesData}
-                  numberOfMentors={maxMentors}
-                  location={selectedBeach}
-                  mentors={selectedSessionMentorsData}
-                  navigation={navigation}
-                  route={route}
-                  sessionLead={sessionData?.sessionLead}
-                  sessionID={id}
-                  roles={roles}
-                />
+              {/* DElETE SESSION */}
+              {userHasPermission(userData?.roles) && (
+                <CloseButton
+                  title="Delete"
+                  testID="delete-session-button"
+                  onPress={() => toggleDeleteSessionModal()}>
+                  Register
+                </CloseButton>
               )}
+              {/* Popup to confirm delete session */}
+            </Card.Actions>
+          </Card>
 
-            <Card style={{alignItems: 'center', padding: '2%', margin: '2%'}}>
-              <Card.Actions>
-                {/* REGISTER BUTTON */}
-                {(userHasPermission(userData?.roles) ||
-                  sessionLeadID === uid) && (
+          <Portal>
+            <Modal
+              visible={deleteSessionModalVisible}
+              onDismiss={toggleDeleteSessionModal}>
+              <Card>
+                <Card.Title
+                  titleStyle={{alignSelf: 'center', fontSize: 18}}
+                  title="Are you sure you want to delete this session?"
+                />
+                <Card.Content>
                   <ConfirmButton
-                    title="Attendance List"
-                    testID="registerButton"
+                    title="Yes"
                     onPress={() => {
-                      navigation.navigate('Register', {
-                        id,
-                      });
-                    }}>
-                    Register
-                  </ConfirmButton>
-                )}
-
-                {/* LEAVE/SIGNUP */}
-                {/* Only show if signup button if user is in the session, otherwise show signup button */}
-                {selectedSessionMentorsData.filter(
-                  (mentor) => mentor.id === uid,
-                ).length >= 1 ? (
-                  <ConfirmButton
-                    testID="leaveSessionButton"
-                    title="Leave session"
-                    onPress={() => {
-                      leaveSession(id, uid, sessionLeadID);
-                    }}></ConfirmButton>
-                ) : (
-                  <ConfirmButton
-                    testID="signupButton"
-                    title="Sign Up"
-                    disabled={maxMentors === selectedSessionMentorsData.length}
-                    onPress={() => {
-                      signupForSession(id, uid)
-                        .then((result) => {
-                          console.log('Session signup done ');
-                        })
-                        .catch((err) => {
-                          console.log('ERROR: ', err);
-                        });
-                    }}></ConfirmButton>
-                )}
-                {/* DElETE SESSION */}
-                {userHasPermission(userData?.roles) && (
-                  <CloseButton
-                    title="Delete"
-                    testID="delete-session-button"
-                    onPress={() => toggleDeleteSessionModal()}>
-                    Register
-                  </CloseButton>
-                )}
-                {/* Popup to confirm delete session */}
-              </Card.Actions>
-            </Card>
-
-            <Portal>
-              <Modal
-                visible={deleteSessionModalVisible}
-                onDismiss={toggleDeleteSessionModal}>
-                <Card>
-                  <Card.Title
-                    titleStyle={{alignSelf: 'center', fontSize: 18}}
-                    title="Are you sure you want to delete this session?"
-                  />
-                  <Card.Content>
-                    <ConfirmButton
-                      title="Yes"
-                      onPress={() => {
-                        console.log('deleting session');
-                        deleteSession(id, uid)
-                          .then((res) => {
-                            console.log('deleted session res', res);
-                            const RouteDestination =
-                              route.name === 'HomeSession' ? 'Home' : 'Profile';
-                            console.log('route destination ', RouteDestination);
-                            navigation.dispatch(
-                              CommonActions.reset({
-                                index: 0,
-                                routes: [{name: RouteDestination}],
-                              }),
-                            );
-                          })
-                          .catch((err) =>
-                            console.log('error deleting session', err),
+                      console.log('deleting session');
+                      deleteSession(id, uid)
+                        .then((res) => {
+                          console.log('deleted session res', res);
+                          const RouteDestination =
+                            route.name === 'HomeSession' ? 'Home' : 'Profile';
+                          console.log('route destination ', RouteDestination);
+                          navigation.dispatch(
+                            CommonActions.reset({
+                              index: 0,
+                              routes: [{name: RouteDestination}],
+                            }),
                           );
-                      }}></ConfirmButton>
-                    <CloseButton
-                      title="No"
-                      onPress={() => {
-                        toggleDeleteSessionModal();
-                      }}></CloseButton>
-                  </Card.Content>
-                </Card>
-              </Modal>
-            </Portal>
-          </View>
+                        })
+                        .catch((err) =>
+                          console.log('error deleting session', err),
+                        );
+                    }}></ConfirmButton>
+                  <CloseButton
+                    title="No"
+                    onPress={() => {
+                      toggleDeleteSessionModal();
+                    }}></CloseButton>
+                </Card.Content>
+              </Card>
+            </Modal>
+          </Portal>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </ScrollView>
   );
 }
