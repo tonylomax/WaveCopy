@@ -36,7 +36,7 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
       }}>
       <Svg
         width={WIDTH}
-        height="160"
+        height="130"
         viewBox="0 0 699 205"
         style={{position: 'absolute', bottom: -50}}>
         <Path
@@ -47,7 +47,7 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
       </Svg>
       <Svg
         width={WIDTH}
-        height="150"
+        height="120"
         viewBox="0 0 699 205"
         fill="none"
         style={{position: 'absolute', bottom: -50}}>

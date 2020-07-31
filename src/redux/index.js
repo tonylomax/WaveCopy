@@ -13,6 +13,7 @@ import {
   getRegions,
   clearCurrentSession,
   updateHomeIndex,
+  getProfilePicture,
 } from './actions';
 
 export {
@@ -30,4 +31,5 @@ export {
   getRegions,
   clearCurrentSession,
   updateHomeIndex,
+  getProfilePicture,
 };
