@@ -45,7 +45,7 @@
     "react-native-image-picker": "^2.3.1",
     "react-native-loading-spinner-overlay": "^1.1.0",
     "react-native-maps": "^0.27.1",
-    "react-native-paper": "^3.10.1",
+    "react-native-paper": "^4.0.1",
     "react-native-progress": "^4.1.2",
     "react-native-reanimated": "^1.9.0",
     "react-native-safe-area-context": "^3.0.5",
@@ -57,6 +57,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "serialize-error": "^7.0.1",
+    "uninstall": "0.0.0",
     "uuid": "^8.2.0"
   },
   "devDependencies": {

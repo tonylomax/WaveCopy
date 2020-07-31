@@ -5,6 +5,7 @@ import Svg, {Path} from 'react-native-svg';
 import {Profile_Icon, Create_Session_Icon, Settings_Icon} from 'assets';
 import {CommonActions} from '@react-navigation/native';
 import {ConfirmButton, CloseButton} from 'components';
+import {COLOURS} from 'styles';
 
 import {useSelector} from 'react-redux';
 const WIDTH = Dimensions.get('screen').width;
@@ -33,6 +34,17 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
         marginBottom: '5%',
         justifyContent: 'center',
       }}>
+      <Svg
+        width={WIDTH}
+        height="160"
+        viewBox="0 0 699 205"
+        style={{position: 'absolute', bottom: -50}}>
+        <Path
+          d="M0 50C180.5 -41.5 565.5 85 699 0V205H0V50Z"
+          fill={COLOURS.DARK_GREY}
+          fillOpacity={0.7}
+        />
+      </Svg>
       <Svg
         width={WIDTH}
         height="150"
