@@ -45,6 +45,9 @@ const OnboardingNavigator = () => (
   <NavigationContainer>
     <OnboardingStack.Navigator>
       <OnboardingStack.Screen
+        options={() => ({
+          headerShown: false,
+        })}
         name="Onboarding"
         component={Onboarding}></OnboardingStack.Screen>
     </OnboardingStack.Navigator>
