@@ -60,7 +60,7 @@ export default function WaveTeamProfile({route, navigation}) {
   }, [regions]);
 
   return (
-    <ScrollView>
+    <ScrollView bounces={false}>
       {/* Place holder for profile pic */}
       <ImageBackground
         style={{height: 175, width: '100%'}}
