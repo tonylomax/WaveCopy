@@ -18,13 +18,11 @@ import {getImageDownloadURI, retrieveRegions} from 'utils';
 
 export default function WaveTeamProfile({route, navigation}) {
   const {mentor} = route.params;
+  const [region, setRegion] = useState('');
+  const [profileURL, setProfileURL] = useState();
   const {roles} = useSelector((state) => state.authenticationReducer.roles);
-
   const regions = useSelector((state) => state.firestoreReducer.regions);
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
-  const IS_ADMIN = roles.includes('NationalAdmin');
-  const [profileURL, setProfileURL] = useState();
-  const sessionData = IS_ADMIN ? 'sessionData' : 'roleSpecificSessionData';
   // Find sessions that a volunteer is signed up for
   const volunteerSessions = useSelector((state) =>
     state.firestoreReducer[sessionData].filter((session) => {
@@ -34,25 +32,20 @@ export default function WaveTeamProfile({route, navigation}) {
       );
     }),
   );
-  const allSessions = useSelector(
-    (state) => state.firestoreReducer.sessionData,
-  );
-  const [region, setRegion] = useState('');
+  const IS_ADMIN = roles.includes('NationalAdmin');
+  const sessionData = IS_ADMIN ? 'sessionData' : 'roleSpecificSessionData';
+  // const allSessions = useSelector(
+  //   (state) => state.firestoreReducer.sessionData,
+  // );
   useEffect(() => {
-    console.log({allSessions});
-    console.log({mentor});
-
     if (mentor?.id) {
       getImageDownloadURI(mentor.id).then((url) => {
         setProfileURL(url);
       });
-      console.log({regions});
-      console.log('region id', mentor.region);
       if (regions && regions?.length > 0) {
         const userRegion = regions.find(
           (region) => region.id === mentor.region,
         );
-        console.log({userRegion});
         setRegion(userRegion?.name);
       }
     }
