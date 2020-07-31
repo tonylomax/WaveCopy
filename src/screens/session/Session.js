@@ -222,7 +222,7 @@ export default function Session({navigation, route}) {
   };
 
   return (
-    <ScrollView>
+    <ScrollView bounces={false}>
       <View>
         <ImageBackground
           style={{height: 175, width: '100%'}}
