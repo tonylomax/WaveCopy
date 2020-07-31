@@ -16,6 +16,7 @@ import {
 } from './firestore';
 
 import {updateHomeIndex} from './navigation';
+import {getProfilePicture} from './firebaseStorage';
 
 export {
   clearSelectedSessionMentors,
@@ -33,4 +34,5 @@ export {
   getRegions,
   clearCurrentSession,
   updateHomeIndex,
+  getProfilePicture,
 };

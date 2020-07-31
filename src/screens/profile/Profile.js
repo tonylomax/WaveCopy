@@ -12,9 +12,10 @@ import {
   CloseButton,
   TrainingAccordionMenu,
   SessionListAccordionMenu,
+  VolunteerAvatar,
 } from 'components';
 import {useSelector, useDispatch} from 'react-redux';
-import {Edit_Icon, BrightonBeach} from 'assets';
+import {Edit_Icon, BrightonBeach, Logo_Square_Blue_Unnamed} from 'assets';
 import ImagePicker from 'react-native-image-picker';
 import {
   uploadFile,
@@ -92,6 +93,9 @@ export default function Profile({navigation, route}) {
         session?.mentors.some((mentor) => mentor.id === uid),
       ),
   );
+  const storedProfileURL = useSelector(
+    (state) => state.firebaseStorageReducer.downloadURI,
+  );
 
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
   //REDUX STATE
@@ -99,7 +103,7 @@ export default function Profile({navigation, route}) {
   //LOCAL STATE
   const [bio, setBio] = useState(userData?.bio);
   const [contactNumber, setContactNumber] = useState(userData?.contactNumber);
-  const [profileURL, setProfileURL] = useState();
+  const [profileURL, setProfileURL] = useState('');
   const [editBio, setEditBio] = useState(false);
   const [editContactNumber, setEditContactNumber] = useState(false);
   const [imageConfirmPopup, setImageConfirmPopup] = useState(false);
@@ -135,10 +139,20 @@ export default function Profile({navigation, route}) {
   };
 
   useEffect(() => {
-    getImageDownloadURI(uid).then((url) => {
-      setProfileURL(url);
-    });
+    console.log('uid', uid);
+    getImageDownloadURI(uid);
   }, [newProfilePicUploadComplete]);
+
+  useEffect(() => {
+    getImageDownloadURI(uid);
+  }, []);
+
+  useEffect(() => {
+    console.log('storedProfileURL', storedProfileURL);
+    if (storedProfileURL) {
+      setProfileURL(storedProfileURL);
+    }
+  }, [storedProfileURL]);
 
   // Could be imported as a component
   const imagePicker = () => {
@@ -186,7 +200,7 @@ export default function Profile({navigation, route}) {
                   title="Are you happy with this new profile picture?"
                 />
                 <Card.Content>
-                  <Avatar.Image
+                  <VolunteerAvatar
                     style={{alignSelf: 'center'}}
                     testID="profilePic"
                     size={100}
@@ -229,15 +243,16 @@ export default function Profile({navigation, route}) {
               <Title style={{alignSelf: 'center'}} testID="firestoreName">
                 {userData?.firstName}{' '}
               </Title>
-              <Avatar.Image
-                style={{alignSelf: 'center'}}
-                // title="Profle Pic"
+
+              <VolunteerAvatar
+                label={`${userData?.firstName.charAt(
+                  0,
+                )}${userData?.lastName.charAt(0)}`}
                 testID="profilePic"
-                size={100}
-                source={{
-                  uri: profileURL,
-                }}
+                source={{profileURL}}
+                isProfilePicture={true}
               />
+
               <TouchableOpacity
                 testID="changeProfilePic"
                 onPress={() => {
