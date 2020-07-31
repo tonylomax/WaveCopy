@@ -1,61 +1,107 @@
-import React, {useEffect} from 'react';
-import {View, Text, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  ImageBackground,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import {useSelector} from 'react-redux';
-
-import Moment from 'react-moment';
 import moment from 'moment';
-import {TrainingAccordionMenu, SessionListAccordionMenu} from 'components';
-import 'moment/src/locale/en-gb';
-
 moment.locale('en-gb');
 moment().format('en-gb');
+import {TrainingAccordionMenu, SessionListAccordionMenu} from 'components';
+import 'moment/src/locale/en-gb';
+import {Title, Paragraph, Subheading} from 'react-native-paper';
+import {VolunteerAvatar, ConfirmButton} from 'components';
+import {coverWave} from '../../assets/';
+import {getImageDownloadURI, retrieveRegions} from 'utils';
 
 export default function WaveTeamProfile({route, navigation}) {
   const {mentor} = route.params;
-
-  const {roles} = useSelector((state) => state.authenticationReducer.roles);
-
-  const IS_ADMIN = roles.includes('NationalAdmin');
-
-  const sessionData = IS_ADMIN ? 'sessionData' : 'roleSpecificSessionData';
+  const [region, setRegion] = useState('');
+  const [profileURL, setProfileURL] = useState();
+  const {roles} = useSelector((state) => state?.authenticationReducer?.roles);
+  const regions = useSelector((state) => state?.firestoreReducer?.regions);
+  const beaches = useSelector((state) => state?.firestoreReducer?.beaches);
   // Find sessions that a volunteer is signed up for
-  // const volunteerSessions = useSelector((state) =>
-  //   state.firestoreReducer[sessionData].filter((session) => {
-  //     console.log('firestore reducer in volunteer sessions', {session});
-  //     return session?.mentors?.some(
-  //       (filteredMentor) => filteredMentor.id === mentor.id,
-  //     );
-  //   }),
-  // );
-  const allSessions = useSelector(
-    (state) => state.firestoreReducer.sessionData,
+  const volunteerSessions = useSelector((state) =>
+    state?.firestoreReducer[sessionData]?.filter((session) => {
+      console.log('firestore reducer in volunteer sessions', {session});
+      return session?.mentors?.some(
+        (filteredMentor) => filteredMentor.id === mentor.id,
+      );
+    }),
   );
+  const IS_ADMIN = roles.includes('NationalAdmin');
+  const sessionData = IS_ADMIN ? 'sessionData' : 'roleSpecificSessionData';
+  // const allSessions = useSelector(
+  //   (state) => state.firestoreReducer.sessionData,
+  // );
   useEffect(() => {
-    console.log({allSessions});
-    return () => {};
-  }, []);
+    if (mentor?.id) {
+      getImageDownloadURI(mentor.id).then((url) => {
+        setProfileURL(url);
+      });
+      if (regions && regions?.length > 0) {
+        const userRegion = regions.find(
+          (region) => region.id === mentor.region,
+        );
+        setRegion(userRegion?.name);
+      }
+    }
 
-  const beaches = useSelector((state) => state.firestoreReducer.beaches);
+    return () => {};
+  }, [mentor]);
+
+  useEffect(() => {
+    if (!regions || regions?.length === 0) {
+      retrieveRegions();
+    }
+  }, [regions]);
 
   return (
-    <View>
+    <ScrollView bounces={false}>
       {/* Place holder for profile pic */}
-      <Image></Image>
+      <ImageBackground
+        style={{height: 175, width: '100%'}}
+        source={coverWave}></ImageBackground>
+      <VolunteerAvatar
+        source={{
+          uri: profileURL,
+        }}
+      />
       {/* Mentor name and age */}
-      <Text>
-        {mentor.firstName} {mentor.lastName}
-        {', '}
-        {moment().diff(mentor.dateOfBirth, 'years')}
-      </Text>
-      <Text>{mentor.contactNumber} </Text>
+      <View
+        style={{
+          paddingTop: '20%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyItems: 'center',
+        }}>
+        <Title>
+          {mentor.firstName} {mentor.lastName}
+          {moment().diff(mentor.dateOfBirth, 'years') > 0 && ', '}
+          {moment().diff(mentor.dateOfBirth, 'years') > 0 &&
+            moment().diff(mentor.dateOfBirth, 'years')}
+        </Title>
+        <ConfirmButton
+          title={
+            mentor.contactNumber ? mentor.contactNumber : 'No contact number'
+          }
+          icon="phone"
+          disabled={mentor.contactNumber ? false : true}></ConfirmButton>
+
+        <Subheading>Volunteering area</Subheading>
+        <Paragraph>{region ? region : 'Unknown Region'}</Paragraph>
+      </View>
 
       <TrainingAccordionMenu training={mentor.training}></TrainingAccordionMenu>
       <SessionListAccordionMenu
-        sessions={allSessions}
-        // beaches={beaches}
+        sessions={volunteerSessions}
+        beaches={beaches}
         navigation={navigation}
         route={route}
         title={'Sessions'}></SessionListAccordionMenu>
-    </View>
+    </ScrollView>
   );
 }

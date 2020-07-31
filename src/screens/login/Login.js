@@ -5,7 +5,7 @@ import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
 
 import {serializeError} from 'serialize-error';
-import {ConfirmButton} from './../../components';
+import {ConfirmButton, LoadingScreen} from './../../components';
 import {Logo_Square_White_Named} from 'assets';
 
 export default function Home({navigation, setLoggedIn}) {
@@ -14,10 +14,12 @@ export default function Home({navigation, setLoggedIn}) {
   //LOCAL STATE
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [loading, setLoading] = useState(false);
   //LOCAL STATE
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLOURS.DEEP_BLUE}}>
+      <LoadingScreen visible={loading} />
       <View>
         <Image
           style={{
@@ -58,7 +60,7 @@ export default function Home({navigation, setLoggedIn}) {
           title="Log In"
           testID="submit-login-details"
           onPress={() => {
-            console.log('PRESSED');
+            setLoading(true);
             loginWithEmail(email, password, setLoggedIn).then((result) => {
               const serializedResult = serializeError(result);
               console.log('message', serializedResult.message);

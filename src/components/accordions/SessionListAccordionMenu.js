@@ -31,17 +31,17 @@ export default function SessionListAccordionMenu({
         <List.Section>
           {/* <List.AccordionGroup> */}
           <List.Accordion
-            expanded={sessions.length > 0 ? expanded : false}
+            expanded={sessions?.length > 0 ? expanded : false}
             theme={{
               colors: {
-                text: sessions.length > 0 ? 'black' : 'grey',
+                text: sessions?.length > 0 ? 'black' : 'grey',
               },
             }}
             onPress={() => {
               setExpanded((expanded) => !expanded);
             }}
             testID="sessionlist-accordian"
-            title={sessions.length > 0 ? title : `${title} (No Sessions)`}
+            title={sessions?.length > 0 ? title : `${title} (No Sessions)`}
             id="1">
             {sessions
               ?.sort((a, b) => {
