@@ -156,46 +156,49 @@ export default function Register({navigation, route}) {
             const hasPersonAttended = sessionData?.mentors?.filter((person) => {
               return person.id === mentor.id;
             })[0].attended;
-            <List.Item
-              title="hello"
-              description={() => (
-                <Card key={i}>
-                  <Card.Content>
-                    <View
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                      }}>
-                      <VolunteerAvatar
-                        label={`${mentor?.firstName.charAt(
-                          0,
-                        )}${mentor?.lastName.charAt(0)}`}
-                      />
-                      <Paragraph>
-                        {mentor?.firstName} {mentor?.lastName}
-                      </Paragraph>
-                      <View style={{marginLeft: 'auto'}}>
-                        <Checkbox.Android
-                          status={hasPersonAttended ? 'checked' : 'unchecked'}
-                          uncheckedColor="black"
-                          color={colors.primary}
-                          onPress={() => {
-                            markAttendance(
-                              id,
-                              mentor.id,
-                              sessionData,
-                              USER_GROUP.MENTORS,
-                            );
-                          }}
+
+            return (
+              <List.Item
+                title="hello"
+                description={() => (
+                  <Card key={i}>
+                    <Card.Content>
+                      <View
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'flex-start',
+                        }}>
+                        <VolunteerAvatar
+                          label={`${mentor?.firstName.charAt(
+                            0,
+                          )}${mentor?.lastName.charAt(0)}`}
                         />
+                        <Paragraph>
+                          {mentor?.firstName} {mentor?.lastName}
+                        </Paragraph>
+                        <View style={{marginLeft: 'auto'}}>
+                          <Checkbox.Android
+                            status={hasPersonAttended ? 'checked' : 'unchecked'}
+                            uncheckedColor="black"
+                            color={colors.primary}
+                            onPress={() => {
+                              markAttendance(
+                                id,
+                                mentor.id,
+                                sessionData,
+                                USER_GROUP.MENTORS,
+                              );
+                            }}
+                          />
+                        </View>
                       </View>
-                    </View>
-                  </Card.Content>
-                </Card>
-              )}
-            />;
+                    </Card.Content>
+                  </Card>
+                )}
+              />
+            );
           })}
         </List.Accordion>
       </List.AccordionGroup>
