@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import Moment from 'react-moment';
-import {RegisterTabs, SurferAvatar, VolunteerAvatar} from 'components';
+import {RegisterTabs, SurferAvatar, VolunteerOtherAvatar} from 'components';
 import {useSelector} from 'react-redux';
 import {markAttendance, subscribeToSessionChanges} from 'utils';
 import {USER_GROUP} from 'constants';
@@ -66,12 +66,14 @@ export default function Register({navigation, route}) {
           {sessionData?.type === 'surf-club' ? 'Surf Club' : 'Surf Therapy'} -{' '}
           {sessionData?.beach}
         </Subheading>
-        <Moment
-          style={{textAlign: 'center'}}
-          element={Paragraph}
-          format="DD.MM.YY">
-          {sessionData?.dateTime}
-        </Moment>
+        <Subheading>
+          <Moment
+            style={{textAlign: 'center'}}
+            element={Paragraph}
+            format="DD.MM.YY">
+            {sessionData?.dateTime}
+          </Moment>
+        </Subheading>
       </Surface>
 
       <List.AccordionGroup>
@@ -85,7 +87,7 @@ export default function Register({navigation, route}) {
             }}>
             <Paragraph
               style={{
-                marginLeft: 120,
+                marginLeft: '23%',
               }}>
               Name
             </Paragraph>
@@ -162,7 +164,7 @@ export default function Register({navigation, route}) {
             }}>
             <Paragraph
               style={{
-                marginLeft: 120,
+                marginLeft: '23%',
               }}>
               Name
             </Paragraph>
@@ -198,7 +200,7 @@ export default function Register({navigation, route}) {
                     alignItems: 'center',
                     justifyContent: 'flex-start',
                   }}>
-                  <VolunteerAvatar
+                  <VolunteerOtherAvatar
                     label={`${mentor?.firstName.charAt(
                       0,
                     )}${mentor?.lastName.charAt(0)}`}
