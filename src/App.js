@@ -240,6 +240,7 @@ const ProfileNavigator = ({navigation, route}) => {
         name="Profile"
         component={Profile}
         options={{
+          headerShown: false,
           headerTitleStyle: {textAlign: 'center'},
         }}></ProfileStack.Screen>
       <ProfileStack.Screen

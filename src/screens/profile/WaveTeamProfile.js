@@ -41,10 +41,12 @@ export default function WaveTeamProfile({route, navigation}) {
   useEffect(() => {
     console.log('mento changed');
     if (mentor?.id) {
-      simplyGetImageDownloadURI(mentor.id).then((url) => {
-        console.log('url retrieved ,', url);
-        setProfileURL(url);
-      });
+      simplyGetImageDownloadURI(mentor.id)
+        .then((url) => {
+          console.log('url retrieved ,', url);
+          setProfileURL(url);
+        })
+        .catch((err) => console.log(err));
       if (regions && regions?.length > 0) {
         const userRegion = regions.find(
           (region) => region.id === mentor.region,
