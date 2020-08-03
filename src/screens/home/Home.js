@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableHighlight,
+  ImageBackground,
 } from 'react-native';
 import {Card, Title, Paragraph, Subheading} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
@@ -20,7 +21,8 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
-import {ConfirmButton} from 'components';
+import {ConfirmButton, VolunteerAvatar} from 'components';
+import {coverWave, Logo_Square_Blue_Unnamed} from '../../assets/';
 
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
@@ -31,6 +33,11 @@ export default function Profile({navigation}) {
   //LOCAL STATE
 
   //REDUX STATE
+
+  const profileURL = useSelector(
+    (state) => state.firebaseStorageReducer.downloadURI,
+  );
+
   const selectedSessionMentorsData = useSelector(
     (state) => state.firestoreReducer.selectedSessionSubscribedMentors,
   );
@@ -97,15 +104,24 @@ export default function Profile({navigation}) {
     }
   }, [userData]);
 
-  // useEffect(() => {
-  //   console.log('sessions in home', sessions);
-  // }, [sessions]);
+  useEffect(() => {
+    console.log('profileURL in home', profileURL);
+  }, [profileURL]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, paddingBottom: 10}}>
+        <ImageBackground
+          style={{height: 125, width: '100%'}}
+          source={coverWave}></ImageBackground>
+        {/* <VolunteerAvatar
+          source={{
+            Logo_Square_Blue_Unnamed,
+          }}
+        /> */}
         <Title testID="upcoming-sessions-title">Upcoming sessions</Title>
         <ConfirmButton
+          style={{marginBottom: '2.5%'}}
           title={toggleFilter ? 'All sessions' : 'Sessions with spaces'}
           onPress={() => {
             setToggleFilter((toggleFilter) => !toggleFilter);
@@ -123,7 +139,7 @@ export default function Profile({navigation}) {
           }
           renderItem={({item}) => (
             <Card
-              style={{padding: '5%', margin: '2%'}}
+              style={{margin: '2%'}}
               elevation={2}
               id={item.id}
               testID={`SessionsListItem${item.id}`}
@@ -132,11 +148,17 @@ export default function Profile({navigation}) {
                 navigation.navigate('HomeSession', {item, selectedBeach});
               }}>
               <Card.Title
+                titleStyle={{marginLeft: '27%'}}
                 title={
                   item?.type === 'surf-club' ? 'Surf Club' : 'Surf Therapy'
                 }
               />
-              <Card.Content>
+              <Card.Content
+                style={{
+                  marginLeft: '26%',
+                  marginBottom: '2%',
+                  marginTop: '2%',
+                }}>
                 <Paragraph>{item?.beach}</Paragraph>
                 <Paragraph>
                   {
@@ -150,7 +172,17 @@ export default function Profile({navigation}) {
                 </Subheading>
               </Card.Content>
 
-              <Card.Cover source={getCoverImage(item?.beach)} />
+              <Card.Cover
+                style={{
+                  borderTopLeftRadius: 5,
+                  borderBottomLeftRadius: 5,
+                  position: 'absolute',
+                  width: '25%',
+                  height: '100%',
+                  overflow: 'hidden',
+                }}
+                source={getCoverImage(item?.beach)}
+              />
             </Card>
           )}
           keyExtractor={(item) => item.id}></FlatList>

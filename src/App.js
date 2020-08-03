@@ -106,7 +106,10 @@ const StandardTabNavigator = () => (
 const HomeNavigator = ({navigation, route}) => {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={Home}></HomeStack.Screen>
+      <HomeStack.Screen
+        name="Home"
+        component={Home}
+        options={{headerShown: false}}></HomeStack.Screen>
       <HomeStack.Screen
         name="HomeSession"
         component={Session}

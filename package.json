@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios --simulator='iPhone 5s'",
+    "ios": "react-native run-ios --simulator='iPhone 11'",
     "start": "react-native start ",
     "test": "jest ",
     "lint": "eslint .",
@@ -57,6 +57,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "serialize-error": "^7.0.1",
+    "uninstall": "0.0.0",
     "uuid": "^8.2.0"
   },
   "devDependencies": {

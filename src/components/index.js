@@ -14,6 +14,7 @@ import ResetPassword from './ResetPassword';
 import CurvedTabBar from './CurvedTabBar';
 import SurferAvatar from './SurferAvatar';
 import VolunteerOtherAvatar from './VolunteerOtherAvatar';
+import VolunteerAvatar from './VolunteerAvatar';
 import {
   SessionDetailsAccordionMenu,
   TrainingAccordionMenu,
@@ -21,6 +22,7 @@ import {
 } from './accordions/index';
 
 export {
+  VolunteerAvatar,
   VolunteerOtherAvatar,
   SurferAvatar,
   BackButton,
