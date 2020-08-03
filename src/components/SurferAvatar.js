@@ -1,9 +1,9 @@
 import React from 'react';
 import {Avatar, useTheme} from 'react-native-paper';
 import {relativeTimeRounding} from 'moment';
-export default function SurferAvatar({label, profilePicture}) {
+export default function SurferAvatar({label, isProfilePicture}) {
   const {maxWidth, colors, fonts} = useTheme();
-  if (profilePicture) {
+  if (isProfilePicture) {
     return (
       <Avatar.Text
         label={label}

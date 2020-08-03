@@ -1,9 +1,13 @@
 import React from 'react';
 import {Avatar, useTheme} from 'react-native-paper';
 import {relativeTimeRounding} from 'moment';
-export default function VolunteerAvatar({label, source, profilePicture}) {
+export default function VolunteerOtherAvatar({
+  label,
+  source,
+  isProfilePicture,
+}) {
   const {maxWidth, colors, fonts} = useTheme();
-  if (profilePicture) {
+  if (isProfilePicture) {
     return (
       <Avatar.Image
         source={source}

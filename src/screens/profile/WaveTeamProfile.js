@@ -12,7 +12,7 @@ moment().format('en-gb');
 import {TrainingAccordionMenu, SessionListAccordionMenu} from 'components';
 import 'moment/src/locale/en-gb';
 import {Title, Paragraph, Subheading} from 'react-native-paper';
-import {VolunteerAvatar, ConfirmButton} from 'components';
+import {VolunteerOtherAvatar, ConfirmButton} from 'components';
 import {coverWave} from '../../assets/';
 import {getImageDownloadURI, retrieveRegions} from 'utils';
 
@@ -65,8 +65,8 @@ export default function WaveTeamProfile({route, navigation}) {
       <ImageBackground
         style={{height: 175, width: '100%'}}
         source={coverWave}></ImageBackground>
-      <VolunteerAvatar
-        profilePicture={true}
+      <VolunteerOtherAvatar
+        isProfilePicture={true}
         source={{
           uri: profileURL,
         }}
