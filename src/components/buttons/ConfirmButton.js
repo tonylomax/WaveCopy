@@ -19,6 +19,9 @@ export default function ConfirmButton({
         },
       }}
       style={{
+        margin: style?.margin,
+        padding: style?.padding,
+        marginRight: style?.marginRight,
         marginBottom: style?.marginBottom,
         alignSelf: 'center',
         backgroundColor: colors.tertiary,

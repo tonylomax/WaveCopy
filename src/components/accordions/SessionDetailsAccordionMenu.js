@@ -6,11 +6,13 @@ import {
   Linking,
   TouchableOpacity,
   StyleSheet,
+  TouchableHighlight,
+  Button,
 } from 'react-native';
 import {List, Divider, Card, Paragraph} from 'react-native-paper';
 import MapView, {Marker} from 'react-native-maps';
 
-import {ConfirmButton, CloseButton} from 'components';
+import {ConfirmButton, CloseButton, VolunteerAvatar} from 'components';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   assignSessionLead,
@@ -18,6 +20,7 @@ import {
   removeMentorFromSession,
 } from 'utils';
 import {ScrollView} from 'react-native-gesture-handler';
+import Swipeable from 'react-native-swipeable';
 
 export default function SessionDetailsAccordionMenu({
   navigation,
@@ -36,13 +39,14 @@ export default function SessionDetailsAccordionMenu({
   const [mentorsExpanded, setMentorsExpanded] = useState(false);
   const [attendeesExpanded, setAttendeesExpanded] = useState(false);
   useEffect(() => {
-    // console.log({mentors});
-    return () => {};
+    console.log('mentors', mentors);
   }, [mentors]);
 
   return (
     // <List.AccordionGroup>
-    <List.Section>
+    <List.Section
+    //  style={{margin: 0, width: '100%'}}
+    >
       <List.Accordion
         expanded={mentors.length > 0 ? mentorsExpanded : false}
         theme={{
@@ -57,76 +61,151 @@ export default function SessionDetailsAccordionMenu({
         testID="mentors-accordian"
         id="1">
         {mentors?.length > 0 &&
-          mentors?.map((mentor, i) => (
-            <View>
-              <List.Item
-                testID={`session-accordion-mentor${mentor.id}`}
+          mentors?.map((mentor, i) => {
+            const rightButtons = [
+              <ConfirmButton
+                style={{marginRight: 50}}
+                testID={`removeAsMentorButton${mentor.id}`}
                 onPress={() => {
-                  if (route.name !== 'ConfirmSession') {
-                    const routeDestination =
-                      route.name === 'HomeSession'
-                        ? 'Home Volunteer Profile'
-                        : 'Profile Volunteer Profile';
-                    navigation.navigate(routeDestination, {mentor});
-                  }
+                  removeMentorFromSession(
+                    sessionID,
+                    mentor.id,
+                    uid,
+                    sessionLead?.id,
+                  )
+                    .then((result) => {
+                      console.log('Mentor remove done', result);
+                    })
+                    .catch((err) => {
+                      console.log('ERROR OUTSIDE TRANSACTION ', err);
+                      Alert.alert(err);
+                    });
                 }}
-                key={`mentor-${i + 1}`}
-                title={`${i + 1}. ${mentor?.firstName} ${mentor?.lastName}`}
-              />
-              {roles?.some(
-                () =>
-                  userData?.roles?.includes('SurfLead') ||
-                  userData?.roles?.includes('NationalAdmin') ||
-                  userData?.roles?.includes('Coordinator') ||
-                  sessionLead?.id === uid,
-              ) && (
-                <View>
-                  <CloseButton
-                    testID={`removeAsMentorButton${mentor.id}`}
-                    onPress={() => {
-                      removeMentorFromSession(
-                        sessionID,
-                        mentor.id,
-                        uid,
-                        sessionLead?.id,
-                      )
-                        .then((result) => {
-                          console.log('Mentor remove done', result);
-                        })
-                        .catch((err) => {
-                          console.log('ERROR OUTSIDE TRANSACTION ', err);
-                          Alert.alert(err);
-                        });
-                    }}
-                    title="Remove as Mentor"></CloseButton>
-                  {sessionLead?.id === mentor.id ? (
-                    <CloseButton
-                      title="Remove as Lead"
-                      onPress={() => {
-                        unassignSessionLead(sessionID, mentor.id, uid).catch(
-                          (err) => {
-                            console.log('ERROR OUTSIDE TRANSACTION ', err);
-                            Alert.alert(err);
-                          },
-                        );
-                      }}></CloseButton>
-                  ) : (
-                    <ConfirmButton
-                      onPress={() => {
-                        assignSessionLead(sessionID, mentor.id, uid).catch(
-                          (err) => {
-                            console.log('ERROR OUTSIDE TRANSACTION ', err);
-                            Alert.alert(err);
-                          },
-                        );
-                      }}
-                      title="Add as Lead"></ConfirmButton>
-                  )}
-                </View>
-              )}
-              <Divider />
-            </View>
-          ))}
+                title="Remove as Mentor"></ConfirmButton>,
+              sessionLead?.id === mentor.id ? (
+                <CloseButton
+                  title="Remove as Lead"
+                  onPress={() => {
+                    unassignSessionLead(sessionID, mentor.id, uid).catch(
+                      (err) => {
+                        console.log('ERROR OUTSIDE TRANSACTION ', err);
+                        Alert.alert(err);
+                      },
+                    );
+                  }}></CloseButton>
+              ) : (
+                <ConfirmButton
+                  onPress={() => {
+                    assignSessionLead(sessionID, mentor.id, uid).catch(
+                      (err) => {
+                        console.log('ERROR OUTSIDE TRANSACTION ', err);
+                        Alert.alert(err);
+                      },
+                    );
+                  }}
+                  title="Add as Lead"></ConfirmButton>
+              ),
+            ];
+            return (
+              // <Swipeable
+              //   // style={{flex: 1, marginBottom: 4, position: 'relative'}}
+              //   rightButtons={rightButtons}
+              //   rightContainerStyle={{margin: 0, padding: 0, color: 'red'}}
+              //   rightButtonContainerStyle={{
+              //     alignItems: 'flex-start',
+              //     justifyContent: 'space-between',
+              //     flexWrap: 'wrap',
+              //     alignContent: 'space-between',
+              //     // paddingLeft: '-20%',
+              //     marginLeft: '-20%',
+              //     // width: 600,
+              //     alignItems: 'stretch',
+              //     // margin: '2%',
+              //     // margin: 0,
+              //     padding: 0,
+              //   }}>
+              <View>
+                {/* <List.Item
+                  testID={`session-accordion-mentor${mentor.id}`}
+                  key={`mentor-${i + 1}`}></List.Item> */}
+                <Card
+                  onPress={() => {
+                    if (route.name !== 'ConfirmSession') {
+                      const routeDestination =
+                        route.name === 'HomeSession'
+                          ? 'Home Volunteer Profile'
+                          : 'Profile Volunteer Profile';
+                      navigation.navigate(routeDestination, {mentor});
+                    }
+                  }}>
+                  <Card.Title
+                    title={`${mentor?.firstName} ${mentor?.lastName}`}></Card.Title>
+
+                  <Card.Content>
+                    <VolunteerAvatar
+                      label={}
+                      isProfilePicture={true}></VolunteerAvatar>
+                  </Card.Content>
+                </Card>
+              </View>
+
+              // {roles?.some(
+              //     () =>
+              //       userData?.roles?.includes('SurfLead') ||
+              //       userData?.roles?.includes('NationalAdmin') ||
+              //       userData?.roles?.includes('Coordinator') ||
+              //       sessionLead?.id === uid,
+              //   ) && (
+              //     <View>
+              //       <CloseButton
+              //         testID={`removeAsMentorButton${mentor.id}`}
+              //         onPress={() => {
+              //           removeMentorFromSession(
+              //             sessionID,
+              //             mentor.id,
+              //             uid,
+              //             sessionLead?.id,
+              //           )
+              //             .then((result) => {
+              //               console.log('Mentor remove done', result);
+              //             })
+              //             .catch((err) => {
+              //               console.log('ERROR OUTSIDE TRANSACTION ', err);
+              //               Alert.alert(err);
+              //             });
+              //         }}
+              //         title="Remove as Mentor"></CloseButton>
+              //       {sessionLead?.id === mentor.id ? (
+              //         <CloseButton
+              //           title="Remove as Lead"
+              //           onPress={() => {
+              //             unassignSessionLead(
+              //               sessionID,
+              //               mentor.id,
+              //               uid,
+              //             ).catch((err) => {
+              //               console.log('ERROR OUTSIDE TRANSACTION ', err);
+              //               Alert.alert(err);
+              //             });
+              //           }}></CloseButton>
+              //       ) : (
+              //         <ConfirmButton
+              //           onPress={() => {
+              //             assignSessionLead(sessionID, mentor.id, uid).catch(
+              //               (err) => {
+              //                 console.log('ERROR OUTSIDE TRANSACTION ', err);
+              //                 Alert.alert(err);
+              //               },
+              //             );
+              //           }}
+              //           title="Add as Lead"></ConfirmButton>
+              //       )}
+              //     </View>
+              //   )}
+
+              // </Swipeable>
+            );
+          })}
       </List.Accordion>
       <List.Accordion
         expanded={selectedUsers.length > 0 ? attendeesExpanded : false}
