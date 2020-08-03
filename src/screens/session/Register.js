@@ -73,29 +73,30 @@ export default function Register({navigation, route}) {
           {sessionData?.dateTime}
         </Moment>
       </Surface>
-      {/* <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}>
-        <Paragraph
-          style={{
-            marginLeft: 80,
-          }}>
-          Name
-        </Paragraph>
-        <Paragraph
-          style={{
-            marginLeft: 'auto',
-            marginRight: 10,
-          }}>
-          Present
-        </Paragraph>
-      </View> */}
+
       <List.AccordionGroup>
         <List.Accordion title="Surfers" id="1">
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+            }}>
+            <Paragraph
+              style={{
+                marginLeft: 120,
+              }}>
+              Name
+            </Paragraph>
+            <Paragraph
+              style={{
+                marginLeft: 'auto',
+                marginRight: 10,
+              }}>
+              Present
+            </Paragraph>
+          </View>
           {selectedSessionAttendeesData.map((attendee, i) => {
             //Retrieve the bool value that shows whether the person has attended the session
             const hasPersonAttended = sessionData?.attendees?.filter(
@@ -104,53 +105,75 @@ export default function Register({navigation, route}) {
               },
             )[0]?.attended;
             return (
-              <List.Item
-                description={() => (
-                  <Card key={i}>
-                    <Card.Content>
-                      <View
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'flex-start',
-                        }}>
-                        <SurferAvatar
-                          label={`${attendee?.firstName.charAt(
-                            0,
-                          )}${attendee?.lastName.charAt(0)}`}
-                        />
+              <Card
+                key={i}
+                style={{
+                  borderTopWidth: i === 0 ? 1 : 0,
+                  borderBottomWidth: 1,
+                  borderColor: 'black',
+                  borderStyle: 'solid',
+                }}>
+                <Card.Content
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <SurferAvatar
+                    label={`${attendee?.firstName.charAt(
+                      0,
+                    )}${attendee?.lastName.charAt(0)}`}
+                  />
 
-                        <Paragraph>
-                          {attendee?.firstName} {attendee?.lastName}{' '}
-                        </Paragraph>
-                        <View
-                          style={{
-                            marginLeft: 'auto',
-                          }}>
-                          <Checkbox.Android
-                            status={hasPersonAttended ? 'checked' : 'unchecked'}
-                            uncheckedColor="black"
-                            color={colors.primary}
-                            onPress={() => {
-                              markAttendance(
-                                id,
-                                attendee.id,
-                                sessionData,
-                                USER_GROUP.ATTENDEES,
-                              );
-                            }}
-                          />
-                        </View>
-                      </View>
-                    </Card.Content>
-                  </Card>
-                )}
-              />
+                  <Paragraph style={{maxWidth: '70%'}}>
+                    {attendee?.firstName} {attendee?.lastName}{' '}
+                  </Paragraph>
+                  <View
+                    style={{
+                      marginLeft: 'auto',
+                    }}>
+                    <Checkbox.Android
+                      status={hasPersonAttended ? 'checked' : 'unchecked'}
+                      uncheckedColor="black"
+                      color={colors.primary}
+                      onPress={() => {
+                        markAttendance(
+                          id,
+                          attendee.id,
+                          sessionData,
+                          USER_GROUP.ATTENDEES,
+                        );
+                      }}
+                    />
+                  </View>
+                </Card.Content>
+              </Card>
             );
           })}
         </List.Accordion>
         <List.Accordion title="Mentors" id="2">
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+            }}>
+            <Paragraph
+              style={{
+                marginLeft: 120,
+              }}>
+              Name
+            </Paragraph>
+            <Paragraph
+              style={{
+                marginLeft: 'auto',
+                marginRight: 10,
+              }}>
+              Present
+            </Paragraph>
+          </View>
           {selectedSessionMentorsData?.map((mentor, i) => {
             console.log({mentor});
             const hasPersonAttended = sessionData?.mentors?.filter((person) => {
@@ -158,46 +181,48 @@ export default function Register({navigation, route}) {
             })[0].attended;
 
             return (
-              <List.Item
-                title="hello"
-                description={() => (
-                  <Card key={i}>
-                    <Card.Content>
-                      <View
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'flex-start',
-                        }}>
-                        <VolunteerAvatar
-                          label={`${mentor?.firstName.charAt(
-                            0,
-                          )}${mentor?.lastName.charAt(0)}`}
-                        />
-                        <Paragraph>
-                          {mentor?.firstName} {mentor?.lastName}
-                        </Paragraph>
-                        <View style={{marginLeft: 'auto'}}>
-                          <Checkbox.Android
-                            status={hasPersonAttended ? 'checked' : 'unchecked'}
-                            uncheckedColor="black"
-                            color={colors.primary}
-                            onPress={() => {
-                              markAttendance(
-                                id,
-                                mentor.id,
-                                sessionData,
-                                USER_GROUP.MENTORS,
-                              );
-                            }}
-                          />
-                        </View>
-                      </View>
-                    </Card.Content>
-                  </Card>
-                )}
-              />
+              <Card
+                style={{
+                  borderTopWidth: i === 0 ? 1 : 0,
+                  borderBottomWidth: 1,
+                  borderColor: 'black',
+                  borderStyle: 'solid',
+                }}
+                key={i}>
+                <Card.Content
+                  style={{
+                    padding: 0,
+                    margin: 0,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                  }}>
+                  <VolunteerAvatar
+                    label={`${mentor?.firstName.charAt(
+                      0,
+                    )}${mentor?.lastName.charAt(0)}`}
+                  />
+                  <Paragraph style={{maxWidth: '50%'}}>
+                    {mentor?.firstName} {mentor?.lastName}
+                  </Paragraph>
+                  <View style={{marginLeft: 'auto'}}>
+                    <Checkbox.Android
+                      status={hasPersonAttended ? 'checked' : 'unchecked'}
+                      uncheckedColor="black"
+                      color={colors.primary}
+                      onPress={() => {
+                        markAttendance(
+                          id,
+                          mentor.id,
+                          sessionData,
+                          USER_GROUP.MENTORS,
+                        );
+                      }}
+                    />
+                  </View>
+                </Card.Content>
+              </Card>
             );
           })}
         </List.Accordion>
