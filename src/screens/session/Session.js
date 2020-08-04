@@ -348,8 +348,18 @@ export default function Session({navigation, route}) {
               />
             )}
 
-          <Card style={{padding: '2%', margin: '2%'}}>
-            <Card.Actions style={{justifyContent: 'space-between'}}>
+          <Card
+            style={{
+              padding: '2%',
+              margin: '2%',
+              marginBottom: '10%',
+            }}>
+            <Card.Actions
+              style={{
+                width: '100%',
+                justifyContent: 'space-between',
+                padding: 0,
+              }}>
               {/* REGISTER BUTTON */}
               {(userHasPermission(userData?.roles) ||
                 sessionLeadID === uid) && (

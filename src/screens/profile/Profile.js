@@ -371,6 +371,7 @@ export default function Profile({navigation, route}) {
             <Subheading>Contact number</Subheading>
             {editContactNumber ? (
               <TextInput
+                keyboardType="number-pad"
                 mode="outlined"
                 testID="editContactNumber"
                 onChangeText={(updatedNumber) => {
