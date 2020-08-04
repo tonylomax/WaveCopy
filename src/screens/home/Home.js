@@ -21,7 +21,7 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
-import {ConfirmButton, VolunteerAvatar} from 'components';
+import {ConfirmButton} from 'components';
 import {coverWave, Logo_Square_Blue_Unnamed} from '../../assets/';
 
 export default function Profile({navigation}) {
@@ -114,11 +114,7 @@ export default function Profile({navigation}) {
         <ImageBackground
           style={{height: 125, width: '100%'}}
           source={coverWave}></ImageBackground>
-        {/* <VolunteerAvatar
-          source={{
-            Logo_Square_Blue_Unnamed,
-          }}
-        /> */}
+
         <Title testID="upcoming-sessions-title">Upcoming sessions</Title>
         <ConfirmButton
           style={{marginBottom: '2.5%'}}

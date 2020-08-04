@@ -8,7 +8,13 @@ import {
   ImageBackground,
   ScrollView,
 } from 'react-native';
-import {Title, Paragraph, Surface, Subheading} from 'react-native-paper';
+import {
+  Title,
+  Paragraph,
+  Surface,
+  Subheading,
+  TouchableRipple,
+} from 'react-native-paper';
 import {CallPerson, SurferAvatar} from 'components';
 import {coverWave} from '../../assets/';
 
@@ -23,7 +29,8 @@ export default function ServiceUserProfile({route}) {
         {/* Edit session button */}
       </ImageBackground>
       <SurferAvatar
-        label={`${serviceUser?.firstName?.charAt(
+        isProfilePicture={true}
+        label={`${serviceUser?.firstName.charAt(
           0,
         )}${serviceUser?.lastName.charAt(0)}`}
       />
@@ -47,7 +54,7 @@ export default function ServiceUserProfile({route}) {
         <Subheading>Medical requirements </Subheading>
 
         <Subheading>Emergency contacts</Subheading>
-        <TouchableOpacity
+        <TouchableRipple
           onPress={async () => {
             await Linking.openURL(`tel:${serviceUser?.number}`).catch((err) => {
               console.log(err);
@@ -56,7 +63,7 @@ export default function ServiceUserProfile({route}) {
           <Paragraph>
             {serviceUser?.number ? serviceUser?.number : 'No number'}
           </Paragraph>
-        </TouchableOpacity>
+        </TouchableRipple>
 
         <CallPerson
           disabled={serviceUser?.number ? false : true}

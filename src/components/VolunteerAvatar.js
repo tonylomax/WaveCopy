@@ -7,52 +7,54 @@ export default function VolunteerAvatar({
   label,
   source,
   isProfilePicture,
-  style,
   size,
+  style,
 }) {
+  console.log('other volunteer avatar');
+  console.log({source});
   const {maxWidth, colors, fonts} = useTheme();
-  console.log('IN VOL AVATAR COMPONENT');
-  if (isProfilePicture) {
-    if (isEmpty(source?.profileURL) || source?.profileURL === '') {
-      console.log('IS PROFILE PICTURE AND NO SOURCE');
-      return (
-        <Avatar.Text
-          label={label}
-          size={size || 100}
-          style={{
-            paddingRight: style?.paddingRight,
-            padding: style?.padding,
-            marginRight: style?.marginRight,
-            margin: style?.margin,
-            position: style?.position,
-            alignSelf: style?.alignSelf || 'center',
-            backgroundColor: colors.accent,
-            borderColor: colors.surface,
-            borderWidth: style?.borderWidth || 3,
-            justifyContent: style?.justifyContent,
-          }}
-        />
-      );
-    } else {
-      console.log('IS PROFILE PICTURE AND THERE IS A SOURCE', source);
-      return (
-        <Avatar.Image
-          source={{uri: source.profileURL}}
-          size={100}
-          style={{
-            alignSelf: 'center',
-            backgroundColor: colors.accent,
-            borderColor: colors.surface,
-            borderWidth: 3,
-          }}
-        />
-      );
-    }
-  } else
+  if (isProfilePicture && size === 'LARGE' && source?.uri?.length > 0) {
     return (
       <Avatar.Image
         source={source}
         size={100}
+        style={{
+          paddingRight: style?.paddingRight,
+          padding: style?.padding,
+          marginRight: style?.marginRight,
+          margin: style?.margin,
+          position: style?.position,
+          alignSelf: style?.alignSelf || 'center',
+          backgroundColor: colors.accent,
+          borderColor: colors.surface,
+          borderWidth: style?.borderWidth || 3,
+          justifyContent: style?.justifyContent,
+        }}
+      />
+    );
+  } else if (
+    isProfilePicture &&
+    size === 'LARGE' &&
+    !(source?.uri?.length > 0)
+  ) {
+    return (
+      <Avatar.Text
+        label={label}
+        size={100}
+        style={{
+          alignSelf: 'center',
+          backgroundColor: colors.accent,
+          borderColor: colors.surface,
+          borderWidth: 3,
+        }}
+      />
+    );
+  } else if (isProfilePicture && size === 'MEDIUM' && source?.uri?.length > 0) {
+    return (
+      <Avatar.Image
+        source={source}
+        size={100}
+        color={colors.dark_second}
         style={{
           position: 'absolute',
           display: 'flex',
@@ -64,4 +66,35 @@ export default function VolunteerAvatar({
         }}
       />
     );
+  } else if (isProfilePicture && size === 'MEDIUM') {
+    return (
+      <Avatar.Text
+        label={label}
+        size={100}
+        color={colors.dark_second}
+        style={{
+          backgroundColor: colors.accent,
+          position: 'absolute',
+          display: 'flex',
+          alignSelf: 'center',
+          top: 130,
+        }}
+      />
+    );
+  } else if (size === 'SMALL') {
+    return (
+      <Avatar.Text
+        label={label}
+        source={source}
+        size={60}
+        color={colors.dark_second}
+        style={{
+          backgroundColor: colors.accent,
+          marginRight: 20,
+        }}
+      />
+    );
+  } else {
+    return <Avatar.Text />;
+  }
 }

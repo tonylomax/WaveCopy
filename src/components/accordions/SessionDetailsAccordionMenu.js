@@ -187,7 +187,7 @@ export default function SessionDetailsAccordionMenu({
                           0,
                         )}${mentor?.lastName.charAt(0)}`}
                         isProfilePicture={true}
-                        size={75}
+                        size={'SMALL'}
                         style={{
                           alignSelf: 'flex-start',
                           marginRight: '7.5%',
@@ -329,7 +329,7 @@ export default function SessionDetailsAccordionMenu({
                           0,
                         )}${serviceUser?.lastName?.charAt(0)}`}
                         isProfilePicture={true}
-                        size={75}
+                        size={'SMALL'}
                         style={{
                           alignSelf: 'flex-start',
                           marginRight: '7.5%',

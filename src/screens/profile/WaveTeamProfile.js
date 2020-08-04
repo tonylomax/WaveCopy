@@ -9,12 +9,16 @@ import {useSelector} from 'react-redux';
 import moment from 'moment';
 moment.locale('en-gb');
 moment().format('en-gb');
-import {TrainingAccordionMenu, SessionListAccordionMenu} from 'components';
+import {
+  TrainingAccordionMenu,
+  SessionListAccordionMenu,
+  VolunteerAvatar,
+} from 'components';
 import 'moment/src/locale/en-gb';
 import {Title, Paragraph, Subheading} from 'react-native-paper';
-import {VolunteerAvatar, ConfirmButton} from 'components';
+import {ConfirmButton} from 'components';
 import {coverWave} from '../../assets/';
-import {getImageDownloadURI, retrieveRegions} from 'utils';
+import {simplyGetImageDownloadURI, retrieveRegions} from 'utils';
 
 export default function WaveTeamProfile({route, navigation}) {
   const {mentor} = route.params;
@@ -40,10 +44,14 @@ export default function WaveTeamProfile({route, navigation}) {
 
   console.log('mentor', mentor.dateOfBirth);
   useEffect(() => {
+    console.log('mento changed');
     if (mentor?.id) {
-      getImageDownloadURI(mentor.id).then((url) => {
-        setProfileURL(url);
-      });
+      simplyGetImageDownloadURI(mentor.id)
+        .then((url) => {
+          console.log('url retrieved ,', url);
+          setProfileURL(url);
+        })
+        .catch((err) => console.log(err));
       if (regions && regions?.length > 0) {
         const userRegion = regions.find(
           (region) => region.id === mentor.region,
@@ -68,9 +76,10 @@ export default function WaveTeamProfile({route, navigation}) {
         style={{height: 175, width: '100%'}}
         source={coverWave}></ImageBackground>
       <VolunteerAvatar
-        source={{
-          uri: profileURL,
-        }}
+        size="MEDIUM"
+        label={`${mentor?.firstName.charAt(0)}${mentor?.lastName.charAt(0)}`}
+        isProfilePicture={true}
+        source={{uri: profileURL}}
       />
       {/* Mentor name and age */}
       <View
