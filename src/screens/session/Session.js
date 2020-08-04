@@ -298,13 +298,15 @@ export default function Session({navigation, route}) {
           {/* Cover coordinator */}
 
           <Title style={{alignSelf: 'center'}}>Coordinator</Title>
-          <Paragraph style={{alignSelf: 'center'}}>
+          <Paragraph style={{alignSelf: 'center', marginBottom: '3%'}}>
             {' '}
             {coordinator?.firstName} {coordinator?.lastName}
           </Paragraph>
 
           {/* Session description */}
-          <Paragraph>{sessionData?.description}</Paragraph>
+          <Paragraph style={{marginLeft: '3%'}}>
+            Description: {sessionData?.description}
+          </Paragraph>
           {/* Session Accordion menu for attendees */}
 
           {/* Show if session is full */}
@@ -315,13 +317,18 @@ export default function Session({navigation, route}) {
 
           {/* Session Lead */}
           {!sessionLeadID || sessionLeadID === '' ? (
-            <Text>No session lead</Text>
+            <Paragraph style={{marginLeft: '3%'}}>
+              Session Lead: No session lead
+            </Paragraph>
           ) : sessionLeadID === uid ? (
-            <Text>You are the session lead</Text>
+            <Paragraph style={{marginLeft: '3%'}}>
+              Session Lead: You are the session lead
+            </Paragraph>
           ) : (
-            <Text>
-              {surfLead?.firstName} {surfLead?.lastName} is the session lead
-            </Text>
+            <Paragraph style={{marginLeft: '3%'}}>
+              Session Lead: {surfLead?.firstName} {surfLead?.lastName} is the
+              session lead
+            </Paragraph>
           )}
 
           {selectedSessionAttendeesData &&

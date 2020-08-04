@@ -23,7 +23,7 @@ export default function ServiceUserProfile({route}) {
         {/* Edit session button */}
       </ImageBackground>
       <SurferAvatar
-        label={`${serviceUser?.firstName.charAt(
+        label={`${serviceUser?.firstName?.charAt(
           0,
         )}${serviceUser?.lastName.charAt(0)}`}
       />

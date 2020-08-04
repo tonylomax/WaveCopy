@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, View, StyleSheet} from 'react-native';
+import {Alert, View, StyleSheet, Linking} from 'react-native';
 import {
   List,
   Divider,
@@ -142,13 +142,21 @@ export default function SessionDetailsAccordionMenu({
               <View>
                 <Swipeable
                   rightButtonWidth={175}
-                  rightButtons={rightButtons}
+                  rightButtons={
+                    roles?.some(
+                      () =>
+                        userData?.roles?.includes('SurfLead') ||
+                        userData?.roles?.includes('NationalAdmin') ||
+                        userData?.roles?.includes('Coordinator') ||
+                        sessionLead?.id === uid,
+                    ) && rightButtons
+                  }
                   rightButtonContainerStyle={{
                     borderRadius: 10,
                     alignItems: 'center',
                     backgroundColor: 'white',
                     flex: 1,
-                    height: 120,
+                    height: 110,
                     width: 160,
                     top: 8,
                     flexDirection: 'column',
@@ -207,62 +215,6 @@ export default function SessionDetailsAccordionMenu({
                   </Card>
                 </Swipeable>
               </View>
-
-              // {roles?.some(
-              //     () =>
-              //       userData?.roles?.includes('SurfLead') ||
-              //       userData?.roles?.includes('NationalAdmin') ||
-              //       userData?.roles?.includes('Coordinator') ||
-              //       sessionLead?.id === uid,
-              //   ) && (
-              //     <View>
-              //       <CloseButton
-              //         testID={`removeAsMentorButton${mentor.id}`}
-              //         onPress={() => {
-              //           removeMentorFromSession(
-              //             sessionID,
-              //             mentor.id,
-              //             uid,
-              //             sessionLead?.id,
-              //           )
-              //             .then((result) => {
-              //               console.log('Mentor remove done', result);
-              //             })
-              //             .catch((err) => {
-              //               console.log('ERROR OUTSIDE TRANSACTION ', err);
-              //               Alert.alert(err);
-              //             });
-              //         }}
-              //         title="Remove as Mentor"></CloseButton>
-              //       {sessionLead?.id === mentor.id ? (
-              //         <CloseButton
-              //           title="Remove as Lead"
-              //           onPress={() => {
-              //             unassignSessionLead(
-              //               sessionID,
-              //               mentor.id,
-              //               uid,
-              //             ).catch((err) => {
-              //               console.log('ERROR OUTSIDE TRANSACTION ', err);
-              //               Alert.alert(err);
-              //             });
-              //           }}></CloseButton>
-              //       ) : (
-              //         <ConfirmButton
-              //           onPress={() => {
-              //             assignSessionLead(sessionID, mentor.id, uid).catch(
-              //               (err) => {
-              //                 console.log('ERROR OUTSIDE TRANSACTION ', err);
-              //                 Alert.alert(err);
-              //               },
-              //             );
-              //           }}
-              //           title="Add as Lead"></ConfirmButton>
-              //       )}
-              //     </View>
-              //   )}
-
-              // </Swipeable>
             );
           })}
         {/* MENTOR ACCORDION MENU */}
@@ -299,14 +251,12 @@ export default function SessionDetailsAccordionMenu({
                   fontSize: 13,
                 }}
                 testID={`removeAsMentorButton${serviceUser.id}`}
-                onPress={() => {
-                  async () => {
-                    await Linking.openURL(`tel:${serviceUser?.number}`).catch(
-                      (err) => {
-                        console.log(err);
-                      },
-                    );
-                  };
+                onPress={async () => {
+                  await Linking.openURL(`tel:${serviceUser?.number}`).catch(
+                    (err) => {
+                      console.log(err);
+                    },
+                  );
                 }}></ConfirmButton>,
             ];
 
@@ -314,13 +264,21 @@ export default function SessionDetailsAccordionMenu({
               <View>
                 <Swipeable
                   rightButtonWidth={175}
-                  rightButtons={rightButtons}
+                  rightButtons={
+                    roles?.some(
+                      () =>
+                        userData?.roles?.includes('SurfLead') ||
+                        userData?.roles?.includes('NationalAdmin') ||
+                        userData?.roles?.includes('Coordinator') ||
+                        sessionLead?.id === uid,
+                    ) && rightButtons
+                  }
                   rightButtonContainerStyle={{
                     borderRadius: 10,
                     alignItems: 'center',
                     backgroundColor: 'white',
                     flex: 1,
-                    height: 120,
+                    height: 105,
                     width: 160,
                     top: 8,
                     flexDirection: 'column',
@@ -367,9 +325,9 @@ export default function SessionDetailsAccordionMenu({
                         alignItems: 'center',
                       }}>
                       <VolunteerAvatar
-                        label={`${serviceUser?.firstName.charAt(
+                        label={`${serviceUser?.firstName?.charAt(
                           0,
-                        )}${serviceUser?.lastName.charAt(0)}`}
+                        )}${serviceUser?.lastName?.charAt(0)}`}
                         isProfilePicture={true}
                         size={75}
                         style={{
