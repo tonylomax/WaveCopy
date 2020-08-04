@@ -70,8 +70,8 @@ export default function WaveTeamProfile({route, navigation}) {
       <ImageBackground
         style={{height: 175, width: '100%'}}
         source={coverWave}></ImageBackground>
-      <Paragraph>profileURL</Paragraph>
       <VolunteerOtherAvatar
+        size="MEDIUM"
         label={`${mentor?.firstName.charAt(0)}${mentor?.lastName.charAt(0)}`}
         isProfilePicture={true}
         source={{uri: profileURL}}

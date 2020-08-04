@@ -6,10 +6,11 @@ export default function VolunteerOtherAvatar({
   label,
   source,
   isProfilePicture,
+  size,
 }) {
   console.log({source});
   const {maxWidth, colors, fonts} = useTheme();
-  if (isProfilePicture && source?.uri?.length > 0) {
+  if (isProfilePicture && size === 'MEDIUM' && source?.uri?.length > 0) {
     return (
       <Avatar.Image
         source={source}
@@ -26,7 +27,7 @@ export default function VolunteerOtherAvatar({
         }}
       />
     );
-  } else if (isProfilePicture) {
+  } else if (isProfilePicture && size === 'MEDIUM') {
     return (
       <Avatar.Text
         label={label}
@@ -41,7 +42,7 @@ export default function VolunteerOtherAvatar({
         }}
       />
     );
-  } else {
+  } else if (size === 'SMALL') {
     return (
       <Avatar.Text
         label={label}
@@ -54,5 +55,7 @@ export default function VolunteerOtherAvatar({
         }}
       />
     );
+  } else {
+    return <Avatar.Text />;
   }
 }

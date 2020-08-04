@@ -201,6 +201,7 @@ export default function Register({navigation, route}) {
                     justifyContent: 'flex-start',
                   }}>
                   <VolunteerOtherAvatar
+                    size="SMALL"
                     label={`${mentor?.firstName.charAt(
                       0,
                     )}${mentor?.lastName.charAt(0)}`}
