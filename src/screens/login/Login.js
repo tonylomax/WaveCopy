@@ -1,5 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Button, Image, Alert, SafeAreaView} from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  Image,
+  Alert,
+  SafeAreaView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {TextInput, Caption, useTheme} from 'react-native-paper';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
@@ -20,57 +28,61 @@ export default function Home({navigation, setLoggedIn}) {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLOURS.DEEP_BLUE}}>
       <LoadingScreen visible={loading} />
-      <View>
-        <Image
-          style={{
-            alignSelf: 'center',
-            tintColor: 'white',
-            marginTop: 70,
-          }}
-          source={Logo_Square_White_Named}
-        />
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        style={{flex: 1}}>
+        <View>
+          <Image
+            style={{
+              alignSelf: 'center',
+              tintColor: 'white',
+              marginTop: 20,
+            }}
+            source={Logo_Square_White_Named}
+          />
 
-        <Caption>Email</Caption>
-        <TextInput
-          mode="outlined"
-          style={{maxWidth: '90%', minWidth: '90%', alignSelf: 'center'}}
-          placeholder="Email"
-          autoCapitalize="none"
-          testID="email"
-          onChangeText={(inputEmail) => setEmail(inputEmail)}
-        />
-        <Caption>Password</Caption>
-        <TextInput
-          mode="outlined"
-          style={{
-            maxWidth: '90%',
-            minWidth: '90%',
-            alignSelf: 'center',
-          }}
-          placeholder="Password"
-          secureTextEntry={true}
-          autoCapitalize="none"
-          testID="password"
-          onChangeText={(inputPassword) => {
-            setPassword(inputPassword);
-          }}
-        />
-        <ConfirmButton
-          style={{marginTop: 50}}
-          title="Log In"
-          testID="submit-login-details"
-          onPress={() => {
-            setLoading(true);
-            loginWithEmail(email, password, setLoggedIn).then((result) => {
-              const serializedResult = serializeError(result);
-              console.log('message', serializedResult.message);
-              if (serializedResult.code) {
-                Alert.alert(serializedResult.message);
-              } else setLoggedIn(true);
-            });
-          }}
-        />
-      </View>
+          <Caption>Email</Caption>
+          <TextInput
+            mode="outlined"
+            style={{maxWidth: '90%', minWidth: '90%', alignSelf: 'center'}}
+            placeholder="Email"
+            autoCapitalize="none"
+            testID="email"
+            onChangeText={(inputEmail) => setEmail(inputEmail)}
+          />
+          <Caption>Password</Caption>
+          <TextInput
+            mode="outlined"
+            style={{
+              maxWidth: '90%',
+              minWidth: '90%',
+              alignSelf: 'center',
+            }}
+            placeholder="Password"
+            secureTextEntry={true}
+            autoCapitalize="none"
+            testID="password"
+            onChangeText={(inputPassword) => {
+              setPassword(inputPassword);
+            }}
+          />
+          <ConfirmButton
+            style={{marginTop: 50}}
+            title="Log In"
+            testID="submit-login-details"
+            onPress={() => {
+              setLoading(true);
+              loginWithEmail(email, password, setLoggedIn).then((result) => {
+                const serializedResult = serializeError(result);
+                console.log('message', serializedResult.message);
+                if (serializedResult.code) {
+                  Alert.alert(serializedResult.message);
+                } else setLoggedIn(true);
+              });
+            }}
+          />
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
