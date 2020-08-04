@@ -15,7 +15,7 @@ import {
   VolunteerAvatar,
 } from 'components';
 import {useSelector, useDispatch} from 'react-redux';
-import {Edit_Icon, Logo_Square_Blue_Unnamed} from 'assets';
+import {Edit_Icon} from 'assets';
 import {coverWave} from '../../assets/';
 import ImagePicker from 'react-native-image-picker';
 import {
