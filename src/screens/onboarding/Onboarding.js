@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {
   Card,
@@ -69,129 +70,118 @@ export default function Onboarding({navigation}) {
   return (
     <SafeAreaView style={{flex: 1}}>
       <LoadingScreen visible={loading} />
-      <View style={{flex: 1, paddingBottom: 10}}>
-        {/* BIO CARD */}
-        <Card style={{margin: '2%', maxHeight: '99%'}}>
-          <ScrollView ref={(scrollView) => (this.scrollView = scrollView)}>
-            <Card.Content style={{padding: 10}}>
-              <Headline style={{alignSelf: 'center'}}>Welcome to</Headline>
-              <Headline style={{alignSelf: 'center'}}>
-                The Wave Project
-              </Headline>
-              <Divider
-                style={{
-                  borderColor: COLOURS.MINT,
-                  width: '50%',
-                  alignSelf: 'center',
-                  borderWidth: 1,
-                  borderRadius: 10,
-                  marginTop: 15,
-                  marginTop: 15,
-                  marginBottom: 15,
-                }}
-              />
-              <Paragraph style={{textAlign: 'center'}}>
-                You can use this app to view details about all the sessions in
-                your area and sign up for sessions.
-                {'\n'}
-              </Paragraph>
-              <Paragraph style={{textAlign: 'center'}}>
-                To get started we just need a few details from you.
-                {'\n'}
-              </Paragraph>
-              <Caption> Tell us about yourself </Caption>
-              <TextInput
-                multiline={true}
-                // dense={true}
-                style={{
-                  multiline: 'true',
-                  numberOfLines: 3,
-                  flex: 1,
-                  // justifyContent: 'center',
-                  // textAlign: 'start',
-                  // minHeight: 80,
-                  // height: 80,
-                  // textAlignVertical: 'top',
-                  paddingTop: 5,
-                  paddingBottom: 5,
-                }}
-                mode="outlined"
-                placeholder="About you..."
-                onChangeText={(bioInput) => {
-                  setBio(bioInput);
-                }}></TextInput>
-              <Caption style={{marginTop: 10}}>
-                Provide an up to date contact number
-              </Caption>
-              <TextInput
-                keyboardType="number-pad"
-                mode="outlined"
-                placeholder="Phone Number"
-                onChangeText={(contactNumberInput) => {
-                  setContactNumber(contactNumberInput);
-                }}></TextInput>
-              <Caption style={{marginTop: 10}}>Confirm your region</Caption>
-
-              {Platform.OS === 'ios' && (
-                <TextInput
-                  right={<TextInput.Icon name={regionChevronIcon} />}
-                  mode="outlined"
-                  placeholder="Region"
-                  caretHidden={true}
-                  value={namedRegion}
-                  onFocus={() => {
-                    setTimeout(() => {
-                      this?.scrollView?.scrollToEnd();
-                    }, 0);
-                    setShowRegionPicker(
-                      (showRegionPicker) => !showRegionPicker,
-                    );
-                    setRegionChevronIcon('chevron-up');
-                  }}
-                  onBlur={() => {
-                    setShowRegionPicker(
-                      (showRegionPicker) => !showRegionPicker,
-                    );
-                    setRegionChevronIcon('chevron-down');
-                  }}></TextInput>
-              )}
-
-              {/* {Platform.OS === 'ios' && (
-                <ConfirmButton
-                  title={`${showRegionPicker ? 'Close' : 'Change'}`}
-                  onPress={() => {
-                    setShowRegionPicker(
-                      (showRegionPicker) => !showRegionPicker,
-                    );
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        style={{flex: 1}}>
+        <View style={{flex: 1, paddingBottom: 10}}>
+          {/* BIO CARD */}
+          <Card style={{margin: '2%', maxHeight: '99%'}}>
+            <ScrollView ref={(scrollView) => (this.scrollView = scrollView)}>
+              <Card.Content style={{padding: 10}}>
+                <Headline style={{alignSelf: 'center'}}>Welcome to</Headline>
+                <Headline style={{alignSelf: 'center'}}>
+                  The Wave Project
+                </Headline>
+                <Divider
+                  style={{
+                    borderColor: COLOURS.MINT,
+                    width: '50%',
+                    alignSelf: 'center',
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    marginTop: 15,
+                    marginTop: 15,
+                    marginBottom: 15,
                   }}
                 />
-              )} */}
-              {(showRegionPicker || Platform.OS === 'android') && (
-                <Picker
-                  selectedValue={selectedRegion}
-                  onValueChange={(itemValue, itemIndex) =>
-                    setSelectedRegion(itemValue)
-                  }>
-                  {regions.map((region) => (
-                    <Picker.Item label={region.name} value={region.id} />
-                  ))}
-                </Picker>
-              )}
+                <Paragraph style={{textAlign: 'center'}}>
+                  You can use this app to view details about all the sessions in
+                  your area and sign up for sessions.
+                  {'\n'}
+                </Paragraph>
+                <Paragraph style={{textAlign: 'center'}}>
+                  To get started we just need a few details from you.
+                  {'\n'}
+                </Paragraph>
+                <Caption> Tell us about yourself </Caption>
+                <TextInput
+                  multiline={true}
+                  style={{
+                    multiline: 'true',
+                    numberOfLines: 3,
+                    flex: 1,
 
-              <ConfirmButton
-                style={{marginTop: 25}}
-                title="Go Home"
-                onPress={() => {
-                  setLoading(true);
-                  toggleIsNewUser(uid);
-                  updateOwnContactNumber(contactNumber, uid);
-                  updateOwnBio(bio, uid);
-                  updateOwnRegion(selectedRegion, uid);
-                }}></ConfirmButton>
-            </Card.Content>
-          </ScrollView>
-        </Card>
-      </View>
+                    paddingTop: 5,
+                    paddingBottom: 5,
+                  }}
+                  mode="outlined"
+                  placeholder="About you..."
+                  onChangeText={(bioInput) => {
+                    setBio(bioInput);
+                  }}></TextInput>
+                <Caption style={{marginTop: 10}}>
+                  Provide an up to date contact number
+                </Caption>
+                <TextInput
+                  keyboardType="number-pad"
+                  mode="outlined"
+                  placeholder="Phone Number"
+                  onChangeText={(contactNumberInput) => {
+                    setContactNumber(contactNumberInput);
+                  }}></TextInput>
+                <Caption style={{marginTop: 10}}>Confirm your region</Caption>
+
+                {Platform.OS === 'ios' && (
+                  <TextInput
+                    right={<TextInput.Icon name={regionChevronIcon} />}
+                    mode="outlined"
+                    placeholder="Region"
+                    caretHidden={true}
+                    value={namedRegion}
+                    onFocus={() => {
+                      setTimeout(() => {
+                        this?.scrollView?.scrollToEnd();
+                      }, 200);
+                      setShowRegionPicker(
+                        (showRegionPicker) => !showRegionPicker,
+                      );
+                      setRegionChevronIcon('chevron-up');
+                    }}
+                    onBlur={() => {
+                      setShowRegionPicker(
+                        (showRegionPicker) => !showRegionPicker,
+                      );
+                      setRegionChevronIcon('chevron-down');
+                    }}></TextInput>
+                )}
+
+                {(showRegionPicker || Platform.OS === 'android') && (
+                  <Picker
+                    selectedValue={selectedRegion}
+                    onValueChange={(itemValue, itemIndex) =>
+                      setSelectedRegion(itemValue)
+                    }>
+                    {regions.map((region) => (
+                      <Picker.Item label={region.name} value={region.id} />
+                    ))}
+                  </Picker>
+                )}
+
+                <ConfirmButton
+                  style={{marginTop: 25}}
+                  title="Go Home"
+                  onPress={() => {
+                    setLoading(true);
+                    toggleIsNewUser(uid);
+                    updateOwnContactNumber(contactNumber, uid);
+                    updateOwnBio(bio, uid);
+                    updateOwnRegion(selectedRegion, uid);
+                  }}></ConfirmButton>
+              </Card.Content>
+            </ScrollView>
+          </Card>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
