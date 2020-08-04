@@ -348,8 +348,18 @@ export default function Session({navigation, route}) {
               />
             )}
 
-          <Card style={{alignItems: 'center', padding: '2%', margin: '2%'}}>
-            <Card.Actions>
+          <Card
+            style={{
+              padding: '2%',
+              margin: '2%',
+              marginBottom: '10%',
+            }}>
+            <Card.Actions
+              style={{
+                width: '100%',
+                justifyContent: 'space-between',
+                padding: 0,
+              }}>
               {/* REGISTER BUTTON */}
               {(userHasPermission(userData?.roles) ||
                 sessionLeadID === uid) && (
@@ -412,7 +422,10 @@ export default function Session({navigation, route}) {
                   titleStyle={{alignSelf: 'center', fontSize: 18}}
                   title="Are you sure you want to delete this session?"
                 />
-                <Card.Content>
+                <Card.Content
+                  style={{
+                    justifyContent: 'space-around',
+                  }}>
                   <ConfirmButton
                     title="Yes"
                     onPress={() => {
