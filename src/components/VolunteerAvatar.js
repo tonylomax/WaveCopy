@@ -1,10 +1,14 @@
 import React from 'react';
 import {Avatar, useTheme} from 'react-native-paper';
+import {relativeTimeRounding} from 'moment';
+import {isEmpty} from 'lodash';
+
 export default function VolunteerAvatar({
   label,
   source,
   isProfilePicture,
   size,
+  style,
 }) {
   console.log('other volunteer avatar');
   console.log({source});
@@ -15,10 +19,16 @@ export default function VolunteerAvatar({
         source={source}
         size={100}
         style={{
-          alignSelf: 'center',
+          paddingRight: style?.paddingRight,
+          padding: style?.padding,
+          marginRight: style?.marginRight,
+          margin: style?.margin,
+          position: style?.position,
+          alignSelf: style?.alignSelf || 'center',
           backgroundColor: colors.accent,
           borderColor: colors.surface,
-          borderWidth: 3,
+          borderWidth: style?.borderWidth || 3,
+          justifyContent: style?.justifyContent,
         }}
       />
     );

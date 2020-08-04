@@ -41,6 +41,8 @@ export default function WaveTeamProfile({route, navigation}) {
   // const allSessions = useSelector(
   //   (state) => state.firestoreReducer.sessionData,
   // );
+
+  console.log('mentor', mentor.dateOfBirth);
   useEffect(() => {
     console.log('mento changed');
     if (mentor?.id) {
@@ -89,9 +91,8 @@ export default function WaveTeamProfile({route, navigation}) {
         }}>
         <Title>
           {mentor.firstName} {mentor.lastName}
-          {moment().diff(mentor.dateOfBirth, 'years') > 0 && ', '}
-          {moment().diff(mentor.dateOfBirth, 'years') > 0 &&
-            moment().diff(mentor.dateOfBirth, 'years')}
+          {', '}
+          {moment().diff(mentor.dateOfBirth, 'years')}
         </Title>
         <ConfirmButton
           title={

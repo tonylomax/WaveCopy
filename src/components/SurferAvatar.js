@@ -1,7 +1,7 @@
 import React from 'react';
 import {Avatar, useTheme} from 'react-native-paper';
 import {relativeTimeRounding} from 'moment';
-export default function SurferAvatar({label, isProfilePicture}) {
+export default function SurferAvatar({label, isProfilePicture, style}) {
   const {maxWidth, colors, fonts} = useTheme();
   if (isProfilePicture) {
     return (
@@ -12,7 +12,7 @@ export default function SurferAvatar({label, isProfilePicture}) {
         style={{
           position: 'absolute',
           display: 'flex',
-          alignSelf: 'center',
+          alignSelf: style?.alignSelf || 'center',
           top: 130,
           backgroundColor: colors.accent,
           borderColor: colors.surface,

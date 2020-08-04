@@ -10,6 +10,7 @@ export default function ConfirmButton({
   icon,
 }) {
   const {maxWidth, colors, fonts} = useTheme();
+
   return (
     <Button
       icon={icon}
@@ -18,7 +19,21 @@ export default function ConfirmButton({
           medium: fonts.button,
         },
       }}
+      labelStyle={{
+        fontSize: style?.fontSize,
+        marginHorizontal: style?.marginHorizontal,
+      }}
+      contentStyle={{marginVertical: style?.marginVertical}}
       style={{
+        minWidth: style?.minWidth,
+        padding: 0,
+        maxWidth: style?.maxWidth,
+        maxHeight: style?.maxHeight,
+        flex: style?.flex,
+        width: style?.width,
+        margin: style?.margin,
+        padding: style?.padding,
+        marginRight: style?.marginRight,
         marginBottom: style?.marginBottom,
         alignSelf: 'center',
         backgroundColor: colors.tertiary,
