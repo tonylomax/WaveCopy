@@ -182,8 +182,15 @@ export default function Profile({navigation, route}) {
 
   return (
     // <SafeAreaView style={{flex: 1}}>
-    <ScrollView testID="profile-scroll-view" bounces={false}>
-      <View style={{flex: 1, paddingBottom: 10}}>
+    <ScrollView
+      testID="profile-scroll-view"
+      bounces={false}
+      // style={{width: '100%'}}
+    >
+      <View
+        style={{
+          flex: 1,
+        }}>
         <ImageBackground
           style={{height: 175, width: '100%'}}
           source={coverWave}></ImageBackground>
@@ -270,8 +277,8 @@ export default function Profile({navigation, route}) {
                 marginTop: '-15%',
                 marginRight: '5%',
                 marginBottom: '10%',
-                height: '25%',
-                width: '25%',
+                height: 50,
+                width: 50,
                 alignSelf: 'flex-end',
               }}>
               <Image
@@ -286,27 +293,26 @@ export default function Profile({navigation, route}) {
         </Card>
 
         {/* BIO CARD */}
-        <Card
-          style={{
-            margin: '2%',
-            maxHeight: 400,
-            display: 'flex',
-            alignContent: 'center',
-            alignItems: 'center',
-            padding: '2%',
-
-            // backgroundColor: 'transparent',
-          }}>
+        <Card style={{margin: '2%', maxHeight: '99%'}}>
           <Card.Content
             style={{
-              padding: '2%',
-              display: 'flex',
-              alignItems: 'center',
+              // marginLeft: 'auto',
+              // marginRight: 'auto',
+              // width: '90%',
+              // height: '100%',
+              margin: '2%',
+              // backgroundColor: 'red',
+              // display: 'flex',
+              // alignItems: 'center',
+              // padding: '2%',
+              // justifyContent: 'space-around',
+              // height: '70%',
             }}>
             <Subheading>Bio</Subheading>
 
             {editBio ? (
               <TextInput
+                mode="outlined"
                 testID="editBio"
                 onChangeText={(updatedBio) => {
                   setBio(updatedBio);
@@ -328,11 +334,11 @@ export default function Profile({navigation, route}) {
                 }
               }}
               style={{
-                minHeight: '15%',
-                minWidth: '15%',
-                height: '15%',
-                width: '15%',
-                alignSelf: 'center',
+                // minHeight: '15%',
+                // minWidth: '15%',
+                height: 50,
+                width: 50,
+                alignSelf: 'flex-end',
               }}>
               <Image
                 style={{height: '100%', width: '100%', overflow: 'visible'}}
@@ -344,27 +350,35 @@ export default function Profile({navigation, route}) {
         </Card>
         <Card
           style={{
-            margin: '2%',
             padding: '2%',
-            maxHeight: 400,
-            width: '100%',
-            display: 'flex',
-            alignContent: 'center',
-            alignItems: 'center',
+            margin: '2%',
+            // marginHorizontal: 'auto',
+            // width: '90%',
+            // display: 'flex',
+
+            // alignItems: 'center',
+            // backgroundColor: 'blue',
           }}>
-          <Subheading>Contact number</Subheading>
-          <Card.Content>
+          <Card.Content
+            style={
+              {
+                // width: '400%',
+                // backgroundColor: 'red',
+                // display: 'flex',
+                // alignItems: 'center',
+              }
+            }>
+            <Subheading>Contact number</Subheading>
             {editContactNumber ? (
               <TextInput
+                mode="outlined"
                 testID="editContactNumber"
                 onChangeText={(updatedNumber) => {
                   setContactNumber(updatedNumber);
                 }}
                 autoFocus={true}
                 defaultValue={contactNumber}
-                style={{
-                  width: '200%',
-                }}
+                style={{}}
               />
             ) : (
               <Paragraph testID="bio">{contactNumber}</Paragraph>
@@ -378,11 +392,9 @@ export default function Profile({navigation, route}) {
                 }
               }}
               style={{
-                height: '20%',
-                width: '20%',
-                alignSelf: 'center',
-                minHeight: '20%',
-                minWidth: '20%',
+                height: 50,
+                width: 50,
+                alignSelf: 'flex-end',
               }}>
               <Image
                 style={{height: '100%', width: '100%', overflow: 'visible'}}
@@ -419,24 +431,27 @@ export default function Profile({navigation, route}) {
             />
           </Card.Content>
         </Card>
+        <Card style={{margin: '2%', marginBottom: '10%'}}>
+          <Card.Actions style={{justifyContent: 'space-around'}}>
+            <CloseButton
+              testID="signOutButton"
+              onPress={() => {
+                signOut().then(() => {
+                  dispatch(updateRoleSpecificSessions([]));
+                  dispatch(updateSessions([]));
+                  dispatch(updateFirestoreUserData({}));
+                });
+              }}
+              title="Signout"
+            />
 
-        <CloseButton
-          testID="signOutButton"
-          onPress={() => {
-            signOut().then(() => {
-              dispatch(updateRoleSpecificSessions([]));
-              dispatch(updateSessions([]));
-              dispatch(updateFirestoreUserData({}));
-            });
-          }}
-          title="Signout"
-        />
-
-        <ConfirmButton
-          title="Change Password"
-          onPress={() => {
-            togglePasswordChangeModal();
-          }}></ConfirmButton>
+            <ConfirmButton
+              title="Change Password"
+              onPress={() => {
+                togglePasswordChangeModal();
+              }}></ConfirmButton>
+          </Card.Actions>
+        </Card>
 
         <Portal>
           <Modal
