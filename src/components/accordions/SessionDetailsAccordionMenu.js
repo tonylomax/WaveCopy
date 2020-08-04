@@ -193,7 +193,7 @@ export default function SessionDetailsAccordionMenu({
                           marginRight: '7.5%',
                         }}></VolunteerAvatar>
                       <Paragraph style={{fontSize: 16, maxWidth: '75%'}}>
-                        {`${mentor?.firstName} ${mentor?.lastName} ${
+                        {`${mentor?.firstName} ${mentor?.lastName}${
                           mentor?.dateOfBirth
                             ? ', ' + moment().diff(mentor.dateOfBirth, 'years')
                             : ''
@@ -337,12 +337,12 @@ export default function SessionDetailsAccordionMenu({
                           marginRight: '7.5%',
                         }}></VolunteerAvatar>
                       <Paragraph style={{fontSize: 16, maxWidth: '75%'}}>
-                        {`${serviceUser?.firstName} ${serviceUser?.lastName} ${
+                        {`${serviceUser?.firstName} ${serviceUser?.lastName}${
                           serviceUser?.dateOfBirth
                             ? ', ' +
                               moment().diff(serviceUser.dateOfBirth, 'years')
                             : ''
-                        } `}{' '}
+                        } `}
                       </Paragraph>
 
                       <IconButton
