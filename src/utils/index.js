@@ -35,6 +35,7 @@ import {
 } from './firebaseFirestore/index';
 import {
   getImageDownloadURI,
+  simplyGetImageDownloadURI,
   uploadFile,
   monitorFileUpload,
   uploadProgress,
@@ -45,6 +46,7 @@ import generateNumberedArray from './generateNumberedArray';
 import getSessionLeadName from './getSessionLeadName';
 import setHomeIndex from './setHomeIndex';
 export {
+  simplyGetImageDownloadURI,
   getSessionLeadName,
   updateSessionInFirestore,
   deleteSession,

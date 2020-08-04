@@ -130,6 +130,8 @@ const HomeNavigator = ({navigation, route}) => {
         name="Register"
         component={Register}
         options={({navigation}) => ({
+          title: '',
+          headerTransparent: true,
           headerTitleStyle: {textAlign: 'center'},
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
           headerRight: () => <View />,
@@ -238,6 +240,7 @@ const ProfileNavigator = ({navigation, route}) => {
         name="Profile"
         component={Profile}
         options={{
+          headerShown: false,
           headerTitleStyle: {textAlign: 'center'},
         }}></ProfileStack.Screen>
       <ProfileStack.Screen
@@ -261,7 +264,9 @@ const ProfileNavigator = ({navigation, route}) => {
         name="Register"
         component={Register}
         options={({navigation}) => ({
+          title: '',
           headerTitleStyle: {textAlign: 'center'},
+          headerTransparent: true,
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
           headerRight: () => <View />,
         })}></ProfileStack.Screen>
