@@ -3,21 +3,33 @@ import {Avatar, useTheme} from 'react-native-paper';
 import {relativeTimeRounding} from 'moment';
 import {isEmpty} from 'lodash';
 
-export default function VolunteerAvatar({label, source, isProfilePicture}) {
+export default function VolunteerAvatar({
+  label,
+  source,
+  isProfilePicture,
+  style,
+  size,
+}) {
   const {maxWidth, colors, fonts} = useTheme();
   console.log('IN VOL AVATAR COMPONENT');
   if (isProfilePicture) {
-    if (isEmpty(source.profileURL) || source.profileURL === '') {
+    if (isEmpty(source?.profileURL) || source?.profileURL === '') {
       console.log('IS PROFILE PICTURE AND NO SOURCE');
       return (
         <Avatar.Text
           label={label}
-          size={100}
+          size={size || 100}
           style={{
-            alignSelf: 'center',
+            paddingRight: style?.paddingRight,
+            padding: style?.padding,
+            marginRight: style?.marginRight,
+            margin: style?.margin,
+            position: style?.position,
+            alignSelf: style?.alignSelf || 'center',
             backgroundColor: colors.accent,
             borderColor: colors.surface,
-            borderWidth: 3,
+            borderWidth: style?.borderWidth || 3,
+            justifyContent: style?.justifyContent,
           }}
         />
       );

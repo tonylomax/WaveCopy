@@ -37,6 +37,8 @@ export default function WaveTeamProfile({route, navigation}) {
   // const allSessions = useSelector(
   //   (state) => state.firestoreReducer.sessionData,
   // );
+
+  console.log('mentor', mentor.dateOfBirth);
   useEffect(() => {
     if (mentor?.id) {
       getImageDownloadURI(mentor.id).then((url) => {
@@ -80,9 +82,8 @@ export default function WaveTeamProfile({route, navigation}) {
         }}>
         <Title>
           {mentor.firstName} {mentor.lastName}
-          {moment().diff(mentor.dateOfBirth, 'years') > 0 && ', '}
-          {moment().diff(mentor.dateOfBirth, 'years') > 0 &&
-            moment().diff(mentor.dateOfBirth, 'years')}
+          {', '}
+          {moment().diff(mentor.dateOfBirth, 'years')}
         </Title>
         <ConfirmButton
           title={

@@ -2,7 +2,7 @@ import React from 'react';
 import CustomColours from '../../styles/colours';
 import {Button, useTheme} from 'react-native-paper';
 
-export default function CloseButton({title, onPress, testID}) {
+export default function CloseButton({title, onPress, testID, style}) {
   const {colors, maxWidth, fonts} = useTheme();
 
   return (
@@ -14,6 +14,7 @@ export default function CloseButton({title, onPress, testID}) {
         },
       }}
       style={{
+        flex: style?.flex,
         alignSelf: 'center',
         backgroundColor: colors.backdrop,
       }}
