@@ -204,7 +204,8 @@ export default function Profile({navigation, route}) {
                 <VolunteerAvatar
                   style={{alignSelf: 'center'}}
                   testID="profilePic"
-                  size={100}
+                  size="LARGE"
+                  isProfilePicture={true}
                   source={{uri: uploadImg?.uri}}
                 />
 
@@ -254,7 +255,8 @@ export default function Profile({navigation, route}) {
                 0,
               )}${userData?.lastName.charAt(0)}`}
               testID="profilePic"
-              source={{profileURL}}
+              size="LARGE"
+              source={{uri: profileURL}}
               isProfilePicture={true}
             />
 

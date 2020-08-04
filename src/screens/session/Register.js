@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import Moment from 'react-moment';
-import {RegisterTabs, SurferAvatar, VolunteerOtherAvatar} from 'components';
+import {RegisterTabs, SurferAvatar, VolunteerAvatar} from 'components';
 import {useSelector} from 'react-redux';
 import {markAttendance, subscribeToSessionChanges} from 'utils';
 import {USER_GROUP} from 'constants';
@@ -200,7 +200,7 @@ export default function Register({navigation, route}) {
                     alignItems: 'center',
                     justifyContent: 'flex-start',
                   }}>
-                  <VolunteerOtherAvatar
+                  <VolunteerAvatar
                     size="SMALL"
                     label={`${mentor?.firstName.charAt(
                       0,
