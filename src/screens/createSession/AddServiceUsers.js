@@ -125,7 +125,12 @@ export default function AddServiceUsers({route, navigation}) {
                       highlightStyle={{backgroundColor: '#F2EAA7'}}
                       searchWords={[searchTerm]}
                       textToHighlight={`${item?.firstName} ${item?.lastName} ${
-                        item?.postcode ? `\n(${item.postcode})` : ''
+                        item?.postcode
+                          ? `\n(${item.postcode.substring(
+                              0,
+                              item.postcode.length - 3,
+                            )})`
+                          : ''
                       } `}
                     />
                   }
