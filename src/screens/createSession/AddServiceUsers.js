@@ -157,7 +157,21 @@ export default function AddServiceUsers({route, navigation}) {
             return (
               <View>
                 <List.Item
-                  title={`${item?.firstName} ${item?.lastName}`}
+                  titleNumberOfLines={2}
+                  title={
+                    <Highlighter
+                      highlightStyle={{backgroundColor: '#F2EAA7'}}
+                      searchWords={[searchTerm]}
+                      textToHighlight={`${item?.firstName} ${item?.lastName} ${
+                        item?.postcode
+                          ? `\n(${item.postcode.substring(
+                              0,
+                              item.postcode.length - 3,
+                            )})`
+                          : ''
+                      } `}
+                    />
+                  }
                   right={() => (
                     <CloseButton
                       title="remove"

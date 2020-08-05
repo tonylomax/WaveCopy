@@ -22,7 +22,7 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 import {ConfirmButton} from 'components';
-import {coverWave, Logo_Square_Blue_Unnamed} from '../../assets/';
+import {coverWave} from '../../assets/';
 
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
