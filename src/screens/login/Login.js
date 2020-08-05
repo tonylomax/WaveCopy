@@ -8,13 +8,15 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
 } from 'react-native';
+
 import {TextInput, Caption, useTheme} from 'react-native-paper';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
+import Svg, {Path} from 'react-native-svg';
 
 import {serializeError} from 'serialize-error';
 import {ConfirmButton, LoadingScreen} from './../../components';
-import {Logo_Square_White_Named} from 'assets';
+import {LogoSquareWhiteNamed} from 'assets';
 
 export default function Home({navigation, setLoggedIn}) {
   const {buttonTopMargin} = useTheme();
@@ -32,14 +34,14 @@ export default function Home({navigation, setLoggedIn}) {
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         style={{flex: 1}}>
         <View>
-          <Image
+          <View
             style={{
-              alignSelf: 'center',
-              tintColor: 'white',
-              marginTop: 20,
-            }}
-            source={Logo_Square_White_Named}
-          />
+              alignItems: 'center',
+              marginTop: '5%',
+              height: '45%',
+            }}>
+            <LogoSquareWhiteNamed />
+          </View>
 
           <Caption>Email</Caption>
           <TextInput
