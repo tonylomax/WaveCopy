@@ -88,13 +88,14 @@ const AdminTabNavigator = ({navigation}) => {
 
 const StandardTabNavigator = () => (
   <NavigationContainer>
-    <BottomTabs.Navigator>
+    <BottomTabs.Navigator
+      lazy={false}
+      tabBar={(props) => <CurvedTabBar {...props} />}>
       <BottomTabs.Screen
         name="Home"
         component={HomeNavigator}
         options={{tabBarTestID: 'navigate-to-home-button'}}
       />
-
       <BottomTabs.Screen
         name="Profile"
         component={ProfileNavigator}

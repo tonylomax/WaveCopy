@@ -48,9 +48,14 @@ export default function Profile({navigation}) {
   );
   const filteredSessions = useSelector((state) =>
     state.firestoreReducer.sessionData
-      .filter((session) => {
-        return session?.mentors?.length !== session.maxMentors;
-      })
+      .filter((session) => session.dateTime >= moment(new Date()).format())
+      .filter((session) => session?.mentors?.length !== session.maxMentors)
+      .sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime)),
+  );
+
+  const roleSessions = useSelector((state) =>
+    state.firestoreReducer.roleSpecificSessionData
+      .filter((session) => session.dateTime >= moment(new Date()).format())
       .sort((a, b) => {
         return new Date(a.dateTime) - new Date(b.dateTime);
       }),
@@ -58,21 +63,13 @@ export default function Profile({navigation}) {
 
   const filteredRoleSessions = useSelector((state) =>
     state.firestoreReducer.roleSpecificSessionData
-      .filter((session) => {
-        console.log('session menotrs role specific ', session.mentors);
-        return session?.mentors?.length !== session.maxMentors;
-      })
-      .sort((a, b) => {
-        return new Date(a.dateTime) - new Date(b.dateTime);
-      }),
+      .filter((session) => session.dateTime >= moment(new Date()).format())
+      .filter((session) => session?.mentors?.length !== session.maxMentors)
+      .sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime)),
   );
 
   const beaches = useSelector((state) => state.firestoreReducer.beaches);
-  const roleSessions = useSelector((state) =>
-    state.firestoreReducer.roleSpecificSessionData.sort((a, b) => {
-      return new Date(a.dateTime) - new Date(b.dateTime);
-    }),
-  );
+
   const userData = useSelector((state) => state.firestoreReducer.userData);
   //REDUX STATE
 
