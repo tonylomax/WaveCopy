@@ -44,7 +44,7 @@ import {
   removeSelfFromSession,
   deleteSession,
   userHasPermission,
-  updateCurrentSessionAttendees,
+  subscribeToCurrentSessionAttendees,
 } from 'utils';
 import {startCase} from 'lodash';
 // Constants
@@ -117,12 +117,17 @@ export default function Session({navigation, route}) {
 
   useEffect(() => {
     // Set up subscription for all the data relating to the mentors in a session
-    const mentorsUnsubscribers = updateCurrentSessionAttendees(
+    console.log(
+      'creating a subscription to subscribeToCurrentSessionAttendees',
+      sessionData?.mentors,
+      COLLECTIONS.USERS,
+    );
+    const mentorsUnsubscribers = subscribeToCurrentSessionAttendees(
       sessionData?.mentors,
       COLLECTIONS.USERS,
     );
     // Set up subscription for all the data relating to the attendees in a session
-    const serviceUsersUnsubscribers = updateCurrentSessionAttendees(
+    const serviceUsersUnsubscribers = subscribeToCurrentSessionAttendees(
       sessionData?.attendees,
       COLLECTIONS.TEST_SERVICE_USERS,
     );
@@ -176,7 +181,7 @@ export default function Session({navigation, route}) {
     removeSelfFromSession(id, uid, sessionLeadID)
       .then((result) => {
         console.log('Session remove done');
-        Alert.alert('Session Left');
+        console.log('leaving session', selectedSessionMentorsData);
       })
       .catch((err) => {
         console.log('ERROR: ', err);

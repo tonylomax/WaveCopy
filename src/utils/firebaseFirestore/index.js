@@ -1,5 +1,5 @@
 import updateOwnBio from './updateOwnBio';
-import updateCurrentSessionAttendees from './updateCurrentSessionAttendees';
+import subscribeToCurrentSessionAttendees from './subscribeToCurrentSessionAttendees';
 import markAttendance from './markAttendance';
 import createSessionInFirestore from './createSessionInFirestore';
 import searchFirestoreServiceUsers from './searchFirestoreServiceUsers';
@@ -25,7 +25,7 @@ export {
   updateSessionInFirestore,
   updateOwnBio,
   searchFirestoreServiceUsers,
-  updateCurrentSessionAttendees,
+  subscribeToCurrentSessionAttendees,
   markAttendance,
   createSessionInFirestore,
   subscribeToSessionChanges,

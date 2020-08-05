@@ -12,7 +12,7 @@ import {
 } from './pushNotifications/index';
 import {
   updateOwnBio,
-  updateCurrentSessionAttendees,
+  subscribeToCurrentSessionAttendees,
   markAttendance,
   searchFirestoreServiceUsers,
   createSessionInFirestore,
@@ -67,7 +67,7 @@ export {
   uploadProgress,
   updatePassword,
   validatePassword,
-  updateCurrentSessionAttendees,
+  subscribeToCurrentSessionAttendees,
   markAttendance,
   getCoverImage,
   generateDateTimeArray,

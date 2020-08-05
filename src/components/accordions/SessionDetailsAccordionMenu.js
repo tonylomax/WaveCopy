@@ -68,159 +68,160 @@ export default function SessionDetailsAccordionMenu({
         title={`Mentors (${mentors?.length || 0}/${numberOfMentors})`}
         testID="mentors-accordian"
         id="1">
-        {mentors?.map((mentor, i) => {
-          const rightButtons = [
-            <View style={{justifyContent: 'space-between'}}>
-              <ConfirmButton
-                style={{
-                  width: '95%',
-                  maxWidth: '95%',
-                  maxHeight: '45%',
-                  marginHorizontal: '1%',
-                  fontSize: 12,
-                  paddingBottom: 5,
-                  minWidth: '95%',
-                }}
-                testID={`removeAsMentorButton${mentor.id}`}
-                onPress={() => {
-                  removeMentorFromSession(
-                    sessionID,
-                    mentor.id,
-                    uid,
-                    sessionLead?.id,
-                  )
-                    .then((result) => {
-                      console.log('Mentor remove done', result);
-                    })
-                    .catch((err) => {
-                      console.log('ERROR OUTSIDE TRANSACTION ', err);
-                      Alert.alert(err);
-                    });
-                }}
-                title="Remove as Mentor"></ConfirmButton>
-              {sessionLead?.id === mentor.id ? (
-                <CloseButton
-                  style={{
-                    fontSize: 12,
-                    marginHorizontal: '1%',
-                    minWidth: '95%',
-                    width: '95%',
-                    maxWidth: '95%',
-                    maxHeight: '45%',
-                    paddingBottom: 5,
-                  }}
-                  title="Remove as Lead"
-                  onPress={() => {
-                    unassignSessionLead(sessionID, mentor.id, uid).catch(
-                      (err) => {
-                        console.log('ERROR OUTSIDE TRANSACTION ', err);
-                        Alert.alert(err);
-                      },
-                    );
-                  }}></CloseButton>
-              ) : (
+        {mentors?.length > 0 &&
+          mentors?.map((mentor, i) => {
+            const rightButtons = [
+              <View style={{justifyContent: 'space-between'}}>
                 <ConfirmButton
                   style={{
-                    marginHorizontal: '1%',
-                    fontSize: 12,
                     width: '95%',
-                    minWidth: '95%',
                     maxWidth: '95%',
                     maxHeight: '45%',
+                    marginHorizontal: '1%',
+                    fontSize: 12,
+                    paddingBottom: 5,
+                    minWidth: '95%',
                   }}
+                  testID={`removeAsMentorButton${mentor.id}`}
                   onPress={() => {
-                    assignSessionLead(sessionID, mentor.id, uid).catch(
-                      (err) => {
+                    removeMentorFromSession(
+                      sessionID,
+                      mentor.id,
+                      uid,
+                      sessionLead?.id,
+                    )
+                      .then((result) => {
+                        console.log('Mentor remove done', result);
+                      })
+                      .catch((err) => {
                         console.log('ERROR OUTSIDE TRANSACTION ', err);
                         Alert.alert(err);
-                      },
-                    );
+                      });
                   }}
-                  title="Add as Lead"></ConfirmButton>
-              )}
-            </View>,
-          ];
-          return (
-            <View>
-              <Swipeable
-                rightButtonWidth={175}
-                rightButtons={
-                  roles?.some(
-                    () =>
-                      userData?.roles?.includes('SurfLead') ||
-                      userData?.roles?.includes('NationalAdmin') ||
-                      userData?.roles?.includes('Coordinator') ||
-                      sessionLead?.id === uid,
-                  ) && rightButtons
-                }
-                rightButtonContainerStyle={{
-                  borderRadius: 10,
-                  alignItems: 'center',
-                  backgroundColor: 'white',
-                  flex: 1,
-                  height: 90,
-                  width: 160,
-                  top: 8,
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignContent: 'space-around',
-                }}>
-                <Card
-                  key={`mentor-${i + 1}`}
-                  style={{margin: '2%'}}
-                  onPress={() => {
-                    if (route.name !== 'ConfirmSession') {
-                      const routeDestination =
-                        route.name === 'HomeSession'
-                          ? 'Home Volunteer Profile'
-                          : 'Profile Volunteer Profile';
-                      navigation.navigate(routeDestination, {mentor});
-                    }
-                  }}>
-                  <Card.Content
+                  title="Remove as Mentor"></ConfirmButton>
+                {sessionLead?.id === mentor.id ? (
+                  <CloseButton
                     style={{
-                      flex: 1,
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
+                      fontSize: 12,
+                      marginHorizontal: '1%',
+                      minWidth: '95%',
+                      width: '95%',
+                      maxWidth: '95%',
+                      maxHeight: '45%',
+                      paddingBottom: 5,
+                    }}
+                    title="Remove as Lead"
+                    onPress={() => {
+                      unassignSessionLead(sessionID, mentor.id, uid).catch(
+                        (err) => {
+                          console.log('ERROR OUTSIDE TRANSACTION ', err);
+                          Alert.alert(err);
+                        },
+                      );
+                    }}></CloseButton>
+                ) : (
+                  <ConfirmButton
+                    style={{
+                      marginHorizontal: '1%',
+                      fontSize: 12,
+                      width: '95%',
+                      minWidth: '95%',
+                      maxWidth: '95%',
+                      maxHeight: '45%',
+                    }}
+                    onPress={() => {
+                      assignSessionLead(sessionID, mentor.id, uid).catch(
+                        (err) => {
+                          console.log('ERROR OUTSIDE TRANSACTION ', err);
+                          Alert.alert(err);
+                        },
+                      );
+                    }}
+                    title="Add as Lead"></ConfirmButton>
+                )}
+              </View>,
+            ];
+            return (
+              <View>
+                <Swipeable
+                  rightButtonWidth={175}
+                  rightButtons={
+                    roles?.some(
+                      () =>
+                        userData?.roles?.includes('SurfLead') ||
+                        userData?.roles?.includes('NationalAdmin') ||
+                        userData?.roles?.includes('Coordinator') ||
+                        sessionLead?.id === uid,
+                    ) && rightButtons
+                  }
+                  rightButtonContainerStyle={{
+                    borderRadius: 10,
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    flex: 1,
+                    height: 90,
+                    width: 160,
+                    top: 8,
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignContent: 'space-around',
+                  }}>
+                  <Card
+                    key={`mentor-${i + 1}`}
+                    style={{margin: '2%'}}
+                    onPress={() => {
+                      if (route.name !== 'ConfirmSession') {
+                        const routeDestination =
+                          route.name === 'HomeSession'
+                            ? 'Home Volunteer Profile'
+                            : 'Profile Volunteer Profile';
+                        navigation.navigate(routeDestination, {mentor});
+                      }
                     }}>
-                    <VolunteerAvatar
-                      label={`${mentor?.firstName.charAt(
-                        0,
-                      )}${mentor?.lastName.charAt(0)}`}
-                      isProfilePicture={true}
-                      size={'SMALL'}
+                    <Card.Content
                       style={{
-                        alignSelf: 'flex-start',
-                        marginRight: '7.5%',
-                      }}></VolunteerAvatar>
-                    <Paragraph style={{fontSize: 16, maxWidth: '75%'}}>
-                      {`${mentor?.firstName} ${mentor?.lastName}${
-                        mentor?.dateOfBirth
-                          ? ', ' + moment().diff(mentor.dateOfBirth, 'years')
-                          : ''
-                      } `}{' '}
-                    </Paragraph>
-                    <IconButton
-                      style={{
-                        position: 'absolute',
-                        top: 10,
-                        bottom: 10,
-                        right: 5,
-                        // marginVertical: '2%',
-                        // paddingVertical: '2%',
-                      }}
-                      icon="chevron-double-left"
-                      color={'grey'}
-                      size={50}
-                      disabled={true}
-                    />
-                  </Card.Content>
-                </Card>
-              </Swipeable>
-            </View>
-          );
-        })}
+                        flex: 1,
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <VolunteerAvatar
+                        label={`${mentor?.firstName.charAt(
+                          0,
+                        )}${mentor?.lastName.charAt(0)}`}
+                        isProfilePicture={true}
+                        size={'SMALL'}
+                        style={{
+                          alignSelf: 'flex-start',
+                          marginRight: '7.5%',
+                        }}></VolunteerAvatar>
+                      <Paragraph style={{fontSize: 16, maxWidth: '75%'}}>
+                        {`${mentor?.firstName} ${mentor?.lastName}${
+                          mentor?.dateOfBirth
+                            ? ', ' + moment().diff(mentor.dateOfBirth, 'years')
+                            : ''
+                        } `}{' '}
+                      </Paragraph>
+                      <IconButton
+                        style={{
+                          position: 'absolute',
+                          top: 10,
+                          bottom: 10,
+                          right: 5,
+                          // marginVertical: '2%',
+                          // paddingVertical: '2%',
+                        }}
+                        icon="chevron-double-left"
+                        color={'grey'}
+                        size={50}
+                        disabled={true}
+                      />
+                    </Card.Content>
+                  </Card>
+                </Swipeable>
+              </View>
+            );
+          })}
         {/* MENTOR ACCORDION MENU */}
       </List.Accordion>
 

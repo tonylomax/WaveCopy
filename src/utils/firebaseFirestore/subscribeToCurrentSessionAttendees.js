@@ -1,15 +1,20 @@
 import firestore from '@react-native-firebase/firestore';
 import {COLLECTIONS} from 'constants';
 import store from '../../redux/store';
-import {
-  subscribeToSessionMentors,
-  subscribeToSessionAttendees,
-} from '../../redux/index';
+import {updateSessionMentors, updateSessionAttendees} from '../../redux/index';
 
-export default updateCurrentSessionAttendees = (attendeesArray, collection) => {
+export default subscribeToCurrentSessionAttendees = (
+  attendeesArray,
+  collection,
+) => {
   const subscribedUserArray = [];
   console.log({attendeesArray});
   const newAttendeesArray = attendeesArray === undefined ? [] : attendeesArray;
+  // If the session has no mentors , clear it
+  if (newAttendeesArray.length === 0) {
+    store.dispatch(updateSessionMentors([]));
+    return;
+  }
 
   return newAttendeesArray?.map((user) => {
     return firestore()
@@ -18,8 +23,9 @@ export default updateCurrentSessionAttendees = (attendeesArray, collection) => {
       .onSnapshot(
         (subscribedUser) => {
           console.log(
-            `inside on updateCurrentSessionAttendees snapshot, received some data `,
+            `inside on subscribeToCurrentSessionAttendees snapshot, received some data `,
           );
+
           const subscribedUserData = {
             ...subscribedUser.data(),
             id: subscribedUser.id,
@@ -28,9 +34,9 @@ export default updateCurrentSessionAttendees = (attendeesArray, collection) => {
 
           if (subscribedUserArray.length === newAttendeesArray.length) {
             if (collection === 'Users') {
-              store.dispatch(subscribeToSessionMentors(subscribedUserArray));
+              store.dispatch(updateSessionMentors(subscribedUserArray));
             } else {
-              store.dispatch(subscribeToSessionAttendees(subscribedUserArray));
+              store.dispatch(updateSessionAttendees(subscribedUserArray));
             }
           }
         },
