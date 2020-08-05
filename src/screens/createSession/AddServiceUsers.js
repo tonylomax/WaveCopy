@@ -119,11 +119,14 @@ export default function AddServiceUsers({route, navigation}) {
             return (
               <View>
                 <List.Item
+                  titleNumberOfLines={2}
                   title={
                     <Highlighter
                       highlightStyle={{backgroundColor: '#F2EAA7'}}
                       searchWords={[searchTerm]}
-                      textToHighlight={`${item?.firstName} ${item?.lastName}`}
+                      textToHighlight={`${item?.firstName} ${item?.lastName} ${
+                        item?.postcode ? `\n(${item.postcode})` : ''
+                      } `}
                     />
                   }
                   right={() => (
