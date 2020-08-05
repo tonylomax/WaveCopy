@@ -15,6 +15,7 @@ export default function ResetPassword({authenticatedUser}) {
   return (
     <View>
       <TextInput
+        mode="outlined"
         secureTextEntry={true}
         autoCapitalize="none"
         onChangeText={(currentPasswordInput) =>
@@ -22,11 +23,14 @@ export default function ResetPassword({authenticatedUser}) {
         }
         placeholder="Enter your current password"></TextInput>
       <TextInput
+        mode="outlined"
         secureTextEntry={true}
         autoCapitalize="none"
         onChangeText={(newPasswordInput) => setNewPassword(newPasswordInput)}
         placeholder="Enter your new passsword"></TextInput>
       <TextInput
+        style={{marginBottom: '2%'}}
+        mode="outlined"
         secureTextEntry={true}
         autoCapitalize="none"
         onChangeText={(confirmNewPasswordInput) => {

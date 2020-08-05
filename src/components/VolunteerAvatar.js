@@ -27,7 +27,6 @@ export default function VolunteerAvatar({
           alignSelf: style?.alignSelf || 'center',
           backgroundColor: colors.accent,
           borderColor: colors.surface,
-          borderWidth: style?.borderWidth || 3,
           justifyContent: style?.justifyContent,
         }}
       />
@@ -62,7 +61,6 @@ export default function VolunteerAvatar({
           top: 130,
           backgroundColor: colors.accent,
           borderColor: colors.surface,
-          borderWidth: 3,
         }}
       />
     );

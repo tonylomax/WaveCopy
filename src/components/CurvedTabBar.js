@@ -31,7 +31,7 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
     <View
       style={{
         flexDirection: 'row',
-        marginBottom: '5%',
+        marginBottom: '3%',
         justifyContent: 'center',
       }}>
       <Svg
