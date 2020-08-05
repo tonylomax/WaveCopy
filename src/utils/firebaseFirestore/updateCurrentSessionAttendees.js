@@ -8,7 +8,10 @@ import {
 
 export default updateCurrentSessionAttendees = (attendeesArray, collection) => {
   const subscribedUserArray = [];
-  return attendeesArray?.map((user) => {
+  console.log({attendeesArray});
+  const newAttendeesArray = attendeesArray === undefined ? [] : attendeesArray;
+
+  return newAttendeesArray?.map((user) => {
     return firestore()
       .collection(collection)
       .doc(user.id)
@@ -23,7 +26,7 @@ export default updateCurrentSessionAttendees = (attendeesArray, collection) => {
           };
           subscribedUserArray.push(subscribedUserData);
 
-          if (subscribedUserArray.length === attendeesArray.length) {
+          if (subscribedUserArray.length === newAttendeesArray.length) {
             if (collection === 'Users') {
               store.dispatch(subscribeToSessionMentors(subscribedUserArray));
             } else {

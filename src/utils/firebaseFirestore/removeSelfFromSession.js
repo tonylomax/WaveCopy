@@ -19,7 +19,7 @@ export default removeSelfFromSession = async (
       const newMentors = sessionData
         .data()
         .mentors.filter((mentor) => mentor.id !== userID);
-
+      console.log({newMentors});
       const hoursUntilSession = moment
         .duration(moment(sessionData.data().dateTime).diff(new Date()))
         .asHours();
