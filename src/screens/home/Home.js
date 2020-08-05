@@ -7,7 +7,7 @@ import {
   TouchableHighlight,
   ImageBackground,
 } from 'react-native';
-import {Card, Title, Paragraph, Subheading} from 'react-native-paper';
+import {Card, Title, Paragraph, Subheading, Divider} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import {getAllBeaches} from '../../redux/';
 import {isEmpty} from 'lodash';
@@ -115,7 +115,18 @@ export default function Profile({navigation}) {
           style={{height: 125, width: '100%'}}
           source={coverWave}></ImageBackground>
 
-        <Title testID="upcoming-sessions-title">Upcoming sessions</Title>
+        <Title style={{alignSelf: 'center'}} testID="upcoming-sessions-title">
+          Upcoming sessions
+        </Title>
+        <Divider
+          style={{
+            width: '50%',
+            alignSelf: 'center',
+            borderWidth: 1,
+            borderRadius: 10,
+            marginBottom: '5%',
+          }}
+        />
         <ConfirmButton
           style={{marginBottom: '2.5%'}}
           title={toggleFilter ? 'All sessions' : 'Sessions with spaces'}
@@ -157,12 +168,23 @@ export default function Profile({navigation}) {
                 }}>
                 <Paragraph>{item?.beach}</Paragraph>
                 <Paragraph>
+                  <Paragraph>Date: </Paragraph>
                   {
-                    <Moment element={Text} format="LLLL">
+                    <Moment element={Paragraph} format="LL">
                       {item?.dateTime}
                     </Moment>
                   }
                 </Paragraph>
+
+                <Paragraph>
+                  <Paragraph>Time: </Paragraph>
+                  {
+                    <Moment element={Paragraph} format="LT">
+                      {item?.dateTime}
+                    </Moment>
+                  }
+                </Paragraph>
+
                 <Subheading testID={`SessionsListItemVolNum${item.id}`}>
                   Volunteers: {item?.mentors?.length}/{item?.maxMentors}
                 </Subheading>

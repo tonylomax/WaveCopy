@@ -78,7 +78,9 @@ export default function SessionDetailsAccordionMenu({
                     maxWidth: '95%',
                     maxHeight: '45%',
                     marginHorizontal: '1%',
-                    fontSize: 13,
+                    fontSize: 12,
+                    paddingBottom: 5,
+                    minWidth: '95%',
                   }}
                   testID={`removeAsMentorButton${mentor.id}`}
                   onPress={() => {
@@ -106,6 +108,7 @@ export default function SessionDetailsAccordionMenu({
                       width: '95%',
                       maxWidth: '95%',
                       maxHeight: '45%',
+                      paddingBottom: 5,
                     }}
                     title="Remove as Lead"
                     onPress={() => {
@@ -156,7 +159,7 @@ export default function SessionDetailsAccordionMenu({
                     alignItems: 'center',
                     backgroundColor: 'white',
                     flex: 1,
-                    height: 110,
+                    height: 90,
                     width: 160,
                     top: 8,
                     flexDirection: 'column',
@@ -280,7 +283,7 @@ export default function SessionDetailsAccordionMenu({
                     alignItems: 'center',
                     backgroundColor: 'white',
                     flex: 1,
-                    height: 105,
+                    height: 90,
                     width: 160,
                     top: 8,
                     flexDirection: 'column',
@@ -345,18 +348,20 @@ export default function SessionDetailsAccordionMenu({
                         } `}
                       </Paragraph>
 
-                      <IconButton
-                        style={{
-                          position: 'absolute',
-                          top: 10,
-                          bottom: 10,
-                          right: 5,
-                        }}
-                        icon="chevron-double-left"
-                        color={'grey'}
-                        size={50}
-                        disabled={true}
-                      />
+                      {route.name !== 'ConfirmSession' && (
+                        <IconButton
+                          style={{
+                            position: 'absolute',
+                            top: 10,
+                            bottom: 10,
+                            right: 5,
+                          }}
+                          icon="chevron-double-left"
+                          color={'grey'}
+                          size={50}
+                          disabled={true}
+                        />
+                      )}
                     </Card.Content>
                   </Card>
                 </Swipeable>

@@ -133,7 +133,16 @@ export default function ConfirmSession({route, navigation}) {
           onDismiss={toggleConfirmSessionModal}>
           <Card>
             <Card.Title
-              titleStyle={{alignSelf: 'center'}}
+              titleStyle={{
+                fontSize: 16,
+                padding: 0,
+                alignSelf: 'center',
+              }}
+              style={{
+                marginHorizontal: '1%',
+                paddingLeft: '0%',
+                paddingRight: '0%',
+              }}
               title={`${
                 previousSessionData
                   ? 'Would you like to save your changes?'
@@ -142,6 +151,7 @@ export default function ConfirmSession({route, navigation}) {
             />
             <Card.Content>
               <ConfirmButton
+                style={{marginHorizontal: '5%', marginBottom: '1%'}}
                 title="Yes"
                 onPress={() => {
                   console.log('creating a session');

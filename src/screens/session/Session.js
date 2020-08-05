@@ -346,9 +346,7 @@ export default function Session({navigation, route}) {
             }}>
             <Card.Actions
               style={{
-                width: '100%',
-                justifyContent: 'space-between',
-                padding: 0,
+                alignSelf: 'center',
               }}>
               {/* REGISTER BUTTON */}
               {(userHasPermission(userData?.roles) ||

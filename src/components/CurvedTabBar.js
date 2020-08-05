@@ -31,7 +31,7 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
     <View
       style={{
         flexDirection: 'row',
-        marginBottom: '5%',
+        marginBottom: '3%',
         justifyContent: 'center',
       }}>
       <Svg
@@ -56,16 +56,29 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
 
       <Portal>
         <Modal
-          style={{alignContent: 'center'}}
           visible={discardChangesModalVisible}
           onDismiss={toggleDiscardChangesModal}>
           <Card>
             <Card.Title
-              titleStyle={{alignSelf: 'center', fontSize: 16}}
+              titleStyle={{
+                fontSize: 16,
+                padding: 0,
+                alignSelf: 'center',
+              }}
+              style={{
+                marginHorizontal: '1%',
+                paddingLeft: '0%',
+                paddingRight: '0%',
+              }}
               title={'Are you sure you want to discard your changes?'}
             />
-            <Card.Content>
+            <Card.Actions
+              style={{
+                justifyContent: 'center',
+                flexDirection: 'column',
+              }}>
               <ConfirmButton
+                style={{marginHorizontal: '5%', marginBottom: '1%'}}
                 title="Yes"
                 onPress={() => {
                   toggleDiscardChangesModal();
@@ -81,7 +94,7 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
                 onPress={() => {
                   toggleDiscardChangesModal();
                 }}></CloseButton>
-            </Card.Content>
+            </Card.Actions>
           </Card>
         </Modal>
       </Portal>

@@ -1,5 +1,12 @@
 import React, {useEffect, useState, useLayoutEffect} from 'react';
-import {View, Text, Button, TextInput, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  TextInput,
+  FlatList,
+  SafeAreaView,
+} from 'react-native';
 import {
   Searchbar,
   List,
@@ -106,16 +113,47 @@ export default function AddServiceUsers({route, navigation}) {
   }, []);
 
   return (
-    <View>
-      <Searchbar
-        onChangeText={(text) => onTypeLetter(text)}
-        value={searchTerm}
-      />
-      {loading && <Text>Loading...</Text>}
-      {searchResults.length > 0 && (
+    <SafeAreaView style={{marginBottom: '20%'}}>
+      <View>
+        <Searchbar
+          onChangeText={(text) => onTypeLetter(text)}
+          value={searchTerm}
+        />
+        {loading && <Text>Loading...</Text>}
+        {searchResults.length > 0 && (
+          <FlatList
+            data={searchResults}
+            renderItem={({item}) => {
+              return (
+                <View>
+                  <List.Item
+                    title={
+                      <Highlighter
+                        highlightStyle={{backgroundColor: '#F2EAA7'}}
+                        searchWords={[searchTerm]}
+                        textToHighlight={`${item?.firstName} ${item?.lastName}`}
+                      />
+                    }
+                    right={() => (
+                      <ConfirmButton
+                        onPress={() => addUser(item)}
+                        title="Add user"
+                      />
+                    )}
+                  />
+                  <Divider />
+                </View>
+              );
+            }}
+            keyExtractor={(item) => item?.id}
+          />
+        )}
+
+        <Title testID="currently-added-service-users">Currently Added</Title>
         <FlatList
-          data={searchResults}
-          renderItem={({item}) => {
+          style={{marginBottom: '30%'}}
+          data={selectedUsers}
+          renderItem={({item, index}) => {
             return (
               <View>
                 <List.Item
@@ -135,9 +173,12 @@ export default function AddServiceUsers({route, navigation}) {
                     />
                   }
                   right={() => (
-                    <ConfirmButton
-                      onPress={() => addUser(item)}
-                      title="Add user"
+                    <CloseButton
+                      title="remove"
+                      onPress={() => {
+                        console.log('clicked on id ', item?.objectID);
+                        removeUser(item.objectID || item.id);
+                      }}
                     />
                   )}
                 />
@@ -145,41 +186,23 @@ export default function AddServiceUsers({route, navigation}) {
               </View>
             );
           }}
+          ListFooterComponent={
+            <ConfirmButton
+              testID="continue-to-review-created-session-page"
+              title="Continue"
+              onPress={() => {
+                console.log({editedDescriptionOfSession});
+                navigation.push('ConfirmSession', {
+                  selectedUsers,
+                  ...route.params,
+                  editedDescriptionOfSession,
+                });
+              }}
+            />
+          }
           keyExtractor={(item) => item?.id}
         />
-      )}
-
-      <Title testID="currently-added-service-users">Currently Added</Title>
-      {selectedUsers.map((serviceUser) => (
-        <View>
-          <List.Item
-            title={`${serviceUser?.firstName} ${serviceUser?.lastName}`}
-            right={() => (
-              <CloseButton
-                title="remove"
-                onPress={() => {
-                  console.log('clicked on id ', serviceUser?.objectID);
-                  removeUser(serviceUser.objectID || serviceUser.id);
-                }}
-              />
-            )}
-          />
-          <Divider />
-        </View>
-      ))}
-      <Divider />
-      <ConfirmButton
-        testID="continue-to-review-created-session-page"
-        title="Continue"
-        onPress={() => {
-          console.log({editedDescriptionOfSession});
-          navigation.push('ConfirmSession', {
-            selectedUsers,
-            ...route.params,
-            editedDescriptionOfSession,
-          });
-        }}
-      />
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
