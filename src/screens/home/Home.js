@@ -157,12 +157,23 @@ export default function Profile({navigation}) {
                 }}>
                 <Paragraph>{item?.beach}</Paragraph>
                 <Paragraph>
+                  <Paragraph>Date: </Paragraph>
                   {
-                    <Moment element={Text} format="LLLL">
+                    <Moment element={Paragraph} format="LL">
                       {item?.dateTime}
                     </Moment>
                   }
                 </Paragraph>
+
+                <Paragraph>
+                  <Paragraph>Time: </Paragraph>
+                  {
+                    <Moment element={Paragraph} format="LT">
+                      {item?.dateTime}
+                    </Moment>
+                  }
+                </Paragraph>
+
                 <Subheading testID={`SessionsListItemVolNum${item.id}`}>
                   Volunteers: {item?.mentors?.length}/{item?.maxMentors}
                 </Subheading>
