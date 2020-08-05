@@ -21,9 +21,11 @@ export default function ConfirmButton({
       }}
       labelStyle={{
         fontSize: style?.fontSize,
-        marginHorizontal: style?.marginHorizontal,
+        marginHorizontal: style?.marginHorizontal || '1%',
       }}
-      contentStyle={{marginVertical: style?.marginVertical}}
+      contentStyle={{
+        marginVertical: style?.marginVertical,
+      }}
       style={{
         minWidth: style?.minWidth,
         padding: 0,
@@ -38,6 +40,7 @@ export default function ConfirmButton({
         alignSelf: 'center',
         backgroundColor: colors.tertiary,
         marginTop: style?.marginTop,
+        marginHorizontal: style?.marginHorizontal,
       }}
       maxWidth={maxWidth}
       mode="contained"

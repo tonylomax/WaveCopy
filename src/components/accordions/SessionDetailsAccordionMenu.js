@@ -345,18 +345,20 @@ export default function SessionDetailsAccordionMenu({
                         } `}
                       </Paragraph>
 
-                      <IconButton
-                        style={{
-                          position: 'absolute',
-                          top: 10,
-                          bottom: 10,
-                          right: 5,
-                        }}
-                        icon="chevron-double-left"
-                        color={'grey'}
-                        size={50}
-                        disabled={true}
-                      />
+                      {route.name !== 'ConfirmSession' && (
+                        <IconButton
+                          style={{
+                            position: 'absolute',
+                            top: 10,
+                            bottom: 10,
+                            right: 5,
+                          }}
+                          icon="chevron-double-left"
+                          color={'grey'}
+                          size={50}
+                          disabled={true}
+                        />
+                      )}
                     </Card.Content>
                   </Card>
                 </Swipeable>

@@ -64,8 +64,13 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
               titleStyle={{alignSelf: 'center', fontSize: 16}}
               title={'Are you sure you want to discard your changes?'}
             />
-            <Card.Content>
+            <Card.Actions
+              style={{
+                justifyContent: 'center',
+                flexDirection: 'column',
+              }}>
               <ConfirmButton
+                style={{marginHorizontal: '5%', marginBottom: '1%'}}
                 title="Yes"
                 onPress={() => {
                   toggleDiscardChangesModal();
@@ -81,7 +86,7 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
                 onPress={() => {
                   toggleDiscardChangesModal();
                 }}></CloseButton>
-            </Card.Content>
+            </Card.Actions>
           </Card>
         </Modal>
       </Portal>
