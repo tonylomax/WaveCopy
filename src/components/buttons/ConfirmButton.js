@@ -22,19 +22,20 @@ export default function ConfirmButton({
       labelStyle={{
         fontSize: style?.fontSize,
         marginHorizontal: style?.marginHorizontal || '1%',
+        paddingBottom: style?.paddingBottom,
       }}
       contentStyle={{
         marginVertical: style?.marginVertical,
       }}
       style={{
         minWidth: style?.minWidth,
-        padding: 0,
+
         maxWidth: style?.maxWidth,
         maxHeight: style?.maxHeight,
         flex: style?.flex,
         width: style?.width,
         margin: style?.margin,
-        padding: style?.padding,
+        // padding: style?.padding,
         marginRight: style?.marginRight,
         marginBottom: style?.marginBottom,
         alignSelf: 'center',

@@ -359,6 +359,7 @@ export default function Session({navigation, route}) {
                 width: '100%',
                 justifyContent: 'space-between',
                 padding: 0,
+                alignContent: 'space-between',
               }}>
               {/* REGISTER BUTTON */}
               {(userHasPermission(userData?.roles) ||

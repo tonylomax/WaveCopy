@@ -142,35 +142,43 @@ export default function AddServiceUsers({route, navigation}) {
       )}
 
       <Title testID="currently-added-service-users">Currently Added</Title>
-      {selectedUsers.map((serviceUser) => (
-        <View>
-          <List.Item
-            title={`${serviceUser?.firstName} ${serviceUser?.lastName}`}
-            right={() => (
-              <CloseButton
-                title="remove"
-                onPress={() => {
-                  console.log('clicked on id ', serviceUser?.objectID);
-                  removeUser(serviceUser.objectID || serviceUser.id);
-                }}
+      <FlatList
+        style={{marginBottom: '30%'}}
+        data={selectedUsers}
+        renderItem={({item, index}) => {
+          return (
+            <View>
+              <List.Item
+                title={`${item?.firstName} ${item?.lastName}`}
+                right={() => (
+                  <CloseButton
+                    title="remove"
+                    onPress={() => {
+                      console.log('clicked on id ', item?.objectID);
+                      removeUser(item.objectID || item.id);
+                    }}
+                  />
+                )}
               />
-            )}
-          />
-          <Divider />
-        </View>
-      ))}
-      <Divider />
-      <ConfirmButton
-        testID="continue-to-review-created-session-page"
-        title="Continue"
-        onPress={() => {
-          console.log({editedDescriptionOfSession});
-          navigation.push('ConfirmSession', {
-            selectedUsers,
-            ...route.params,
-            editedDescriptionOfSession,
-          });
+              <Divider />
+            </View>
+          );
         }}
+        ListFooterComponent={
+          <ConfirmButton
+            testID="continue-to-review-created-session-page"
+            title="Continue"
+            onPress={() => {
+              console.log({editedDescriptionOfSession});
+              navigation.push('ConfirmSession', {
+                selectedUsers,
+                ...route.params,
+                editedDescriptionOfSession,
+              });
+            }}
+          />
+        }
+        keyExtractor={(item) => item?.id}
       />
     </View>
   );
