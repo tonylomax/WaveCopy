@@ -1,26 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {firebase} from '@react-native-firebase/functions';
 const functions = firebase.functions();
-import {
-  View,
-  Text,
-  Image,
-  Alert,
-  TouchableOpacity,
-  ImageBackground,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {View, Text, Alert, ImageBackground, ScrollView} from 'react-native';
 import {
   SessionDetailsAccordionMenu,
   ConfirmButton,
   CloseButton,
-  LoadingScreen,
 } from 'components';
-import {Edit_Icon} from 'assets';
 import {useSelector, useDispatch} from 'react-redux';
 import {CommonActions} from '@react-navigation/native';
-import {serializeError} from 'serialize-error';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
@@ -28,8 +16,6 @@ moment.locale('en-gb');
 moment().format('en-gb');
 import {coverWave} from '../../assets/';
 import {
-  getAllSessionAttendees,
-  getAllSessionMentors,
   clearSelectedSessionMentors,
   clearSelectedSessionAttendees,
   clearCurrentSession,
@@ -42,8 +28,6 @@ import {
   deleteSession,
   userHasPermission,
   updateCurrentSessionAttendees,
-  getSessionLeadName,
-  getCoverImage,
 } from 'utils';
 
 import {
@@ -51,7 +35,6 @@ import {
   Title,
   Divider,
   Paragraph,
-  Button,
   Portal,
   Modal,
   IconButton,
@@ -68,10 +51,6 @@ export default function Session({navigation, route}) {
     : route?.params?.session;
 
   const {selectedBeach} = route.params;
-
-  // useEffect(() => {
-  //   console.log('selectedBeach in session', selectedBeach);
-  // }, [selectedBeach]);
 
   //REDUX STATE
   // Data on the session
@@ -94,6 +73,13 @@ export default function Session({navigation, route}) {
     (state) => state.firestoreReducer?.singleSession?.sessionLead?.id,
   );
 
+  useEffect(() => {
+    console.log(
+      'selectedSessionAttendeesData in session',
+      selectedSessionAttendeesData,
+    );
+  }, [selectedSessionAttendeesData]);
+
   // Current Auth User
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   const userData = useSelector((state) => state.firestoreReducer.userData);
@@ -107,7 +93,7 @@ export default function Session({navigation, route}) {
     userData?.roles?.includes('SurfLead') ||
     userData?.roles?.includes('NationalAdmin') ||
     userData?.roles?.includes('Coordinator');
-  const [CoverImage, setCoverImage] = useState();
+  const [CoverImage, setCoverImage] = useState(coverWave);
   const [daysUntilSession, setDaysUntilSession] = useState(0);
 
   const [deleteSessionModalVisible, setDeleteSessionModalVisible] = useState(
@@ -120,10 +106,6 @@ export default function Session({navigation, route}) {
     );
 
   //LOCAL STATE
-
-  useEffect(() => {
-    setCoverImage(coverWave);
-  }, []);
 
   useEffect(() => {
     // console.log('sessionData', sessionData);
@@ -179,7 +161,12 @@ export default function Session({navigation, route}) {
   }, [selectedSessionMentorsData, sessionData]);
 
   useEffect(() => {
-    // console.log('sessionData', sessionData);
+    console.log('sessionData', sessionData);
+    console.log(
+      'selectedSessionAttendeesData in use effect',
+      selectedSessionAttendeesData,
+    );
+
     (async () => {
       setCoordinator(await retrieveCoordinatorData(sessionData?.coordinatorID));
     })();
@@ -193,7 +180,10 @@ export default function Session({navigation, route}) {
             onPress={() => {
               console.log('navigating to session details');
               console.log({sessionData});
-              console.log({selectedSessionAttendeesData});
+              console.log(
+                'selectedSessionAttendeesData on edit button click',
+                selectedSessionAttendeesData,
+              );
               console.log({selectedSessionMentorsData});
               console.log({id});
               console.log('route name ', route.name);
@@ -207,7 +197,7 @@ export default function Session({navigation, route}) {
         ),
       });
     }
-  }, [sessionData]);
+  }, [sessionData, selectedSessionAttendeesData]);
 
   const leaveSession = (id, uid, sessionLeadID) => {
     removeSelfFromSession(id, uid, sessionLeadID)
