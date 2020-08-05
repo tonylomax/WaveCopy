@@ -32,6 +32,7 @@ import {HeaderBackButton} from 'react-navigation';
 import {CurvedTabBar, BackButton} from 'components';
 import messaging from '@react-native-firebase/messaging';
 import Onboarding from './screens/onboarding/Onboarding';
+import SplashScreen from 'react-native-splash-screen';
 
 const BottomTabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -366,6 +367,7 @@ const App: () => React$Node = () => {
   }, [currentAuthenticatedUser]);
 
   useEffect(() => {
+    SplashScreen.hide();
     const unsubscribeFromFirebaseAuth = createAuthSubscription();
     return () => {
       unsubscribeFromFirebaseAuth();
