@@ -74,6 +74,10 @@ export default function Session({navigation, route}) {
   );
 
   useEffect(() => {
+    console.log('ROLES', roles);
+  }, [roles]);
+
+  useEffect(() => {
     console.log(
       'selectedSessionAttendeesData in session',
       selectedSessionAttendeesData,
@@ -83,7 +87,10 @@ export default function Session({navigation, route}) {
   // Current Auth User
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   const userData = useSelector((state) => state.firestoreReducer.userData);
-  const {roles} = useSelector((state) => state.authenticationReducer.roles);
+
+  const roles = useSelector((state) => state.firestoreReducer.userData.roles);
+
+  // const {roles} = useSelector((state) => state.authenticationReducer.roles);
 
   //LOCAL STATE
   const [coordinator, setCoordinator] = useState();
@@ -200,7 +207,7 @@ export default function Session({navigation, route}) {
   }, [sessionData, selectedSessionAttendeesData]);
 
   const leaveSession = (id, uid, sessionLeadID) => {
-    removeSelfFromSession(id, uid, sessionLeadID)
+    removeSelfFromSession(id, uid, sessionLeadID, roles)
       .then((result) => {
         console.log('Session remove done');
         // navigation.goBack();

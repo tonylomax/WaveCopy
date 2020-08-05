@@ -3,14 +3,18 @@ import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
+import {userHasPermission} from 'utils';
 
 export default removeMentorFromSession = async (
   sessionID,
   userID,
   uid,
   sessionleadID,
+  roles,
 ) => {
   const sessionReference = firestore().doc(`Sessions/${sessionID}`);
+
+  console.log('userHasPermission', userHasPermission(roles));
 
   return await firestore()
     .runTransaction(async (removeMentorFromSessionTransaction) => {
@@ -24,7 +28,7 @@ export default removeMentorFromSession = async (
       if (!sessionData.exists) {
         throw 'Session does not exist!';
       }
-      if (userID === uid) {
+      if (userID === uid && !userHasPermission(roles)) {
         throw 'You cannot remove yourself as a mentor, please contact the coordinator to remove you';
       }
       if (sessionleadID === userID) {

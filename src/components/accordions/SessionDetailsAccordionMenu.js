@@ -48,10 +48,6 @@ export default function SessionDetailsAccordionMenu({
   const [attendeesExpanded, setAttendeesExpanded] = useState(false);
   //REDUX STATE
 
-  useEffect(() => {
-    console.log('mentors', mentors);
-  }, [mentors]);
-
   return (
     <List.Section>
       {/* MENTOR ACCORDION MENU */}
@@ -89,6 +85,7 @@ export default function SessionDetailsAccordionMenu({
                       mentor.id,
                       uid,
                       sessionLead?.id,
+                      roles,
                     )
                       .then((result) => {
                         console.log('Mentor remove done', result);
@@ -98,7 +95,7 @@ export default function SessionDetailsAccordionMenu({
                         Alert.alert(err);
                       });
                   }}
-                  title="Remove as Mentor"></ConfirmButton>
+                  title="Remove Mentor"></ConfirmButton>
                 {sessionLead?.id === mentor.id ? (
                   <CloseButton
                     style={{
