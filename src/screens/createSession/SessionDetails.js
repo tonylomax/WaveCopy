@@ -118,6 +118,7 @@ export default function SessionDetails({navigation, route}) {
   return (
     <SafeAreaView>
       <ScrollView
+        style={{marginBottom: '5%'}}
         testID="session-details-scroll-view"
         ref={(scrollView) => (this.scrollView = scrollView)}>
         <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
@@ -326,6 +327,7 @@ export default function SessionDetails({navigation, route}) {
         )}
 
         <ConfirmButton
+          style={{marginBottom: '2%'}}
           testID="continue-to-select-service-users"
           title="Continue"
           onPress={() => {

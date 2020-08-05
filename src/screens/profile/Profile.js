@@ -202,21 +202,36 @@ export default function Profile({navigation, route}) {
             <Card>
               <Card.Title
                 titleStyle={{
+                  fontSize: 16,
+                  padding: 0,
                   alignSelf: 'center',
-                  fontSize: 18,
+                }}
+                style={{
+                  marginHorizontal: '1%',
+                  paddingLeft: '0%',
+                  paddingRight: '0%',
                 }}
                 title="Are you happy with this new profile picture?"
               />
               <Card.Content>
                 <VolunteerAvatar
-                  style={{alignSelf: 'center'}}
+                  style={{
+                    alignSelf: 'center',
+                    justifyContent: 'center',
+                  }}
                   testID="profilePic"
                   size="LARGE"
                   isProfilePicture={true}
                   source={{uri: uploadImg?.uri}}
                 />
-
+              </Card.Content>
+              <Card.Actions
+                style={{
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                }}>
                 <ConfirmButton
+                  style={{marginHorizontal: '5%', marginBottom: '1%'}}
                   title="Yes"
                   onPress={() => {
                     setshowProgressBar(true);
@@ -242,7 +257,7 @@ export default function Profile({navigation, route}) {
                   visible={showProgressBar}
                   progress={uploadProgress}
                 />
-              </Card.Content>
+              </Card.Actions>
             </Card>
           </Modal>
         </Portal>
@@ -258,6 +273,11 @@ export default function Profile({navigation, route}) {
           }}>
           <Card.Content>
             <VolunteerAvatar
+              style={{
+                alignContent: 'center',
+                alignSelf: 'center',
+                justifyContent: 'center',
+              }}
               label={`${userData?.firstName.charAt(
                 0,
               )}${userData?.lastName.charAt(0)}`}

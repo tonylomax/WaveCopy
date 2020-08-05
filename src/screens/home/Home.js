@@ -7,7 +7,7 @@ import {
   TouchableHighlight,
   ImageBackground,
 } from 'react-native';
-import {Card, Title, Paragraph, Subheading} from 'react-native-paper';
+import {Card, Title, Paragraph, Subheading, Divider} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import {getAllBeaches} from '../../redux/';
 import {isEmpty} from 'lodash';
@@ -115,7 +115,18 @@ export default function Profile({navigation}) {
           style={{height: 125, width: '100%'}}
           source={coverWave}></ImageBackground>
 
-        <Title testID="upcoming-sessions-title">Upcoming sessions</Title>
+        <Title style={{alignSelf: 'center'}} testID="upcoming-sessions-title">
+          Upcoming sessions
+        </Title>
+        <Divider
+          style={{
+            width: '50%',
+            alignSelf: 'center',
+            borderWidth: 1,
+            borderRadius: 10,
+            marginBottom: '5%',
+          }}
+        />
         <ConfirmButton
           style={{marginBottom: '2.5%'}}
           title={toggleFilter ? 'All sessions' : 'Sessions with spaces'}

@@ -56,12 +56,20 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
 
       <Portal>
         <Modal
-          style={{alignContent: 'center'}}
           visible={discardChangesModalVisible}
           onDismiss={toggleDiscardChangesModal}>
           <Card>
             <Card.Title
-              titleStyle={{alignSelf: 'center', fontSize: 16}}
+              titleStyle={{
+                fontSize: 16,
+                padding: 0,
+                alignSelf: 'center',
+              }}
+              style={{
+                marginHorizontal: '1%',
+                paddingLeft: '0%',
+                paddingRight: '0%',
+              }}
               title={'Are you sure you want to discard your changes?'}
             />
             <Card.Actions
