@@ -123,7 +123,10 @@ const HomeNavigator = ({navigation, route}) => {
             backgroundColor: 'transparent',
           },
           headerLeft: () => (
-            <BackButton isLight={true} onPress={() => navigation.goBack()} />
+            <BackButton
+              isLight={true}
+              onPress={() => navigation.goBack(null)}
+            />
           ),
           headerTitle: '',
         })}></HomeStack.Screen>

@@ -14,6 +14,7 @@ import {
   Portal,
   Modal,
   IconButton,
+  useTheme,
 } from 'react-native-paper';
 
 // Firebase
@@ -54,6 +55,7 @@ import {COLLECTIONS} from 'constants';
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
   // If coming from home, there is an item field,
+  const {colors} = useTheme();
 
   // Extract data differently depending on where navigated from
   const {id, attendeesIDandAttendance, mentors, maxMentors} = route?.params
@@ -274,7 +276,9 @@ export default function Session({navigation, route}) {
 
           {/* Show if session is full */}
           {maxMentors === selectedSessionMentorsData.length && (
-            <Text>This session is full</Text>
+            <Paragraph style={{marginLeft: '3%', color: colors.error}}>
+              This session is full
+            </Paragraph>
           )}
           {/* Session date/time */}
 
