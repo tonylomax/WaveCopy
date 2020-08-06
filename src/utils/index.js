@@ -12,7 +12,7 @@ import {
 } from './pushNotifications/index';
 import {
   updateOwnBio,
-  updateCurrentSessionAttendees,
+  subscribeToCurrentSessionAttendees,
   markAttendance,
   searchFirestoreServiceUsers,
   createSessionInFirestore,
@@ -45,7 +45,9 @@ import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
 import getSessionLeadName from './getSessionLeadName';
 import setHomeIndex from './setHomeIndex';
+import hasPermissionToNotify from './hasPermissionToNotify';
 export {
+  hasPermissionToNotify,
   simplyGetImageDownloadURI,
   getSessionLeadName,
   updateSessionInFirestore,
@@ -67,7 +69,7 @@ export {
   uploadProgress,
   updatePassword,
   validatePassword,
-  updateCurrentSessionAttendees,
+  subscribeToCurrentSessionAttendees,
   markAttendance,
   getCoverImage,
   generateDateTimeArray,

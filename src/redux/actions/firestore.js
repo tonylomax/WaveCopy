@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import {ACTIONS, COLLECTIONS} from 'constants';
-import {updateCurrentSessionAttendees} from 'utils';
+import {subscribeToCurrentSessionAttendees} from 'utils';
 import {sortBy} from 'lodash';
 
 export function updateSessions(sessionsData) {
@@ -94,8 +94,8 @@ export function getAllBeaches() {
   };
 }
 
-export function subscribeToSessionMentors(subscribedUserData) {
-  console.log('Inside subscribeToSessionMentors action');
+export function updateSessionMentors(subscribedUserData) {
+  console.log('Inside updateSessionMentors action');
   return async (dispatch) => {
     dispatch({
       type: ACTIONS.SUBSCRIBE_TO_SESSION_MENTORS,
@@ -104,8 +104,8 @@ export function subscribeToSessionMentors(subscribedUserData) {
   };
 }
 
-export function subscribeToSessionAttendees(subscribedUserData) {
-  console.log('Inside subscribeToSessionAttendees action');
+export function updateSessionAttendees(subscribedUserData) {
+  console.log('Inside updateSessionAttendees action');
   return async (dispatch) => {
     dispatch({
       type: ACTIONS.SUBSCRIBE_TO_SESSION_ATTENDEES,
