@@ -15,6 +15,7 @@ import {
   Modal,
   IconButton,
   useTheme,
+  Chip,
 } from 'react-native-paper';
 
 // Firebase
@@ -89,7 +90,10 @@ export default function Session({navigation, route}) {
   // Current Auth User
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   const userData = useSelector((state) => state.firestoreReducer.userData);
-  const {roles} = useSelector((state) => state.authenticationReducer.roles);
+
+  const roles = useSelector((state) => state.firestoreReducer.userData.roles);
+
+  // const {roles} = useSelector((state) => state.authenticationReducer.roles);
 
   //LOCAL STATE
   const [coordinator, setCoordinator] = useState();
@@ -181,7 +185,7 @@ export default function Session({navigation, route}) {
   }, [selectedSessionMentorsData]);
 
   const leaveSession = (id, uid, sessionLeadID) => {
-    removeSelfFromSession(id, uid, sessionLeadID)
+    removeSelfFromSession(id, uid, sessionLeadID, roles)
       .then((result) => {
         console.log('Session remove done');
         console.log('leaving session', selectedSessionMentorsData);
@@ -268,18 +272,25 @@ export default function Session({navigation, route}) {
             {coordinator?.firstName} {coordinator?.lastName}
           </Paragraph>
 
+          {/* Show if session is full */}
+          {maxMentors === selectedSessionMentorsData.length && (
+            <Chip
+              style={{
+                alignSelf: 'center',
+                marginBottom: '3%',
+              }}
+              mode="outlined"
+              icon="information"
+              onPress={() => console.log('Pressed')}>
+              This session is full
+            </Chip>
+          )}
           {/* Session description */}
           <Paragraph style={{marginLeft: '3%'}}>
             Description: {sessionData?.description}
           </Paragraph>
           {/* Session Accordion menu for attendees */}
 
-          {/* Show if session is full */}
-          {maxMentors === selectedSessionMentorsData.length && (
-            <Paragraph style={{marginLeft: '3%', color: colors.error}}>
-              This session is full
-            </Paragraph>
-          )}
           {/* Session date/time */}
 
           {/* Session Lead */}
@@ -317,18 +328,27 @@ export default function Session({navigation, route}) {
 
           <Card
             style={{
-              padding: '2%',
-              margin: '2%',
+              padding: '0%',
+              margin: '1%',
               marginBottom: '10%',
+              alignContent: 'center',
+              alignItems: 'center',
             }}>
             <Card.Actions
               style={{
+                width: '100%',
                 alignSelf: 'center',
+                alignContent: 'center',
+                justifyContent:
+                  userHasPermission(userData?.roles) || sessionLeadID === uid
+                    ? 'space-around'
+                    : 'space-between',
               }}>
               {/* REGISTER BUTTON */}
               {(userHasPermission(userData?.roles) ||
                 sessionLeadID === uid) && (
                 <ConfirmButton
+                  compact={true}
                   title="Attendance List"
                   testID="registerButton"
                   onPress={() => {
@@ -346,6 +366,7 @@ export default function Session({navigation, route}) {
                 (mentor) => mentor.id === uid,
               ) ? (
                 <ConfirmButton
+                  compact={true}
                   testID="leaveSessionButton"
                   title="Leave session"
                   onPress={() => {
@@ -353,6 +374,7 @@ export default function Session({navigation, route}) {
                   }}></ConfirmButton>
               ) : (
                 <ConfirmButton
+                  compact={true}
                   testID="signupButton"
                   title="Sign Up"
                   disabled={maxMentors === selectedSessionMentorsData.length}
@@ -369,6 +391,7 @@ export default function Session({navigation, route}) {
               {/* DElETE SESSION */}
               {userHasPermission(userData?.roles) && (
                 <CloseButton
+                  compact={true}
                   title="Delete"
                   testID="delete-session-button"
                   onPress={() => toggleDeleteSessionModal()}>

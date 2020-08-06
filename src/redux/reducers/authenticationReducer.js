@@ -10,7 +10,10 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case ACTIONS.SET_CURRENT_AUTHENTICATED_USER:
-      console.log('[Reducer - AuthUser] SET_CURRENT_AUTHENTICATED_USER');
+      console.log(
+        '[Reducer - AuthUser] SET_CURRENT_AUTHENTICATED_USER',
+        action.data,
+      );
       const userState = action.data;
       return {...state, userState};
     default:

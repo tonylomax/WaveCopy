@@ -16,7 +16,7 @@ import {
 } from 'components';
 import 'moment/src/locale/en-gb';
 import {Title, Paragraph, Subheading} from 'react-native-paper';
-import {ConfirmButton} from 'components';
+import {ConfirmButton, CallPerson} from 'components';
 import {coverWave} from '../../assets/';
 import {simplyGetImageDownloadURI, retrieveRegions} from 'utils';
 
@@ -94,12 +94,13 @@ export default function WaveTeamProfile({route, navigation}) {
           {', '}
           {moment().diff(mentor.dateOfBirth, 'years')}
         </Title>
-        <ConfirmButton
+
+        <CallPerson
           title={
             mentor.contactNumber ? mentor.contactNumber : 'No contact number'
           }
           icon="phone"
-          disabled={mentor.contactNumber ? false : true}></ConfirmButton>
+          disabled={mentor.contactNumber ? false : true}></CallPerson>
 
         <Subheading>Volunteering area</Subheading>
         <Paragraph>{region ? region : 'Unknown Region'}</Paragraph>

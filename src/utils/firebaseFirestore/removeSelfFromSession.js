@@ -8,7 +8,9 @@ export default removeSelfFromSession = async (
   sessionID,
   userID,
   sessionLeadID,
+  roles,
 ) => {
+  console.log('roles in remove self from session', roles);
   const sessionReference = firestore().doc(`Sessions/${sessionID}`);
 
   return await firestore()

@@ -58,7 +58,7 @@ export default unassignSessionLead = async (sessionID, mentorID, userID) => {
             },
           });
         } else {
-          throw 'you dont have permission';
+          throw 'You need to be a Regional Manager or National Admin to unassign the session lead. Please contact session Coordinator to do this.';
         }
       });
     })

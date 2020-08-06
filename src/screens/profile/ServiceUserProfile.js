@@ -56,17 +56,21 @@ export default function ServiceUserProfile({route}) {
         <Subheading>Emergency contacts</Subheading>
         <TouchableRipple
           onPress={async () => {
-            await Linking.openURL(`tel:${serviceUser?.number}`).catch((err) => {
-              console.log(err);
-            });
+            await Linking.openURL(`tel:${serviceUser?.contactNumber}`).catch(
+              (err) => {
+                console.log(err);
+              },
+            );
           }}>
           <Paragraph>
-            {serviceUser?.number ? serviceUser?.number : 'No number'}
+            {serviceUser?.contactNumber
+              ? serviceUser?.contactNumber
+              : 'No number'}
           </Paragraph>
         </TouchableRipple>
 
         <CallPerson
-          disabled={serviceUser?.number ? false : true}
+          disabled={serviceUser?.contactNumber ? false : true}
           onPress={async () => {
             await Linking.openURL(`tel:${serviceUser?.number}`).catch((err) => {
               console.log(err);

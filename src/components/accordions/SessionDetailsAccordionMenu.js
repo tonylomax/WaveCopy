@@ -48,10 +48,6 @@ export default function SessionDetailsAccordionMenu({
   const [attendeesExpanded, setAttendeesExpanded] = useState(false);
   //REDUX STATE
 
-  useEffect(() => {
-    console.log('mentors', mentors);
-  }, [mentors]);
-
   return (
     <List.Section>
       {/* MENTOR ACCORDION MENU */}
@@ -89,6 +85,7 @@ export default function SessionDetailsAccordionMenu({
                       mentor.id,
                       uid,
                       sessionLead?.id,
+                      roles,
                     )
                       .then((result) => {
                         console.log('Mentor remove done', result);
@@ -98,7 +95,7 @@ export default function SessionDetailsAccordionMenu({
                         Alert.alert(err);
                       });
                   }}
-                  title="Remove as Mentor"></ConfirmButton>
+                  title="Remove Mentor"></ConfirmButton>
                 {sessionLead?.id === mentor.id ? (
                   <CloseButton
                     style={{
@@ -168,7 +165,9 @@ export default function SessionDetailsAccordionMenu({
                   }}>
                   <Card
                     key={`mentor-${i + 1}`}
-                    style={{margin: '2%'}}
+                    style={{
+                      margin: '2%',
+                    }}
                     onPress={() => {
                       if (route.name !== 'ConfirmSession') {
                         const routeDestination =
@@ -180,8 +179,6 @@ export default function SessionDetailsAccordionMenu({
                     }}>
                     <Card.Content
                       style={{
-                        flex: 1,
-                        display: 'flex',
                         flexDirection: 'row',
                         alignItems: 'center',
                       }}>
@@ -202,20 +199,22 @@ export default function SessionDetailsAccordionMenu({
                             : ''
                         } `}{' '}
                       </Paragraph>
-                      <IconButton
-                        style={{
-                          position: 'absolute',
-                          top: 10,
-                          bottom: 10,
-                          right: 5,
-                          // marginVertical: '2%',
-                          // paddingVertical: '2%',
-                        }}
-                        icon="chevron-double-left"
-                        color={'grey'}
-                        size={50}
-                        disabled={true}
-                      />
+                      {(userHasPermission(userData?.roles) ||
+                        sessionLead?.id === uid) && (
+                        <Card.Actions
+                          style={{
+                            position: 'absolute',
+                            right: 0,
+                            top: 0,
+                          }}>
+                          <IconButton
+                            icon="chevron-double-left"
+                            color={'grey'}
+                            size={50}
+                            disabled={true}
+                          />
+                        </Card.Actions>
+                      )}
                     </Card.Content>
                   </Card>
                 </Swipeable>
@@ -239,7 +238,7 @@ export default function SessionDetailsAccordionMenu({
         title={
           selectedUsers.length > 0
             ? `Surfers (${selectedUsers?.length})`
-            : 'No Attendees'
+            : 'No Surfers'
         }
         id="2"
         testID="attendees-accordian">
@@ -248,6 +247,7 @@ export default function SessionDetailsAccordionMenu({
             const rightButtons = [
               <ConfirmButton
                 title="Call Parent"
+                disabled={serviceUser?.contactNumber ? false : true}
                 style={{
                   width: '95%',
                   maxWidth: '95%',
@@ -257,11 +257,11 @@ export default function SessionDetailsAccordionMenu({
                 }}
                 testID={`removeAsMentorButton${serviceUser.id}`}
                 onPress={async () => {
-                  await Linking.openURL(`tel:${serviceUser?.number}`).catch(
-                    (err) => {
-                      console.log(err);
-                    },
-                  );
+                  await Linking.openURL(
+                    `tel:${serviceUser?.contactNumber}`,
+                  ).catch((err) => {
+                    console.log(err);
+                  });
                 }}></ConfirmButton>,
             ];
 
@@ -324,8 +324,6 @@ export default function SessionDetailsAccordionMenu({
                     }}>
                     <Card.Content
                       style={{
-                        flex: 1,
-                        display: 'flex',
                         flexDirection: 'row',
                         alignItems: 'center',
                       }}>
@@ -347,21 +345,24 @@ export default function SessionDetailsAccordionMenu({
                             : ''
                         } `}
                       </Paragraph>
-
-                      {route.name !== 'ConfirmSession' && (
-                        <IconButton
-                          style={{
-                            position: 'absolute',
-                            top: 10,
-                            bottom: 10,
-                            right: 5,
-                          }}
-                          icon="chevron-double-left"
-                          color={'grey'}
-                          size={50}
-                          disabled={true}
-                        />
-                      )}
+                      {route.name !== 'ConfirmSession' &&
+                        (userHasPermission(userData?.roles) ||
+                          sessionLead?.id === uid) && (
+                          <Card.Actions
+                            style={{
+                              position: 'absolute',
+                              right: 0,
+                              top: 0,
+                            }}>
+                            <IconButton
+                              style={{margin: 0}}
+                              icon="chevron-double-left"
+                              color={'grey'}
+                              size={50}
+                              disabled={true}
+                            />
+                          </Card.Actions>
+                        )}
                     </Card.Content>
                   </Card>
                 </Swipeable>

@@ -78,7 +78,10 @@ export default function Home({navigation, setLoggedIn}) {
                 const serializedResult = serializeError(result);
                 console.log('message', serializedResult.message);
                 if (serializedResult.code) {
-                  Alert.alert(serializedResult.message);
+                  setLoading(false);
+                  setTimeout(() => {
+                    Alert.alert(serializedResult.message);
+                  }, 200);
                 } else setLoggedIn(true);
               });
             }}

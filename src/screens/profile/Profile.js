@@ -278,9 +278,9 @@ export default function Profile({navigation, route}) {
                 alignSelf: 'center',
                 justifyContent: 'center',
               }}
-              label={`${userData?.firstName.charAt(
+              label={`${userData?.firstName?.charAt(
                 0,
-              )}${userData?.lastName.charAt(0)}`}
+              )}${userData?.lastName?.charAt(0)}`}
               testID="profilePic"
               size="LARGE"
               source={{uri: profileURL}}
