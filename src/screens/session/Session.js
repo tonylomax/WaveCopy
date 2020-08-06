@@ -357,18 +357,27 @@ export default function Session({navigation, route}) {
 
           <Card
             style={{
-              padding: '2%',
-              margin: '2%',
+              padding: '0%',
+              margin: '1%',
               marginBottom: '10%',
+              alignContent: 'center',
+              alignItems: 'center',
             }}>
             <Card.Actions
               style={{
+                width: '100%',
                 alignSelf: 'center',
+                alignContent: 'center',
+                justifyContent:
+                  userHasPermission(userData?.roles) || sessionLeadID === uid
+                    ? 'space-around'
+                    : 'space-between',
               }}>
               {/* REGISTER BUTTON */}
               {(userHasPermission(userData?.roles) ||
                 sessionLeadID === uid) && (
                 <ConfirmButton
+                  compact={true}
                   title="Attendance List"
                   testID="registerButton"
                   onPress={() => {
@@ -385,6 +394,7 @@ export default function Session({navigation, route}) {
               {selectedSessionMentorsData.filter((mentor) => mentor.id === uid)
                 .length >= 1 ? (
                 <ConfirmButton
+                  compact={true}
                   testID="leaveSessionButton"
                   title="Leave session"
                   onPress={() => {
@@ -392,6 +402,7 @@ export default function Session({navigation, route}) {
                   }}></ConfirmButton>
               ) : (
                 <ConfirmButton
+                  compact={true}
                   testID="signupButton"
                   title="Sign Up"
                   disabled={maxMentors === selectedSessionMentorsData.length}
@@ -408,6 +419,7 @@ export default function Session({navigation, route}) {
               {/* DElETE SESSION */}
               {userHasPermission(userData?.roles) && (
                 <CloseButton
+                  compact={true}
                   title="Delete"
                   testID="delete-session-button"
                   onPress={() => toggleDeleteSessionModal()}>

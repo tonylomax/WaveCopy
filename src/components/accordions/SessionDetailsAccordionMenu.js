@@ -165,7 +165,9 @@ export default function SessionDetailsAccordionMenu({
                   }}>
                   <Card
                     key={`mentor-${i + 1}`}
-                    style={{margin: '2%'}}
+                    style={{
+                      margin: '2%',
+                    }}
                     onPress={() => {
                       if (route.name !== 'ConfirmSession') {
                         const routeDestination =
@@ -177,8 +179,6 @@ export default function SessionDetailsAccordionMenu({
                     }}>
                     <Card.Content
                       style={{
-                        flex: 1,
-                        display: 'flex',
                         flexDirection: 'row',
                         alignItems: 'center',
                       }}>
@@ -201,20 +201,19 @@ export default function SessionDetailsAccordionMenu({
                       </Paragraph>
                       {(userHasPermission(userData?.roles) ||
                         sessionLead?.id === uid) && (
-                        <IconButton
+                        <Card.Actions
                           style={{
                             position: 'absolute',
-                            top: 10,
-                            bottom: 10,
-                            right: 5,
-                            // marginVertical: '2%',
-                            // paddingVertical: '2%',
-                          }}
-                          icon="chevron-double-left"
-                          color={'grey'}
-                          size={50}
-                          disabled={true}
-                        />
+                            right: 0,
+                            top: 0,
+                          }}>
+                          <IconButton
+                            icon="chevron-double-left"
+                            color={'grey'}
+                            size={50}
+                            disabled={true}
+                          />
+                        </Card.Actions>
                       )}
                     </Card.Content>
                   </Card>
@@ -324,8 +323,6 @@ export default function SessionDetailsAccordionMenu({
                     }}>
                     <Card.Content
                       style={{
-                        flex: 1,
-                        display: 'flex',
                         flexDirection: 'row',
                         alignItems: 'center',
                       }}>
@@ -347,22 +344,23 @@ export default function SessionDetailsAccordionMenu({
                             : ''
                         } `}
                       </Paragraph>
-
                       {route.name !== 'ConfirmSession' &&
                         (userHasPermission(userData?.roles) ||
                           sessionLead?.id === uid) && (
-                          <IconButton
+                          <Card.Actions
                             style={{
                               position: 'absolute',
-                              top: 5,
-                              bottom: 10,
-                              right: 5,
-                            }}
-                            icon="chevron-double-left"
-                            color={'grey'}
-                            size={50}
-                            disabled={true}
-                          />
+                              right: 0,
+                              top: 0,
+                            }}>
+                            <IconButton
+                              style={{margin: 0}}
+                              icon="chevron-double-left"
+                              color={'grey'}
+                              size={50}
+                              disabled={true}
+                            />
+                          </Card.Actions>
                         )}
                     </Card.Content>
                   </Card>
