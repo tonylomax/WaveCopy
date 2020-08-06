@@ -238,7 +238,7 @@ export default function SessionDetailsAccordionMenu({
         title={
           selectedUsers.length > 0
             ? `Surfers (${selectedUsers?.length})`
-            : 'No Attendees'
+            : 'No Surfers'
         }
         id="2"
         testID="attendees-accordian">
@@ -247,6 +247,7 @@ export default function SessionDetailsAccordionMenu({
             const rightButtons = [
               <ConfirmButton
                 title="Call Parent"
+                disabled={serviceUser?.contactNumber ? false : true}
                 style={{
                   width: '95%',
                   maxWidth: '95%',
@@ -256,11 +257,11 @@ export default function SessionDetailsAccordionMenu({
                 }}
                 testID={`removeAsMentorButton${serviceUser.id}`}
                 onPress={async () => {
-                  await Linking.openURL(`tel:${serviceUser?.number}`).catch(
-                    (err) => {
-                      console.log(err);
-                    },
-                  );
+                  await Linking.openURL(
+                    `tel:${serviceUser?.contactNumber}`,
+                  ).catch((err) => {
+                    console.log(err);
+                  });
                 }}></ConfirmButton>,
             ];
 
