@@ -22,10 +22,10 @@ export default assignSessionLead = async (sessionID, mentorID, userID) => {
           return mentor.id === mentorID;
         });
         if (mentorInSession < 0) {
-          throw 'Mentor not in this session';
+          throw 'This mentor is not in this session.';
         }
         if (sessionData?.sessionLead?.id !== '') {
-          throw 'Already a session lead assigned';
+          throw 'A session lead is already assigned, please remove them before assigning a new one.';
         }
         if (roles.includes('NationalAdmin')) {
           transaction.update(sessionDocRef, {
@@ -55,7 +55,7 @@ export default assignSessionLead = async (sessionID, mentorID, userID) => {
             },
           });
         } else {
-          throw 'you dont have permission';
+          throw 'You need to be a Regional Manager or National Admin to assign the session lead. Please contact session Coordinator to do this.';
         }
       });
     })

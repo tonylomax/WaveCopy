@@ -38,6 +38,7 @@ import {
   Portal,
   Modal,
   IconButton,
+  Chip,
 } from 'react-native-paper';
 import {COLLECTIONS} from 'constants';
 import {startCase} from 'lodash';
@@ -300,16 +301,25 @@ export default function Session({navigation, route}) {
             {coordinator?.firstName} {coordinator?.lastName}
           </Paragraph>
 
+          {/* Show if session is full */}
+          {maxMentors === selectedSessionMentorsData.length && (
+            <Chip
+              style={{
+                alignSelf: 'center',
+                marginBottom: '3%',
+              }}
+              mode="outlined"
+              icon="information"
+              onPress={() => console.log('Pressed')}>
+              This session is full
+            </Chip>
+          )}
           {/* Session description */}
           <Paragraph style={{marginLeft: '3%'}}>
             Description: {sessionData?.description}
           </Paragraph>
           {/* Session Accordion menu for attendees */}
 
-          {/* Show if session is full */}
-          {maxMentors === selectedSessionMentorsData.length && (
-            <Text>This session is full</Text>
-          )}
           {/* Session date/time */}
 
           {/* Session Lead */}

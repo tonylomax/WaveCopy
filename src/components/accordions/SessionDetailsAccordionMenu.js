@@ -199,20 +199,23 @@ export default function SessionDetailsAccordionMenu({
                             : ''
                         } `}{' '}
                       </Paragraph>
-                      <IconButton
-                        style={{
-                          position: 'absolute',
-                          top: 10,
-                          bottom: 10,
-                          right: 5,
-                          // marginVertical: '2%',
-                          // paddingVertical: '2%',
-                        }}
-                        icon="chevron-double-left"
-                        color={'grey'}
-                        size={50}
-                        disabled={true}
-                      />
+                      {(userHasPermission(userData?.roles) ||
+                        sessionLead?.id === uid) && (
+                        <IconButton
+                          style={{
+                            position: 'absolute',
+                            top: 10,
+                            bottom: 10,
+                            right: 5,
+                            // marginVertical: '2%',
+                            // paddingVertical: '2%',
+                          }}
+                          icon="chevron-double-left"
+                          color={'grey'}
+                          size={50}
+                          disabled={true}
+                        />
+                      )}
                     </Card.Content>
                   </Card>
                 </Swipeable>
@@ -345,20 +348,22 @@ export default function SessionDetailsAccordionMenu({
                         } `}
                       </Paragraph>
 
-                      {route.name !== 'ConfirmSession' && (
-                        <IconButton
-                          style={{
-                            position: 'absolute',
-                            top: 10,
-                            bottom: 10,
-                            right: 5,
-                          }}
-                          icon="chevron-double-left"
-                          color={'grey'}
-                          size={50}
-                          disabled={true}
-                        />
-                      )}
+                      {route.name !== 'ConfirmSession' &&
+                        (userHasPermission(userData?.roles) ||
+                          sessionLead?.id === uid) && (
+                          <IconButton
+                            style={{
+                              position: 'absolute',
+                              top: 5,
+                              bottom: 10,
+                              right: 5,
+                            }}
+                            icon="chevron-double-left"
+                            color={'grey'}
+                            size={50}
+                            disabled={true}
+                          />
+                        )}
                     </Card.Content>
                   </Card>
                 </Swipeable>
