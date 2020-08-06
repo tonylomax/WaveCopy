@@ -92,7 +92,7 @@ export default function WaveTeamProfile({route, navigation}) {
         <Title>
           {mentor.firstName} {mentor.lastName}
           {', '}
-          {moment().diff(mentor.dateOfBirth, 'years')}
+          {mentor.dateOfBirth && moment().diff(mentor.dateOfBirth, 'years')}
         </Title>
 
         <CallPerson
