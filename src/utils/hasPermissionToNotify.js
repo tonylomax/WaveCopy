@@ -1,6 +1,6 @@
 import {userHasPermission} from 'utils';
 
-export default hasPermissionToNotify = ({
+export default ({
   roles,
   sessionLeadID,
   uid,
