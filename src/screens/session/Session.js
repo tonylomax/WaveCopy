@@ -1,35 +1,11 @@
+// React/React components
 import React, {useEffect, useState} from 'react';
-import {firebase} from '@react-native-firebase/functions';
-const functions = firebase.functions();
 import {View, Text, Alert, ImageBackground, ScrollView} from 'react-native';
 import {
   SessionDetailsAccordionMenu,
   ConfirmButton,
   CloseButton,
 } from 'components';
-import {useSelector, useDispatch} from 'react-redux';
-import {CommonActions} from '@react-navigation/native';
-import Moment from 'react-moment';
-import moment from 'moment';
-import 'moment/src/locale/en-gb';
-moment.locale('en-gb');
-moment().format('en-gb');
-import {coverWave} from '../../assets/';
-import {
-  clearSelectedSessionMentors,
-  clearSelectedSessionAttendees,
-  clearCurrentSession,
-} from '../../redux/';
-import {
-  subscribeToSessionChanges,
-  signupForSession,
-  retrieveCoordinatorData,
-  removeSelfFromSession,
-  deleteSession,
-  userHasPermission,
-  updateCurrentSessionAttendees,
-} from 'utils';
-
 import {
   Card,
   Title,
@@ -39,12 +15,47 @@ import {
   Modal,
   IconButton,
 } from 'react-native-paper';
-import {COLLECTIONS} from 'constants';
+
+// Firebase
+import {firebase} from '@react-native-firebase/functions';
+const functions = firebase.functions();
+// Redux
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  clearSelectedSessionMentors,
+  clearSelectedSessionAttendees,
+  clearCurrentSession,
+} from '../../redux/';
+// React Navigation
+import {CommonActions} from '@react-navigation/native';
+// Moment
+import Moment from 'react-moment';
+import moment from 'moment';
+import 'moment/src/locale/en-gb';
+moment.locale('en-gb');
+moment().format('en-gb');
+// Assets
+import {coverWave} from '../../assets/';
+// Utils
+import {
+  subscribeToSessionChanges,
+  signupForSession,
+  retrieveCoordinatorData,
+  removeSelfFromSession,
+  deleteSession,
+  userHasPermission,
+  hasPermissionToNotify,
+  subscribeToCurrentSessionAttendees,
+} from 'utils';
 import {startCase} from 'lodash';
+// Constants
+import {COLLECTIONS} from 'constants';
 
 export default function Session({navigation, route}) {
   const dispatch = useDispatch();
   // If coming from home, there is an item field,
+
+  // Extract data differently depending on where navigated from
   const {id, attendeesIDandAttendance, mentors, maxMentors} = route?.params
     ?.item
     ? route?.params?.item
@@ -73,13 +84,6 @@ export default function Session({navigation, route}) {
     (state) => state.firestoreReducer?.singleSession?.sessionLead?.id,
   );
 
-  useEffect(() => {
-    console.log(
-      'selectedSessionAttendeesData in session',
-      selectedSessionAttendeesData,
-    );
-  }, [selectedSessionAttendeesData]);
-
   // Current Auth User
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   const userData = useSelector((state) => state.firestoreReducer.userData);
@@ -87,15 +91,9 @@ export default function Session({navigation, route}) {
 
   //LOCAL STATE
   const [coordinator, setCoordinator] = useState();
-  const [visible, setVisible] = useState(false);
   const [surfLead, setSurfLead] = useState();
-  const IS_ADMIN =
-    userData?.roles?.includes('SurfLead') ||
-    userData?.roles?.includes('NationalAdmin') ||
-    userData?.roles?.includes('Coordinator');
   const [CoverImage, setCoverImage] = useState(coverWave);
   const [daysUntilSession, setDaysUntilSession] = useState(0);
-
   const [deleteSessionModalVisible, setDeleteSessionModalVisible] = useState(
     false,
   );
@@ -105,20 +103,32 @@ export default function Session({navigation, route}) {
       (deleteSessionModalVisible) => !deleteSessionModalVisible,
     );
 
-  //LOCAL STATE
+  useEffect(() => {
+    // Set up subscription for all the session data
+    const unsubscribeFromSessionChanges = subscribeToSessionChanges(id);
+    return () => {
+      console.log('CALLING clearSelectedSessionMentors');
+      dispatch(clearSelectedSessionMentors());
+      dispatch(clearSelectedSessionAttendees());
+      dispatch(clearCurrentSession());
+      console.log('FINISHED CALLING clearSelectedSessionMentors');
+      unsubscribeFromSessionChanges();
+    };
+  }, []);
 
   useEffect(() => {
-    // console.log('sessionData', sessionData);
-    // console.log('sessionData', sessionData?.mentors);
-    // console.log('MENTORS', Mentors);
-    // console.log('selectedSessionMentorsData', selectedSessionMentorsData);
     // Set up subscription for all the data relating to the mentors in a session
-    const mentorsUnsubscribers = updateCurrentSessionAttendees(
+    console.log(
+      'creating a subscription to subscribeToCurrentSessionAttendees',
+      sessionData?.mentors,
+      COLLECTIONS.USERS,
+    );
+    const mentorsUnsubscribers = subscribeToCurrentSessionAttendees(
       sessionData?.mentors,
       COLLECTIONS.USERS,
     );
     // Set up subscription for all the data relating to the attendees in a session
-    const serviceUsersUnsubscribers = updateCurrentSessionAttendees(
+    const serviceUsersUnsubscribers = subscribeToCurrentSessionAttendees(
       sessionData?.attendees,
       COLLECTIONS.TEST_SERVICE_USERS,
     );
@@ -137,39 +147,10 @@ export default function Session({navigation, route}) {
   }, [sessionDataMentors]);
 
   useEffect(() => {
-    // Set up subscription for all the session data
-
-    const unsubscribe = subscribeToSessionChanges(id);
-
-    return () => {
-      console.log('CALLING clearSelectedSessionMentors');
-      dispatch(clearSelectedSessionMentors());
-      dispatch(clearSelectedSessionAttendees());
-      dispatch(clearCurrentSession());
-      console.log('FINISHED CALLING clearSelectedSessionMentors');
-      unsubscribe();
-    };
-  }, []);
-
-  useEffect(() => {
     setDaysUntilSession(moment(sessionData?.dateTime).diff(new Date(), 'days'));
-    const SURFLEAD = selectedSessionMentorsData?.filter(
-      (mentor) => mentor.id === sessionLeadID,
-    );
-
-    setSurfLead(SURFLEAD[0]);
-  }, [selectedSessionMentorsData, sessionData]);
-
-  useEffect(() => {
-    console.log('sessionData', sessionData);
-    console.log(
-      'selectedSessionAttendeesData in use effect',
-      selectedSessionAttendeesData,
-    );
-
-    (async () => {
-      setCoordinator(await retrieveCoordinatorData(sessionData?.coordinatorID));
-    })();
+    retrieveCoordinatorData(sessionData?.coordinatorID)
+      .then((coordinatorData) => setCoordinator(coordinatorData))
+      .catch((err) => clg(err));
     if (userHasPermission(userData?.roles) || sessionLeadID === uid) {
       navigation.setOptions({
         headerRight: () => (
@@ -178,15 +159,6 @@ export default function Session({navigation, route}) {
             icon="square-edit-outline"
             size={36}
             onPress={() => {
-              console.log('navigating to session details');
-              console.log({sessionData});
-              console.log(
-                'selectedSessionAttendeesData on edit button click',
-                selectedSessionAttendeesData,
-              );
-              console.log({selectedSessionMentorsData});
-              console.log({id});
-              console.log('route name ', route.name);
               navigation.push('SessionDetails', {
                 previousSessionData: sessionData,
                 previouslySelectedAttendees: selectedSessionAttendeesData,
@@ -197,13 +169,20 @@ export default function Session({navigation, route}) {
         ),
       });
     }
-  }, [sessionData, selectedSessionAttendeesData]);
+  }, [sessionData]);
+
+  useEffect(() => {
+    const SURFLEAD = selectedSessionMentorsData?.find(
+      (mentor) => mentor.id === sessionLeadID,
+    );
+    setSurfLead(SURFLEAD);
+  }, [selectedSessionMentorsData]);
 
   const leaveSession = (id, uid, sessionLeadID) => {
     removeSelfFromSession(id, uid, sessionLeadID)
       .then((result) => {
         console.log('Session remove done');
-        // navigation.goBack();
+        console.log('leaving session', selectedSessionMentorsData);
       })
       .catch((err) => {
         console.log('ERROR: ', err);
@@ -221,49 +200,43 @@ export default function Session({navigation, route}) {
         </ImageBackground>
 
         <View>
-          {(userHasPermission(userData?.roles) || sessionLeadID === uid) &&
-            daysUntilSession < 2 &&
-            daysUntilSession >= 0 &&
-            sessionData?.maxMentors - sessionDataMentors?.length > 0 && (
-              <ConfirmButton
-                onPress={() => {
-                  const sendNotificationToAllMentorsInSameRegionAsSession = functions.httpsCallable(
-                    'sendNotificationToAllMentorsInSameRegionAsSession',
-                  );
-                  console.log(
-                    sendNotificationToAllMentorsInSameRegionAsSession,
-                  );
-                  sendNotificationToAllMentorsInSameRegionAsSession({
-                    sessionData,
+          {hasPermissionToNotify({
+            roles: userData?.roles,
+            sessionLeadID,
+            uid,
+            daysUntilSession,
+            maxMentors: sessionData?.maxMentors,
+            currentNumberOfMentors: sessionDataMentors?.length,
+          }) && (
+            <ConfirmButton
+              onPress={() => {
+                const sendNotificationToAllMentorsInSameRegionAsSession = functions.httpsCallable(
+                  'sendNotificationToAllMentorsInSameRegionAsSession',
+                );
+                console.log(sendNotificationToAllMentorsInSameRegionAsSession);
+                sendNotificationToAllMentorsInSameRegionAsSession({
+                  sessionData,
+                })
+                  .then(function (result) {
+                    Alert.alert(
+                      `Sent to ${result?.data?.successCount} mentors`,
+                    );
                   })
-                    .then(function (result) {
-                      // Read result of the Cloud Function.
-                      console.log(result);
-                      // Note it actually gives you the number of devices it's sent to, but
-                      // I think mentors is clearer.
-                      Alert.alert(
-                        `Sent to ${result?.data?.successCount} mentors`,
-                      );
-                    })
-                    .catch(function (error) {
-                      // Getting the Error details.
-                      console.log('error back from the function', error);
-                      Alert(
-                        'There was an error sending your notifications, please try again later.',
-                        error,
-                      );
-                      const code = error.code;
-                      console.log({code});
-                      const message = error.message;
-                      console.log({message});
-                      const details = error.details;
-                      console.log({details});
-                      // ...
-                    });
-                }}
-                title="Notify mentors"
-              />
-            )}
+                  .catch(function (error) {
+                    // Getting the Error details.
+                    console.log('error back from the function', error);
+                    Alert(
+                      'There was an error sending your notifications, please try again later.',
+                      error,
+                    );
+                    const {code, message, details} = error;
+                    clg(code, message, details);
+                    // ...
+                  });
+              }}
+              title="Notify mentors"
+            />
+          )}
 
           <Paragraph style={{alignSelf: 'center'}}>
             <Moment element={Text} format="LLLL">
@@ -321,10 +294,10 @@ export default function Session({navigation, route}) {
             </Paragraph>
           )}
 
-          {selectedSessionAttendeesData &&
+          {selectedSessionAttendeesData?.length >= 0 &&
             selectedBeach &&
             maxMentors > 0 &&
-            selectedSessionMentorsData && (
+            selectedSessionMentorsData?.length >= 0 && (
               <SessionDetailsAccordionMenu
                 selectedUsers={selectedSessionAttendeesData}
                 numberOfMentors={maxMentors}
@@ -365,8 +338,9 @@ export default function Session({navigation, route}) {
 
               {/* LEAVE/SIGNUP */}
               {/* Only show if signup button if user is in the session, otherwise show signup button */}
-              {selectedSessionMentorsData.filter((mentor) => mentor.id === uid)
-                .length >= 1 ? (
+              {selectedSessionMentorsData.some(
+                (mentor) => mentor.id === uid,
+              ) ? (
                 <ConfirmButton
                   testID="leaveSessionButton"
                   title="Leave session"
