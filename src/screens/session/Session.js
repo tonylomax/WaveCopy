@@ -44,6 +44,7 @@ import {
   removeSelfFromSession,
   deleteSession,
   userHasPermission,
+  hasPermissionToNotify,
   subscribeToCurrentSessionAttendees,
 } from 'utils';
 import {startCase} from 'lodash';
@@ -187,21 +188,6 @@ export default function Session({navigation, route}) {
         console.log('ERROR: ', err);
         Alert.alert(err);
       });
-  };
-  const hasPermissionToNotify = ({
-    roles,
-    sessionLeadID,
-    uid,
-    daysUntilSession,
-    maxMentors,
-    currentNumberOfMentors,
-  }) => {
-    return (
-      (userHasPermission(roles) || sessionLeadID === uid) &&
-      daysUntilSession < 2 &&
-      daysUntilSession >= 0 &&
-      maxMentors > currentNumberOfMentors
-    );
   };
 
   return (

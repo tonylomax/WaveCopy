@@ -45,7 +45,9 @@ import getCoverImage from './getCoverImage';
 import generateNumberedArray from './generateNumberedArray';
 import getSessionLeadName from './getSessionLeadName';
 import setHomeIndex from './setHomeIndex';
+import hasPermissionToNotify from './hasPermissionToNotify';
 export {
+  hasPermissionToNotify,
   simplyGetImageDownloadURI,
   getSessionLeadName,
   updateSessionInFirestore,
