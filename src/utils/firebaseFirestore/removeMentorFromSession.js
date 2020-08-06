@@ -25,6 +25,7 @@ export default removeMentorFromSession = async (
         .data()
         .mentors.filter((mentor) => mentor.id !== userID);
 
+      console.log({newMentors});
       if (!sessionData.exists) {
         throw 'Session does not exist!';
       }
