@@ -264,6 +264,7 @@ export default function Profile({navigation, route}) {
 
         <Card
           style={{
+            elevation: 0,
             backgroundColor: 'transparent',
             margin: '2%',
             maxHeight: 200,
@@ -316,17 +317,7 @@ export default function Profile({navigation, route}) {
         <Card style={{margin: '2%', maxHeight: '99%'}}>
           <Card.Content
             style={{
-              // marginLeft: 'auto',
-              // marginRight: 'auto',
-              // width: '90%',
-              // height: '100%',
               margin: '2%',
-              // backgroundColor: 'red',
-              // display: 'flex',
-              // alignItems: 'center',
-              // padding: '2%',
-              // justifyContent: 'space-around',
-              // height: '70%',
             }}>
             <Subheading>Bio</Subheading>
 
@@ -354,8 +345,6 @@ export default function Profile({navigation, route}) {
                 }
               }}
               style={{
-                // minHeight: '15%',
-                // minWidth: '15%',
                 height: 50,
                 width: 50,
                 alignSelf: 'flex-end',
@@ -372,22 +361,8 @@ export default function Profile({navigation, route}) {
           style={{
             padding: '2%',
             margin: '2%',
-            // marginHorizontal: 'auto',
-            // width: '90%',
-            // display: 'flex',
-
-            // alignItems: 'center',
-            // backgroundColor: 'blue',
           }}>
-          <Card.Content
-            style={
-              {
-                // width: '400%',
-                // backgroundColor: 'red',
-                // display: 'flex',
-                // alignItems: 'center',
-              }
-            }>
+          <Card.Content>
             <Subheading>Contact number</Subheading>
             {editContactNumber ? (
               <TextInput
