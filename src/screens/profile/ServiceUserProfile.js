@@ -17,11 +17,20 @@ import {
 } from 'react-native-paper';
 import {CallPerson, SurferAvatar} from 'components';
 import {coverWave} from '../../assets/';
+import {useSelector} from 'react-redux';
 
 export default function ServiceUserProfile({route}) {
-  const {serviceUser, roles} = route.params;
+  const serviceUserID = route.params;
 
-  console.log('serviceUser in serviceuser profile', serviceUser);
+  console.log('serviceUser in serviceuser profile', serviceUserID);
+
+  const serviceUser = useSelector((state) =>
+    state.firestoreReducer.selectedSessionSubscribedAttendees.find(
+      (subscribedAttendee) => {
+        return serviceUserID === subscribedAttendee.id;
+      },
+    ),
+  );
 
   return (
     <ScrollView>

@@ -60,8 +60,11 @@ export default (state = initialState, action) => {
 
     case ACTIONS.SUBSCRIBE_TO_SESSION_MENTORS:
       console.log('[Reducer - fireStoreReducer] SUBSCRIBE_TO_SESSION_MENTORS');
+      const selectedSessionSubscribedMentors = JSON.parse(
+        JSON.stringify(action.data),
+      );
 
-      return {...state, selectedSessionSubscribedMentors: action.data};
+      return {...state, selectedSessionSubscribedMentors};
 
     case ACTIONS.SUBSCRIBE_TO_SESSION_ATTENDEES:
       console.log(
@@ -69,7 +72,11 @@ export default (state = initialState, action) => {
         action.data,
       );
 
-      return {...state, selectedSessionSubscribedAttendees: action.data};
+      const selectedSessionSubscribedAttendees = JSON.parse(
+        JSON.stringify(action.data),
+      );
+
+      return {...state, selectedSessionSubscribedAttendees};
 
     case ACTIONS.CLEAR_SUBSCRIBE_TO_SESSION_MENTORS:
       console.log(

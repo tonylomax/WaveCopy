@@ -224,6 +224,11 @@ export default function Profile({navigation, route}) {
                   isProfilePicture={true}
                   source={{uri: uploadImg?.uri}}
                 />
+                <ProgressBar
+                  style={{marginTop: '2.5%'}}
+                  visible={showProgressBar}
+                  progress={uploadProgress}
+                />
               </Card.Content>
               <Card.Actions
                 style={{
@@ -252,11 +257,6 @@ export default function Profile({navigation, route}) {
                   onPress={() => {
                     setImageConfirmPopup(false);
                   }}></CloseButton>
-                <ProgressBar
-                  style={{marginTop: '2.5%'}}
-                  visible={showProgressBar}
-                  progress={uploadProgress}
-                />
               </Card.Actions>
             </Card>
           </Modal>
