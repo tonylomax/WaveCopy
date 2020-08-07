@@ -40,6 +40,7 @@ export default function SessionDetailsAccordionMenu({
   sessionLead,
   sessionID,
   roles,
+  currentNumberOfMentors,
 }) {
   //REDUX STATE
   const userData = useSelector((state) => state.firestoreReducer.userData);
@@ -61,7 +62,7 @@ export default function SessionDetailsAccordionMenu({
         onPress={() => {
           setMentorsExpanded((mentorsExpanded) => !mentorsExpanded);
         }}
-        title={`Mentors (${mentors?.length || 0}/${numberOfMentors})`}
+        title={`Mentors (${currentNumberOfMentors || 0}/${numberOfMentors})`}
         testID="mentors-accordian"
         id="1">
         {mentors?.length > 0 &&
