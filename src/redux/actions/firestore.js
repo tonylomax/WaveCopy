@@ -95,7 +95,7 @@ export function getAllBeaches() {
 }
 
 export function updateSessionMentors(subscribedUserData) {
-  console.log('Inside updateSessionMentors action');
+  console.log('Inside updateSessionMentors action', subscribedUserData);
   return async (dispatch) => {
     dispatch({
       type: ACTIONS.SUBSCRIBE_TO_SESSION_MENTORS,

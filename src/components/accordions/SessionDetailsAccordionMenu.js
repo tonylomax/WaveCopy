@@ -34,9 +34,9 @@ export default function SessionDetailsAccordionMenu({
   route,
   testID,
   location,
-  selectedUsers,
+  // selectedUsers,
   numberOfMentors,
-  mentors,
+  // mentors,
   sessionLead,
   sessionID,
   roles,
@@ -46,6 +46,18 @@ export default function SessionDetailsAccordionMenu({
   const uid = useSelector((state) => state.authenticationReducer.userState.uid);
   const [mentorsExpanded, setMentorsExpanded] = useState(false);
   const [attendeesExpanded, setAttendeesExpanded] = useState(false);
+
+  const mentors = useSelector(
+    (state) => state.firestoreReducer.selectedSessionSubscribedMentors,
+  );
+
+  const selectedUsers = useSelector(
+    (state) => state.firestoreReducer.selectedSessionSubscribedAttendees,
+  );
+
+  useEffect(() => {
+    console.log('mentors in accordion', mentors);
+  }, [mentors]);
   //REDUX STATE
 
   return (
@@ -174,7 +186,7 @@ export default function SessionDetailsAccordionMenu({
                           route.name === 'HomeSession'
                             ? 'Home Volunteer Profile'
                             : 'Profile Volunteer Profile';
-                        navigation.navigate(routeDestination, {mentor});
+                        navigation.navigate(routeDestination, mentor.id);
                       }
                     }}>
                     <Card.Content
@@ -246,7 +258,7 @@ export default function SessionDetailsAccordionMenu({
           selectedUsers?.map((serviceUser, i) => {
             const rightButtons = [
               <ConfirmButton
-                title="Call Parent"
+                title={serviceUser?.contactNumber ? 'Call Parent' : 'No Number'}
                 disabled={serviceUser?.contactNumber ? false : true}
                 style={{
                   width: '95%',
@@ -314,10 +326,7 @@ export default function SessionDetailsAccordionMenu({
                           route.name === 'HomeSession'
                             ? 'Home ServiceUser Profile'
                             : 'Profile ServiceUser Profile';
-                        navigation.navigate(routeDestination, {
-                          serviceUser,
-                          roles,
-                        });
+                        navigation.navigate(routeDestination, serviceUser.id);
                       } else {
                         Alert.alert("You don't have permission to do this");
                       }

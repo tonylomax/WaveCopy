@@ -84,9 +84,12 @@ export default function Profile({navigation}) {
     if (!isEmpty(userData)) {
       //If the user is a national admin then set up a subscription too all sessions
       if (userData?.roles.includes('NationalAdmin')) {
+        console.log('subscribeToSessions');
+
         unsubscribeFromSessions = subscribeToSessions();
       } else {
         // Otherwise set up a subscription to sessions restricted to the users area
+        console.log('subscribeToRoleSpecificSessionChanges');
         unsubscribeFromRoleSessions = subscribeToRoleSpecificSessionChanges(
           userData.region,
         );

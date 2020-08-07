@@ -21,30 +21,40 @@ import {coverWave} from '../../assets/';
 import {simplyGetImageDownloadURI, retrieveRegions} from 'utils';
 
 export default function WaveTeamProfile({route, navigation}) {
-  const {mentor} = route.params;
+  const mentorID = route.params;
+
   const [region, setRegion] = useState('');
   const [profileURL, setProfileURL] = useState();
-  const {roles} = useSelector((state) => state?.authenticationReducer?.roles);
+  const roles = useSelector((state) => state.firestoreReducer.userData.roles);
+
   const regions = useSelector((state) => state?.firestoreReducer?.regions);
   const beaches = useSelector((state) => state?.firestoreReducer?.beaches);
   // Find sessions that a volunteer is signed up for
-  const volunteerSessions = useSelector((state) =>
-    state?.firestoreReducer[sessionData]?.filter((session) => {
+  console.log('roles', roles);
+  const IS_ADMIN = roles.includes('NationalAdmin');
+  console.log('IS_ADMIN', IS_ADMIN);
+  const sessionData = IS_ADMIN ? 'sessionData' : 'roleSpecificSessionData';
+
+  const volunteerSessions = useSelector((state) => {
+    console.log('inside use selector', state?.firestoreReducer.sessionData);
+    return state?.firestoreReducer[sessionData]?.filter((session) => {
       console.log('firestore reducer in volunteer sessions', {session});
       return session?.mentors?.some(
-        (filteredMentor) => filteredMentor.id === mentor.id,
+        (filteredMentor) => filteredMentor.id === mentorID,
       );
-    }),
-  );
-  const IS_ADMIN = roles.includes('NationalAdmin');
-  const sessionData = IS_ADMIN ? 'sessionData' : 'roleSpecificSessionData';
-  // const allSessions = useSelector(
-  //   (state) => state.firestoreReducer.sessionData,
-  // );
+    });
+  });
 
-  console.log('mentor', mentor.dateOfBirth);
+  const mentor = useSelector((state) =>
+    state.firestoreReducer.selectedSessionSubscribedMentors.find(
+      (subscribedMentor) => {
+        return mentorID === subscribedMentor.id;
+      },
+    ),
+  );
+
   useEffect(() => {
-    console.log('mento changed');
+    console.log('mentor changed');
     if (mentor?.id) {
       simplyGetImageDownloadURI(mentor.id)
         .then((url) => {

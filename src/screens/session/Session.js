@@ -83,6 +83,13 @@ export default function Session({navigation, route}) {
     (state) => state.firestoreReducer.selectedSessionSubscribedMentors,
   );
 
+  useEffect(() => {
+    console.log(
+      'selectedSessionMentorsData in session',
+      selectedSessionMentorsData,
+    );
+  }, [selectedSessionMentorsData]);
+
   const sessionLeadID = useSelector(
     (state) => state.firestoreReducer?.singleSession?.sessionLead?.id,
   );
