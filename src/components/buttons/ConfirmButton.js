@@ -26,6 +26,8 @@ export default function ConfirmButton({
         fontSize: style?.fontSize,
         marginHorizontal: style?.marginHorizontal || '1%',
         paddingBottom: style?.paddingBottom,
+        paddingLeft: 10,
+        paddingRight: 10,
       }}
       contentStyle={{
         marginVertical: style?.marginVertical,

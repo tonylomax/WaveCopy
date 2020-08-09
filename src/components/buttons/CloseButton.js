@@ -40,6 +40,8 @@ export default function CloseButton({title, onPress, testID, style}) {
         flex: style?.flex,
         alignSelf: 'center',
         backgroundColor: colors.backdrop,
+        paddingLeft: 10,
+        paddingRight: 10,
       }}
       maxWidth={maxWidth}
       mode="contained"

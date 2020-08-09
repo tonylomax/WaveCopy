@@ -78,7 +78,11 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
                 flexDirection: 'column',
               }}>
               <ConfirmButton
-                style={{marginHorizontal: '5%', marginBottom: '1%'}}
+                style={{
+                  marginHorizontal: '5%',
+                  marginBottom: '1%',
+                  width: '20%',
+                }}
                 title="Yes"
                 onPress={() => {
                   toggleDiscardChangesModal();
@@ -90,6 +94,11 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
                   );
                 }}></ConfirmButton>
               <CloseButton
+                style={{
+                  marginHorizontal: '5%',
+                  marginBottom: '1%',
+                  width: '20%',
+                }}
                 title="No"
                 onPress={() => {
                   toggleDiscardChangesModal();

@@ -277,10 +277,11 @@ export default function Session({navigation, route}) {
             />
 
             {/* Session beach  */}
-            <Paragraph style={{alignSelf: 'center'}}>
-              {startCase(sessionData?.type?.replace(/-/gi, ' '))}-
+            <Title style={{alignSelf: 'center'}}>
+              {startCase(sessionData?.type?.replace(/-/gi, ' '))}
+              {' - '}
               {sessionData?.beach?.replace(/-/gi, ' ')}
-            </Paragraph>
+            </Title>
 
             {/* Cover coordinator */}
 
@@ -355,18 +356,25 @@ export default function Session({navigation, route}) {
               }}>
               <Card.Actions
                 style={{
-                  width: '100%',
+                  width: '80%',
+                  paddingRight: '10%',
+                  paddingLeft: '10%',
                   alignSelf: 'center',
                   alignContent: 'center',
-                  justifyContent:
-                    userHasPermission(userData?.roles) || sessionLeadID === uid
-                      ? 'space-around'
-                      : 'space-between',
+                  justifyContent: 'space-between',
+                  // userHasPermission(userData?.roles) || sessionLeadID === uid
+                  // ? 'space-around'
+                  // : 'space-between',
                 }}>
                 {/* REGISTER BUTTON */}
                 {(userHasPermission(userData?.roles) ||
                   sessionLeadID === uid) && (
                   <ConfirmButton
+                    style={{
+                      width: '74%',
+                      marginHorizontal: '1%',
+                      marginBottom: '1%',
+                    }}
                     compact={true}
                     title="Attendance List"
                     testID="registerButton"
@@ -374,9 +382,7 @@ export default function Session({navigation, route}) {
                       navigation.navigate('Register', {
                         id,
                       });
-                    }}>
-                    Register
-                  </ConfirmButton>
+                    }}></ConfirmButton>
                 )}
 
                 {/* LEAVE/SIGNUP */}
@@ -385,14 +391,24 @@ export default function Session({navigation, route}) {
                   (mentor) => mentor.id === uid,
                 ) ? (
                   <ConfirmButton
+                    style={{
+                      marginHorizontal: '1%',
+                      marginBottom: '1%',
+                      width: '40%',
+                    }}
                     compact={true}
                     testID="leaveSessionButton"
-                    title="Leave session"
+                    title="Leave"
                     onPress={() => {
                       leaveSession(id, uid, sessionLeadID);
                     }}></ConfirmButton>
                 ) : (
                   <ConfirmButton
+                    style={{
+                      marginHorizontal: '1%',
+                      marginBottom: '1%',
+                      width: '42%',
+                    }}
                     compact={true}
                     testID="signupButton"
                     title="Sign Up"
@@ -410,12 +426,15 @@ export default function Session({navigation, route}) {
                 {/* DElETE SESSION */}
                 {userHasPermission(userData?.roles) && (
                   <CloseButton
+                    style={{
+                      marginHorizontal: '1%',
+                      marginBottom: '1%',
+                      width: '40%',
+                    }}
                     compact={true}
                     title="Delete"
                     testID="delete-session-button"
-                    onPress={() => toggleDeleteSessionModal()}>
-                    Register
-                  </CloseButton>
+                    onPress={() => toggleDeleteSessionModal()}></CloseButton>
                 )}
                 {/* Popup to confirm delete session */}
               </Card.Actions>
@@ -435,6 +454,11 @@ export default function Session({navigation, route}) {
                       justifyContent: 'space-around',
                     }}>
                     <ConfirmButton
+                      style={{
+                        marginHorizontal: '5%',
+                        marginBottom: '1%',
+                        width: '20%',
+                      }}
                       title="Yes"
                       onPress={() => {
                         console.log('deleting session');
@@ -456,6 +480,11 @@ export default function Session({navigation, route}) {
                           );
                       }}></ConfirmButton>
                     <CloseButton
+                      style={{
+                        marginHorizontal: '5%',
+                        marginBottom: '1%',
+                        width: '20%',
+                      }}
                       title="No"
                       onPress={() => {
                         toggleDeleteSessionModal();

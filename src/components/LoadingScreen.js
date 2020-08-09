@@ -8,7 +8,6 @@ export default function LoadingScreen({visible}) {
   return (
     <Spinner
       visible={visible}
-      textContent={'Loading...'}
       //   textStyle={}
       overlayColor={COLOURS.WHITE}
       customIndicator={
