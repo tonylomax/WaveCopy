@@ -121,6 +121,10 @@ export default function ConfirmSession({route, navigation}) {
     return () => {};
   }, [descriptionOfSession]);
 
+  useEffect(() => {
+    console.log({selectedUsers});
+  }, [selectedUsers]);
+
   return (
     <ScrollView bounces={false}>
       <ImageBackground style={{height: 175, width: '100%'}} source={CoverImage}>
@@ -277,7 +281,7 @@ export default function ConfirmSession({route, navigation}) {
       </Card>
       <SessionDetailsAccordionMenu
         location={location}
-        selectedUsers={selectedUsers}
+        selectedUsersFromConfirmSession={selectedUsers}
         numberOfMentors={numberOfVolunteers}
         mentors={previouslySelectedMentors || []}
         route={route}

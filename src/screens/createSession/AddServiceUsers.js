@@ -42,6 +42,10 @@ export default function AddServiceUsers({route, navigation}) {
     }
   }, [typing]);
 
+  useEffect(() => {
+    console.log({previouslySelectedAttendees});
+  }, [previouslySelectedAttendees]);
+
   const onTypeLetter = (text) => {
     setSearchResults([]);
     setSearchTerm(text);
@@ -124,6 +128,7 @@ export default function AddServiceUsers({route, navigation}) {
           <FlatList
             data={searchResults}
             renderItem={({item}) => {
+              console.log({item});
               return (
                 <View>
                   <List.Item
@@ -131,7 +136,9 @@ export default function AddServiceUsers({route, navigation}) {
                       <Highlighter
                         highlightStyle={{backgroundColor: '#F2EAA7'}}
                         searchWords={[searchTerm]}
-                        textToHighlight={`${item?.firstName} ${item?.lastName}`}
+                        textToHighlight={`${item?.firstName} ${
+                          item?.lastName
+                        }  (${item?.postcode.toUpperCase()})`}
                       />
                     }
                     right={() => (
@@ -154,6 +161,7 @@ export default function AddServiceUsers({route, navigation}) {
           style={{marginBottom: '30%'}}
           data={selectedUsers}
           renderItem={({item, index}) => {
+            console.log({item});
             return (
               <View>
                 <List.Item
@@ -162,14 +170,21 @@ export default function AddServiceUsers({route, navigation}) {
                     <Highlighter
                       highlightStyle={{backgroundColor: '#F2EAA7'}}
                       searchWords={[searchTerm]}
-                      textToHighlight={`${item?.firstName} ${item?.lastName} ${
+                      textToHighlight={`${item?.firstName} ${
+                        item?.lastName
+                      } \n(${
+                        // Use user data from algolia
                         item?.postcode
-                          ? `\n(${item.postcode.substring(
-                              0,
-                              item.postcode.length - 3,
-                            )})`
-                          : ''
-                      } `}
+                          ? item?.postcode.toUpperCase()
+                          : // Use user data from redux
+                            item?.addresses[0]?.zip
+                              ?.substring(
+                                0,
+                                item?.addresses[0]?.zip?.length - 3,
+                              )
+                              .toUpperCase()
+                      })                       
+                       `}
                     />
                   }
                   right={() => (

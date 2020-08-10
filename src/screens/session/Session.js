@@ -85,6 +85,10 @@ export default function Session({navigation, route}) {
   );
 
   useEffect(() => {
+    console.log({selectedSessionAttendeesData});
+  }, [selectedSessionAttendeesData]);
+
+  useEffect(() => {
     console.log(
       'selectedSessionMentorsData in session',
       selectedSessionMentorsData,
@@ -144,7 +148,7 @@ export default function Session({navigation, route}) {
     // Set up subscription for all the data relating to the attendees in a session
     const serviceUsersUnsubscribers = subscribeToCurrentSessionAttendees(
       sessionData?.attendees,
-      COLLECTIONS.TEST_SERVICE_USERS,
+      COLLECTIONS.SERVICE_USERS,
     );
 
     return () => {
@@ -161,6 +165,10 @@ export default function Session({navigation, route}) {
   }, [sessionDataMentors]);
 
   useEffect(() => {
+    console.log(
+      'selectedSessionAttendeesData in session useEffect',
+      selectedSessionAttendeesData,
+    );
     setDaysUntilSession(moment(sessionData?.dateTime).diff(new Date(), 'days'));
     retrieveCoordinatorData(sessionData?.coordinatorID)
       .then((coordinatorData) => setCoordinator(coordinatorData))
@@ -183,7 +191,7 @@ export default function Session({navigation, route}) {
         ),
       });
     }
-  }, [sessionData]);
+  }, [sessionData, selectedSessionAttendeesData]);
 
   useEffect(() => {
     const SURFLEAD = selectedSessionMentorsData?.find(
