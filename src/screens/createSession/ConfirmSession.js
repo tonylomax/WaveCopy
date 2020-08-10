@@ -151,7 +151,11 @@ export default function ConfirmSession({route, navigation}) {
             />
             <Card.Content>
               <ConfirmButton
-                style={{marginHorizontal: '5%', marginBottom: '1%'}}
+                style={{
+                  marginHorizontal: '5%',
+                  marginBottom: '1%',
+                  width: '20%',
+                }}
                 title="Yes"
                 onPress={() => {
                   console.log('creating a session');
@@ -211,6 +215,11 @@ export default function ConfirmSession({route, navigation}) {
                   }
                 }}></ConfirmButton>
               <CloseButton
+                style={{
+                  marginHorizontal: '5%',
+                  marginBottom: '1%',
+                  width: '20%',
+                }}
                 title="No"
                 onPress={() => {
                   toggleConfirmSessionModal();

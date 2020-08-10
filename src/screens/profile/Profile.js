@@ -236,7 +236,11 @@ export default function Profile({navigation, route}) {
                   flexDirection: 'column',
                 }}>
                 <ConfirmButton
-                  style={{marginHorizontal: '5%', marginBottom: '1%'}}
+                  style={{
+                    marginHorizontal: '5%',
+                    marginBottom: '1%',
+                    width: '20%',
+                  }}
                   title="Yes"
                   onPress={() => {
                     setshowProgressBar(true);
@@ -253,6 +257,11 @@ export default function Profile({navigation, route}) {
                     });
                   }}></ConfirmButton>
                 <CloseButton
+                  style={{
+                    marginHorizontal: '5%',
+                    marginBottom: '1%',
+                    width: '20%',
+                  }}
                   title="No"
                   onPress={() => {
                     setImageConfirmPopup(false);
@@ -295,11 +304,11 @@ export default function Profile({navigation, route}) {
                 imagePicker();
               }}
               style={{
-                marginTop: '-15%',
-                marginRight: '5%',
+                marginTop: '-10%',
+                marginRight: '10%',
                 marginBottom: '10%',
-                height: 50,
-                width: 50,
+                height: 35,
+                width: 35,
                 alignSelf: 'flex-end',
               }}>
               <Image
@@ -345,8 +354,8 @@ export default function Profile({navigation, route}) {
                 }
               }}
               style={{
-                height: 50,
-                width: 50,
+                height: 35,
+                width: 35,
                 alignSelf: 'flex-end',
               }}>
               <Image
@@ -388,8 +397,8 @@ export default function Profile({navigation, route}) {
                 }
               }}
               style={{
-                height: 50,
-                width: 50,
+                height: 35,
+                width: 35,
                 alignSelf: 'flex-end',
               }}>
               <Image
