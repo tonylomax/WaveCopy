@@ -49,6 +49,10 @@ export default function SessionDetails({navigation, route}) {
   const [numberOfVolunteers, setNumberOfVolunteers] = useState(
     previousSessionData?.maxMentors || 1,
   );
+
+  useEffect(() => {
+    console.log({previouslySelectedAttendees});
+  }, [previouslySelectedAttendees]);
   // Default state is 0, previous state will not exist.
   const [numberOfRepetitions, setNumberOfRepetitions] = useState(0);
   const [sessionDate, setSessionDate] = useState(

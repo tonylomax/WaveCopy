@@ -1,4 +1,4 @@
-const TEST = true;
+const TEST = false;
 
 export const COLLECTIONS = {
   SERVICE_USERS: TEST ? 'TestServiceUsers' : 'ServiceUsers',

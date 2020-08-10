@@ -34,7 +34,7 @@ export default function SessionDetailsAccordionMenu({
   route,
   testID,
   location,
-  // selectedUsers,
+  selectedUsersFromConfirmSession,
   numberOfMentors,
   // mentors,
   sessionLead,
@@ -52,13 +52,16 @@ export default function SessionDetailsAccordionMenu({
     (state) => state.firestoreReducer.selectedSessionSubscribedMentors,
   );
 
-  const selectedUsers = useSelector(
-    (state) => state.firestoreReducer.selectedSessionSubscribedAttendees,
-  );
+  const selectedUsers =
+    selectedUsersFromConfirmSession === undefined
+      ? useSelector(
+          (state) => state.firestoreReducer.selectedSessionSubscribedAttendees,
+        )
+      : selectedUsersFromConfirmSession;
 
   useEffect(() => {
-    console.log('mentors in accordion', mentors);
-  }, [mentors]);
+    console.log({selectedUsersFromConfirmSession});
+  }, [selectedUsersFromConfirmSession]);
   //REDUX STATE
 
   return (
