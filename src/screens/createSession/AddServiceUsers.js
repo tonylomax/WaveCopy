@@ -6,6 +6,7 @@ import {
   TextInput,
   FlatList,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import {
   Searchbar,
@@ -170,9 +171,9 @@ export default function AddServiceUsers({route, navigation}) {
                     <Highlighter
                       highlightStyle={{backgroundColor: '#F2EAA7'}}
                       searchWords={[searchTerm]}
-                      textToHighlight={`${item?.firstName} ${
-                        item?.lastName
-                      } \n(${
+                      textToHighlight={`${item?.firstName} ${item?.lastName} ${
+                        Platform.os === 'ios' ? '\n' : '' // android adds an elipse (...) with line break
+                      }(${
                         // Use user data from algolia
                         item?.postcode
                           ? item?.postcode.toUpperCase()
