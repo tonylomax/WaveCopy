@@ -26,21 +26,19 @@ export default function ConfirmButton({
         fontSize: style?.fontSize,
         marginHorizontal: style?.marginHorizontal || '1%',
         paddingBottom: style?.paddingBottom,
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: '2%',
+        paddingRight: '2%',
       }}
       contentStyle={{
         marginVertical: style?.marginVertical,
       }}
       style={{
         minWidth: style?.minWidth,
-
         maxWidth: style?.maxWidth,
         maxHeight: style?.maxHeight,
         flex: style?.flex,
         width: style?.width,
         margin: style?.margin,
-        // padding: style?.padding,
         marginRight: style?.marginRight,
         marginBottom: style?.marginBottom,
         alignSelf: 'center',

@@ -236,7 +236,11 @@ export default function Profile({navigation, route}) {
                   flexDirection: 'column',
                 }}>
                 <ConfirmButton
-                  style={{marginHorizontal: '5%', marginBottom: '1%'}}
+                  style={{
+                    marginHorizontal: '5%',
+                    marginBottom: '1%',
+                    width: '20%',
+                  }}
                   title="Yes"
                   onPress={() => {
                     setshowProgressBar(true);
@@ -253,6 +257,11 @@ export default function Profile({navigation, route}) {
                     });
                   }}></ConfirmButton>
                 <CloseButton
+                  style={{
+                    marginHorizontal: '5%',
+                    marginBottom: '1%',
+                    width: '20%',
+                  }}
                   title="No"
                   onPress={() => {
                     setImageConfirmPopup(false);
