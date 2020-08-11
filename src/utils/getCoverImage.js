@@ -9,6 +9,7 @@ import {
   Dunbar,
   EastWittering,
   FistralBeach,
+  GenericBeach,
   GoodringtonBeach,
   Gwithian,
   Polzeath,
@@ -104,6 +105,6 @@ export default getCoverImage = (location) => {
       return Whitby;
       break;
     default:
-      console.log('Could not find beach');
+      return GenericBeach;
   }
 };
