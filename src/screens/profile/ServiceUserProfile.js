@@ -16,6 +16,7 @@ import {
   Subheading,
   TouchableRipple,
   Chip,
+  Card,
 } from 'react-native-paper';
 import {CallPerson, SurferAvatar} from 'components';
 import {coverWave} from '../../assets/';
@@ -56,13 +57,18 @@ export default function ServiceUserProfile({route}) {
           {serviceUser?.firstName} {serviceUser?.lastName}{' '}
           {serviceUser?.age && `, ${serviceUser.age}`}
         </Title>
-        <Subheading>Reason for referral </Subheading>
+        {/* <Subheading>Reason for referral </Subheading>
 
         <Subheading>Triggers </Subheading>
 
         <Subheading>Reactions </Subheading>
 
-        <Subheading>Medical requirements </Subheading>
+        <Subheading>Medical requirements </Subheading> */}
+        {serviceUser?.about && serviceUser?.about !== '' && (
+          <Subheading style={{margin: '2%'}}>About</Subheading>
+        )}
+
+        <Paragraph style={{margin: '2%'}}>{serviceUser?.about}</Paragraph>
 
         {serviceUser?.phoneNumbers?.length > 0 ? (
           <FlatList
