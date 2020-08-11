@@ -141,7 +141,7 @@ export default function AddServiceUsers({route, navigation}) {
                           item?.lastName
                         }  ${
                           item?.postcode
-                            ? '(' + item?.postcode.toUpperCase() + ')'
+                            ? '(' + item?.postcode.toUpperCase().trim() + ')'
                             : ''
                         }`}
                       />
@@ -180,17 +180,20 @@ export default function AddServiceUsers({route, navigation}) {
                       }${
                         // Use user data from algolia
                         item?.postcode
-                          ? '(' + item?.postcode.toUpperCase() + ')'
+                          ? '(' + item?.postcode.toUpperCase().trim() + ')'
                           : // Use user data from redux if available
                           item.addresses &&
                             item.addresses[0] &&
                             item?.addresses[0]?.zip
-                          ? item?.addresses[0]?.zip
+                          ? '(' +
+                            item?.addresses[0]?.zip
                               ?.substring(
                                 0,
                                 item?.addresses[0]?.zip?.length - 3,
                               )
                               .toUpperCase()
+                              .trim() +
+                            ')'
                           : ''
                       }                       
                        `}
