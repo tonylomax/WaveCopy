@@ -7,6 +7,7 @@ import {
   Linking,
   ImageBackground,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import {
   Title,
@@ -14,6 +15,7 @@ import {
   Surface,
   Subheading,
   TouchableRipple,
+  Chip,
 } from 'react-native-paper';
 import {CallPerson, SurferAvatar} from 'components';
 import {coverWave} from '../../assets/';
@@ -62,8 +64,7 @@ export default function ServiceUserProfile({route}) {
 
         <Subheading>Medical requirements </Subheading>
 
-        <Subheading>Emergency contacts</Subheading>
-        <TouchableRipple
+        {/* <TouchableRipple
           onPress={async () => {
             await Linking.openURL(`tel:${serviceUser?.contactNumber}`).catch(
               (err) => {
@@ -76,16 +77,37 @@ export default function ServiceUserProfile({route}) {
               ? serviceUser?.contactNumber
               : 'No number'}
           </Paragraph>
-        </TouchableRipple>
+        </TouchableRipple> */}
 
-        <CallPerson
-          disabled={serviceUser?.contactNumber ? false : true}
-          onPress={async () => {
-            await Linking.openURL(`tel:${serviceUser?.number}`).catch((err) => {
-              console.log(err);
-            });
-          }}
-          title="Call Parent"></CallPerson>
+        {serviceUser?.phoneNumbers?.length > 0 ? (
+          <FlatList
+            data={serviceUser?.phoneNumbers}
+            renderItem={({item}) => {
+              return (
+                <CallPerson
+                  style={{margin: '2%'}}
+                  disabled={item ? false : true}
+                  onPress={async () => {
+                    await Linking.openURL(`tel:${item.number}`).catch((err) => {
+                      console.log(err);
+                    });
+                  }}
+                  title={`Emergency ${item.type}`}></CallPerson>
+              );
+            }}
+          />
+        ) : (
+          <Chip
+            style={{
+              alignSelf: 'center',
+              marginBottom: '3%',
+            }}
+            mode="outlined"
+            icon="information"
+            onPress={() => console.log('Pressed')}>
+            No emergency contacts
+          </Chip>
+        )}
       </View>
     </ScrollView>
   );

@@ -12,6 +12,7 @@ import MapView, {Marker} from 'react-native-maps';
 
 import {
   ConfirmButton,
+  CallPerson,
   CloseButton,
   VolunteerAvatar,
   SurferAvatar,
@@ -261,9 +262,21 @@ export default function SessionDetailsAccordionMenu({
         {selectedUsers.length > 0 &&
           selectedUsers?.map((serviceUser, i) => {
             const rightButtons = [
-              <ConfirmButton
-                title={serviceUser?.contactNumber ? 'Call Parent' : 'No Number'}
-                disabled={serviceUser?.contactNumber ? false : true}
+              <CallPerson
+                title={
+                  serviceUser?.phoneNumbers &&
+                  serviceUser?.phoneNumbers[0] &&
+                  serviceUser?.phoneNumbers[0]?.number?.length > 0
+                    ? 'Emergency'
+                    : 'No Number'
+                }
+                disabled={
+                  serviceUser?.phoneNumbers &&
+                  serviceUser?.phoneNumbers[0] &&
+                  serviceUser?.phoneNumbers[0]?.number?.length > 0
+                    ? false
+                    : true
+                }
                 style={{
                   width: '95%',
                   maxWidth: '95%',
@@ -278,7 +291,7 @@ export default function SessionDetailsAccordionMenu({
                   ).catch((err) => {
                     console.log(err);
                   });
-                }}></ConfirmButton>,
+                }}></CallPerson>,
             ];
 
             return (

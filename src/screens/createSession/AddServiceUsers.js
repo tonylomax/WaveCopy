@@ -139,7 +139,11 @@ export default function AddServiceUsers({route, navigation}) {
                         searchWords={[searchTerm]}
                         textToHighlight={`${item?.firstName} ${
                           item?.lastName
-                        }  (${item?.postcode.toUpperCase()})`}
+                        }  ${
+                          item?.postcode
+                            ? '(' + item?.postcode.toUpperCase().trim() + ')'
+                            : ''
+                        }`}
                       />
                     }
                     right={() => (
@@ -173,18 +177,25 @@ export default function AddServiceUsers({route, navigation}) {
                       searchWords={[searchTerm]}
                       textToHighlight={`${item?.firstName} ${item?.lastName} ${
                         Platform.os === 'ios' ? '\n' : '' // android adds an elipse (...) with line break
-                      }(${
+                      }${
                         // Use user data from algolia
                         item?.postcode
-                          ? item?.postcode.toUpperCase()
-                          : // Use user data from redux
+                          ? '(' + item?.postcode.toUpperCase().trim() + ')'
+                          : // Use user data from redux if available
+                          item.addresses &&
+                            item.addresses[0] &&
+                            item?.addresses[0]?.zip
+                          ? '(' +
                             item?.addresses[0]?.zip
                               ?.substring(
                                 0,
                                 item?.addresses[0]?.zip?.length - 3,
                               )
                               .toUpperCase()
-                      })                       
+                              .trim() +
+                            ')'
+                          : ''
+                      }                       
                        `}
                     />
                   }
