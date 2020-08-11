@@ -316,8 +316,8 @@ export default function Session({navigation, route}) {
               disabled={coordinator?.contactNumber ? false : true}
               style={{
                 alignSelf: 'center',
-                width: '50%',
-                maxWidth: '50%',
+                width: '65%',
+                maxWidth: '75%',
                 marginBottom: '3%',
               }}
               onPress={async () => {
