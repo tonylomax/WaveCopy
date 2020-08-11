@@ -21,6 +21,7 @@ export const Croyde = require('./images/beachImages/Croyde.jpg');
 export const Dunbar = require('./images/beachImages/Dunbar.jpg');
 export const EastWittering = require('./images/beachImages/EastWittering.jpg');
 export const FistralBeach = require('./images/beachImages/FistralBeach.jpg');
+export const GenericBeach = require('./images/beachImages/GenericBeach.jpg');
 export const GoodringtonBeach = require('./images/beachImages/GoodringtonBeach.jpg');
 export const Gwithian = require('./images/beachImages/Gwithian.jpg');
 export const Polzeath = require('./images/beachImages/Polzeath.jpg');
