@@ -179,7 +179,7 @@ const HomeNavigator = ({navigation, route}) => {
         name="AddServiceUsers"
         component={AddServiceUsers}
         options={{
-          title: 'Edit service users',
+          title: 'Edit surfers',
           headerTitleStyle: {textAlign: 'center'},
           headerRight: () => <View />,
         }}
@@ -216,7 +216,7 @@ const CreateSessionNavigator = () => (
       name="AddServiceUsers"
       component={AddServiceUsers}
       options={{
-        title: 'Add service users',
+        title: 'Add surfers',
         headerTitleStyle: {textAlign: 'center'},
         headerRight: () => <View />,
       }}
@@ -312,7 +312,7 @@ const ProfileNavigator = ({navigation, route}) => {
         name="AddServiceUsers"
         component={AddServiceUsers}
         options={{
-          title: 'Edit service users',
+          title: 'Edit surfers',
           headerTitleStyle: {textAlign: 'center'},
           headerRight: () => <View />,
         }}

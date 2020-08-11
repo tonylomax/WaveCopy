@@ -150,7 +150,7 @@ export default function ConfirmSession({route, navigation}) {
               title={`${
                 previousSessionData
                   ? 'Would you like to save your changes?'
-                  : 'Confirm session'
+                  : 'Confirm session(s)'
               }`}
             />
             <Card.Content>
