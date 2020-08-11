@@ -466,7 +466,10 @@ export default function Profile({navigation, route}) {
               <Card.Title title="Change Password" />
 
               <Card.Content>
-                <ResetPassword authenticatedUser={currentAuthenticatedUser} />
+                <ResetPassword
+                  authenticatedUser={currentAuthenticatedUser}
+                  mode={'change'}
+                />
               </Card.Content>
             </Card>
           </Modal>

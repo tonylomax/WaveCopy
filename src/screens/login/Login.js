@@ -8,14 +8,26 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
 } from 'react-native';
+import {
+  Avatar,
+  Title,
+  TextInput,
+  Paragraph,
+  Portal,
+  Modal,
+  Card,
+  ProgressBar,
+  Subheading,
+  Caption,
+  useTheme,
+} from 'react-native-paper';
 
-import {TextInput, Caption, useTheme} from 'react-native-paper';
 import {FONTS, COLOURS, TYOPGRAPHY} from 'styles';
 import {loginWithEmail} from 'utils';
 import Svg, {Path} from 'react-native-svg';
 
 import {serializeError} from 'serialize-error';
-import {ConfirmButton, LoadingScreen} from './../../components';
+import {ConfirmButton, LoadingScreen, ResetPassword} from 'components';
 import {LogoSquareWhiteNamed} from 'assets';
 
 export default function Home({navigation, setLoggedIn}) {
@@ -25,7 +37,14 @@ export default function Home({navigation, setLoggedIn}) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
+  const [resetPasswordModalVisible, setResetPasswordModalVisible] = useState(
+    false,
+  );
   //LOCAL STATE
+  const togglePasswordResetModal = () =>
+    setResetPasswordModalVisible(
+      (resetPasswordModalVisible) => !resetPasswordModalVisible,
+    );
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLOURS.DEEP_BLUE}}>
@@ -86,6 +105,29 @@ export default function Home({navigation, setLoggedIn}) {
               });
             }}
           />
+          <ConfirmButton
+            style={{marginTop: 25}}
+            title="Reset Password"
+            onPress={() => {
+              togglePasswordResetModal();
+            }}></ConfirmButton>
+
+          <Portal>
+            <Modal
+              visible={resetPasswordModalVisible}
+              onDismiss={togglePasswordResetModal}>
+              <Card>
+                <Card.Title title="Request Password Reset" />
+
+                <Card.Content>
+                  <ResetPassword
+                    mode={'reset'}
+                    dismiss={togglePasswordResetModal}
+                  />
+                </Card.Content>
+              </Card>
+            </Modal>
+          </Portal>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
