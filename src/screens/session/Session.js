@@ -1,11 +1,19 @@
 // React/React components
 import React, {useEffect, useState} from 'react';
-import {View, Text, Alert, ImageBackground, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  Alert,
+  ImageBackground,
+  ScrollView,
+  Linking,
+} from 'react-native';
 import {
   SessionDetailsAccordionMenu,
   ConfirmButton,
   CloseButton,
   LoadingScreen,
+  CallPerson,
 } from 'components';
 import {
   Card,
@@ -172,7 +180,7 @@ export default function Session({navigation, route}) {
     setDaysUntilSession(moment(sessionData?.dateTime).diff(new Date(), 'days'));
     retrieveCoordinatorData(sessionData?.coordinatorID)
       .then((coordinatorData) => setCoordinator(coordinatorData))
-      .catch((err) => clg(err));
+      .catch((err) => console.log(err));
     if (userHasPermission(userData?.roles) || sessionLeadID === uid) {
       navigation.setOptions({
         headerRight: () => (
@@ -228,7 +236,6 @@ export default function Session({navigation, route}) {
             source={CoverImage}>
             {/* Edit session button */}
           </ImageBackground>
-
           <View>
             {hasPermissionToNotify({
               roles: userData?.roles,
@@ -262,14 +269,12 @@ export default function Session({navigation, route}) {
                         error,
                       );
                       const {code, message, details} = error;
-                      clg(code, message, details);
-                      // ...
+                      console.log(code, message, details);
                     });
                 }}
                 title="Notify mentors"
               />
             )}
-
             <Paragraph style={{alignSelf: 'center'}}>
               <Moment element={Text} format="LLLL">
                 {sessionData?.dateTime}
@@ -283,23 +288,46 @@ export default function Session({navigation, route}) {
                 borderRadius: 10,
               }}
             />
-
             {/* Session beach  */}
             <Title style={{alignSelf: 'center'}}>
               {startCase(sessionData?.type?.replace(/-/gi, ' '))}
               {' - '}
               {sessionData?.beach?.replace(/-/gi, ' ')}
             </Title>
-
             {/* Cover coordinator */}
-
             <Title style={{alignSelf: 'center'}}>Coordinator</Title>
             <Paragraph style={{alignSelf: 'center', marginBottom: '3%'}}>
               {' '}
               {coordinator?.firstName} {coordinator?.lastName}
             </Paragraph>
 
-            {/* Show if session is full */}
+            <Paragraph style={{alignSelf: 'center', marginBottom: '3%'}}>
+              {' '}
+              {'Coordinator number: '}
+              {coordinator?.contactNumber
+                ? `${coordinator?.contactNumber}`
+                : 'Unavailable'}
+            </Paragraph>
+
+            <CallPerson
+              title={
+                coordinator?.contactNumber ? 'Call Coordinator' : 'No Number'
+              }
+              disabled={coordinator?.contactNumber ? false : true}
+              style={{
+                alignSelf: 'center',
+                width: '65%',
+                maxWidth: '75%',
+                marginBottom: '3%',
+              }}
+              onPress={async () => {
+                await Linking.openURL(
+                  `tel:${coordinator?.contactNumber}`,
+                ).catch((err) => {
+                  console.log(err);
+                });
+              }}></CallPerson>
+            {/* Show if session is full
             {maxMentors === selectedSessionMentorsData.length && (
               <Chip
                 style={{
@@ -317,9 +345,7 @@ export default function Session({navigation, route}) {
               Description: {sessionData?.description}
             </Paragraph>
             {/* Session Accordion menu for attendees */}
-
             {/* Session date/time */}
-
             {/* Session Lead */}
             {!sessionLeadID || sessionLeadID === '' ? (
               <Paragraph style={{marginLeft: '3%'}}>
@@ -335,7 +361,6 @@ export default function Session({navigation, route}) {
                 session lead
               </Paragraph>
             )}
-
             {selectedSessionAttendeesData?.length >= 0 &&
               selectedBeach &&
               maxMentors > 0 &&
@@ -353,7 +378,6 @@ export default function Session({navigation, route}) {
                   currentNumberOfMentors={sessionData?.mentors?.length}
                 />
               )}
-
             <Card
               style={{
                 padding: '0%',
@@ -447,7 +471,6 @@ export default function Session({navigation, route}) {
                 {/* Popup to confirm delete session */}
               </Card.Actions>
             </Card>
-
             <Portal>
               <Modal
                 visible={deleteSessionModalVisible}
