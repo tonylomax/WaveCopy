@@ -169,7 +169,7 @@ export default function Onboarding({navigation}) {
 
                 <ConfirmButton
                   style={{marginTop: 25}}
-                  title="Go Home"
+                  title="Continue"
                   onPress={() => {
                     setLoading(true);
                     toggleIsNewUser(uid);

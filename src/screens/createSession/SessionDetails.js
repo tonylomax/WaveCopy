@@ -307,11 +307,14 @@ export default function SessionDetails({navigation, route}) {
                 title={`${showNumberOfRepetitions ? 'Close' : 'Change'}`}
               />
             )}
-            <Card.Title title="Number of repetitions" />
+            <Card.Title title="Number of extra sessions" />
             {Platform.OS === 'ios' && (
               <Subheading>{numberOfRepetitions}</Subheading>
             )}
-            <Caption>To create a single session, select 0 repetitions.</Caption>
+            <Caption>
+              To create a single session, select 0. If you want to create, for
+              example, 6 total sessions, select 5.
+            </Caption>
             {(showNumberOfRepetitions || Platform.OS === 'android') && (
               <Picker
                 testID="number-of-repetitions"
