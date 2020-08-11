@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-
+import userHasPermission from 'utils';
 export default unassignSessionLead = async (sessionID, mentorID, userID) => {
   // Create a reference to the specific session doc.
   const sessionDocRef = firestore().collection('Sessions').doc(sessionID);
@@ -47,10 +47,7 @@ export default unassignSessionLead = async (sessionID, mentorID, userID) => {
               createdAt: firestore.FieldValue.serverTimestamp(),
             },
           });
-        } else if (
-          roles.includes('Coordinator') &&
-          sessionCoordinatorID === userID
-        ) {
+        } else if (roles.includes('Coordinator')) {
           transaction.update(sessionDocRef, {
             sessionLead: {
               id: '',
