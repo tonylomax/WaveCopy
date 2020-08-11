@@ -22,7 +22,7 @@ import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
 moment().format('en-gb');
 import {ConfirmButton} from 'components';
-import {coverWave} from '../../assets/';
+import {shortCoverWave} from '../../assets/';
 
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
@@ -112,8 +112,8 @@ export default function Profile({navigation}) {
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, paddingBottom: 10}}>
         <ImageBackground
-          style={{height: 125, width: '100%'}}
-          source={coverWave}></ImageBackground>
+          style={{height: 70, width: '100%', objectFit: 'cover'}}
+          source={shortCoverWave}></ImageBackground>
 
         <Title style={{alignSelf: 'center'}} testID="upcoming-sessions-title">
           Upcoming sessions
