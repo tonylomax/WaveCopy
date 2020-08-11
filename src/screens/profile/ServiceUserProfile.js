@@ -64,21 +64,6 @@ export default function ServiceUserProfile({route}) {
 
         <Subheading>Medical requirements </Subheading>
 
-        {/* <TouchableRipple
-          onPress={async () => {
-            await Linking.openURL(`tel:${serviceUser?.contactNumber}`).catch(
-              (err) => {
-                console.log(err);
-              },
-            );
-          }}>
-          <Paragraph>
-            {serviceUser?.contactNumber
-              ? serviceUser?.contactNumber
-              : 'No number'}
-          </Paragraph>
-        </TouchableRipple> */}
-
         {serviceUser?.phoneNumbers?.length > 0 ? (
           <FlatList
             data={serviceUser?.phoneNumbers}
@@ -92,7 +77,9 @@ export default function ServiceUserProfile({route}) {
                       console.log(err);
                     });
                   }}
-                  title={`Emergency ${item.type}`}></CallPerson>
+                  title={`Emergency ${
+                    item.type === null ? 'Number' : item.type
+                  }`}></CallPerson>
               );
             }}
           />
