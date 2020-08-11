@@ -2,11 +2,19 @@ import firestore from '@react-native-firebase/firestore';
 import {COLLECTIONS} from 'constants';
 import store from '../../redux/store';
 import {updateRoleSpecificSessions} from '../../redux/';
+import moment from 'moment';
+moment.locale('en-gb');
+moment().format('en-gb');
+import 'moment/src/locale/en-gb';
 
 export default (userRegion) => {
+  console.log('coming into role specific session changes');
   console.log('creating a subscription role role based sessions');
+  const sixMonthsAgo = moment(new Date()).subtract(6, 'months').format();
+
   return firestore()
     .collection(COLLECTIONS.SESSIONS)
+    .where('dateTime', '>', sixMonthsAgo)
     .where('regionID', '==', userRegion)
     .onSnapshot(
       (roleSpecificSessions) => {

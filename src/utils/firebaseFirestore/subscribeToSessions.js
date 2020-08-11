@@ -2,11 +2,18 @@ import firestore from '@react-native-firebase/firestore';
 import {COLLECTIONS} from 'constants';
 import store from '../../redux/store';
 import {updateSessions} from '../../redux/';
+import moment from 'moment';
+moment.locale('en-gb');
+moment().format('en-gb');
+import 'moment/src/locale/en-gb';
 
 export default (sessionID) => {
   console.log('querying sessions');
+  const sixMonthsAgo = moment(new Date()).subtract(6, 'months').format();
+
   return firestore()
     .collection(COLLECTIONS.SESSIONS)
+    .where('dateTime', '>', sixMonthsAgo)
     .onSnapshot(
       (sessionData) => {
         // console.log('sessionData', sessionData);
