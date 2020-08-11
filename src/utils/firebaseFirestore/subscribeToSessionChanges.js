@@ -4,6 +4,7 @@ import store from '../../redux/store';
 import {updateCurrentSession} from '../../redux/';
 
 export default (sessionID) => {
+  console.log('coming into subscribe to session changes');
   console.log('subscribe to sessions running');
   console.log('creating a subscription');
   const subscription = firestore()
