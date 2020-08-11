@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import userHasPermission from 'utils';
+
 export default unassignSessionLead = async (sessionID, mentorID, userID) => {
   // Create a reference to the specific session doc.
   const sessionDocRef = firestore().collection('Sessions').doc(sessionID);
