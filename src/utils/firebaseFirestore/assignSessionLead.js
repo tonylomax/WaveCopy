@@ -44,10 +44,7 @@ export default assignSessionLead = async (sessionID, mentorID, userID) => {
               createdAt: firestore.FieldValue.serverTimestamp(),
             },
           });
-        } else if (
-          roles.includes('Coordinator') &&
-          sessionCoordinatorID === userID
-        ) {
+        } else if (roles.includes('Coordinator')) {
           transaction.update(sessionDocRef, {
             sessionLead: {
               id: mentorID,
