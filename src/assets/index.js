@@ -35,5 +35,6 @@ export const TheWave = require('./images/beachImages/TheWave.jpg');
 export const Tynemouth = require('./images/beachImages/Tynemouth.jpg');
 export const Whitby = require('./images/beachImages/Whitby.jpg');
 
+export const shortCoverWave = require('./images/shortCoverWave.png');
 export const coverWave = require('./images/coverWave.png');
 export const coverWaveCropped = require('./images/coverWaveCropped.png');
