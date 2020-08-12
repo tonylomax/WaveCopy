@@ -122,6 +122,8 @@ export default function Session({navigation, route}) {
     false,
   );
 
+  const [loadingIcon, setLoadingIcon] = useState(false);
+
   const toggleDeleteSessionModal = () =>
     setDeleteSessionModalVisible(
       (deleteSessionModalVisible) => !deleteSessionModalVisible,
@@ -242,7 +244,10 @@ export default function Session({navigation, route}) {
               currentNumberOfMentors: sessionDataMentors?.length,
             }) && (
               <ConfirmButton
+                loading={loadingIcon}
                 onPress={() => {
+                  setLoadingIcon(true);
+
                   const sendNotificationToAllMentorsInSameRegionAsSession = functions.httpsCallable(
                     'sendNotificationToAllMentorsInSameRegionAsSession',
                   );
@@ -253,6 +258,7 @@ export default function Session({navigation, route}) {
                     sessionData,
                   })
                     .then(function (result) {
+                      setLoadingIcon(false);
                       Alert.alert(
                         `Sent to ${result?.data?.successCount} mentors`,
                       );
