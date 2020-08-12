@@ -1,4 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
+import {userHasPermission} from 'utils';
 import moment from 'moment';
 import 'moment/src/locale/en-gb';
 moment.locale('en-gb');
@@ -28,7 +29,7 @@ export default removeSelfFromSession = async (
 
       if (!sessionData.exists) {
         throw 'Session does not exist!';
-      } else if (hoursUntilSession <= 48) {
+      } else if (hoursUntilSession <= 48 && !userHasPermission(roles)) {
         throw 'It is less than 48 hours till this session begins, please contact the coordinator directly to request removal from session';
       } else if (
         sessionData.data().mentors.filter((mentor) => mentor.id === userID)
