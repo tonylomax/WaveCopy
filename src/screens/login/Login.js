@@ -27,7 +27,12 @@ import {loginWithEmail} from 'utils';
 import Svg, {Path} from 'react-native-svg';
 
 import {serializeError} from 'serialize-error';
-import {ConfirmButton, LoadingScreen, ResetPassword} from 'components';
+import {
+  ConfirmButton,
+  LoadingScreen,
+  ResetPassword,
+  CloseButton,
+} from 'components';
 import {LogoSquareWhiteNamed} from 'assets';
 
 export default function Home({navigation, setLoggedIn}) {
@@ -123,11 +128,11 @@ export default function Home({navigation, setLoggedIn}) {
                   );
                 }}
               />
-              <ConfirmButton
+              <CloseButton
                 title="Reset Password"
                 onPress={() => {
                   togglePasswordResetModal();
-                }}></ConfirmButton>
+                }}></CloseButton>
             </Card.Actions>
           </Card>
 
