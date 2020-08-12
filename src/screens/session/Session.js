@@ -171,33 +171,11 @@ export default function Session({navigation, route}) {
   }, [sessionDataMentors]);
 
   useEffect(() => {
-    console.log(
-      'selectedSessionAttendeesData in session useEffect',
-      selectedSessionAttendeesData,
-    );
     setDaysUntilSession(moment(sessionData?.dateTime).diff(new Date(), 'days'));
     retrieveCoordinatorData(sessionData?.coordinatorID)
       .then((coordinatorData) => setCoordinator(coordinatorData))
       .catch((err) => console.log(err));
-    if (userHasPermission(userData?.roles) || sessionLeadID === uid) {
-      navigation.setOptions({
-        headerRight: () => (
-          <IconButton
-            color="white"
-            icon="square-edit-outline"
-            size={36}
-            onPress={() => {
-              navigation.push('SessionDetails', {
-                previousSessionData: sessionData,
-                previouslySelectedAttendees: selectedSessionAttendeesData,
-                previouslySelectedMentors: selectedSessionMentorsData,
-                previousSessionID: id,
-              });
-            }}></IconButton>
-        ),
-      });
-    }
-  }, [sessionData, selectedSessionAttendeesData]);
+  }, [sessionData]);
 
   useEffect(() => {
     const SURFLEAD = selectedSessionMentorsData?.find(
@@ -217,6 +195,26 @@ export default function Session({navigation, route}) {
         Alert.alert(err);
       });
   };
+
+  if (userHasPermission(userData?.roles) || sessionLeadID === uid) {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton
+          color="white"
+          icon="square-edit-outline"
+          size={36}
+          onPress={() => {
+            navigation.push('SessionDetails', {
+              previousSessionData: sessionData,
+              previouslySelectedAttendees: selectedSessionAttendeesData,
+              previouslySelectedMentors: selectedSessionMentorsData,
+              previousSessionID: id,
+            });
+          }}></IconButton>
+      ),
+    });
+  }
+
   if (
     !sessionData ||
     !sessionDataMentors ||
@@ -325,7 +323,7 @@ export default function Session({navigation, route}) {
                   console.log(err);
                 });
               }}></CallPerson>
-            {/* Show if session is full
+
             {maxMentors === selectedSessionMentorsData.length && (
               <Chip
                 style={{
@@ -338,7 +336,7 @@ export default function Session({navigation, route}) {
                 This session is full
               </Chip>
             )}
-            {/* Session description */}
+            {/* Session description 
             <Paragraph style={{marginLeft: '3%'}}>
               Description: {sessionData?.description}
             </Paragraph>
