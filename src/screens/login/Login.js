@@ -50,6 +50,7 @@ export default function Home({navigation, setLoggedIn}) {
     <SafeAreaView style={{flex: 1, backgroundColor: COLOURS.DEEP_BLUE}}>
       <LoadingScreen visible={loading} />
       <KeyboardAvoidingView
+        keyboardVerticalOffset={425}
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         style={{flex: 1}}>
         <View>
@@ -87,30 +88,48 @@ export default function Home({navigation, setLoggedIn}) {
               setPassword(inputPassword);
             }}
           />
-          <ConfirmButton
-            style={{marginTop: 50}}
-            title="Log In"
-            testID="submit-login-details"
-            onPress={() => {
-              setLoading(true);
-              loginWithEmail(email, password, setLoggedIn).then((result) => {
-                const serializedResult = serializeError(result);
-                console.log('message', serializedResult.message);
-                if (serializedResult.code) {
-                  setLoading(false);
-                  setTimeout(() => {
-                    Alert.alert(serializedResult.message);
-                  }, 200);
-                } else setLoggedIn(true);
-              });
-            }}
-          />
-          <ConfirmButton
-            style={{marginTop: 25}}
-            title="Reset Password"
-            onPress={() => {
-              togglePasswordResetModal();
-            }}></ConfirmButton>
+
+          <Card
+            style={{
+              backgroundColor: COLOURS.DEEP_BLUE,
+              marginTop: '2%',
+              marginBottom: '10%',
+              alignContent: 'center',
+            }}>
+            <Card.Actions
+              style={{
+                width: '90%',
+                paddingRight: '5%',
+                paddingLeft: '5%',
+                alignSelf: 'center',
+                justifyContent: 'space-around',
+              }}>
+              <ConfirmButton
+                title="Log In"
+                testID="submit-login-details"
+                onPress={() => {
+                  setLoading(true);
+                  loginWithEmail(email, password, setLoggedIn).then(
+                    (result) => {
+                      const serializedResult = serializeError(result);
+                      console.log('message', serializedResult.message);
+                      if (serializedResult.code) {
+                        setLoading(false);
+                        setTimeout(() => {
+                          Alert.alert(serializedResult.message);
+                        }, 200);
+                      } else setLoggedIn(true);
+                    },
+                  );
+                }}
+              />
+              <ConfirmButton
+                title="Reset Password"
+                onPress={() => {
+                  togglePasswordResetModal();
+                }}></ConfirmButton>
+            </Card.Actions>
+          </Card>
 
           <Portal>
             <Modal
