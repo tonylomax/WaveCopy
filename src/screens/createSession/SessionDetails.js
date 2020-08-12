@@ -154,7 +154,12 @@ export default function SessionDetails({navigation, route}) {
           )}
         </Card>
 
-        <Card style={{padding: '5%', margin: '2%'}} elevation={2}>
+        <Card
+          style={{
+            padding: '5%',
+            margin: '2%',
+          }}
+          elevation={2}>
           <ConfirmButton
             onPress={() => {
               if (!showDatePicker) {
@@ -174,15 +179,17 @@ export default function SessionDetails({navigation, route}) {
             session.
           </Caption>
           {showDatePicker && (
-            <DateTimePicker
-              testID="date-of-session"
-              value={sessionDate}
-              mode="date"
-              is24Hour={true}
-              display="default"
-              onChange={onChangeDate}
-              minimumDate={new Date()}
-            />
+            <View>
+              <DateTimePicker
+                testID="date-of-session"
+                value={sessionDate}
+                mode="date"
+                is24Hour={true}
+                display="default"
+                onChange={onChangeDate}
+                minimumDate={new Date()}
+              />
+            </View>
           )}
         </Card>
 
@@ -202,14 +209,16 @@ export default function SessionDetails({navigation, route}) {
             {sessionTime}
           </Moment>
           {showTimePicker && (
-            <DateTimePicker
-              testID="time-of-session"
-              value={sessionTime}
-              mode="time"
-              is24Hour={true}
-              display="default"
-              onChange={onChangeTime}
-            />
+            <View>
+              <DateTimePicker
+                testID="time-of-session"
+                value={sessionTime}
+                mode="time"
+                is24Hour={true}
+                display="default"
+                onChange={onChangeTime}
+              />
+            </View>
           )}
         </Card>
 
