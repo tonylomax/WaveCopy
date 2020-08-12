@@ -118,7 +118,6 @@ export default function Home({navigation, setLoggedIn}) {
               onDismiss={togglePasswordResetModal}>
               <Card>
                 <Card.Title title="Request Password Reset" />
-
                 <Card.Content>
                   <ResetPassword
                     mode={'reset'}

@@ -5,6 +5,7 @@ import {
   validatePassword,
   createAuthSubscription,
   userHasPermission,
+  validateEmail,
 } from './auth/index';
 import {
   addNotificationToken,
@@ -87,4 +88,5 @@ export {
   addNotificationToken,
   requestNotificationPermission,
   setHomeIndex,
+  validateEmail,
 };

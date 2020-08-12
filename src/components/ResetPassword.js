@@ -4,7 +4,7 @@ import {serializeError} from 'serialize-error';
 import auth from '@react-native-firebase/auth';
 
 import {ConfirmButton} from 'components';
-import {updatePassword, validatePassword, signOut} from 'utils';
+import {updatePassword, validatePassword, signOut, validateEmail} from 'utils';
 import {Title, TextInput} from 'react-native-paper';
 
 export default function ResetPassword({authenticatedUser, mode, dismiss}) {
@@ -13,7 +13,7 @@ export default function ResetPassword({authenticatedUser, mode, dismiss}) {
   const [confirmNewPassword, setConfirmNewPassword] = useState();
   const [confirmEmail, setConfirmEmail] = useState();
   const [newPasswordValid, setNewPasswordValid] = useState(false);
-
+  const [loadingIcon, setLoadingIcon] = useState(false);
   console.log('mode', mode);
   if (mode === 'change') {
     return (
@@ -81,20 +81,28 @@ export default function ResetPassword({authenticatedUser, mode, dismiss}) {
           }}
           placeholder="Enter your email"></TextInput>
         <ConfirmButton
+          loading={loadingIcon}
           title="Request Reset"
           onPress={() => {
-            auth()
-              .sendPasswordResetEmail(confirmEmail)
-              .then((result) => {
-                console.log({result});
-                Alert.alert(
-                  'If an account is found for this email address, a password reset email will be sent.',
-                );
-                dismiss();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+            emailValid = validateEmail(confirmEmail);
+            if (emailValid) {
+              setLoadingIcon((loadingIcon) => !loadingIcon);
+              auth()
+                .sendPasswordResetEmail(confirmEmail)
+                .then((result) => {
+                  console.log({result});
+                  Alert.alert(
+                    'Password Reset Confirmed',
+                    'If an account is found for this email address, a password reset email will be sent.',
+                  );
+                  dismiss();
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            } else {
+              Alert.alert('This is not a valid email address.');
+            }
           }}></ConfirmButton>
       </View>
     );

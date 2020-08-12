@@ -10,11 +10,13 @@ export default function ConfirmButton({
   style,
   icon,
   compact,
+  loading,
 }) {
   const {maxWidth, colors, fonts} = useTheme();
 
   return (
     <Button
+      loading={loading}
       compact={compact}
       icon={icon}
       theme={{
