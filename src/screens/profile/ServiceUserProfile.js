@@ -36,7 +36,7 @@ export default function ServiceUserProfile({route}) {
   );
 
   return (
-    <ScrollView>
+    <ScrollView style={{marginBottom: '5%'}}>
       <ImageBackground style={{height: 175, width: '100%'}} source={coverWave}>
         {/* Edit session button */}
       </ImageBackground>
@@ -57,18 +57,15 @@ export default function ServiceUserProfile({route}) {
           {serviceUser?.firstName} {serviceUser?.lastName}{' '}
           {serviceUser?.age && `, ${serviceUser.age}`}
         </Title>
-        {/* <Subheading>Reason for referral </Subheading>
 
-        <Subheading>Triggers </Subheading>
-
-        <Subheading>Reactions </Subheading>
-
-        <Subheading>Medical requirements </Subheading> */}
-        {serviceUser?.about && serviceUser?.about !== '' && (
-          <Subheading style={{margin: '2%'}}>About</Subheading>
+        <Subheading style={{margin: '2%'}}>About:</Subheading>
+        {serviceUser?.about && serviceUser?.about !== '' ? (
+          <Paragraph style={{margin: '5%', fontSize: 18}}>
+            {serviceUser?.about}
+          </Paragraph>
+        ) : (
+          <Paragraph> No information available</Paragraph>
         )}
-
-        <Paragraph style={{margin: '2%'}}>{serviceUser?.about}</Paragraph>
 
         {serviceUser?.phoneNumbers?.length > 0 ? (
           <FlatList
