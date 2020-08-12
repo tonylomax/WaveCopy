@@ -6,9 +6,10 @@ export const Create_Session_Icon = require('./images/icons/Create_Session_Icon.p
 export const Settings_Icon = require('./images/icons/Settings_Icon.png');
 export const WaveSpinner = require('./images/logos/WaveSpinner.gif');
 
+import LogoSquareBlueUnnamed from '../assets/images/logos/LogoSquareBlueUnnamed';
 import LogoSquareWhiteNamed from '../assets/images/logos/LogoSquareWhiteNamed';
 // import WaveSpinner from '../assets/images/logos/WaveSpinner';
-export {LogoSquareWhiteNamed};
+export {LogoSquareWhiteNamed, LogoSquareBlueUnnamed};
 
 export const BrightonBeach = require('./images/beachImages/BrightonBeach.jpg');
 
