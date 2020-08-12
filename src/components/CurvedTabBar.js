@@ -101,6 +101,13 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
                         routes: [{name: 'Profile'}],
                       }),
                     );
+                  } else if (route === 'Home') {
+                    navigation.dispatch(
+                      CommonActions.reset({
+                        index: 0,
+                        routes: [{name: 'Home'}],
+                      }),
+                    );
                   }
                 }}></ConfirmButton>
               <CloseButton
@@ -142,16 +149,14 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
 
           setRoute(event.target.split('-')[0]);
 
-          //If the navigation is going to home, reset the stack to the main page to prevent conflicting session subscriptions
-          if (route.name === 'Home') {
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [{name: 'Home'}],
-              }),
-            );
-            //When navigating away from the stack, check the home stack index to see if the user is on a page
-            // that has unsaved changes, if they are, throw an alert.
+          //If the navigation is going to home and the current stack is Create Session, open the modal to confirm nav
+          if (route.name === 'Home' && state.index === 1) {
+            toggleDiscardChangesModal();
+
+            //If the navigation is going to profile and the current stack is Create Session, open the modal to confirm nav
+          } else if (route.name === 'Profile' && state.index === 1) {
+            toggleDiscardChangesModal();
+            // If you're on home stack and the home index is not a session, then open modal to confirm nav
           } else if (homeIndex >= 2) {
             // Open the modal to confirm the navigation away from home
             toggleDiscardChangesModal();
