@@ -62,7 +62,7 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
           <Card>
             <Card.Title
               titleStyle={{
-                fontSize: 16,
+                fontSize: 14,
                 padding: 0,
                 alignSelf: 'center',
               }}
