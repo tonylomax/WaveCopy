@@ -20,7 +20,6 @@ export default function BackButton({
       }}
       elevation={1}
       style={{
-        // borderStyle: 1,
         alignSelf: 'center',
         shadowRadius: 0,
         shadowOpacity: 0,

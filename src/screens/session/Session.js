@@ -113,8 +113,6 @@ export default function Session({navigation, route}) {
 
   const roles = useSelector((state) => state.firestoreReducer.userData.roles);
 
-  // const {roles} = useSelector((state) => state.authenticationReducer.roles);
-
   //LOCAL STATE
   const [coordinator, setCoordinator] = useState();
   const [surfLead, setSurfLead] = useState();
