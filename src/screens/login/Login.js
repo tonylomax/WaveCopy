@@ -53,7 +53,7 @@ export default function Home({navigation, setLoggedIn}) {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLOURS.DEEP_BLUE}}>
-      <LoadingScreen visible={loading} />
+      <LoadingScreen visible={loading} isSpinning={true} />
       <KeyboardAvoidingView
         keyboardVerticalOffset={425}
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}

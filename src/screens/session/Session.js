@@ -222,7 +222,7 @@ export default function Session({navigation, route}) {
     !selectedSessionMentorsData ||
     !coordinator
   ) {
-    return <LoadingScreen visible={true} />;
+    return <LoadingScreen visible={true} isSpinning={false} />;
   } else
     return (
       <ScrollView bounces={false}>

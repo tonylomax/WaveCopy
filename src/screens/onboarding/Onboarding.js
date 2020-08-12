@@ -69,7 +69,7 @@ export default function Onboarding({navigation}) {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <LoadingScreen visible={loading} />
+      <LoadingScreen visible={loading} isSpinning={true} />
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         style={{flex: 1}}>
