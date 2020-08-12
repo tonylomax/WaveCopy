@@ -21,6 +21,7 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
   const [discardChangesModalVisible, setDiscardChangesModalVisible] = useState(
     false,
   );
+  const [route, setRoute] = useState();
 
   const toggleDiscardChangesModal = () =>
     setDiscardChangesModalVisible(
@@ -86,12 +87,21 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
                 title="Yes"
                 onPress={() => {
                   toggleDiscardChangesModal();
-                  navigation.dispatch(
-                    CommonActions.reset({
-                      index: 2,
-                      routes: [{name: 'Profile'}],
-                    }),
-                  );
+                  if (route === 'Session') {
+                    navigation.dispatch(
+                      CommonActions.reset({
+                        index: 1,
+                        routes: [{name: 'Session'}],
+                      }),
+                    );
+                  } else if (route === 'Profile') {
+                    navigation.dispatch(
+                      CommonActions.reset({
+                        index: 2,
+                        routes: [{name: 'Profile'}],
+                      }),
+                    );
+                  }
                 }}></ConfirmButton>
               <CloseButton
                 style={{
@@ -129,6 +139,9 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
             type: 'tabPress',
             target: route.key,
           });
+
+          setRoute(event.target.split('-')[0]);
+
           //If the navigation is going to home, reset the stack to the main page to prevent conflicting session subscriptions
           if (route.name === 'Home') {
             navigation.dispatch(

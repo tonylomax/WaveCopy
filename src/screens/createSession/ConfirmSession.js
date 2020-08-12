@@ -235,7 +235,7 @@ export default function ConfirmSession({route, navigation}) {
 
       <Headline>
         {sessionType === 'surf-club' ? 'Surf Club' : 'Surf Therapy'} -{' '}
-        {location.name}
+        {location?.name}
       </Headline>
       <Divider />
       {dateTimeArray &&
