@@ -107,9 +107,6 @@ export default function SessionDetails({navigation, route}) {
         setLocation(beaches[prevBeachIndex]);
       } else setLocation(beaches[0]);
     }
-    // if (!location) {
-    //   setLocation(beaches[0]);
-    // }
   }, [beaches]);
 
   const navState = useNavigationState((state) => state);
