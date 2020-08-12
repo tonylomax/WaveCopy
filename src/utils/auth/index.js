@@ -4,6 +4,7 @@ import updatePassword from './updatePassword';
 import validatePassword from './validatePassword';
 import createAuthSubscription from './createAuthSubscription';
 import userHasPermission from './userHasPermission';
+import validateEmail from './validateEmail';
 export {
   loginWithEmail,
   signOut,
@@ -11,4 +12,5 @@ export {
   validatePassword,
   createAuthSubscription,
   userHasPermission,
+  validateEmail,
 };
