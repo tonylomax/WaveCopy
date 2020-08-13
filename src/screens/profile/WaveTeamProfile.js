@@ -4,6 +4,7 @@ import {
   ImageBackground,
   ScrollView,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
@@ -107,10 +108,17 @@ export default function WaveTeamProfile({route, navigation}) {
 
         <CallPerson
           title={
-            mentor.contactNumber ? mentor.contactNumber : 'No contact number'
+            mentor?.contactNumber ? mentor.contactNumber : 'No contact number'
           }
           icon="phone"
-          disabled={mentor.contactNumber ? false : true}></CallPerson>
+          disabled={mentor?.contactNumber ? false : true}
+          onPress={async () => {
+            await Linking.openURL(
+              `tel:${mentor?.contactNumber?.replace(/\s+/g, '')}}`,
+            ).catch((err) => {
+              console.log(err);
+            });
+          }}></CallPerson>
 
         <Subheading>Volunteering area</Subheading>
         <Paragraph>{region ? region : 'Unknown Region'}</Paragraph>
