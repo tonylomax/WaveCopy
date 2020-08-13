@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Dimensions,
 } from 'react-native';
 import {
   Avatar,
@@ -54,14 +55,18 @@ export default function Home({navigation, setLoggedIn}) {
     );
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLOURS.DEEP_BLUE}}>
-      <LoadingScreen visible={loading} isSpinning={true} />
-      <TouchableWithoutFeedback
-        onPress={() => {
-          Keyboard.dismiss();
-        }}>
+    <TouchableWithoutFeedback
+      style={{marginTop: 400}}
+      onPressIn={() => console.log('press in')}
+      onPressOut={() => console.log('press out')}
+      onPress={() => {
+        console.log('dismissing keyboard');
+        Keyboard.dismiss();
+      }}>
+      <SafeAreaView style={{flex: 1, backgroundColor: COLOURS.DEEP_BLUE}}>
+        <LoadingScreen visible={loading} isSpinning={true} />
         <KeyboardAvoidingView
-          keyboardVerticalOffset={320}
+          keyboardVerticalOffset={Dimensions.get('window').height * 0.45}
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
           style={{flex: 1}}
           keyboardShouldPersistTaps="handled">
@@ -160,7 +165,7 @@ export default function Home({navigation, setLoggedIn}) {
             </Portal>
           </View>
         </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
