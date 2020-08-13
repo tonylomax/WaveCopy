@@ -109,7 +109,7 @@ export default function SessionDetailsAccordionMenu({
                       })
                       .catch((err) => {
                         console.log('ERROR OUTSIDE TRANSACTION ', err);
-                        Alert.alert(err);
+                        Alert.alert('Error', err);
                       });
                   }}
                   title="Remove Mentor"></ConfirmButton>
@@ -129,7 +129,7 @@ export default function SessionDetailsAccordionMenu({
                       unassignSessionLead(sessionID, mentor.id, uid).catch(
                         (err) => {
                           console.log('ERROR OUTSIDE TRANSACTION ', err);
-                          Alert.alert(err);
+                          Alert.alert('Error', err);
                         },
                       );
                     }}></CloseButton>
@@ -147,7 +147,7 @@ export default function SessionDetailsAccordionMenu({
                       assignSessionLead(sessionID, mentor.id, uid).catch(
                         (err) => {
                           console.log('ERROR OUTSIDE TRANSACTION ', err);
-                          Alert.alert(err);
+                          Alert.alert('Error', err);
                         },
                       );
                     }}

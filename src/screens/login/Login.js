@@ -112,6 +112,7 @@ export default function Home({navigation, setLoggedIn}) {
               <ConfirmButton
                 title="Log In"
                 testID="submit-login-details"
+                disabled={email === undefined || password === undefined}
                 onPress={() => {
                   setLoading(true);
                   loginWithEmail(email, password, setLoggedIn).then(
@@ -121,7 +122,7 @@ export default function Home({navigation, setLoggedIn}) {
                       if (serializedResult.code) {
                         setLoading(false);
                         setTimeout(() => {
-                          Alert.alert(serializedResult.message);
+                          Alert.alert('Error', serializedResult.message);
                         }, 200);
                       } else setLoggedIn(true);
                     },
