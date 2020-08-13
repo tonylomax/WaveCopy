@@ -147,7 +147,7 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
             target: route.key,
           });
 
-          setRoute(event.target.split('-')[0]);
+          setRoute(route.name);
 
           //If the navigation is going to home and the current stack is Create Session, open the modal to confirm nav
           if (route.name === 'Home' && state.index === 1) {
@@ -161,6 +161,13 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
             // Open the modal to confirm the navigation away from home
             toggleDiscardChangesModal();
             //Otherwise navigate normally
+          } else if (route.name === 'Home' && state.index === 2) {
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{name: 'Home'}],
+              }),
+            );
           } else if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name);
             // Other otherwise, a bad thing happened
