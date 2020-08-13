@@ -113,7 +113,7 @@ export default function SessionDetails({navigation, route}) {
 
   useEffect(() => {
     console.log('navState', navState);
-    setHomeIndex(navState.index);
+    setHomeIndex(navState);
   }, [navState]);
 
   return (

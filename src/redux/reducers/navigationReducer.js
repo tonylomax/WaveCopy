@@ -1,7 +1,7 @@
 import {ACTIONS} from 'constants';
 
 export const initialState = {
-  index: {},
+  navState: {},
 };
 
 export default (state = initialState, action) => {
@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case ACTIONS.SET_HOME_INDEX:
       console.log('[Reducer - Nav] SET_HOME_INDEX', action.data);
-      return {...state, index: action.data};
+      return {...state, navState: action.data};
     default:
       return state;
   }
