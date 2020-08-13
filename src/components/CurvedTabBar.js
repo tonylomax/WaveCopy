@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Dimensions, TouchableOpacity, Image, Alert} from 'react-native';
-import {Card, Portal, Modal, useTheme} from 'react-native-paper';
+import {Card, Portal, Modal, useTheme, Subheading} from 'react-native-paper';
 import Svg, {Path} from 'react-native-svg';
 import {Profile_Icon, Create_Session_Icon, Settings_Icon} from 'assets';
 import {CommonActions} from '@react-navigation/native';
@@ -59,20 +59,18 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
         <Modal
           visible={discardChangesModalVisible}
           onDismiss={toggleDiscardChangesModal}>
-          <Card>
-            <Card.Title
-              titleStyle={{
-                fontSize: 14,
-                padding: 0,
-                alignSelf: 'center',
-              }}
+          <Card
+            style={{
+              alignItems: 'center',
+            }}>
+            <Subheading
               style={{
-                marginHorizontal: '1%',
-                paddingLeft: '0%',
-                paddingRight: '0%',
-              }}
-              title={'Are you sure you want to discard your changes?'}
-            />
+                fontSize: 14,
+                padding: 20,
+                alignSelf: 'center',
+              }}>
+              Are you sure you want to discard your changes?
+            </Subheading>
             <Card.Actions
               style={{
                 justifyContent: 'center',
