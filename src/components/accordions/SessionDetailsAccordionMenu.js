@@ -287,7 +287,10 @@ export default function SessionDetailsAccordionMenu({
                 testID={`removeAsMentorButton${serviceUser.id}`}
                 onPress={async () => {
                   await Linking.openURL(
-                    `tel:${serviceUser?.contactNumber}`,
+                    `tel:${serviceUser.phoneNumbers[0].number.replace(
+                      /\s+/g,
+                      '',
+                    )}`,
                   ).catch((err) => {
                     console.log(err);
                   });

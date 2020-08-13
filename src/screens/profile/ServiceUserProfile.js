@@ -76,7 +76,9 @@ export default function ServiceUserProfile({route}) {
                   style={{margin: '2%'}}
                   disabled={item ? false : true}
                   onPress={async () => {
-                    await Linking.openURL(`tel:${item.number}`).catch((err) => {
+                    await Linking.openURL(
+                      `tel:${item.number.replace(/\s+/g, '')}`,
+                    ).catch((err) => {
                       console.log(err);
                     });
                   }}

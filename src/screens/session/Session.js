@@ -324,7 +324,7 @@ export default function Session({navigation, route}) {
               }}
               onPress={async () => {
                 await Linking.openURL(
-                  `tel:${coordinator?.contactNumber}`,
+                  `tel:${coordinator?.contactNumber.replace(/\s+/g, '')}`,
                 ).catch((err) => {
                   console.log(err);
                 });
