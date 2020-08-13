@@ -84,7 +84,7 @@ export default function VolunteerAvatar({
       <Avatar.Text
         label={label}
         source={source}
-        size={60}
+        size={65}
         color={colors.dark_second}
         style={{
           backgroundColor: colors.accent,
