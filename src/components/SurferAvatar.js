@@ -24,7 +24,7 @@ export default function SurferAvatar({label, isProfilePicture, style}) {
     return (
       <Avatar.Text
         label={label}
-        size={60}
+        size={65}
         color={colors.dark_second}
         style={{
           backgroundColor: colors.accent,

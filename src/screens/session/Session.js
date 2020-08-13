@@ -342,7 +342,7 @@ export default function Session({navigation, route}) {
                 This session is full
               </Chip>
             )}
-            {/* Session description 
+            {/* {/* Session description  */}
             <Paragraph style={{marginLeft: '3%'}}>
               Description: {sessionData?.description}
             </Paragraph>
