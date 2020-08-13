@@ -7,6 +7,8 @@ import {
   Alert,
   SafeAreaView,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import {
   Avatar,
@@ -54,105 +56,111 @@ export default function Home({navigation, setLoggedIn}) {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLOURS.DEEP_BLUE}}>
       <LoadingScreen visible={loading} isSpinning={true} />
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={320}
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-        style={{flex: 1}}>
-        <View>
-          <View
-            style={{
-              alignItems: 'center',
-              marginTop: '5%',
-              height: '45%',
-            }}>
-            <LogoSquareWhiteNamed />
-          </View>
-
-          <Caption>Email</Caption>
-          <TextInput
-            mode="outlined"
-            style={{maxWidth: '90%', minWidth: '90%', alignSelf: 'center'}}
-            placeholder="Email"
-            autoCapitalize="none"
-            testID="email"
-            onChangeText={(inputEmail) => setEmail(inputEmail)}
-          />
-          <Caption>Password</Caption>
-          <TextInput
-            mode="outlined"
-            style={{
-              maxWidth: '90%',
-              minWidth: '90%',
-              alignSelf: 'center',
-            }}
-            placeholder="Password"
-            secureTextEntry={true}
-            autoCapitalize="none"
-            testID="password"
-            onChangeText={(inputPassword) => {
-              setPassword(inputPassword);
-            }}
-          />
-
-          <Card
-            style={{
-              backgroundColor: COLOURS.DEEP_BLUE,
-              marginTop: '2%',
-              marginBottom: '10%',
-              alignContent: 'center',
-            }}>
-            <Card.Actions
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+        }}>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={320}
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          style={{flex: 1}}
+          keyboardShouldPersistTaps="handled">
+          <View>
+            <View
               style={{
-                width: '90%',
-                paddingRight: '5%',
-                paddingLeft: '5%',
-                alignSelf: 'center',
-                justifyContent: 'space-around',
+                alignItems: 'center',
+                marginTop: '5%',
+                height: '45%',
               }}>
-              <ConfirmButton
-                title="Log In"
-                testID="submit-login-details"
-                onPress={() => {
-                  setLoading(true);
-                  loginWithEmail(email, password, setLoggedIn).then(
-                    (result) => {
-                      const serializedResult = serializeError(result);
-                      console.log('message', serializedResult.message);
-                      if (serializedResult.code) {
-                        setLoading(false);
-                        setTimeout(() => {
-                          Alert.alert(serializedResult.message);
-                        }, 200);
-                      } else setLoggedIn(true);
-                    },
-                  );
-                }}
-              />
-              <CloseButton
-                title="Reset Password"
-                onPress={() => {
-                  togglePasswordResetModal();
-                }}></CloseButton>
-            </Card.Actions>
-          </Card>
+              <LogoSquareWhiteNamed />
+            </View>
 
-          <Portal>
-            <Modal
-              visible={resetPasswordModalVisible}
-              onDismiss={togglePasswordResetModal}>
-              <Card>
-                <Card.Title title="Request Password Reset" />
-                <Card.Content>
-                  <ResetPassword
-                    mode={'reset'}
-                    dismiss={togglePasswordResetModal}
-                  />
-                </Card.Content>
-              </Card>
-            </Modal>
-          </Portal>
-        </View>
-      </KeyboardAvoidingView>
+            <Caption>Email</Caption>
+            <TextInput
+              mode="outlined"
+              style={{maxWidth: '90%', minWidth: '90%', alignSelf: 'center'}}
+              placeholder="Email"
+              autoCapitalize="none"
+              testID="email"
+              onChangeText={(inputEmail) => setEmail(inputEmail)}
+            />
+            <Caption>Password</Caption>
+            <TextInput
+              mode="outlined"
+              style={{
+                maxWidth: '90%',
+                minWidth: '90%',
+                alignSelf: 'center',
+              }}
+              placeholder="Password"
+              secureTextEntry={true}
+              autoCapitalize="none"
+              testID="password"
+              onChangeText={(inputPassword) => {
+                setPassword(inputPassword);
+              }}
+            />
+
+            <Card
+              style={{
+                backgroundColor: COLOURS.DEEP_BLUE,
+                marginTop: '2%',
+                marginBottom: '10%',
+                alignContent: 'center',
+              }}>
+              <Card.Actions
+                style={{
+                  width: '90%',
+                  paddingRight: '5%',
+                  paddingLeft: '5%',
+                  alignSelf: 'center',
+                  justifyContent: 'space-around',
+                }}>
+                <ConfirmButton
+                  title="Log In"
+                  testID="submit-login-details"
+                  onPress={() => {
+                    setLoading(true);
+                    loginWithEmail(email, password, setLoggedIn).then(
+                      (result) => {
+                        const serializedResult = serializeError(result);
+                        console.log('message', serializedResult.message);
+                        if (serializedResult.code) {
+                          setLoading(false);
+                          setTimeout(() => {
+                            Alert.alert(serializedResult.message);
+                          }, 200);
+                        } else setLoggedIn(true);
+                      },
+                    );
+                  }}
+                />
+                <CloseButton
+                  title="Reset Password"
+                  onPress={() => {
+                    togglePasswordResetModal();
+                  }}></CloseButton>
+              </Card.Actions>
+            </Card>
+
+            <Portal>
+              <Modal
+                visible={resetPasswordModalVisible}
+                onDismiss={togglePasswordResetModal}>
+                <Card>
+                  <Card.Title title="Request Password Reset" />
+                  <Card.Content>
+                    <ResetPassword
+                      mode={'reset'}
+                      dismiss={togglePasswordResetModal}
+                    />
+                  </Card.Content>
+                </Card>
+              </Modal>
+            </Portal>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 }
