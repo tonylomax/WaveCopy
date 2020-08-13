@@ -89,6 +89,7 @@ export default function VolunteerAvatar({
         style={{
           backgroundColor: colors.accent,
           marginRight: 20,
+          padding: 0,
         }}
       />
     );
