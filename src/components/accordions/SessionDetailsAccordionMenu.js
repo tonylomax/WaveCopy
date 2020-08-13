@@ -91,7 +91,7 @@ export default function SessionDetailsAccordionMenu({
                     maxWidth: '95%',
                     maxHeight: '45%',
                     marginHorizontal: '1%',
-                    fontSize: 12,
+                    fontSize: 10,
                     paddingBottom: 5,
                     minWidth: '95%',
                   }}
@@ -116,7 +116,7 @@ export default function SessionDetailsAccordionMenu({
                 {sessionLead?.id === mentor.id ? (
                   <CloseButton
                     style={{
-                      fontSize: 12,
+                      fontSize: 10,
                       marginHorizontal: '1%',
                       minWidth: '95%',
                       width: '95%',
@@ -282,7 +282,7 @@ export default function SessionDetailsAccordionMenu({
                   maxWidth: '95%',
                   maxHeight: '45%',
                   marginHorizontal: '1%',
-                  fontSize: 13,
+                  fontSize: 10,
                 }}
                 testID={`removeAsMentorButton${serviceUser.id}`}
                 onPress={async () => {

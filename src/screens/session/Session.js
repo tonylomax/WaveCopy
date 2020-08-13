@@ -408,6 +408,7 @@ export default function Session({navigation, route}) {
                       width: '74%',
                       marginHorizontal: '1%',
                       marginBottom: '1%',
+                      fontSize: 11,
                     }}
                     compact={true}
                     title="Attendance List"
