@@ -57,14 +57,14 @@ export default function ResetPassword({authenticatedUser, mode, dismiss}) {
                 .catch((err) => {
                   const serializedResult = serializeError(err);
                   console.log('serializedResult');
-                  Alert.alert(serializedResult.err.message);
+                  Alert.alert('Error', serializedResult.err.message);
                 });
             } else if (!newPasswordValid) {
               console.log('New password invalid');
               Alert.alert('New password invalid');
             } else if (newPassword !== confirmNewPassword) {
               console.log('New passwords don"t match');
-              Alert.alert('New passwords don"t match');
+              Alert.alert(`New passwords don't match`);
             }
           }}></ConfirmButton>
       </View>

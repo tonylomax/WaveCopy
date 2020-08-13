@@ -352,6 +352,7 @@ export default function SessionDetails({navigation, route}) {
             console.log({editedDescriptionOfSession});
             if (previouslySelectedMentors?.length > numberOfVolunteers) {
               Alert.alert(
+                'Error',
                 'The maximum number of volunteers cannot be more than the current number of volunteers, remove some volunteers and then reduce required number of volunteers.',
               );
             } else

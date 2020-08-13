@@ -122,6 +122,7 @@ export default function Home({navigation, setLoggedIn}) {
                   justifyContent: 'space-around',
                 }}>
                 <ConfirmButton
+                  disabled={email === undefined || password === undefined}
                   title="Log In"
                   testID="submit-login-details"
                   onPress={() => {

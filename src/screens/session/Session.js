@@ -194,7 +194,7 @@ export default function Session({navigation, route}) {
       })
       .catch((err) => {
         console.log('ERROR: ', err);
-        Alert.alert(err);
+        Alert.alert('Error', err);
       });
   };
 
