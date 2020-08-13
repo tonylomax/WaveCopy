@@ -6,6 +6,7 @@ import {Profile_Icon, Create_Session_Icon, Settings_Icon} from 'assets';
 import {CommonActions} from '@react-navigation/native';
 import {ConfirmButton, CloseButton} from 'components';
 import {COLOURS} from 'styles';
+import {userHasPermission} from 'utils';
 
 import {useSelector} from 'react-redux';
 const WIDTH = Dimensions.get('screen').width;
@@ -17,11 +18,17 @@ const imageURI = {
 };
 
 export default function CurvedTabBar({state, descriptors, navigation}) {
-  const homeIndex = useSelector((state) => state.navigationReducer.index);
+  const homeIndex = useSelector(
+    (state) => state.navigationReducer.navState.index,
+  );
+
+  const navState = useSelector((state) => state.navigationReducer.navState);
   const [discardChangesModalVisible, setDiscardChangesModalVisible] = useState(
     false,
   );
   const [route, setRoute] = useState();
+
+  const userData = useSelector((state) => state.firestoreReducer.userData);
 
   const toggleDiscardChangesModal = () =>
     setDiscardChangesModalVisible(
@@ -147,23 +154,71 @@ export default function CurvedTabBar({state, descriptors, navigation}) {
 
           setRoute(event.target.split('-')[0]);
 
-          //If the navigation is going to home and the current stack is Create Session, open the modal to confirm nav
-          if (route.name === 'Home' && state.index === 1) {
-            toggleDiscardChangesModal();
+          // Get the screen from which you're navigating
+          let origin = navState.routes[navState.routes.length - 1].key.split(
+            '-',
+          )[0];
+          // CONDITIONAL NAV FOR ADMINS i.e. PEOPLE WHO SEE 3 TAB BUTTONS
+          if (userHasPermission(userData?.roles)) {
+            //If the navigation is going to home or profile and the current stack is Create Session, open the modal to confirm nav
+            if (
+              (route.name === 'Home' || route.name === 'Profile') &&
+              state.index === 1
+            ) {
+              toggleDiscardChangesModal();
 
-            //If the navigation is going to profile and the current stack is Create Session, open the modal to confirm nav
-          } else if (route.name === 'Profile' && state.index === 1) {
-            toggleDiscardChangesModal();
-            // If you're on home stack and the home index is not a session, then open modal to confirm nav
-          } else if (homeIndex >= 2) {
-            // Open the modal to confirm the navigation away from home
-            toggleDiscardChangesModal();
-            //Otherwise navigate normally
-          } else if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
-            // Other otherwise, a bad thing happened
-          } else {
-            console.log('NAVIGATION NOT HANDLED');
+              //If the navigation is going to home, always reset the stack to prevent duplicate session subscriptions
+            } else if (route.name === 'Home') {
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{name: 'Home'}],
+                }),
+              );
+            }
+            // If you're on home stack and the home index and you're on an edit session page then open the modal to confirm nav
+            else if (
+              homeIndex >= 2 &&
+              (origin === 'SessionDetails' ||
+                origin === 'AddServiceUsers' ||
+                origin === 'ConfirmSession')
+            ) {
+              toggleDiscardChangesModal();
+              //Otherwise navigate normally
+            } else if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name);
+              // Other otherwise, a bad thing happened or you clicked on the tab you're already on
+            } else {
+              console.log('NAVIGATION NOT HANDLED');
+            }
+          }
+          // CONDITIONAL NAV FOR SURF MENTORS i.e. PEOPLE WHO SEE 2 TAB BUTTONS
+          else {
+            //If the navigation is going to home, always reset the stack to prevent duplicate session subscriptions
+
+            if (route.name === 'Home') {
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{name: 'Home'}],
+                }),
+              );
+            }
+            // If you're on home stack and the home index and you're on an edit session page then open the modal to confirm nav
+            else if (
+              homeIndex >= 2 &&
+              (origin === 'SessionDetails' ||
+                origin === 'AddServiceUsers' ||
+                origin === 'ConfirmSession')
+            ) {
+              toggleDiscardChangesModal();
+              //Otherwise navigate normally
+            } else if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name);
+              // Other otherwise, a bad thing happened or you clicked on the tab you're already on
+            } else {
+              console.log('NAVIGATION NOT HANDLED');
+            }
           }
         };
 

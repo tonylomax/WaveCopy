@@ -15,6 +15,7 @@ import {
   subscribeToSessions,
   subscribeToRoleSpecificSessionChanges,
   getCoverImage,
+  setHomeIndex,
 } from 'utils';
 import Moment from 'react-moment';
 import moment from 'moment';
@@ -23,12 +24,14 @@ moment.locale('en-gb');
 moment().format('en-gb');
 import {ConfirmButton} from 'components';
 import {shortCoverWave} from '../../assets/';
+import {useNavigationState} from '@react-navigation/native';
 
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
 
   //LOCAL STATE
   const [toggleFilter, setToggleFilter] = useState(false);
+  const navState = useNavigationState((state) => state);
 
   //LOCAL STATE
 
@@ -107,6 +110,11 @@ export default function Profile({navigation}) {
   useEffect(() => {
     console.log('profileURL in home', profileURL);
   }, [profileURL]);
+
+  useEffect(() => {
+    console.log('navState in home', navState);
+    setHomeIndex(navState);
+  }, [navState]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
