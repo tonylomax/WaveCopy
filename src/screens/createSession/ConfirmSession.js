@@ -126,7 +126,7 @@ export default function ConfirmSession({route, navigation}) {
   }, [selectedUsers]);
 
   return (
-    <ScrollView bounces={false}>
+    <ScrollView bounces={false} style={{marginBottom: '7%'}}>
       <ImageBackground style={{height: 175, width: '100%'}} source={CoverImage}>
         {/* Edit session button */}
       </ImageBackground>
