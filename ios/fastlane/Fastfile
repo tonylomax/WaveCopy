@@ -72,6 +72,7 @@ platform :ios do
     build_app(
       workspace: "WaveVolunteerApp.xcworkspace",
       scheme: "WaveVolunteerApp", 
+
       clean: true,
     export_method: "app-store",
     export_options: {
@@ -82,7 +83,12 @@ platform :ios do
     build_path: "./builds",
     output_directory: "./builds"
     )
-    upload_to_app_store                  # upload your app to App Store Connect
+
+    deliver(
+      skip_screenshots: true,
+      force: true,
+      metadata_path: "./metadata"
+)                  
 
 
 
