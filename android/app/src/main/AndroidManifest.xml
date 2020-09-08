@@ -19,7 +19,7 @@
       >
       <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyA4DeIeg77gTmYgw_XWkZnU2mlo59Pf7CI"
+        android:value="REDACTED"
         />
 
 <meta-data  android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_notification" />
