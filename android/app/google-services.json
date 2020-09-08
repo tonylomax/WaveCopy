@@ -1,7 +1,7 @@
 {
   "project_info": {
     "project_number": "457786467891",
-    "firebase_url": "https://thewaveprojectapp-950f9.firebaseio.com",
+    "firebase_url": "REDACTED",
     "project_id": "thewaveprojectapp-950f9",
     "storage_bucket": "thewaveprojectapp-950f9.appspot.com"
   },
@@ -21,14 +21,14 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA4DeIeg77gTmYgw_XWkZnU2mlo59Pf7CI"
+          "current_key": "REDACTED"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "457786467891-6pvkbf5vvjmv9hpqnb1rjjd5lunle83j.apps.googleusercontent.com",
+              "client_id": "REDACTED",
               "client_type": 3
             }
           ]
